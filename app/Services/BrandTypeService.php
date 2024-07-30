@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class BrandTypeTypeService
+class BrandTypeService
 {
     public function __construct(protected readonly BrandTypeRepository $repository)
     {

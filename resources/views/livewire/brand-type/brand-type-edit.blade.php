@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('brands.list')}}">Markalar</a></li>
+            <li class="breadcrumb-item"><a href="{{route('brandTypes.list')}}">Markalar</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
@@ -13,10 +13,10 @@
             <div class="basic-form">
                 <form wire:submit.prevent="update">
                     <div class="row">
-                        <div class="col-lg-4 col-sm-12">
+                        <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-2 col-form-label">Durum :</div>
+                                <div class="col-sm-2">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                                type="checkbox">
@@ -31,8 +31,28 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">İsim :</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-2 col-form-label">Marka Seçiniz :</label>
+                                <div class="col-sm-3">
+                                    <select wire:model.lazy="brand_id" id="brand_id" class="select2 form-select form-select-lg">
+                                        <option>Marka Seçiniz</option>
+                                        @if(is_iterable($brands))
+                                            @forelse($brands as $d)
+                                                <option value="{{$d->id}}" {{$d->id == $brand_id ? 'selected' : ''}}>{{$d->name}}</option>
+                                            @empty
+                                            @endforelse
+                                        @endif
+                                    </select>
+                                    @error('dealer_id')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-2 col-form-label">İsim :</label>
+                                <div class="col-sm-3">
                                     <input class="form-control border border-warning" type="text"
                                            wire:model.defer="name" placeholder="Adını yazınız.">
                                     @error('name')

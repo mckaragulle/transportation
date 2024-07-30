@@ -18,6 +18,9 @@ use App\Livewire\User\UserEdit;
 use App\Livewire\Brand\Brands;
 use App\Livewire\Brand\BrandEdit;
 
+use App\Livewire\BrandType\BrandTypes;
+use App\Livewire\BrandType\BrandTypeEdit;
+
 use App\Livewire\Signin;
 
 
@@ -46,6 +49,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/markalar', Brands::class)->name('brands.list')->middleware('can:read brands');
     Route::get('/marka/{id}/duzenle', BrandEdit::class)->name('brands.edit')->middleware('can:update brands');
+
+    Route::get('/marka-tipleri', BrandTypes::class)->name('brandTypes.list')->middleware('can:read brandTypes');
+    Route::get('/marka-tipi/{id}/duzenle', BrandTypeEdit::class)->name('brandTypes.edit')->middleware('can:update brandTypes');
 
 });
 

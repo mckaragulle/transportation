@@ -103,6 +103,12 @@
                                             class="fas fa-user-group text-danger"></i> <span
                                             class="ms-2">Markalar</span></a>
                                 @endcan
+                                @can('read brandTypes')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                       href="{{route('brandTypes.list')}}"><i
+                                            class="fas fa-user-group text-danger"></i> <span
+                                            class="ms-2">Marka Tipleri</span></a>
+                                @endcan
                                 <hr class="my-1"/>
                                 @can('read dealers')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
@@ -255,9 +261,5 @@
 <script src="{{asset('xhtml/js/powergrid.js')}}"></script>
 <x-livewire-alert::flash />
 @stack('scripts')
-<script>
-    $('#main-wrapper').toggleClass("menu-toggle");
-    $(".hamburger").toggleClass("is-active");
-</script>
 </body>
 </html>
