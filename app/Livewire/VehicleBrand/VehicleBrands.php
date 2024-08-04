@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Livewire\Brand;
+namespace App\Livewire\VehicleBrand;
 
-use App\Services\BrandService;
+use App\Services\VehicleBrandService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Brands extends Component
+class VehicleBrands extends Component
 {
     use LivewireAlert;
 
-    protected BrandService $brandService;
+    protected VehicleBrandService $vehicleBrandService;
 
     public null|int $data_id;
 
 
     public function render()
     {
-        return view('livewire.brand.brands');
+        return view('livewire.vehicle-brand.vehicle-brands');
     }
 
-    #[On('delete-brand')]
+    #[On('delete-vehicleBrand')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -38,20 +38,20 @@ class Brands extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(BrandService $brandService)
+    public function handleConfirmed(VehicleBrandService $vehicleBrandService)
     {
         try {
-            $brandService->delete($this->data_id);
-            $msg = 'Marka silindi.';
+            $vehicleBrandService->delete($this->data_id);
+            $msg = 'Araç markası silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Marka silinemedi. {$exception->getMessage()}";
+            $error = "Araç markası silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-BrandTable');
+            $this->dispatch('pg:eventRefresh-VehicleBrandTable');
         }
     }
 }

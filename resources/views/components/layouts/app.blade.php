@@ -97,9 +97,9 @@
                                             class="fas fa-fingerprint text-danger"></i> <span
                                             class="ms-2">İzinler</span></a>
                                 @endcan
-                                @can('read brands')
+                                @can('read vehicleBrands')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                       href="{{route('brands.list')}}"><i
+                                       href="{{route('vehicleBrands.list')}}"><i
                                             class="fas fa-user-group text-danger"></i> <span
                                             class="ms-2">Markalar</span></a>
                                 @endcan

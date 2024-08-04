@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\Brand;
+namespace App\Livewire\VehicleBrand;
 
-use App\Services\BrandService;
+use App\Services\VehicleBrandService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class BrandCreate extends Component
+class VehicleBrandCreate extends Component
 {
     use LivewireAlert;
 
@@ -16,7 +16,7 @@ class BrandCreate extends Component
 
     public bool $status = true;
 
-    protected BrandService $brandService;
+    protected VehicleBrandService $vehicleBrandService;
 
     /**
      * List of add/edit form rules
@@ -27,13 +27,13 @@ class BrandCreate extends Component
     ];
 
     protected $messages = [
-        'name.required' => 'Marka adını yazınız.',
+        'name.required' => 'Bayi adını yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
     public function render()
     {
-        return view('livewire.brand.brand-create');
+        return view('livewire.vehicle-brand.vehicle-brand-create');
     }
 
     /**
@@ -41,19 +41,19 @@ class BrandCreate extends Component
      *
      * @return void
      */
-    public function store(BrandService $brandService)
+    public function store(VehicleBrandService $vehicleBrandService)
     {
         $this->validate();
-        $this->brandService = $brandService;
+        $this->vehicleBrandService = $vehicleBrandService;
         DB::beginTransaction();
         try {
-            $brand = $this->brandService->create([
+            $vehicleBrand = $this->vehicleBrandService->create([
                 'name' => $this->name,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $this->dispatch('pg:eventRefresh-BrandTable');
-            $msg = 'Yeni marka oluşturuldu.';
+            $this->dispatch('pg:eventRefresh-VehicleBrandTable');
+            $msg = 'Marka oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();

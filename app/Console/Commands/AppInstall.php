@@ -72,9 +72,13 @@ class AppInstall extends Command
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
                 'create years', 'read years', 'update years', 'delete years',
-                'create brands', 'read brands', 'update brands', 'delete brands',
-                'create brandModels', 'read brandModels', 'update brandModels', 'delete brandModels',
-                'create brandTypes', 'read brandTypes', 'update brandTypes', 'delete brandTypes',
+               
+                'create vehicleBrands', 'read vehicleBrands', 'update vehicleBrands', 'delete vehicleBrands',
+
+                
+
+
+
                 'create features', 'read features', 'update features', 'delete features',
                 'create seats', 'read seats', 'update seats', 'delete seats',
                 'create accountTypes', 'read accountTypes', 'update accountTypes', 'delete accountTypes',

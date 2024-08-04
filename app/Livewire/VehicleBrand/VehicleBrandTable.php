@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\Brand;
+namespace App\Livewire\VehicleBrand;
 
-use App\Models\Brand;
+use App\Models\VehicleBrand;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -17,11 +17,11 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class BrandTable extends PowerGridComponent
+final class VehicleBrandTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'BrandTable';
+    public string $tableName = 'VehicleBrandTable';
 
     public function setUp(): array
     {
@@ -46,7 +46,7 @@ final class BrandTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Brand::query();
+        return VehicleBrand::query();
     }
 
     public function relationSearch(): array
@@ -75,13 +75,13 @@ final class BrandTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update brands'),
+                    hasPermission: auth()->user()->can('update vehicleBrands'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update brands'),
+                    auth()->user()->can('update vehicleBrands'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -101,18 +101,18 @@ final class BrandTable extends PowerGridComponent
         ];
     }
 
-    public function actions(Brand $row): array
+    public function actions(VehicleBrand $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('brands.edit', ['id' => $row->id])
+                ->route('vehicleBrands.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-brand', ['id' => $row->id]),
+                ->dispatch('delete-vehicleBrand', ['id' => $row->id]),
         ];
     }
 
@@ -120,24 +120,24 @@ final class BrandTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update brands') != 1)
+                ->when(fn($row) => auth()->user()->can('update vehicleBrands') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete brands') != 1)
+                ->when(fn($row) => auth()->user()->can('delete vehicleBrands') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        Brand::query()->find($id)->update([
+        VehicleBrand::query()->find($id)->update([
             $field => e($value)?1:0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        Brand::query()->find($id)->update([
+        VehicleBrand::query()->find($id)->update([
             $field => e($value),
         ]);
     }

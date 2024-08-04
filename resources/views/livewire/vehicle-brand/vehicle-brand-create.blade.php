@@ -1,17 +1,17 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('brands.list')}}">Markalar</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
+            <li class="breadcrumb-item"><a href="{{route('vehicleBrands.list')}}">Araç Markaları</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">MArka Düzenle</h4>
+            <h4 class="card-title mb-0">Araç Marka Oluştur</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form wire:submit.prevent="update">
+                <form wire:submit.prevent="store">
                     <div class="row">
                         <div class="col-lg-4 col-sm-12">
                             <div class="mb-3 row">
@@ -43,7 +43,6 @@
                                     </div>@enderror
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="row">

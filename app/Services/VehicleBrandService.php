@@ -2,14 +2,14 @@
 
 namespace App\Services;
 
-use App\Repositories\BrandTypeRepository;
+use App\Repositories\VehicleBrandRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class BrandTypeTypeService
+class VehicleBrandService
 {
-    public function __construct(protected readonly BrandTypeRepository $repository)
+    public function __construct(protected readonly VehicleBrandRepository $repository)
     {
     }
 

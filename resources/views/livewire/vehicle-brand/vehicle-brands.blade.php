@@ -1,16 +1,16 @@
 <div>
-    @can('create brands')
-    <livewire:brand.brand-create />
+    @can('create vehicleBrands')
+    <livewire:vehicle-brand.vehicle-brand-create />
     <hr>
     @endcan
-    @can('read brands')
+    @can('read vehicleBrands')
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Markalar</h4>
+            <h4 class="card-title mb-0">Araç Markaları</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:brand.brand-table />
+                <livewire:vehicle-brand.vehicle-brand-table />
             </div>
         </div>
     </div>

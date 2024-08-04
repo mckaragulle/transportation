@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Livewire\Brand;
+namespace App\Livewire\VehicleBrand;
 
-use App\Models\Brand;
-use App\Services\BrandService;
+use App\Models\VehicleBrand;
+use App\Services\VehicleBrandService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class BrandEdit extends Component
+class VehicleBrandEdit extends Component
 {
     use LivewireAlert;
 
-    public null|Brand $brand;
+    public null|VehicleBrand $vehicleBrand;
 
     public null|string $name;
 
     public bool $status = true;
 
-    protected BrandService $brandService;
+    protected VehicleBrandService $vehicleBrandService;
     /**
      * List of add/edit form rules
      */
@@ -37,26 +38,26 @@ class BrandEdit extends Component
     }
 
     protected $messages = [
-        'name.required' => 'Marka adını yazınız.',
+        'name.required' => 'Bayi adını yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, BrandService $brandService)
+    public function mount($id = null, VehicleBrandService $vehicleBrandService)
     {
         if(!is_null($id)) {
 
-            $this->brand =$brandService->findById($id);
-            $this->name = $this->brand->name;
-            $this->status = $this->brand->status;
+            $this->vehicleBrand =$vehicleBrandService->findById($id);
+            $this->name = $this->vehicleBrand->name;
+            $this->status = $this->vehicleBrand->status;
         }
         else{
-            return $this->redirect(route('brands.list'));
+            return $this->redirect(route('vehicleBrands.list'));
         }
     }
 
     public function render()
     {
-        return view('livewire.brand.brand-edit');
+        return view('livewire.vehicle-brand.vehicle-brand-edit');
     }
 
     /**
@@ -69,9 +70,9 @@ class BrandEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->brand->name = $this->name;
-            $this->brand->status = ($this->status == false ? 0 : 1);
-            $this->brand->save();
+            $this->vehicleBrand->name = $this->name;
+            $this->vehicleBrand->status = ($this->status == false ? 0 : 1);
+            $this->vehicleBrand->save();
 
             $msg = 'Marka güncellendi.';
             session()->flash('message', $msg);

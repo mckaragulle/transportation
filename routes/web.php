@@ -15,13 +15,14 @@ use App\Livewire\Dealer\DealerEdit;
 use App\Livewire\User\Users;
 use App\Livewire\User\UserEdit;
 
-use App\Livewire\Brand\Brands;
-use App\Livewire\Brand\BrandEdit;
+use App\Livewire\VehicleBrand\VehicleBrands;
+use App\Livewire\VehicleBrand\VehicleBrandEdit;
 
 use App\Livewire\Signin;
 
 
 Route::get('/login', Signin::class)->name('login');
+Route::get('/', Signin::class);
 
 Route::middleware('auth:admin,dealer,web')->prefix('dashboard')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
@@ -44,11 +45,11 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
     Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
 
-    Route::get('/markalar', Brands::class)->name('brands.list')->middleware('can:read brands');
-    Route::get('/marka/{id}/duzenle', BrandEdit::class)->name('brands.edit')->middleware('can:update brands');
+    Route::get('/markalar', VehicleBrands::class)->name('vehicleBrands.list')->middleware('can:read vehicleBrands');
+    Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicleBrands.edit')->middleware('can:update vehicleBrands');
 
 });
 
 //\Illuminate\Support\Facades\Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
