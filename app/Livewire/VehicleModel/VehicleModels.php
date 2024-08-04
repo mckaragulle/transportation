@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Livewire\VehicleTicket;
+namespace App\Livewire\VehicleModel;
 
-use App\Services\VehicleTicketService;
+use App\Services\VehicleModelService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class VehicleTickets extends Component
+class VehicleModels extends Component
 {
     use LivewireAlert;
 
     public null|int $data_id;
 
-
     public function render()
     {
-        return view('livewire.vehicle-ticket.vehicle-tickets');
+        return view('livewire.vehicle-model.vehicle-models');
     }
 
     #[On('delete-vehicleTicket')]
@@ -38,20 +37,20 @@ class VehicleTickets extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(VehicleTicketService $vehicleTicketService)
+    public function handleConfirmed(VehicleModelService $vehicleModelService)
     {
         try {
-            $vehicleTicketService->delete($this->data_id);
-            $msg = 'Araç tipi silindi.';
+            $vehicleModelService->delete($this->data_id);
+            $msg = 'Araç modeli silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Araç tipi silinemedi. {$exception->getMessage()}";
+            $error = "Araç modeli silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-VehicleTicketTable');
+            $this->dispatch('pg:eventRefresh-VehicleModelTable');
         }
     }
 }

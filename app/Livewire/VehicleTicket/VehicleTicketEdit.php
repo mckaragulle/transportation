@@ -46,7 +46,7 @@ class VehicleTicketEdit extends Component
     protected $messages = [
         'vehicle_brand_id.required' => 'Lütfen marka seçiniz.',
         'vehicle_brand_id.exists' => 'Lütfen geçerli bir marka seçiniz.',
-        'name.required' => 'Seçenek adını yazınız.',
+        'name.required' => 'Tip adını yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -83,12 +83,12 @@ class VehicleTicketEdit extends Component
             $this->vehicleTicket->status = $this->status == false ? 0 : 1;
             $this->vehicleTicket->save();
 
-            $msg = 'Model güncellendi.';
+            $msg = 'Tip güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Model güncellenemedi. {$exception->getMessage()}";
+            $error = "Tip güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

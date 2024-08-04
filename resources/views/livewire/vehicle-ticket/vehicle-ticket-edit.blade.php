@@ -1,13 +1,13 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicleTickets.list')}}">Modeller</a></li>
+            <li class="breadcrumb-item"><a href="{{route('vehicleTickets.list')}}">Tipler</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Model Düzenle</h4>
+            <h4 class="card-title mb-0">Tip Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">

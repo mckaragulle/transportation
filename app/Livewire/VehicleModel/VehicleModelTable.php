@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Livewire\VehicleTicket;
+namespace App\Livewire\VehicleModel;
 
-use App\Models\VehicleTicket;
+use App\Models\VehicleModel;
 use App\Models\VehicleBrand;
+use App\Models\VehicleTicket;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -17,11 +18,11 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class VehicleTicketTable extends PowerGridComponent
+final class VehicleModelTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'VehicleTicketTable';
+    public string $tableName = 'VehicleModelTable';
 
     public bool $showFilters = true;
 
@@ -34,7 +35,7 @@ final class VehicleTicketTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make('marka-tipleri')
+            Exportable::make('marka-modelleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -48,7 +49,7 @@ final class VehicleTicketTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleTicket::query();
+        return VehicleModel::query();
     }
 
     public function relationSearch(): array
@@ -63,6 +64,9 @@ final class VehicleTicketTable extends PowerGridComponent
             ->add('vehicle_brand_id', function ($role) {
                 return $role->vehicle_brand->name ?? "---";
             })
+            ->add('vehicle_ticket_id', function ($role) {
+                return $role->vehicle_ticket->name ?? "---";
+            })
             ->add('name')
             ->add('status')
             ->add('created_at');
@@ -76,16 +80,17 @@ final class VehicleTicketTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Araç Markaları', 'vehicle_brand_id'),
-            Column::make('Tip Adı', 'name')
+            Column::make('Araç Tipleri', 'vehicle_ticket_id'),
+            Column::make('Model Adı', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleTickets'),
+                    hasPermission: auth()->user()->can('update vehicleModels'),
                     fallback: '- empty -'
                 ),
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleTickets'),
+                    auth()->user()->can('update vehicleModels'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -106,34 +111,38 @@ final class VehicleTicketTable extends PowerGridComponent
                 ->dataSource(VehicleBrand::all())
                 ->optionLabel('name')
                 ->optionValue('id'),
+            Filter::select('vehicle_ticket_id', 'vehicle_ticket_id')
+                ->dataSource(VehicleTicket::all())
+                ->optionLabel('name')
+                ->optionValue('id'),
         ];
     }
 
-    public function actions(VehicleTicket $row): array
+    public function actions(VehicleModel $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleTickets.edit', ['id' => $row->id])
+                ->route('vehicleModels.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-vehicleTicket', ['id' => $row->id]),
+                ->dispatch('delete-vehicleModel', ['id' => $row->id]),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        VehicleTicket::query()->find($id)->update([
+        VehicleModel::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        VehicleTicket::query()->find($id)->update([
+        VehicleModel::query()->find($id)->update([
             $field => e($value),
         ]);
     }
