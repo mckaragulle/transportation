@@ -116,6 +116,11 @@
                                         href="{{route('vehicleModels.list')}}"><i class="fas fa-car text-danger"></i>
                                         <span class="ms-2">Modeller</span></a>
                                     @endcan
+                                    @can('read vehiclePropertyCategories')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                        href="{{route('vehiclePropertyCategories.list')}}"><i class="fas fa-car text-danger"></i>
+                                        <span class="ms-2">Özellik Kategorileri</span></a>
+                                    @endcan
                                     <hr class="my-1" />
                                     @can('read dealers')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"

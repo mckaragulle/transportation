@@ -24,6 +24,9 @@ use App\Livewire\VehicleTicket\VehicleTicketEdit;
 use App\Livewire\VehicleModel\VehicleModels;
 use App\Livewire\VehicleModel\VehicleModelEdit;
 
+use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategories;
+use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategoryEdit;
+
 use App\Livewire\Signin;
 
 
@@ -59,6 +62,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/modeller', VehicleModels::class)->name('vehicleModels.list')->middleware('can:read vehicleModels');
     Route::get('/model/{id}/duzenle', VehicleModelEdit::class)->name('vehicleModels.edit')->middleware('can:update vehicleModels');
+
+    Route::get('/ozellik-kategorileri', VehiclePropertyCategories::class)->name('vehiclePropertyCategories.list')->middleware('can:read vehiclePropertyCategories');
+    Route::get('/ozellik-kategorisi/{id}/duzenle', VehiclePropertyCategoryEdit::class)->name('vehiclePropertyCategories.edit')->middleware('can:update vehiclePropertyCategories');
 });
 
 //\Illuminate\Support\Facades\Auth::routes();

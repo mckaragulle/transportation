@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Livewire\VehicleBrand;
+namespace App\Livewire\VehiclePropertyCategory;
 
-use App\Models\VehicleBrand;
-use App\Services\VehicleBrandService;
+use App\Models\VehiclePropertyCategory;
+use App\Services\VehiclePropertyCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class VehicleBrandEdit extends Component
+class VehiclePropertyCategoryEdit extends Component
 {
     use LivewireAlert;
 
-    public null|VehicleBrand $vehicleBrand;
+    public null|VehiclePropertyCategory $vehiclePropertyCategory;
 
     public null|string $name;
 
     public bool $status = true;
 
-    protected VehicleBrandService $vehicleBrandService;
+    protected VehiclePropertyCategoryService $vehiclePropertyCategoryService;
     /**
      * List of add/edit form rules
      */
@@ -38,25 +38,25 @@ class VehicleBrandEdit extends Component
     }
 
     protected $messages = [
-        'name.required' => 'Araç markasını yazınız.',
+        'name.required' => 'Araç özellik kategorisi yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, VehicleBrandService $vehicleBrandService)
+    public function mount($id = null, VehiclePropertyCategoryService $vehiclePropertyCategoryService)
     {
         if (!is_null($id)) {
 
-            $this->vehicleBrand = $vehicleBrandService->findById($id);
-            $this->name = $this->vehicleBrand->name;
-            $this->status = $this->vehicleBrand->status;
+            $this->vehiclePropertyCategory = $vehiclePropertyCategoryService->findById($id);
+            $this->name = $this->vehiclePropertyCategory->name;
+            $this->status = $this->vehiclePropertyCategory->status;
         } else {
-            return $this->redirect(route('vehicleBrands.list'));
+            return $this->redirect(route('vehiclePropertyCategorys.list'));
         }
     }
 
     public function render()
     {
-        return view('livewire.vehicle-brand.vehicle-brand-edit');
+        return view('livewire.vehicle-property-category.vehicle-property-category-edit');
     }
 
     /**
@@ -69,16 +69,16 @@ class VehicleBrandEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->vehicleBrand->name = $this->name;
-            $this->vehicleBrand->status = ($this->status == false ? 0 : 1);
-            $this->vehicleBrand->save();
+            $this->vehiclePropertyCategory->name = $this->name;
+            $this->vehiclePropertyCategory->status = ($this->status == false ? 0 : 1);
+            $this->vehiclePropertyCategory->save();
 
-            $msg = 'Marka güncellendi.';
+            $msg = 'Araç özellik kategorisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Marka güncellenemedi. {$exception->getMessage()}";
+            $error = "Araç özellik kategorisi güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\VehicleBrand;
+namespace App\Livewire\VehiclePropertyCategory;
 
-use App\Services\VehicleBrandService;
+use App\Services\VehiclePropertyCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class VehicleBrandCreate extends Component
+class VehiclePropertyCategoryCreate extends Component
 {
     use LivewireAlert;
 
@@ -16,7 +16,7 @@ class VehicleBrandCreate extends Component
 
     public bool $status = true;
 
-    protected VehicleBrandService $vehicleBrandService;
+    protected VehiclePropertyCategoryService $vehiclePropertyCategoryService;
 
     /**
      * List of add/edit form rules
@@ -27,13 +27,13 @@ class VehicleBrandCreate extends Component
     ];
 
     protected $messages = [
-        'name.required' => 'Araç markasını yazınız.',
+        'name.required' => 'Araç özellik kategorisi yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
     public function render()
     {
-        return view('livewire.vehicle-brand.vehicle-brand-create');
+        return view('livewire.vehicle-property-category.vehicle-property-category-create');
     }
 
     /**
@@ -41,25 +41,25 @@ class VehicleBrandCreate extends Component
      *
      * @return void
      */
-    public function store(VehicleBrandService $vehicleBrandService)
+    public function store(VehiclePropertyCategoryService $vehiclePropertyCategoryService)
     {
         $this->validate();
-        $this->vehicleBrandService = $vehicleBrandService;
+        $this->vehiclePropertyCategoryService = $vehiclePropertyCategoryService;
         DB::beginTransaction();
         try {
-            $vehicleBrand = $this->vehicleBrandService->create([
+            $vehiclePropertyCategory = $this->vehiclePropertyCategoryService->create([
                 'name' => $this->name,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $this->dispatch('pg:eventRefresh-VehicleBrandTable');
-            $msg = 'Marka oluşturuldu.';
+            $this->dispatch('pg:eventRefresh-VehiclePropertyCategoryTable');
+            $msg = 'Araç özellik kategorisi oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset('name');
         } catch (\Exception $exception) {
-            $error = "Marka oluşturulamadı. {$exception->getMessage()}";
+            $error = "Araç özellik kategorisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
