@@ -18,6 +18,9 @@ use App\Livewire\User\UserEdit;
 use App\Livewire\VehicleBrand\VehicleBrands;
 use App\Livewire\VehicleBrand\VehicleBrandEdit;
 
+use App\Livewire\VehicleTicket\VehicleTickets;
+use App\Livewire\VehicleTicket\VehicleTicketEdit;
+
 use App\Livewire\Signin;
 
 
@@ -47,6 +50,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/markalar', VehicleBrands::class)->name('vehicleBrands.list')->middleware('can:read vehicleBrands');
     Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicleBrands.edit')->middleware('can:update vehicleBrands');
+
+    Route::get('/modeller', VehicleTickets::class)->name('vehicleTickets.list')->middleware('can:read vehicleTickets');
+    Route::get('/model/{id}/duzenle', VehicleTicketEdit::class)->name('vehicleTickets.edit')->middleware('can:update vehicleTickets');
 
 });
 

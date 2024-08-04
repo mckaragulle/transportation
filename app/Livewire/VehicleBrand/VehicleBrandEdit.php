@@ -44,13 +44,12 @@ class VehicleBrandEdit extends Component
 
     public function mount($id = null, VehicleBrandService $vehicleBrandService)
     {
-        if(!is_null($id)) {
+        if (!is_null($id)) {
 
-            $this->vehicleBrand =$vehicleBrandService->findById($id);
+            $this->vehicleBrand = $vehicleBrandService->findById($id);
             $this->name = $this->vehicleBrand->name;
             $this->status = $this->vehicleBrand->status;
-        }
-        else{
+        } else {
             return $this->redirect(route('vehicleBrands.list'));
         }
     }

@@ -19,13 +19,13 @@
                                 <div class="col-sm-9">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
-                                               type="checkbox">
+                                            type="checkbox">
                                         <label class="form-check-label" for="status">AKTİF</label>
                                     </div>
                                     @error('status')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="btn-close">
+                                            aria-label="btn-close">
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
@@ -34,11 +34,11 @@
                                 <label class="col-sm-3 col-form-label">İsim :</label>
                                 <div class="col-sm-9">
                                     <input class="form-control border border-warning" type="text"
-                                           wire:model.defer="name" placeholder="Adını yazınız.">
+                                        wire:model.defer="name" placeholder="Adını yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="btn-close">
+                                            aria-label="btn-close">
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>

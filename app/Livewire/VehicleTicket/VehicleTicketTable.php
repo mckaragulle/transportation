@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Livewire\VehicleBrand;
+namespace App\Livewire\VehicleTicket;
 
+use App\Models\VehicleTicket;
 use App\Models\VehicleBrand;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,7 +10,6 @@ use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -17,11 +17,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class VehicleBrandTable extends PowerGridComponent
+final class VehicleTicketTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'VehicleBrandTable';
+    public string $tableName = 'VehicleTicketTable';
+
+    public bool $showFilters = true;
 
     public function setUp(): array
     {
@@ -32,7 +34,7 @@ final class VehicleBrandTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'markalar')
+            Exportable::make('marka-tipleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -46,7 +48,7 @@ final class VehicleBrandTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleBrand::query();
+        return VehicleTicket::query();
     }
 
     public function relationSearch(): array
@@ -58,8 +60,10 @@ final class VehicleBrandTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('vehicle_brand_id', function ($role) {
+                return $role->vehicle_brand->name ?? "---";
+            })
             ->add('name')
-            ->add('slug')
             ->add('status')
             ->add('created_at');
     }
@@ -71,17 +75,17 @@ final class VehicleBrandTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Marka Adı', 'name')
+            Column::make('Araç Markaları', 'vehicle_brand_id'),
+            Column::make('Model adı', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleBrands'),
+                    hasPermission: auth()->user()->can('update vehicleTickets'),
                     fallback: '- empty -'
                 ),
-
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleBrands'),
+                    auth()->user()->can('update vehicleTickets'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -97,46 +101,39 @@ final class VehicleBrandTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::select('vehicle_brand_id', 'vehicle_brand_id')
+                ->dataSource(VehicleBrand::all())
+                ->optionLabel('name')
+                ->optionValue('id'),
+        ];
     }
 
-    public function actions(VehicleBrand $row): array
+    public function actions(VehicleTicket $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleBrands.edit', ['id' => $row->id])
+                ->route('vehicleTickets.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-vehicleBrand', ['id' => $row->id]),
-        ];
-    }
-
-    public function actionRules($row): array
-    {
-        return [
-            Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update vehicleBrands') != 1)
-                ->hide(),
-            Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete vehicleBrands') != 1)
-                ->hide(),
+                ->dispatch('delete-vehicleTicket', ['id' => $row->id]),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        VehicleBrand::query()->find($id)->update([
+        VehicleTicket::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        VehicleBrand::query()->find($id)->update([
+        VehicleTicket::query()->find($id)->update([
             $field => e($value),
         ]);
     }

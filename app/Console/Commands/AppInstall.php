@@ -72,10 +72,11 @@ class AppInstall extends Command
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
                 'create years', 'read years', 'update years', 'delete years',
-               
-                'create vehicleBrands', 'read vehicleBrands', 'update vehicleBrands', 'delete vehicleBrands',
 
-                
+                'create vehicleBrands', 'read vehicleBrands', 'update vehicleBrands', 'delete vehicleBrands',
+                'create vehicleTickets', 'read vehicleTickets', 'update vehicleTickets', 'delete vehicleTickets',
+
+
 
 
 
@@ -110,7 +111,7 @@ class AppInstall extends Command
             $role_data = ['name' => $guard_name, 'guard_name' => 'admin'];
 
             $r = Role::where($role_data);
-            if (! $r->exists()) {
+            if (!$r->exists()) {
                 $role = Role::create($role_data);
             } else {
                 $role = $r->first();
@@ -120,7 +121,7 @@ class AppInstall extends Command
             foreach ($permissions as $permission) {
                 $permission_data = ['name' => $permission, 'guard_name' => 'admin'];
                 $p = Permission::where($permission_data);
-                if (! $p->exists()) {
+                if (!$p->exists()) {
                     $p = Permission::create($permission_data);
                 } else {
                     $p = $p->first();
