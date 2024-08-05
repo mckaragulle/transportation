@@ -48,7 +48,7 @@ return [
             'tom' => [
                 'plugins' => [
                     'clear_button' => [
-                        'title' => 'Remove all selected options',
+                        'title' => 'Tüm seçimleri kaldır',
                     ],
                 ],
             ],

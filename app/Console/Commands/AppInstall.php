@@ -77,6 +77,7 @@ class AppInstall extends Command
                 'create vehicleTickets', 'read vehicleTickets', 'update vehicleTickets', 'delete vehicleTickets',
                 'create vehicleModels', 'read vehicleModels', 'update vehicleModels', 'delete vehicleModels',
                 'create vehiclePropertyCategories', 'read vehiclePropertyCategories', 'update vehiclePropertyCategories', 'delete vehiclePropertyCategories',
+                'create vehicleProperties', 'read vehicleProperties', 'update vehicleProperties', 'delete vehicleProperties',
                 
 
 

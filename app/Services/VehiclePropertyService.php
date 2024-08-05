@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\VehiclePropertyRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -11,6 +12,11 @@ class VehiclePropertyService
 {
     public function __construct(protected readonly VehiclePropertyRepository $repository)
     {
+    }
+
+    public function where(array $column): Model
+    {
+        return $this->repository->where($column);
     }
 
     /**
