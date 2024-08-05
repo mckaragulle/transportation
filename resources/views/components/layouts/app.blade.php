@@ -9,11 +9,8 @@
     <meta name="format-detection" content="telephone=no">
     <title>OSKA ÇELİK EV - METRAJ PROGRAMI</title>
     <link rel="shortcut icon" type="image/png" href="{{asset('xhtml/images/favicon.png')}}" />
-    {{-- @vite(['resources/css/app.css'])--}}
+    @vite('resources/css/app.css')
     @stack('styles')
-    <link rel="stylesheet" href="{{asset('xhtml/vendor/select2/css/select2.min.css')}}">
-    <link href="{{asset('xhtml/css/style.css')}}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{asset('xhtml/css/sweetalert.css')}}">
     @livewireStyles
 </head>
 
@@ -120,6 +117,11 @@
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                                         href="{{route('vehiclePropertyCategories.list')}}"><i class="fas fa-car text-danger"></i>
                                         <span class="ms-2">Özellik Kategorileri</span></a>
+                                    @endcan
+                                    @can('read vehicleProperties')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                        href="{{route('vehicleProperties.list')}}"><i class="fas fa-car text-danger"></i>
+                                        <span class="ms-2">Özellikler</span></a>
                                     @endcan
                                     <hr class="my-1" />
                                     @can('read dealers')
@@ -274,18 +276,14 @@
 ***********************************-->
 
     <!-- Required vendors -->
-    {{--@vite(['resources/js/app.js'])--}}
+    @vite(['resources/js/app.js'])
     @livewireScripts
     <script src="{{asset('xhtml/vendor/global/global.min.js')}}"></script>
-    <script src="{{asset('xhtml/js/sweetalert2.11.js')}}"></script>
-    <script src="{{asset('vendor/livewire-alert/livewire-alert.js')}}"></script>
-    <script src="{{asset('xhtml/vendor/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('xhtml/js/powergrid.js')}}"></script>
     <x-livewire-alert::flash />
     @stack('scripts')
     <script>
         $('#main-wrapper').toggleClass("menu-toggle");
-    $(".hamburger").toggleClass("is-active");
+        $(".hamburger").toggleClass("is-active");
     </script>
 </body>
 

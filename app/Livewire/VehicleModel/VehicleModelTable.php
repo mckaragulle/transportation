@@ -106,15 +106,22 @@ final class VehicleModelTable extends PowerGridComponent
 
     public function filters(): array
     {
+        $id = $this->filters['select']['vehicle_brand_id']??null;
+        $query = VehicleTicket::query();
+        if($id > 0)
+        {
+            $query->where('vehicle_brand_id', $id);
+        }
         return [
-            Filter::select('vehicle_brand_id', 'vehicle_brand_id')
+            Filter::select('vehicle_brand_id')
                 ->dataSource(VehicleBrand::all())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            Filter::select('vehicle_ticket_id', 'vehicle_ticket_id')
-                ->dataSource(VehicleTicket::all())
+            Filter::select('vehicle_ticket_id')
+                ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
+            
         ];
     }
 

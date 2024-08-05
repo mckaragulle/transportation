@@ -6,6 +6,7 @@ use App\Models\VehicleProperty;
 use App\Models\VehiclePropertyCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -21,6 +22,7 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 final class VehiclePropertyTable extends PowerGridComponent
 {
     use WithExport;
+    public ?int $vehiclePropertyCategoryId = null;
 
     public string $tableName = 'VehiclePropertyTable';
 
@@ -106,15 +108,22 @@ final class VehiclePropertyTable extends PowerGridComponent
 
     public function filters(): array
     {
+        $id = $this->filters['select']['vehicle_property_category_id']??null;
+        $query = VehicleProperty::query();
+        if($id > 0)
+        {
+            $query->where('vehicle_property_category_id', $id)->whereNull('vehicle_property_id');
+        }
         return [
-            Filter::select('vehicle_property_category_id', 'vehicle_property_category_id')
+            Filter::select('vehicle_property_category_id')
                 ->dataSource(VehiclePropertyCategory::all())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            Filter::select('vehicle_property_id', 'vehicle_property_id')
-                ->dataSource(VehicleProperty::all())
+            Filter::select('vehicle_property_id')
+                ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
+            
         ];
     }
 
