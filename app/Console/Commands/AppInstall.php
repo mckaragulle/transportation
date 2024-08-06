@@ -72,14 +72,14 @@ class AppInstall extends Command
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
                 'create years', 'read years', 'update years', 'delete years',
-                'create brands', 'read brands', 'update brands', 'delete brands',
-                'create brandModels', 'read brandModels', 'update brandModels', 'delete brandModels',
-                'create brandTypes', 'read brandTypes', 'update brandTypes', 'delete brandTypes',
-                'create features', 'read features', 'update features', 'delete features',
-                'create seats', 'read seats', 'update seats', 'delete seats',
-                'create accountTypes', 'read accountTypes', 'update accountTypes', 'delete accountTypes',
-                'create accounts', 'read accounts', 'update accounts', 'delete accounts',
-                'create cars', 'read cars', 'update cars', 'delete cars',
+
+                'create vehicleBrands', 'read vehicleBrands', 'update vehicleBrands', 'delete vehicleBrands',
+                'create vehicleTickets', 'read vehicleTickets', 'update vehicleTickets', 'delete vehicleTickets',
+                'create vehicleModels', 'read vehicleModels', 'update vehicleModels', 'delete vehicleModels',
+                'create vehiclePropertyCategories', 'read vehiclePropertyCategories', 'update vehiclePropertyCategories', 'delete vehiclePropertyCategories',
+                'create vehicleProperties', 'read vehicleProperties', 'update vehicleProperties', 'delete vehicleProperties',
+                
+
 
 
             ],
@@ -106,7 +106,7 @@ class AppInstall extends Command
             $role_data = ['name' => $guard_name, 'guard_name' => 'admin'];
 
             $r = Role::where($role_data);
-            if (! $r->exists()) {
+            if (!$r->exists()) {
                 $role = Role::create($role_data);
             } else {
                 $role = $r->first();
@@ -116,7 +116,7 @@ class AppInstall extends Command
             foreach ($permissions as $permission) {
                 $permission_data = ['name' => $permission, 'guard_name' => 'admin'];
                 $p = Permission::where($permission_data);
-                if (! $p->exists()) {
+                if (!$p->exists()) {
                     $p = Permission::create($permission_data);
                 } else {
                     $p = $p->first();
