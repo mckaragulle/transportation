@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicleModels.list')}}">Modeller</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('vehicleModels.list') }}">Modeller</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
@@ -23,61 +23,66 @@
                                         <label class="form-check-label" for="status">AKTİF</label>
                                     </div>
                                     @error('status')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
-                            @if(auth()->user()->can('update vehicleBrands'))
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Marka Seçiniz :</label>
-                                <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_brand_id" id="vehicle_brand_id"
-                                        class="select2 form-select form-select-lg">
-                                        <option value="">Marka Seçiniz</option>
-                                        @if(is_iterable($vehicleBrands))
-                                        @forelse($vehicleBrands as $d)
-                                        <option value="{{$d->id}}" {{$d->id == $vehicle_brand_id ? 'selected' :
-                                            ''}}>{{$d->name}}</option>
-                                        @empty
-                                        @endforelse
-                                        @endif
-                                    </select>
-                                    @error('vehicle_brand_id')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                            @if (auth()->user()->can('update vehicleBrands'))
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Marka Seçiniz :</label>
+                                    <div class="col-sm-3">
+                                        <select wire:model.lazy="vehicle_brand_id" id="vehicle_brand_id"
+                                            class="select2 form-select form-select-lg">
+                                            <option value="">Marka Seçiniz</option>
+                                            @if (is_iterable($vehicleBrands))
+                                                @forelse($vehicleBrands as $d)
+                                                    <option value="{{ $d->id }}"
+                                                        {{ $d->id == $vehicle_brand_id ? 'selected' : '' }}>
+                                                        {{ $d->name }}</option>
+                                                @empty
+                                                @endforelse
+                                            @endif
+                                        </select>
+                                        @error('vehicle_brand_id')
+                                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="btn-close">
+                                                </button>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
                             @endif
-                            @if(auth()->user()->can('update vehicleTickets'))
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Tip Seçiniz :</label>
-                                <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_ticket_id" id="vehicle_ticket_id"
-                                        class="select2 form-select form-select-lg">
-                                        <option value="">Marka Seçiniz</option>
-                                        @if(is_iterable($vehicleTickets))
-                                        @forelse($vehicleTickets as $d)
-                                        <option value="{{$d->id}}" {{$d->id == $vehicle_ticket_id ? 'selected' :
-                                            ''}}>{{$d->name}}</option>
-                                        @empty
-                                        @endforelse
-                                        @endif
-                                    </select>
-                                    @error('vehicle_ticket_id')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                            @if (auth()->user()->can('update vehicleTickets'))
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Tip Seçiniz :</label>
+                                    <div class="col-sm-3">
+                                        <select wire:model.lazy="vehicle_ticket_id" id="vehicle_ticket_id"
+                                            class="select2 form-select form-select-lg">
+                                            <option value="">Marka Seçiniz</option>
+                                            @if (is_iterable($vehicleTickets))
+                                                @forelse($vehicleTickets as $d)
+                                                    <option value="{{ $d->id }}"
+                                                        {{ $d->id == $vehicle_ticket_id ? 'selected' : '' }}>
+                                                        {{ $d->name }}</option>
+                                                @empty
+                                                @endforelse
+                                            @endif
+                                        </select>
+                                        @error('vehicle_ticket_id')
+                                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="btn-close">
+                                                </button>{{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Araç modelini yazınız :</label>
@@ -85,11 +90,12 @@
                                     <input class="form-control border border-warning" type="text"
                                         wire:model.defer="name" placeholder="Araç modelini yazınız.">
                                     @error('name')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -98,11 +104,12 @@
                                     <input class="form-control border border-warning" type="text"
                                         wire:model.defer="insurance_number" placeholder="Kasko kodu yazınız.">
                                     @error('insurance_number')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -116,6 +123,15 @@
                                 </button>
                             </div>
                         </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                </button>
+                                @foreach ($errors->all() as $key => $error)
+                                    {{ $error }}<br />
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                 </form>

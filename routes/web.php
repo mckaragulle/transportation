@@ -30,9 +30,6 @@ use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategoryEdit;
 use App\Livewire\VehicleProperty\VehicleProperties;
 use App\Livewire\VehicleProperty\VehiclePropertyEdit;
 
-use App\Livewire\BrandType\BrandTypes;
-use App\Livewire\BrandType\BrandTypeEdit;
-
 use App\Livewire\Signin;
 
 
@@ -64,7 +61,7 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicleBrands.edit')->middleware('can:update vehicleBrands');
 
     Route::get('/tipler', VehicleTickets::class)->name('vehicleTickets.list')->middleware('can:read vehicleTickets');
-    Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicleTickets.edit')->middleware('can:update vehicleTickets');
+    Route::get('/motipdel/{id}/duzenle', VehicleTicketEdit::class)->name('vehicleTickets.edit')->middleware('can:update vehicleTickets');
 
     Route::get('/modeller', VehicleModels::class)->name('vehicleModels.list')->middleware('can:read vehicleModels');
     Route::get('/model/{id}/duzenle', VehicleModelEdit::class)->name('vehicleModels.edit')->middleware('can:update vehicleModels');

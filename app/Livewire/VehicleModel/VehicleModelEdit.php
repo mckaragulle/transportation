@@ -21,8 +21,8 @@ class VehicleModelEdit extends Component
 
     public $vehicleModel;
 
-    public null|string|int $vehicle_brand_id;
-    public null|string|int $vehicle_ticket_id;
+    public ?int $vehicle_brand_id = null;
+    public ?int $vehicle_ticket_id = null;
     public null|string $name;
     public null|string $insurance_number;
     public bool $status = true;
@@ -35,21 +35,11 @@ class VehicleModelEdit extends Component
     public function rules()
     {
         return [
-            'vehicle_brand_id' => [
-                'vehicle_brand_id' => ['required', 'numeric', 'exists:vehicle_brands,id'],
-                'exists:vehicle_brands,id',
-            ],
-            'vehicle_ticket_id' => [
-                'vehicle_ticket_id' => ['required', 'numeric', 'exists:vehicle_tickets,id'],
-                'exists:vehicle_tickets,id',
-            ],
-            'name' => [
-                'required',
-            ],
-            'status' => [
-                'in:true,false,null,0,1,active,passive,',
-                'nullable',
-            ],
+            'vehicle_brand_id' => ['required', 'integer', 'exists:vehicle_brands,id'],
+            'vehicle_ticket_id' => ['required', 'integer', 'exists:vehicle_tickets,id'],
+            'name' => ['required'],
+            'insurance_number' => ['nullable'],
+            'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
         ];
     }
 
@@ -117,6 +107,7 @@ class VehicleModelEdit extends Component
     {
         if(is_numeric($value))
         {
+            $this->reset(['vehicle_ticket_id']);
             $this->getVehicleTickets();
         }
     }

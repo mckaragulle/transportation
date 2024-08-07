@@ -86,6 +86,6 @@ class VehiclePropertyCreate extends Component
 
     public function updatedVehiclePropertyCategoryId()
     {
-        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->get(['id', 'name']);
+        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->whereNull('vehicle_property_id')->get(['id', 'name']);
     }
 }

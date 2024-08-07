@@ -69,7 +69,7 @@ class VehicleTicketCreate extends Component
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
-            $this->reset();
+            $this->reset(['vehicle_brand_id', 'name']);
         } catch (\Exception $exception) {
             $error = "Tip oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);

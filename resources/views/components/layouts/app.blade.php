@@ -100,18 +100,10 @@
                                     <hr class="my-1" />
                                     @can('read vehicleBrands')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                       href="{{route('brands.list')}}"><i
-                                            class="fas fa-user-group text-danger"></i> <span
-                                            class="ms-2">Markalar</span></a>
-                                @endcan
-                                @can('read brandTypes')
-                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                       href="{{route('brandTypes.list')}}"><i
-                                            class="fas fa-user-group text-danger"></i> <span
-                                            class="ms-2">Marka Tipleri</span></a>
-                                @endcan
-                                <hr class="my-1"/>
-                                @can('read dealers')
+                                        href="{{route('vehicleBrands.list')}}"><i class="fas fa-car text-danger"></i>
+                                        <span class="ms-2">Markalar</span></a>
+                                    @endcan
+                                    @can('read vehicleTickets')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                                         href="{{route('vehicleTickets.list')}}"><i class="fas fa-car text-danger"></i>
                                         <span class="ms-2">Tipler</span></a>
@@ -282,12 +274,15 @@
     <!--**********************************
     Scripts
 ***********************************-->
-
+    
     <!-- Required vendors -->
-    @vite(['resources/js/app.js'])
     @livewireScripts
     <script src="{{asset('xhtml/vendor/global/global.min.js')}}"></script>
     <x-livewire-alert::flash />
+    <script src="{{asset('xhtml/js/sweetalert2.11.js')}}"></script>
+{{-- <script src="{{asset('vendor/livewire-alert/livewire-alert.js')}}"></script> --}}
+    @vite(['resources/js/app.js'])
+   
     @stack('scripts')
     <script>
         $('#main-wrapper').toggleClass("menu-toggle");

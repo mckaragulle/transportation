@@ -77,7 +77,7 @@ class VehicleModelCreate extends Component
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
-            $this->reset();
+            $this->reset(['name','insurance_number']);
         } catch (\Exception $exception) {
             $error = "Model oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
@@ -89,6 +89,7 @@ class VehicleModelCreate extends Component
 
     public function updatedVehicleBrandId($value, $key)
     {
+        $this->reset(['vehicle_ticket_id']);
         $this->getVehicleTickets();
     }
 
