@@ -8,7 +8,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class AccounTypeCategories extends Component
+class AccountTypeCategories extends Component
 {
     use LivewireAlert;
 

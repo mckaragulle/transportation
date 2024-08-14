@@ -68,7 +68,7 @@ class VehiclePropertyEdit extends Component
             $this->name = $this->vehicleProperty->name;
             $this->status = $this->vehicleProperty->status;
             $this->vehiclePropertyCategories = $vehiclePropertyCategoryService->all();
-            $this->vehicleProperties = VehicleProperty::query()->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
+            $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
 
         } else {
             return $this->redirect(route('vehicleProperties.list'));
@@ -91,7 +91,7 @@ class VehiclePropertyEdit extends Component
         DB::beginTransaction();
         try {
             $this->vehicleProperty->vehicle_property_category_id = $this->vehicle_property_category_id;
-            $this->vehicleProperty->vehicle_property_id = $this->vehicle_property_id;
+            $this->vehicleProperty->vehicle_property_id = $this->vehicle_property_id ?? null;
             $this->vehicleProperty->name = $this->name;
             $this->vehicleProperty->status = $this->status == false ? 0 : 1;
             $this->vehicleProperty->save();

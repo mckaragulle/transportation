@@ -55,7 +55,7 @@
                             @endif
                             @if(auth()->user()->can('update vehicleProperties'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Özellik Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_property_id" id="vehicle_property_id"
                                         class="form-select form-select-lg">

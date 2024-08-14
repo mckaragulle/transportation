@@ -79,6 +79,8 @@ class AppInstall extends Command
                 'create vehiclePropertyCategories', 'read vehiclePropertyCategories', 'update vehiclePropertyCategories', 'delete vehiclePropertyCategories',
                 'create vehicleProperties', 'read vehicleProperties', 'update vehicleProperties', 'delete vehicleProperties',
                 
+                'create accountTypeCategories', 'read accountTypeCategories', 'update accountTypeCategories', 'delete accountTypeCategories',
+                'create accountTypes', 'read accountTypes', 'update accountTypes', 'delete accountTypes',
 
 
 

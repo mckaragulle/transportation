@@ -123,6 +123,16 @@
                                         href="{{route('vehicleProperties.list')}}"><i class="fas fa-car text-danger"></i>
                                         <span class="ms-2">Özellikler</span></a>
                                     @endcan
+                                    @can('read accountTypeCategories')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                        href="{{route('accountTypeCategories.list')}}"><i class="fas fa-car text-danger"></i>
+                                        <span class="ms-2">Cari Kategorileri</span></a>
+                                    @endcan
+                                    @can('read accountTypes')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                        href="{{route('accountTypes.list')}}"><i class="fas fa-car text-danger"></i>
+                                        <span class="ms-2">Cari Seçenekleri</span></a>
+                                    @endcan
                                     <hr class="my-1" />
                                     @can('read dealers')
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"

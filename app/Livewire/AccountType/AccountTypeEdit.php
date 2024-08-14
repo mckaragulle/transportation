@@ -16,6 +16,7 @@ class AccountTypeEdit extends Component
     use LivewireAlert;
 
     public null|Collection $accountTypeCategories;
+    public null|Collection $accountTypes;
 
     public ?AccountType $accountType = null;
 
@@ -24,7 +25,8 @@ class AccountTypeEdit extends Component
     public null|string $name;
     public bool $status = true;
 
-    protected AccountTypeCategoryService $vehicleBrandService;
+    protected AccountTypeCategoryService $accountTypeCategoryService;
+    protected AccountTypeService $accountTypeService;
     /**
      * List of add/edit form rules
      */
@@ -40,7 +42,7 @@ class AccountTypeEdit extends Component
             ],
             'account_type_id' => [
                 'nullable',
-                'exists:vehicle_properties,id',
+                'exists:account_types,id',
             ],
             'status' => [
                 'in:true,false,null,0,1,active,passive,',
@@ -50,9 +52,9 @@ class AccountTypeEdit extends Component
     }
 
     protected $messages = [
-        'account_type_category_id.required' => 'Lütfen özellik kategorisini seçiniz.',
-        'account_type_category_id.exists' => 'Lütfen geçerli bir özellik kategorisi seçiniz.',
-        'account_type_id.exists' => 'Lütfen geçerli bir özellik seçiniz.',
+        'account_type_category_id.required' => 'Lütfen cari kategorisini seçiniz.',
+        'account_type_category_id.exists' => 'Lütfen geçerli bir cari kategorisi seçiniz.',
+        'account_type_id.exists' => 'Lütfen geçerli bir cari seçiniz.',
         'name.required' => 'Cari adını yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
@@ -63,11 +65,13 @@ class AccountTypeEdit extends Component
             $this->accountType = $accountTypeService->findById($id);
             $this->account_type_category_id = $this->accountType->account_type_category_id;
             $this->account_type_id = $this->accountType->account_type_id??null;
-            $this->name = $this->accountType->name;
+            $this->name = $this->accountType->name??null;
             $this->status = $this->accountType->status;
             $this->accountTypeCategories = $accountTypeCategoryService->all();
+            $this->accountTypes = AccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
+
         } else {
-            return $this->redirect(route('vehicleProperties.list'));
+            return $this->redirect(route('accountTypes.list'));
         }
     }
 
@@ -87,7 +91,7 @@ class AccountTypeEdit extends Component
         DB::beginTransaction();
         try {
             $this->accountType->account_type_category_id = $this->account_type_category_id;
-            $this->accountType->account_type_id = $this->account_type_id;
+            $this->accountType->account_type_id = $this->account_type_id ?? null;
             $this->accountType->name = $this->name;
             $this->accountType->status = $this->status == false ? 0 : 1;
             $this->accountType->save();
@@ -103,5 +107,10 @@ class AccountTypeEdit extends Component
             Log::error($error);
             DB::rollBack();
         }
+    }
+
+    public function updatedAccountTypeCategoryId()
+    {
+        $this->accountTypes = AccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
     }
 }

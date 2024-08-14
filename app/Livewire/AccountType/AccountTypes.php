@@ -2,7 +2,7 @@
 
 namespace App\Livewire\AccountType;
 
-use App\Services\AccounTypeService;
+use App\Services\AccountTypeService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -20,7 +20,7 @@ class AccountTypes extends Component
         return view('livewire.account-type.account-types');
     }
 
-    #[On('delete-accounType')]
+    #[On('delete-accountType')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -38,10 +38,10 @@ class AccountTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccounTypeService $accounTypeService)
+    public function handleConfirmed(AccountTypeService $accountTypeService)
     {
         try {
-            $accounTypeService->delete($this->data_id);
+            $accountTypeService->delete($this->data_id);
             $msg = 'Özellik silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
@@ -51,7 +51,7 @@ class AccountTypes extends Component
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-AccounTypeTable');
+            $this->dispatch('pg:eventRefresh-AccountTypeTable');
         }
     }
 }

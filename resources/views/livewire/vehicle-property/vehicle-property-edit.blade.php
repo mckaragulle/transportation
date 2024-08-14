@@ -1,13 +1,13 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicleProperties.list')}}">Tipler</a></li>
+            <li class="breadcrumb-item"><a href="{{route('vehicleProperties.list')}}">Araba Özellikleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Tip Düzenle</h4>
+            <h4 class="card-title mb-0">Araba Özelliği Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
@@ -56,16 +56,16 @@
                             @endif
                             @if(auth()->user()->can('update vehicleProperties'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Özellik Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_property_id" id="vehicle_property_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($vehicleProperties))
                                         @forelse($vehicleProperties as $d)    
-                                        @if($d->id != $vehicleProperty->id && $d->id != $vehicleProperty->vehicle_property->id)                                    
+                                                                   
                                         <option value="{{$d->id}}">{{($d->vehicle_property?->name ? $d->vehicle_property?->name . " -> " : '') . $d->name}}</option>
-                                        @endif
+                                      
                                         @empty
                                         @endforelse
                                         @endif

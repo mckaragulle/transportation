@@ -30,6 +30,12 @@ use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategoryEdit;
 use App\Livewire\VehicleProperty\VehicleProperties;
 use App\Livewire\VehicleProperty\VehiclePropertyEdit;
 
+use App\Livewire\AccountTypeCategory\AccountTypeCategories;
+use App\Livewire\AccountTypeCategory\AccountTypeCategoryEdit;
+
+use App\Livewire\AccountType\AccountTypes;
+use App\Livewire\AccountType\AccountTypeEdit;
+
 use App\Livewire\Signin;
 
 
@@ -71,6 +77,12 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/ozellikler', VehicleProperties::class)->name('vehicleProperties.list')->middleware('can:read vehicleProperties');
     Route::get('/ozellik/{id}/duzenle', VehiclePropertyEdit::class)->name('vehicleProperties.edit')->middleware('can:update vehicleProperties');
+
+    Route::get('/cari-kategorileri', AccountTypeCategories::class)->name('accountTypeCategories.list')->middleware('can:read accountTypeCategories');
+    Route::get('/cari-kategorisi/{id}/duzenle', AccountTypeCategoryEdit::class)->name('accountTypeCategories.edit')->middleware('can:update accountTypeCategories');
+
+    Route::get('/cari', AccountTypes::class)->name('accountTypes.list')->middleware('can:read accountTypes');
+    Route::get('/cari/{id}/duzenle', AccountTypeEdit::class)->name('accountTypes.edit')->middleware('can:update accountTypes');
 });
 
 //\Illuminate\Support\Facades\Auth::routes();

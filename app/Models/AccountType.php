@@ -28,7 +28,7 @@ class AccountType extends Model
         ];
     }
 
-    protected $fillable = ["account_type_category_id","account_type_id", "name", "slug", "status"];
+    protected $fillable = ["account_type_category_id","account_type_id", "name", "slug", "phone", "email", "address", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -48,7 +48,7 @@ class AccountType extends Model
     /**
      * Get the prices for the type post.
      */
-    public function vehicle_property(): BelongsTo
+    public function account_type(): BelongsTo
     {
         return $this->belongsTo(AccountType::class);
     }

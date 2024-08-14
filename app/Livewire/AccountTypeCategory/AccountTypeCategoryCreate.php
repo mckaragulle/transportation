@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccounTypeCategoryCreate extends Component
+class AccountTypeCategoryCreate extends Component
 {
     use LivewireAlert;
 

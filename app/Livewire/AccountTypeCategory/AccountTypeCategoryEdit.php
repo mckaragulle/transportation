@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccounTypeCategoryEdit extends Component
+class AccountTypeCategoryEdit extends Component
 {
     use LivewireAlert;
 
