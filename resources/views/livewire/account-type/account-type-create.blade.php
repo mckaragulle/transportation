@@ -36,7 +36,7 @@
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_property_category_id" id="vehicle_property_category_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Araba Özellik Kategorisi</option>
+                                        <option>Araba Özellik Kategorisi</option>
                                         @if(is_iterable($vehiclePropertyCategories))
                                         @forelse($vehiclePropertyCategories as $d)
                                         <option value="{{$d->id}}">{{$d->name}}</option>
@@ -55,14 +55,14 @@
                             @endif
                             @if(auth()->user()->can('update vehicleProperties'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Özellik Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Özellik Grubunu Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_property_id" id="vehicle_property_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Özellik Grubu</option>
+                                        <option>Özellik Grubu</option>
                                         @if(is_iterable($vehicleProperties))
                                         @forelse($vehicleProperties as $d)
-                                        <option value="{{$d->id}}">{{($d->vehicle_property?->name ? $d->vehicle_property?->name . " -> " : '') . $d->name}}</option>
+                                        <option value="{{$d->id}}">{{$d->name}}</option>
                                         @empty
                                         @endforelse
                                         @endif

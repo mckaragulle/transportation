@@ -16,6 +16,7 @@ class VehiclePropertyEdit extends Component
     use LivewireAlert;
 
     public null|Collection $vehiclePropertyCategories;
+    public null|Collection $vehicleProperties;
 
     public ?VehicleProperty $vehicleProperty = null;
 
@@ -24,7 +25,8 @@ class VehiclePropertyEdit extends Component
     public null|string $name;
     public bool $status = true;
 
-    protected VehiclePropertyCategoryService $vehicleBrandService;
+    protected VehiclePropertyCategoryService $vehiclePropertyCategoryService;
+    protected VehiclePropertyService $vehiclePropertyService;
     /**
      * List of add/edit form rules
      */
@@ -66,6 +68,8 @@ class VehiclePropertyEdit extends Component
             $this->name = $this->vehicleProperty->name;
             $this->status = $this->vehicleProperty->status;
             $this->vehiclePropertyCategories = $vehiclePropertyCategoryService->all();
+            $this->vehicleProperties = VehicleProperty::query()->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
+
         } else {
             return $this->redirect(route('vehicleProperties.list'));
         }
@@ -103,5 +107,10 @@ class VehiclePropertyEdit extends Component
             Log::error($error);
             DB::rollBack();
         }
+    }
+
+    public function updatedVehiclePropertyCategoryId()
+    {
+        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
     }
 }

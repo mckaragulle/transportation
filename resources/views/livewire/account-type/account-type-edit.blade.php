@@ -1,17 +1,17 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicleProperties.list')}}">Araba Özellikleri</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
+            <li class="breadcrumb-item"><a href="{{route('accountTypes.list')}}">Cariler</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Araba Özelliği Oluştur</h4>
+            <h4 class="card-title mb-0">Tip Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form wire:submit.prevent="store">
+                <form wire:submit.prevent="update">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
@@ -30,44 +30,23 @@
                                     </div>@enderror
                                 </div>
                             </div>
-                            @if(auth()->user()->can('update vehiclePropertyCategories'))
+
+                            @if(auth()->user()->can('update accountyTypes'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Araba Özellik Kategorisini Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Kategori Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_property_category_id" id="vehicle_property_category_id"
-                                        class="form-select form-select-lg">
-                                        <option value="">Araba Özellik Kategorisi</option>
-                                        @if(is_iterable($vehiclePropertyCategories))
-                                        @forelse($vehiclePropertyCategories as $d)
-                                        <option value="{{$d->id}}">{{$d->name}}</option>
+                                    <select wire:model.lazy="vehicle_brand_id" id="vehicle_brand_id"
+                                        class="select2 form-select form-select-lg">
+                                        <option>Marka Seçiniz</option>
+                                        @if(is_iterable($vehicleBrands))
+                                        @forelse($vehicleBrands as $d)
+                                        <option value="{{$d->id}}" {{$d->id == $vehicle_brand_id ? 'selected' :
+                                            ''}}>{{$d->name}}</option>
                                         @empty
                                         @endforelse
                                         @endif
                                     </select>
-                                    @error('vehicle_property_category_id')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
-                                </div>
-                            </div>
-                            @endif
-                            @if(auth()->user()->can('update vehicleProperties'))
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Özellik Seçiniz :</label>
-                                <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_property_id" id="vehicle_property_id"
-                                        class="form-select form-select-lg">
-                                        <option value="">Özellik Grubu</option>
-                                        @if(is_iterable($vehicleProperties))
-                                        @forelse($vehicleProperties as $d)
-                                        <option value="{{$d->id}}">{{($d->vehicle_property?->name ? $d->vehicle_property?->name . " -> " : '') . $d->name}}</option>
-                                        @empty
-                                        @endforelse
-                                        @endif
-                                    </select>
-                                    @error('vehicle_property_id')
+                                    @error('vehicle_brand_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="btn-close">
@@ -77,10 +56,10 @@
                             </div>
                             @endif
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Araba özelliğini yazınız:</label>
-                                <div class="col-sm-3">
-                                    <input class="form-control" type="text" wire:model.defer="name"
-                                        placeholder="Araba özelliğini yazınız.">
+                                <label class="col-sm-3 col-form-label">Cari :</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control border border-warning" type="text"
+                                        wire:model.defer="name" placeholder="Cari yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -101,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>

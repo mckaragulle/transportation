@@ -18,8 +18,8 @@ class VehiclePropertyCreate extends Component
 
     public null|Collection $vehiclePropertyCategories;
     public null|Collection $vehicleProperties;
-    public null|int $vehicle_property_category_id = null;
-    public null|int $vehicle_property_id = null;
+    public null|string|int $vehicle_property_category_id = null;
+    public null|string|int $vehicle_property_id = null;
     public null|string $name;
 
     public bool $status = true;
@@ -50,6 +50,7 @@ class VehiclePropertyCreate extends Component
     public function mount(VehiclePropertyCategoryService $vehiclePropertyCategoryService)
     {
         $this->vehiclePropertyCategories = $vehiclePropertyCategoryService->all(['id', 'name']);
+        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
     }
 
     /**
@@ -86,6 +87,6 @@ class VehiclePropertyCreate extends Component
 
     public function updatedVehiclePropertyCategoryId()
     {
-        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->whereNull('vehicle_property_id')->get(['id', 'name']);
+        $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
     }
 }
