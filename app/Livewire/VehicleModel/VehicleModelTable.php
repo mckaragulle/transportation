@@ -68,6 +68,7 @@ final class VehicleModelTable extends PowerGridComponent
                 return $role->vehicle_ticket->name ?? "---";
             })
             ->add('name')
+            ->add('insurance_number')
             ->add('status')
             ->add('created_at');
     }
@@ -81,7 +82,14 @@ final class VehicleModelTable extends PowerGridComponent
 
             Column::make('Araç Markaları', 'vehicle_brand_id'),
             Column::make('Araç Tipleri', 'vehicle_ticket_id'),
-            Column::make('Model Adı', 'name')
+            Column::make('Model Yılı', 'name')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update vehicleModels'),
+                    fallback: '- empty -'
+                ),
+            Column::make('Kasko Kodu', 'insurance_number')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
@@ -121,7 +129,6 @@ final class VehicleModelTable extends PowerGridComponent
                 ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            
         ];
     }
 

@@ -5,5 +5,5 @@
     <h1 class="fs-4">{{$name}}</h1>
     <h1 class="fs-5">{{$name}}</h1>
     <h1 class="fs-6">{{$name}}</h1>
-    <a href="" class="fs-1"><i class="fas fa-plus"></i> asda</a>
+    <button type="button" class="btn btn-primary" wire:click="importBrand">Markalar</button>
 </div>

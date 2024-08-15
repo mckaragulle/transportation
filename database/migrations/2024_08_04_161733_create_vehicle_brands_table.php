@@ -14,12 +14,12 @@ return new class extends Migration
     {
         Schema::create('vehicle_brands', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('name')->unique()->index();
+            $table->string('slug')->nullable()->unique()->index();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
-        Artisan::call('db:seed --class=VehicleBrandSeeder');
+        // Artisan::call('db:seed --class=VehicleBrandSeeder');
     }
 
     /**

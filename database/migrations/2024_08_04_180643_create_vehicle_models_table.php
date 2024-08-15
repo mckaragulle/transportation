@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(VehicleBrand::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(VehicleTicket::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->string('insurance_number')->nullable();

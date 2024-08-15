@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('vehicle_tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(VehicleBrand::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('name')->unique()->index();
+            $table->string('slug')->nullable()->unique()->index();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
