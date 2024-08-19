@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('accountTypeCategories.list')}}">Cari Kategorileri</a></li>
+            <li class="breadcrumb-item"><a href="{{route('account_type_categories.list')}}">Cari Kategorileri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>

@@ -75,13 +75,13 @@ final class VehicleBrandTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleBrands'),
+                    hasPermission: auth()->user()->can('update vehicle_brands'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleBrands'),
+                    auth()->user()->can('update vehicle_brands'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -105,7 +105,7 @@ final class VehicleBrandTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleBrands.edit', ['id' => $row->id])
+                ->route('vehicle_brands.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
@@ -119,10 +119,10 @@ final class VehicleBrandTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update vehicleBrands') != 1)
+                ->when(fn ($row) => auth()->user()->can('update vehicle_brands') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete vehicleBrands') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete vehicle_brands') != 1)
                 ->hide(),
         ];
     }

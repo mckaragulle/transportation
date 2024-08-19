@@ -50,7 +50,7 @@ class AccountTypeCategoryEdit extends Component
             $this->name = $this->accountTypeCategory->name;
             $this->status = $this->accountTypeCategory->status;
         } else {
-            return $this->redirect(route('accountTypeCategories.list'));
+            return $this->redirect(route('account_type_categories.list'));
         }
     }
 

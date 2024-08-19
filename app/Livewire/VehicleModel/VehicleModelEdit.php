@@ -64,7 +64,7 @@ class VehicleModelEdit extends Component
             $this->vehicleBrands = $vehicleBrandService->all();
             $this->getVehicleTickets();
         } else {
-            return $this->redirect(route('vehicleModels.list'));
+            return $this->redirect(route('vehicle_models.list'));
         }
     }
 

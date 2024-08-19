@@ -1,9 +1,9 @@
 <div>
-    @can('create vehicleProperties')
+    @can('create account_types')
     <livewire:account-type.account-type-create />
     <hr>
     @endcan
-    @can('read vehicleProperties')
+    @can('read account_types')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Cariler</h4>

@@ -49,23 +49,32 @@ final class VehicleModelTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleModel::query();
+        return VehicleModel::query()->with(['vehicle_brand', 'vehicle_ticket']);
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'vehicle_brand' => [ // relationship on dishes model
+                'name',
+                'slug',
+            ],
+            'vehicle_ticket' => [ // relationship on dishes model
+                'name',
+                'slug',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('vehicle_brand_id', function ($role) {
-                return $role->vehicle_brand->name ?? "---";
+            ->add('vehicle_brand_name', function ($row) {
+                return $row->vehicle_brand->name ?? "---";
             })
-            ->add('vehicle_ticket_id', function ($role) {
-                return $role->vehicle_ticket->name ?? "---";
+            ->add('vehicle_ticket_name', function ($row) {
+                return $row->vehicle_ticket->name ?? "---";
             })
             ->add('name')
             ->add('insurance_number')
@@ -80,25 +89,25 @@ final class VehicleModelTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Araç Markaları', 'vehicle_brand_id'),
-            Column::make('Araç Tipleri', 'vehicle_ticket_id'),
+            Column::make('Araç Markaları', 'vehicle_brand_name'),
+            Column::make('Araç Tipleri', 'vehicle_ticket_name'),
             Column::make('Model Yılı', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleModels'),
+                    hasPermission: auth()->user()->can('update vehicle_models'),
                     fallback: '- empty -'
                 ),
             Column::make('Kasko Kodu', 'insurance_number')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleModels'),
+                    hasPermission: auth()->user()->can('update vehicle_models'),
                     fallback: '- empty -'
                 ),
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleModels'),
+                    auth()->user()->can('update vehicle_models'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -137,7 +146,7 @@ final class VehicleModelTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleModels.edit', ['id' => $row->id])
+                ->route('vehicle_models.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

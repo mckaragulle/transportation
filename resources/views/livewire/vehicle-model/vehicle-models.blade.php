@@ -1,9 +1,9 @@
 <div>
-    @can('create vehicleModels')
+    @can('create vehicle_models')
     <livewire:vehicle-model.vehicle-model-create />
     <hr>
     @endcan
-    @can('read vehicleModels')
+    @can('read vehicle_models')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Araba Modelleri</h4>

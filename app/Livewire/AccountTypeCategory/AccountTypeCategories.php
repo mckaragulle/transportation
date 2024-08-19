@@ -42,11 +42,11 @@ class AccountTypeCategories extends Component
     {
         try {
             $accountTypeCategoryService->delete($this->data_id);
-            $msg = 'Cari kategorisi kategorisi silindi.';
+            $msg = 'Cari kategorisi silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Cari kategorisi kategorisi silinemedi. {$exception->getMessage()}";
+            $error = "Cari kategorisi silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

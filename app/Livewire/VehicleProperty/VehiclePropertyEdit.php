@@ -71,7 +71,7 @@ class VehiclePropertyEdit extends Component
             $this->vehicleProperties = VehicleProperty::query()->where(['vehicle_property_category_id' => $this->vehicle_property_category_id])->with('vehicle_property')->orderBy('id')->get(['id', 'vehicle_property_id', 'name']);
 
         } else {
-            return $this->redirect(route('vehicleProperties.list'));
+            return $this->redirect(route('vehicle_properties.list'));
         }
     }
 

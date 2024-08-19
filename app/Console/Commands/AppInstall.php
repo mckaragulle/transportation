@@ -73,14 +73,18 @@ class AppInstall extends Command
 
                 'create years', 'read years', 'update years', 'delete years',
 
-                'create vehicleBrands', 'read vehicleBrands', 'update vehicleBrands', 'delete vehicleBrands',
-                'create vehicleTickets', 'read vehicleTickets', 'update vehicleTickets', 'delete vehicleTickets',
-                'create vehicleModels', 'read vehicleModels', 'update vehicleModels', 'delete vehicleModels',
-                'create vehiclePropertyCategories', 'read vehiclePropertyCategories', 'update vehiclePropertyCategories', 'delete vehiclePropertyCategories',
-                'create vehicleProperties', 'read vehicleProperties', 'update vehicleProperties', 'delete vehicleProperties',
+                'create vehicle_brands', 'read vehicle_brands', 'update vehicle_brands', 'delete vehicle_brands',
+                'create vehicle_tickets', 'read vehicle_tickets', 'update vehicle_tickets', 'delete vehicle_tickets',
+                'create vehicle_models', 'read vehicle_models', 'update vehicle_models', 'delete vehicle_models',
+                'create vehicle_property_categories', 'read vehicle_property_categories', 'update vehicle_property_categories', 'delete vehicle_property_categories',
+                'create vehicle_properties', 'read vehicle_properties', 'update vehicle_properties', 'delete vehicle_properties',
                 
-                'create accountTypeCategories', 'read accountTypeCategories', 'update accountTypeCategories', 'delete accountTypeCategories',
-                'create accountTypes', 'read accountTypes', 'update accountTypes', 'delete accountTypes',
+                'create account_type_categories', 'read account_type_categories', 'update account_type_categories', 'delete account_type_categories',
+                'create account_types', 'read account_types', 'update account_types', 'delete account_types',
+                
+                'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
+                'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
+                'create hgses', 'read hgses', 'update hgses', 'delete hgses',
 
 
 

@@ -19,8 +19,6 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
-
-        Artisan::call('db:seed --class=BrandSeeder');
     }
 
     /**

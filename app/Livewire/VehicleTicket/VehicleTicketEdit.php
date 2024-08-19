@@ -59,7 +59,7 @@ class VehicleTicketEdit extends Component
             $this->status = $this->vehicleTicket->status;
             $this->vehicleBrands = $vehicleBrandService->all();
         } else {
-            return $this->redirect(route('vehicleTickets.list'));
+            return $this->redirect(route('vehicle_tickets.list'));
         }
     }
 

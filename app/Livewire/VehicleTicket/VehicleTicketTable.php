@@ -80,12 +80,12 @@ final class VehicleTicketTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleTickets'),
+                    hasPermission: auth()->user()->can('update vehicle_tickets'),
                     fallback: '- empty -'
                 ),
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleTickets'),
+                    auth()->user()->can('update vehicle_tickets'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -114,7 +114,7 @@ final class VehicleTicketTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleTickets.edit', ['id' => $row->id])
+                ->route('vehicle_tickets.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

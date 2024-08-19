@@ -1,9 +1,9 @@
 <div>
-    @can('create vehicleTickets')
+    @can('create vehicle_tickets')
     <livewire:vehicle-ticket.vehicle-ticket-create />
     <hr>
     @endcan
-    @can('read vehicleTickets')
+    @can('read vehicle_tickets')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Araba Tipleri</h4>

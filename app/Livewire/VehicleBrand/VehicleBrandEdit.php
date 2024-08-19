@@ -50,7 +50,7 @@ class VehicleBrandEdit extends Component
             $this->name = $this->vehicleBrand->name;
             $this->status = $this->vehicleBrand->status;
         } else {
-            return $this->redirect(route('vehicleBrands.list'));
+            return $this->redirect(route('vehicle_brands.list'));
         }
     }
 

@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicleProperties.list')}}">Araba Özellikleri</a></li>
+            <li class="breadcrumb-item"><a href="{{route('vehicle_properties.list')}}">Araba Özellikleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if(auth()->user()->can('update vehicleProperties'))
+                            @if(auth()->user()->can('update vehicle_properties'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">

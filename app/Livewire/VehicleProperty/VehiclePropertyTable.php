@@ -86,13 +86,13 @@ final class VehiclePropertyTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update vehicleProperties'),
+                    hasPermission: auth()->user()->can('update vehicle_properties'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update vehicleProperties'),
+                    auth()->user()->can('update vehicle_properties'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -132,7 +132,7 @@ final class VehiclePropertyTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('vehicleProperties.edit', ['id' => $row->id])
+                ->route('vehicle_properties.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
@@ -146,10 +146,10 @@ final class VehiclePropertyTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update vehicleProperties') != 1)
+                ->when(fn ($row) => auth()->user()->can('update vehicle_properties') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete vehicleProperties') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete vehicle_properties') != 1)
                 ->hide(),
         ];
     }

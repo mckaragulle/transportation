@@ -75,13 +75,13 @@ final class AccountTypeCategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update accountTypeCategories'),
+                    hasPermission: auth()->user()->can('update account_type_categories'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update accountTypeCategories'),
+                    auth()->user()->can('update account_type_categories'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -105,13 +105,13 @@ final class AccountTypeCategoryTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('accountTypeCategories.edit', ['id' => $row->id])
+                ->route('account_type_categories.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-accountTypeCategory', ['id' => $row->id]),
+                ->dispatch('delete-account_type_categories', ['id' => $row->id]),
         ];
     }
 
@@ -119,10 +119,10 @@ final class AccountTypeCategoryTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update accountTypeCategories') != 1)
+                ->when(fn ($row) => auth()->user()->can('update account_type_categories') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete accountTypeCategories') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete account_type_categories') != 1)
                 ->hide(),
         ];
     }

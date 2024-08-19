@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('accountTypes.list')}}">Cari Seçenekleri</a></li>
+            <li class="breadcrumb-item"><a href="{{route('account_types.list')}}">Cari Seçenekleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
 
-                            @if(auth()->user()->can('update accountTypeCategories'))
+                            @if(auth()->user()->can('update account_type_categories'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Cari Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if(auth()->user()->can('update accountTypes'))
+                            @if(auth()->user()->can('update account_types'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">

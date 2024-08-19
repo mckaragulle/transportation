@@ -85,13 +85,13 @@ final class AccountTypeTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update accountTypes'),
+                    hasPermission: auth()->user()->can('update account_types'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update accountTypes'),
+                    auth()->user()->can('update account_types'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -131,7 +131,7 @@ final class AccountTypeTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('accountTypes.edit', ['id' => $row->id])
+                ->route('account_types.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
@@ -145,10 +145,10 @@ final class AccountTypeTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update accountTypes') != 1)
+                ->when(fn ($row) => auth()->user()->can('update account_types') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete accountTypes') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete account_types') != 1)
                 ->hide(),
         ];
     }

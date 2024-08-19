@@ -1,9 +1,9 @@
 <div>
-    @can('create vehicleProperties')
+    @can('create vehicle_properties')
     <livewire:vehicle-property.vehicle-property-create />
     <hr>
     @endcan
-    @can('read vehicleProperties')
+    @can('read vehicle_properties')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Araç Özellikleri</h4>
