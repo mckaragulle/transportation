@@ -1,0 +1,5 @@
+brew install mkcert
+# Yerel CA (Certificate Authority) oluşturun ve yükleyin
+mkcert -install
+# Yerel sertifika ve anahtar oluşturun
+mkcert localhost

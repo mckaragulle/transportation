@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-12">
+                                    <label class="col-form-label">Durum :</label>
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">
@@ -33,19 +33,22 @@
                             </div>
                             @if (auth()->user()->can('update hgs_type_categories'))
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Hgs Kategorisini Seçiniz :</label>
-                                    <div class="col-sm-3">
-                                        <select wire:model.lazy="hgs_type_category_id" id="hgs_type_category_id"
+                                    @foreach ($hgsTypeCategoryDatas as $hgsTypeCaregory)
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label class="col-form-label">{{$hgsTypeCaregory->name}} SEÇİNİZ :</label>
+                                        <select wire:model.lazy="hgs_type_categories.{{$hgsTypeCaregory->id}}" id="hgs_type_category_id{{$hgsTypeCaregory->id}}"
                                             class="form-select form-select-lg">
-                                            <option value="">Hgs Kategorisi Seçiniz</option>
-                                            @if (is_iterable($hgsTypeCategories))
-                                                @forelse($hgsTypeCategories as $d)
-                                                    <option value="{{ $d->id }}">{{ $d->name }}</option>
+                                            <option value="">{{$hgsTypeCaregory->name}} SEÇİNİZ</option>
+                                            @if (is_iterable($hgsTypeCaregory->hgs_types))
+                                                @forelse($hgsTypeCaregory->hgs_types as $hgsType)
+                                                @if(count($hgsType->hgs_types) == 0)
+                                                    <option value="{{ $hgsType->id }}">{{ isset($hgsType->hgs_type->name) ? $hgsType->hgs_type->name . " => " : ''}}{{ $hgsType->name }}</option>
+                                                @endif
                                                 @empty
                                                 @endforelse
                                             @endif
                                         </select>
-                                        @error('hgs_type_category_id')
+                                        @error('hgs_type_categories')
                                             <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                     aria-label="btn-close">
@@ -53,37 +56,14 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    @endforeach
+                                    
                                 </div>
                             @endif
-                            @if (auth()->user()->can('update hgs_types'))
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Hgs Tipi Seçiniz :</label>
-                                    <div class="col-sm-3">
-                                        <select wire:model.lazy="hgs_type_id" id="hgs_type_id"
-                                            class="form-select form-select-lg">
-                                            <option value="">Hgs Tipi Seçiniz</option>
-                                            @if (is_iterable($hgsTypes))
-                                                @forelse($hgsTypes as $d)
-                                                    <option value="{{ $d->id }}">
-                                                        {{ ($d->hgs_type?->name ? $d->hgs_type?->name . '->' : '') . $d->name }}
-                                                    </option>
-                                                @empty
-                                                @endforelse
-                                            @endif
-                                        </select>
-                                        @error('hgs_type_id')
-                                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="btn-close">
-                                                </button>{{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            @endif
+                            <hr />
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Hgs numarasını yazınız:</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">Hgs numarasını yazınız:</label>
                                     <input class="form-control" type="number" step="1" wire:model.defer="number"
                                         placeholder="Hgs numarasını yazınız.">
                                     @error('number')
@@ -94,10 +74,8 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Dosya seçiniz:</label>
                                 <div class="col-sm-3">
+                                    <label class="col-form-label">Dosya seçiniz:</label>
                                     <input class="form-control" type="file" wire:model="filename" />
                                     <div wire:loading wire:target="photo">Uploading...</div>
                                     @error('filename')
@@ -107,17 +85,14 @@
                                             </button>{{ $message }}
                                         </div>
                                     @enderror
+                                    @if ($filename)
+                                        <img src="{{ $filename->temporaryUrl() }}" width="100">
+                                    @endif
                                 </div>
                                 
-                                @if ($filename)
-                                    <div class="col-sm-3">
-                                        <img src="{{ $filename->temporaryUrl() }}" width="100">
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Alınma Tarihini Seçiniz:</label>
-                                <div class="col-sm-3">
+                               
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">Alınma Tarihini Seçiniz:</label>
                                     <div wire:ignore>
                                         <input wire:model="buyed_at" class="form-control" name="buyed_at"
                                             id="buyed_at" />
@@ -130,10 +105,8 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">İptal Tarihini Seçiniz:</label>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">İptal Tarihini Seçiniz:</label>
                                     <div wire:ignore>
                                         <input wire:model="canceled_at" class="form-control" name="canceled_at"
                                             id="canceled_at" />

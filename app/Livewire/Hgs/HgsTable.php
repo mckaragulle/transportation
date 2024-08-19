@@ -7,6 +7,7 @@ use App\Models\HgsType;
 use App\Models\HgsTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -24,6 +25,8 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 final class HgsTable extends PowerGridComponent
 {
     use WithExport;
+
+    public ?Collection $hgsCategories;
     public ?int $hgsTypeCategoryId = null;
 
     public string $tableName = 'HgsTable';
@@ -35,6 +38,8 @@ final class HgsTable extends PowerGridComponent
             tableItems: ['columns', 'filters', 'sort'],
             prefix: auth()->user()->id
         );
+
+        $this->hgsCategories = HgsTypeCategory::query()->get(['id', 'name']);
 
         return [
             Exportable::make(fileName: 'hgsler')
@@ -51,37 +56,38 @@ final class HgsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Hgs::query();
+        return Hgs::query()->select(['id', 'number', 'filename', 'buyed_at', 'canceled_at'])->with(['hgs_type_categories:id,name', 'hgs_types']);
     }
 
     public function relationSearch(): array
     {
         return [
-            'hgs_type_category' => [ // relationship on dishes model
-                'name',
-                'slug',
-            ],
-            'hgs_type' => [ // relationship on dishes model
-                'name',
-                'slug',
-            ],
+            // 'hgs_type_category' => [ // relationship on dishes model
+            //     'name',
+            //     'slug',
+            // ],
+            // 'hgs_type' => [ // relationship on dishes model
+            //     'name',
+            //     'slug',
+            // ],
         ];
     }
 
     public function fields(): PowerGridFields
     {
-        return PowerGrid::fields()
-            ->add('id')
-            ->add('hgs_type_category', function ($role) {
-                return $role->hgs_type_category->name ?? "---";
-            })
-            ->add('hgs_type', function ($role) {
-                return $role->hgs_type->name ?? "---";
-            })
-            ->add('number')
-            ->add('filename', function ($row) { 
+        $fields = PowerGrid::fields()
+            ->add('id');
+        foreach ($this->hgsCategories as $c) {
+            $fields->add("hgs_category_{$c->id}", function($row){
+                Log::info($row);
+                return $row->number;
+                // return $c->hgs_type_categories->first()->name;
+            });
+        }
+        $fields->add('number')
+            ->add('filename', function ($row) {
                 $f = null;
-                if(Storage::exists($row->filename)){
+                if (!is_null($row->filename) && Storage::exists($row->filename)) {
                     $f = '<a href="' . Storage::url($row->filename) . '" target="_blank"> <img width="50" src="' . Storage::url($row->filename) . '"></a>';
                 }
                 return $f;
@@ -90,17 +96,23 @@ final class HgsTable extends PowerGridComponent
             ->add('canceled_at')
             ->add('status')
             ->add('created_at');
+
+        return $fields;
     }
 
     public function columns(): array
     {
-        return [
+
+        $column = [
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Hgs Kategorisi', 'hgs_type_category_id'),
-            Column::make('Hgs Grubu', 'hgs_type_id'),
+        ];
+        foreach ($this->hgsCategories as $c) {
+            array_push($column, Column::make("{$c->name}", "hgs_category_{$c->id}"));
+        }
+        
+        $column2 = [
             Column::make('Hgs Numarası', 'number')
                 ->sortable()
                 ->searchable()
@@ -140,27 +152,29 @@ final class HgsTable extends PowerGridComponent
             Column::action('Eylemler')
                 ->visibleInExport(visible: false),
         ];
+
+        return array_merge($column, $column2);
     }
 
     public function filters(): array
     {
-        $id = $this->filters['select']['hgs_type_category_id']??null;
-        $query = HgsType::query();
-        if($id > 0)
-        {
-            $query->where('hgs_type_category_id', $id)->whereNull('hgs_type_id')->orderBy('hgs_type_category_id', 'asc');
-        }
-        return [
-            Filter::select('hgs_type_category_id')
-                ->dataSource(HgsTypeCategory::orderBy('id', 'asc')->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
-            Filter::select('hgs_type_id')
-                ->dataSource($query->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
-            
-        ];
+        // $id = $this->filters['select']['hgs_type_category_id'] ?? null;
+        // $query = HgsType::query();
+        // if ($id > 0) {
+        //     $query->where('hgs_type_category_id', $id)->whereNull('hgs_type_id')->orderBy('hgs_type_category_id', 'asc');
+        // }
+        // return [
+        //     Filter::select('hgs_category')
+        //         ->dataSource(HgsTypeCategory::orderBy('id', 'asc')->get())
+        //         ->optionLabel('name')
+        //         ->optionValue('id'),
+        //     Filter::select('hgs_type')
+        //         ->dataSource($query->get())
+        //         ->optionLabel('name')
+        //         ->optionValue('id'),
+
+        // ];
+        return [];
     }
 
     public function actions(Hgs $row): array
@@ -182,10 +196,10 @@ final class HgsTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update hgses') != 1)
+                ->when(fn($row) => auth()->user()->can('update hgses') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete hgses') != 1)
+                ->when(fn($row) => auth()->user()->can('delete hgses') != 1)
                 ->hide(),
         ];
     }

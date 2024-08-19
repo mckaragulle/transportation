@@ -18,11 +18,9 @@ class HgsCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public null|Collection $hgsTypeCategories;
-    public null|Collection $hgsTypes;
+    public null|array $hgs_type_categories = [];
+    public null|Collection $hgsTypeCategoryDatas;
     public null|Collection $hgses;
-    public null|string|int $hgs_type_category_id = null;
-    public null|string|int $hgs_type_id = null;
     public null|int $number;
     public $filename;
     public null|string $buyed_at;
@@ -35,23 +33,21 @@ class HgsCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'hgs_type_category_id' => ['required', 'exists:hgs_type_categories,id'],
-        'hgs_type_id' => ['required', 'exists:hgs_types,id'],
+        'hgs_type_categories' => ['required', 'array'],
+        'hgs_type_categories.*' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
         'number' => ['required'],
-        'filename' => ['nullable', 'image', 'max:1024'],
+        'filename' => ['nullable', 'image', 'max:4096'],
         'buyed_at' => ['required', 'date'],
         'canceled_at' => ['nullable', 'date'],
     ];
 
     protected $messages = [
-        'hgs_type_category_id.required' => 'Lütfen hgs kategorisini seçiniz.',
-        'hgs_type_category_id.exists' => 'Lütfen geçerli bir hgs kategorisi seçiniz.',
-        'hgs_type_id.required' => 'Lütfen hgs tipi seçiniz.',
-        'hgs_type_id.exists' => 'Lütfen geçerli bir hgs tipi seçiniz.',
+        'hgs_type_categories.required' => 'Lütfen hgs kategorisini seçiniz.',
+        'hgs_type_categories.array' => 'Lütfen geçerli bir hgs kategorisi seçiniz.',
         'number.required' => 'Hgs numarasını yazınız.',
         'filename.image' => 'Hgs için dosya seçiniz yazınız.',
-        'filename.max' => 'Dosya boyutu en fazla 1 mb olmalıdır.',
+        'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 1 mb olmalıdır.',
         'buyed_at.required' => 'Hgs için satın alma tarihi seçiniz yazınız.',
         'buyed_at.date' => 'Hgs için geçerli bir satın alma tarihi seçiniz yazınız.',
@@ -64,10 +60,11 @@ class HgsCreate extends Component
         return view('livewire.hgs.hgs-create');
     }
 
-    public function mount(HgsTypeCategoryService $hgsTypeCategoryService)
+    public function mount(HgsTypeCategory $hgsTypeCategory)
     {
-        $this->hgsTypeCategories = $hgsTypeCategoryService->all(['id', 'name']);
-        $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+        $this->hgsTypeCategoryDatas = $hgsTypeCategory->query()
+        ->with(['hgs_types:id,hgs_type_category_id,hgs_type_id,name', 'hgs_types.hgs_types:id,hgs_type_category_id,hgs_type_id,name'])
+        ->get(['id', 'name']);
     }
 
     /**
@@ -84,9 +81,7 @@ class HgsCreate extends Component
             if(!is_null($this->filename)){
                 $filename = $this->filename->store(path: 'public/photos');
             }
-            $hgsType = $hgsService->create([
-                'hgs_type_category_id' => $this->hgs_type_category_id ?? null,
-                'hgs_type_id' => $this->hgs_type_id ?? null,
+            $hgs = $hgsService->create([
                 'number' => $this->number,
                 'filename' => $filename ?? null,
                 'buyed_at' => $this->buyed_at ?? null,
@@ -94,12 +89,18 @@ class HgsCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
+            foreach($this->hgs_type_categories as $k => $t)
+            {
+                DB::insert('insert into hgs_type_category_hgs_type_hgs (hgs_type_category_id, hgs_type_id, hgs_id) values (?, ?, ?)', [$k, $t, $hgs->id]);
+            }
+
+
             $this->dispatch('pg:eventRefresh-HgsTable');
             $msg = 'Hgs oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
-            $this->reset();
+            $this->reset(['hgs_type_categories', 'number', 'filename', 'buyed_at', 'canceled_at']);
         } catch (\Exception $exception) {
             $error = "Hgs oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
@@ -109,8 +110,8 @@ class HgsCreate extends Component
         }
     }
 
-    public function updatedHgsTypeCategoryId()
+    public function updated()
     {
-        $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+        $this->validate();    
     }
 }
