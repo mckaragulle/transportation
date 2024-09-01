@@ -37,11 +37,11 @@ final class HgsTable extends PowerGridComponent
     {
         $this->showCheckBox();
         $this->persist(
-            tableItems: ['columns', 'sort'],
+            tableItems: ['columns', 'filter', 'sort'],
             prefix: auth()->user()->id
         );
 
-        $this->hgsCategories = HgsTypeCategory::query()->with('hgs_types')->get(['id', 'name']);
+        $this->hgsCategories = HgsTypeCategory::query()->with(['hgs_types'])->get(['id', 'name']);
 
         return [
             Exportable::make(fileName: 'hgsler')
@@ -60,7 +60,7 @@ final class HgsTable extends PowerGridComponent
     {
         return Hgs::query()
             ->select(['id', 'number', 'filename', 'buyed_at', 'canceled_at'])
-            ->with(['hgs_type_categories:id,name', 'hgs_types:id,hgs_type_category_id,name']);
+            ->with(['hgs_type_categories:id,name', 'hgs_types:id,hgs_type_category_id,hgs_type_id,name']);
     }
 
     public function relationSearch(): array
@@ -81,7 +81,13 @@ final class HgsTable extends PowerGridComponent
             ->add('id');
         foreach ($this->hgsCategories as $c) {
             $fields->add("hgs_type_category_{$c->id}", function($row) use($c){
-                return $row->hgs_types->where('hgs_type_category_id', $c->id)->first()->name ?? '---';
+                $hgs_type = $row->hgs_types->where('hgs_type_category_id', $c->id)->first();
+                $name = '';
+                if(isset($hgs_type->hgs_type->name)){
+                    $name = $hgs_type->hgs_type->name . ' -> ';
+                }
+                Log::info($hgs_type);
+                return ($name . $hgs_type->name??'') ?? '---';
             });
         }
         $fields->add('number')

@@ -64,7 +64,7 @@
                                         @if(is_iterable($hgsTypes))
                                         @forelse($hgsTypes as $d)    
                                         @if($d->id != $hgsType->id && $d->id != $hgsType->hgs_type?->id)                                    
-                                        <option value="{{$d->id}}">{{($d->hgs_type?->name ? $d->hgs_type?->name . " -> " : '') . $d->name}}</option>
+                                        <option value="{{$d->id}}" {{$hgs_type_id == $d->id ? 'selected' : ''}}>{{($d->hgs_type?->name ? $d->hgs_type?->name . " -> " : '') . $d->name}}</option>
                                         @endif
                                         @empty
                                         @endforelse

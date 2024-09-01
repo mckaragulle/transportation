@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Durum :</label>
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">

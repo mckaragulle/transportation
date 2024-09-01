@@ -68,7 +68,11 @@ class HgsTypeEdit extends Component
             $this->name = $this->hgsType->name??null;
             $this->status = $this->hgsType->status;
             $this->hgsTypeCategories = $hgsTypeCategoryService->all();
-            $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+            $this->hgsTypes = HgsType::query()
+                ->where(['hgs_type_category_id' => $this->hgs_type_category_id])
+                ->with('hgs_type')
+                ->orderBy('id')
+                ->get();
 
         } else {
             return $this->redirect(route('hgsTypes.list'));

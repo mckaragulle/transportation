@@ -137,7 +137,7 @@ final class HgsTypeTable extends PowerGridComponent
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-hgsTypeCategory', ['id' => $row->id]),
+                ->dispatch('delete-hgsType', ['id' => $row->id]),
         ];
     }
 
