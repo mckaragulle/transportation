@@ -223,80 +223,104 @@
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-                    @if (auth()->user()->hasRole('admin'))
-                        <li>
-                            <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-                                <i class="fas fa-car "></i>
-                                <span class="nav-text">MARKALAR VE MODELLER</span>
-                            </a>
-                            <ul aria-expanded="false" class="mm-collapse left" style="">
-                                @can('read vehicle_brands')
-                                    <li>
-                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                            href="{{ route('vehicle_brands.list') }}"><i
-                                                class="fa fa-car text-danger"></i> <span
-                                                class="ms-2">Markalar</span></a>
-                                    </li>
-                                @endcan
-                                @can('read vehicle_tickets')
-                                    <li>
-                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                            href="{{ route('vehicle_tickets.list') }}"><i
-                                                class="fa fa-ticket text-danger"></i> <span
-                                                class="ms-2">Tipler</span></a>
-                                    </li>
-                                @endcan
-                                @can('read vehicle_models')
-                                    <li>
-                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                            href="{{ route('vehicle_models.list') }}"><i
-                                                class="fas fa-calendar text-danger"></i> <span
-                                                class="ms-2">Modeller</span></a>
-                                    </li>
-                                @endcan
+                    <li>
+                        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                            <i class="fas fa-cogs "></i>
+                            <span class="nav-text">AYARLAR</span>
+                        </a>
+                        <ul aria-expanded="false" class="mm-collapse left" style="">
+                            <li>
+                                <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                                    <i class="fas fa-car "></i>
+                                    <span class="ms-2">ARAÇLAR</span>
+                                </a>
+                                <ul aria-expanded="false" class="mm-collapse left" style="">
 
-                            </ul>
-                        </li>
-                    @endif
-                    @if (auth()->user()->hasRole('admin'))
-                        <li>
-                            <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-                                <i class="fa-solid fa-list-check "></i>
-                                <span class="nav-text">ARAÇ ÖZELLİKLERİ</span>
-                            </a>
-                            <ul aria-expanded="false" class="mm-collapse left" style="">
-                                @can('read vehicle_property_categories')
-                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                        href="{{ route('vehicle_property_categories.list') }}"><i
-                                            class="fas fa-cogs text-danger"></i>
-                                        <span class="ms-2">Özellik Kategorileri</span></a>
-                                @endcan
-                                @can('read vehicle_properties')
-                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                        href="{{ route('vehicle_properties.list') }}"><i
-                                            class="fas fa-cog text-danger"></i>
-                                        <span class="ms-2">Araç Özellikleri</span></a>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endif
+                                @if (auth()->user()->hasRole('admin'))
+                                    <li>
+                                        <a class="has-arrow" href="javascript:void(0);" aria-expanded="false">
+                                            <i class="fas fa-car "></i>
+                                            <span class="ms-2">MARKALAR VE MODELLER</span>
+                                        </a>
+                                        <ul aria-expanded="false" class="mm-collapse left" style="">
+                                            @can('read vehicle_brands')
+                                                <li>
+                                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                        href="{{ route('vehicle_brands.list') }}"><i
+                                                            class="fa fa-car text-danger"></i> <span
+                                                            class="ms-2">Markalar</span></a>
+                                                </li>
+                                            @endcan
+                                            @can('read vehicle_tickets')
+                                                <li>
+                                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                        href="{{ route('vehicle_tickets.list') }}"><i
+                                                            class="fa fa-ticket text-danger"></i> <span
+                                                            class="ms-2">Tipler</span></a>
+                                                </li>
+                                            @endcan
+                                            @can('read vehicle_models')
+                                                <li>
+                                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                        href="{{ route('vehicle_models.list') }}"><i
+                                                            class="fas fa-calendar text-danger"></i> <span
+                                                            class="ms-2">Modeller</span></a>
+                                                </li>
+                                            @endcan
+
+                                        </ul>
+                                    </li>
+                                @endif
+                                @if (auth()->user()->hasRole('admin'))
+                                    <li>
+                                        <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                                            <i class="fa-solid fa-list-check "></i>
+                                            <span class="m2">ARAÇ ÖZELLİKLERİ</span>
+                                        </a>
+                                        <ul aria-expanded="false" class="mm-collapse left" style="">
+                                            @can('read vehicle_property_categories')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('vehicle_property_categories.list') }}"><i
+                                                        class="fas fa-cogs text-danger"></i>
+                                                    <span class="ms-2">Özellik Kategorileri</span></a>
+                                            </li>
+                                            @endcan
+                                            @can('read vehicle_properties')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('vehicle_properties.list') }}"><i
+                                                        class="fas fa-cog text-danger"></i>
+                                                    <span class="ms-2">Araç Özellikleri</span></a>
+                                            </li>
+                                            @endcan
+                                        </ul>
+                                    </li>
+                                @endif
+                                </ul>
+                            </li>
+                    
                     @if (auth()->user()->hasRole('admin'))
                         <li>
                             <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                                 <i class="fa-solid fa-file-invoice"></i>
-                                <span class="nav-text">CARİLER</span>
+                                <span class="ms-2">CARİLER</span>
                             </a>
                             <ul aria-expanded="false" class="mm-collapse left" style="">
                                 @can('read account_type_categories')
+                                <li>
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                                         href="{{ route('account_type_categories.list') }}"><i
                                             class="fas fa-users fas-sm text-danger"></i>
                                         <span class="ms-2">Cari Kategorileri</span></a>
+                                </li>
                                 @endcan
                                 @can('read account_types')
+                                <li>
                                     <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                                         href="{{ route('account_types.list') }}"><i class="fas fa-user text-danger"></i>
                                         <span class="ms-2">Cari Seçenekleri</span></a>
+                                </li>
                                 @endcan
                             </ul>
                         </li>
@@ -305,7 +329,7 @@
                         <li>
                             <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                                 <i class="fas fa-ticket "></i>
-                                <span class="nav-text">HGS</span>
+                                <span class="ms-2">HGS</span>
                             </a>
                             <ul aria-expanded="false" class="mm-collapse left" style="">
                                 @can('read hgs_type_categories')
@@ -334,6 +358,9 @@
                             </ul>
                         </li>
                     @endif
+                        </ul>
+                    </li>
+                    
 
                 </ul>
             </div>

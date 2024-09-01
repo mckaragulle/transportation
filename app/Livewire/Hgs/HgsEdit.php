@@ -4,6 +4,7 @@ namespace App\Livewire\Hgs;
 
 use App\Models\Hgs;
 use App\Models\HgsType;
+use App\Models\HgsTypeCategory;
 use App\Services\HgsService;
 use App\Services\HgsTypeCategoryService;
 use App\Services\HgsTypeService;
@@ -13,19 +14,19 @@ use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class HgsEdit extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public null|Collection $hgsTypeCategories;
-    public null|Collection $hgsTypes;
+    public null|Collection $hgsTypeCategoryDatas;
+    public null|Collection $hgses;
 
     public ?Hgs $hgs = null;
 
-    public null|int $hgs_type_category_id = null;
-    public null|int $hgs_type_id = null;
+    public null|array $hgs_type_categories = [];
+    public null|array $hgs_types = [];
     public null|int $number;
     public $oldfilename;
     public $filename;
@@ -41,20 +42,11 @@ class HgsEdit extends Component
     public function rules()
     {
         return [
-            'hgs_type_category_id' => [
-                'required',
-                'exists:hgs_type_categories,id',
-            ],
-            'hgs_type_id' => [
-                'nullable',
-                'exists:hgs_types,id',
-            ],
-            'status' => [
-                'in:true,false,null,0,1,active,passive,',
-                'nullable',
-            ],
+            'hgs_type_categories' => ['required', 'array'],
+            'hgs_type_categories.*' => ['required'],
+            'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
             'number' => ['required'],
-            'filename' => ['nullable', 'image', 'max:1024'],
+            'filename' => ['nullable', 'image', 'max:4096'],
             'buyed_at' => ['required', 'date'],
             'canceled_at' => ['nullable', 'date'],
         ];
@@ -75,23 +67,22 @@ class HgsEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, HgsTypeCategoryService $hgsTypeCategoryService, HgsTypeService $hgsTypeService, HgsService $hgsService)
+    public function mount($id = null, HgsTypeCategory $hgsTypeCategory, HgsService $hgsService)
     {
         if (!is_null($id)) {
             $this->hgs = $hgsService->findById($id);
-            $this->hgs_type_category_id = $this->hgs->hgs_type_category_id;
-            $this->hgs_type_id = $this->hgs->hgs_type_id??null;
             $this->status = $this->hgs->status;
             $this->number = $this->hgs->number;
-            if(Storage::exists($this->hgs->filename))
-            {
+            if (isset($this->hgs?->filename) && Storage::exists($this->hgs?->filename)) {
                 $this->oldfilename = $this->hgs->filename;
             }
-            $this->buyed_at = $this->hgs->buyed_at??null;
-            $this->canceled_at = $this->hgs->canceled_at??null;
-            $this->hgsCategories = $hgsTypeCategoryService->all();
-            $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
-
+            $this->buyed_at = $this->hgs->buyed_at ?? null;
+            $this->canceled_at = $this->hgs->canceled_at ?? null;
+            //hgs_type_categories
+            $this->hgs_type_categories = $this->hgs_types = $this->hgs->hgs_types->pluck('id', 'hgs_type_category_id')->toArray();
+            $this->hgsTypeCategoryDatas = $hgsTypeCategory->query()
+                ->with(['hgs_types:id,hgs_type_category_id,hgs_type_id,name', 'hgs_types.hgs_types:id,hgs_type_category_id,hgs_type_id,name'])
+                ->get(['id', 'name']);
         } else {
             return $this->redirect(route('hgses.list'));
         }
@@ -112,25 +103,34 @@ class HgsEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->hgs->hgs_type_category_id = $this->hgs_type_category_id;
-            $this->hgs->hgs_type_id = $this->hgs_type_id ?? null;
             $this->hgs->number = $this->number;
-            
+
             $filename = null;
-            if(!is_null($this->filename)){
+            if (!is_null($this->filename)) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->hgs->filename = $filename;
             }
-            
+
             $this->hgs->buyed_at = $this->buyed_at ?? null;
             $this->hgs->canceled_at = $this->canceled_at ?? null;
             $this->hgs->status = $this->status == false ? 0 : 1;
             $this->hgs->save();
-            if(!is_null($this->oldfilename) && Storage::exists($this->oldfilename)){
-                if(!is_null($filename) && Storage::exists($filename))
-                {
+            if (!is_null($this->oldfilename) && Storage::exists($this->oldfilename)) {
+                if (!is_null($filename) && Storage::exists($filename)) {
                     Storage::delete($this->oldfilename);
                 }
+            }
+
+            foreach ($this->hgs_type_categories as $hgs_type_category_id => $hgs_type_id) {
+                DB::table('hgs_type_category_hgs_type_hgs')
+                    ->where(['hgs_type_category_id' => $hgs_type_category_id, 'hgs_id' => $this->hgs->id])
+                    ->delete();
+            }
+            foreach ($this->hgs_type_categories as $hgs_type_category_id => $hgs_type_id) {
+                $data = DB::table('hgs_type_category_hgs_type_hgs')
+                    ->where(['hgs_type_category_id' => $hgs_type_category_id, 'hgs_id' => $this->hgs->id])
+                    ->first();
+                DB::insert('insert into hgs_type_category_hgs_type_hgs (hgs_type_category_id, hgs_type_id, hgs_id) values (?, ?, ?)', [$hgs_type_category_id, $hgs_type_id, $this->hgs->id]);
             }
 
             $msg = 'Hgs güncellendi.';
@@ -148,6 +148,10 @@ class HgsEdit extends Component
 
     public function updatedHgsTypeCategoryId()
     {
-        $this->hgseTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+        $this->hgs_types = HgsType::query()
+            ->where(['hgs_type_category_id' => $this->hgs_type_category_id])
+            ->with('hgs_type')
+            ->orderBy('id')
+            ->get(['id', 'hgs_type_id', 'name']);
     }
 }

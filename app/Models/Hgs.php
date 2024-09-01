@@ -55,7 +55,6 @@ class Hgs extends Model
         return $this->belongsTo(HgsType::class, 'hgs_type_category_hgs_type_hgs');
     }
 
-
     public function hgs_type_categories(): BelongsToMany
     {
         return $this->belongsToMany(HgsTypeCategory::class, 'hgs_type_category_hgs_type_hgs');

@@ -30,7 +30,7 @@
                                     </div>@enderror
                                 </div>
                             </div>
-                            @if(auth()->user()->can('update vehiclePropertyCategories'))
+                            @if(auth()->user()->can('update vehicle_property_categories'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Araba Özellik Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">

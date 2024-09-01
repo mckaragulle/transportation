@@ -33,31 +33,34 @@
                             </div>
                             @if (auth()->user()->can('update hgs_type_categories'))
                                 <div class="mb-3 row">
-                                    @foreach ($hgsTypeCategoryDatas as $hgsTypeCaregory)
-                                    <div class="col-lg-2 col-sm-12">
-                                        <label class="col-form-label">{{$hgsTypeCaregory->name}} SEÇİNİZ :</label>
-                                        <select wire:model.lazy="hgs_type_categories.{{$hgsTypeCaregory->id}}" id="hgs_type_category_id{{$hgsTypeCaregory->id}}"
-                                            class="form-select form-select-lg">
-                                            <option value="">{{$hgsTypeCaregory->name}} SEÇİNİZ</option>
-                                            @if (is_iterable($hgsTypeCaregory->hgs_types))
-                                                @forelse($hgsTypeCaregory->hgs_types as $hgsType)
-                                                @if(count($hgsType->hgs_types) == 0)
-                                                    <option value="{{ $hgsType->id }}">{{ isset($hgsType->hgs_type->name) ? $hgsType->hgs_type->name . " => " : ''}}{{ $hgsType->name }}</option>
+                                    @foreach ($hgsTypeCategoryDatas as $hgsTypeCategory)
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label class="col-form-label">{{ $hgsTypeCategory->name }} SEÇİNİZ :</label>
+                                            <select wire:model.lazy="hgs_type_categories.{{ $hgsTypeCategory->id }}"
+                                                id="hgs_type_category_id{{ $hgsTypeCategory->id }}"
+                                                class="form-select form-select-lg">
+                                                <option value="">{{ $hgsTypeCategory->name }} SEÇİNİZ</option>
+                                                @if (is_iterable($hgsTypeCategory->hgs_types))
+                                                    @forelse($hgsTypeCategory->hgs_types as $hgsType)
+                                                        @if (count($hgsType->hgs_types) == 0)
+                                                            <option value="{{ $hgsType->id }}">
+                                                                {{ isset($hgsType->hgs_type->name) ? $hgsType->hgs_type->name . ' => ' : '' }}{{ $hgsType->name }}
+                                                            </option>
+                                                        @endif
+                                                    @empty
+                                                    @endforelse
                                                 @endif
-                                                @empty
-                                                @endforelse
-                                            @endif
-                                        </select>
-                                        @error('hgs_type_categories')
-                                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="btn-close">
-                                                </button>{{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
+                                            </select>
+                                            @error('hgs_type_categories')
+                                                <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="btn-close">
+                                                    </button>{{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
                                     @endforeach
-                                    
+
                                 </div>
                             @endif
                             <hr />
@@ -89,8 +92,8 @@
                                         <img src="{{ $filename->temporaryUrl() }}" width="100">
                                     @endif
                                 </div>
-                                
-                               
+
+
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Alınma Tarihini Seçiniz:</label>
                                     <div wire:ignore>

@@ -2,15 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Enum\StatusEnum;
 use App\Services\AdminService;
 use App\Services\DealerService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Artisan;
 
 class AppInstall extends Command
 {

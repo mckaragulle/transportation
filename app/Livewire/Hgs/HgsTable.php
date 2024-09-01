@@ -28,6 +28,8 @@ final class HgsTable extends PowerGridComponent
 
     public ?Collection $hgsCategories;
     public ?int $hgsTypeCategoryId = null;
+    
+    public bool $multiSort = true;
 
     public string $tableName = 'HgsTable';
 
@@ -35,11 +37,11 @@ final class HgsTable extends PowerGridComponent
     {
         $this->showCheckBox();
         $this->persist(
-            tableItems: ['columns', 'filters', 'sort'],
+            tableItems: ['columns', 'sort'],
             prefix: auth()->user()->id
         );
 
-        $this->hgsCategories = HgsTypeCategory::query()->get(['id', 'name']);
+        $this->hgsCategories = HgsTypeCategory::query()->with('hgs_types')->get(['id', 'name']);
 
         return [
             Exportable::make(fileName: 'hgsler')
@@ -56,20 +58,20 @@ final class HgsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Hgs::query()->select(['id', 'number', 'filename', 'buyed_at', 'canceled_at'])->with(['hgs_type_categories:id,name', 'hgs_types']);
+        return Hgs::query()
+            ->select(['id', 'number', 'filename', 'buyed_at', 'canceled_at'])
+            ->with(['hgs_type_categories:id,name', 'hgs_types:id,hgs_type_category_id,name']);
     }
 
     public function relationSearch(): array
     {
         return [
-            // 'hgs_type_category' => [ // relationship on dishes model
-            //     'name',
-            //     'slug',
-            // ],
-            // 'hgs_type' => [ // relationship on dishes model
-            //     'name',
-            //     'slug',
-            // ],
+            'hgs_type_categories' => [
+                'name',
+            ],
+            'hgs_types' => [
+                'name',
+            ],
         ];
     }
 
@@ -78,10 +80,8 @@ final class HgsTable extends PowerGridComponent
         $fields = PowerGrid::fields()
             ->add('id');
         foreach ($this->hgsCategories as $c) {
-            $fields->add("hgs_category_{$c->id}", function($row){
-                Log::info($row);
-                return $row->number;
-                // return $c->hgs_type_categories->first()->name;
+            $fields->add("hgs_type_category_{$c->id}", function($row) use($c){
+                return $row->hgs_types->where('hgs_type_category_id', $c->id)->first()->name ?? '---';
             });
         }
         $fields->add('number')
@@ -102,16 +102,14 @@ final class HgsTable extends PowerGridComponent
 
     public function columns(): array
     {
-
         $column = [
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
         ];
         foreach ($this->hgsCategories as $c) {
-            array_push($column, Column::make("{$c->name}", "hgs_category_{$c->id}"));
+            array_push($column, Column::make("{$c->name}", "hgs_type_category_{$c->id}"));
         }
-        
         $column2 = [
             Column::make('Hgs Numarası', 'number')
                 ->sortable()
@@ -158,23 +156,18 @@ final class HgsTable extends PowerGridComponent
 
     public function filters(): array
     {
-        // $id = $this->filters['select']['hgs_type_category_id'] ?? null;
-        // $query = HgsType::query();
-        // if ($id > 0) {
-        //     $query->where('hgs_type_category_id', $id)->whereNull('hgs_type_id')->orderBy('hgs_type_category_id', 'asc');
-        // }
-        // return [
-        //     Filter::select('hgs_category')
-        //         ->dataSource(HgsTypeCategory::orderBy('id', 'asc')->get())
-        //         ->optionLabel('name')
-        //         ->optionValue('id'),
-        //     Filter::select('hgs_type')
-        //         ->dataSource($query->get())
-        //         ->optionLabel('name')
-        //         ->optionValue('id'),
+        $filters = [];
 
-        // ];
-        return [];
+        foreach ($this->hgsCategories as $c) 
+        {
+            //WORKING
+            $filter =  Filter::inputText("hgs_type_category_{$c->id}")
+                ->filterRelation('hgs_types', 'name');
+            
+            array_push($filters,  $filter);
+        }
+        
+        return $filters;
     }
 
     public function actions(Hgs $row): array
