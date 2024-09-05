@@ -29,7 +29,7 @@ class Hgs extends Model
         ];
     }
 
-    protected $fillable = ["hgs_type_category_id","hgs_type_id", "name", "slug", "number", "filename", "status", "buyed_at", "canceled_at",
+    protected $fillable = ["name", "slug", "number", "filename", "status", "buyed_at", "canceled_at",
 ];
 
 

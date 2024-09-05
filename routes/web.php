@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Account\AccountEdit;
+use App\Livewire\Account\Accounts;
 use App\Livewire\Hgs\HgsEdit;
 use App\Livewire\Hgs\Hgses;
 use Illuminate\Support\Facades\Route;
@@ -89,8 +91,11 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/cari-kategorileri', AccountTypeCategories::class)->name('account_type_categories.list')->middleware('can:read account_type_categories');
     Route::get('/cari-kategorisi/{id}/duzenle', AccountTypeCategoryEdit::class)->name('account_type_categories.edit')->middleware('can:update account_type_categories');
 
-    Route::get('/cari', AccountTypes::class)->name('account_types.list')->middleware('can:read account_types');
-    Route::get('/cari/{id}/duzenle', AccountTypeEdit::class)->name('account_types.edit')->middleware('can:update account_types');
+    Route::get('/cari-tipleri', AccountTypes::class)->name('account_types.list')->middleware('can:read account_types');
+    Route::get('/cari-tipi/{id}/duzenle', AccountTypeEdit::class)->name('account_types.edit')->middleware('can:update account_types');
+
+    Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
+    Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
 
     Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
     Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');

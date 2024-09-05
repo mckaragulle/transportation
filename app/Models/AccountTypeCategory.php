@@ -60,6 +60,6 @@ class AccountTypeCategory extends Model
 
     public function account_types(): HasMany
     {
-        return $this->hasMany(VehicleProperty::class);
+        return $this->hasMany(AccountType::class);
     }
 }

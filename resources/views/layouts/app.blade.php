@@ -14,7 +14,15 @@
 </head>
 <body>
 {{ $slot }}
-
+@if ($errors->any())
+<div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+    </button>
+    @foreach ($errors->all() as $key => $error)
+        {{ $error }}<br />
+    @endforeach
+</div>
+@endif
 <script src="{{asset('xhtml/js/jquery.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{asset('xhtml/js/powergrid.js')}}"></script>

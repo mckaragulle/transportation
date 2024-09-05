@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Role;
 
+use App\Services\PermissionService;
 use App\Services\RoleService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
+use Spatie\Permission\Models\Permission;
 
 class RoleCreate extends Component
 {
@@ -34,11 +36,11 @@ class RoleCreate extends Component
         'name.required' => 'Rol adını yazınız.',
     ];
 
-    public function mount(RoleService $roleService)
+    public function mount(RoleService $roleService, Permission $permission)
     {
         $this->roles = $roleService->all();
-        $role = $roleService->findById(1);
-        $this->permissions = $role->permissions;
+        // $role = $roleService->findById(1);
+        $this->permissions = $permission->orderBy('id')->get();
     }
 
     public function render()
