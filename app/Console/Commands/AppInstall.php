@@ -85,6 +85,10 @@ class AppInstall extends Command
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
                 'create hgses', 'read hgses', 'update hgses', 'delete hgses',
+                
+                'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
+                'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
+                'create licences', 'read licences', 'update licences', 'delete licences',
 
 
 

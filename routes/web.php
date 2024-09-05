@@ -45,7 +45,12 @@ use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
 
 use App\Livewire\HgsType\HgsTypes;
 use App\Livewire\HgsType\HgsTypeEdit;
-
+use App\Livewire\Licence\LicenceEdit;
+use App\Livewire\Licence\Licences;
+use App\Livewire\LicenceType\LicenceTypeEdit;
+use App\Livewire\LicenceType\LicenceTypes;
+use App\Livewire\LicenceTypeCategory\LicenceTypeCategories;
+use App\Livewire\LicenceTypeCategory\LicenceTypeCategoryEdit;
 use App\Livewire\Signin;
 
 
@@ -105,6 +110,15 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/hgsler', Hgses::class)->name('hgses.list')->middleware('can:read hgses');
     Route::get('/hgs/{id}/duzenle', HgsEdit::class)->name('hgses.edit')->middleware('can:update hgses');
+
+    Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
+    Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');
+
+    Route::get('/surucu-belgesi-tipleri', LicenceTypes::class)->name('licence_types.list')->middleware('can:read licence_types');
+    Route::get('/surucu-belgesi-tipi/{id}/duzenle', LicenceTypeEdit::class)->name('licence_types.edit')->middleware('can:update licence_types');
+
+    Route::get('/surucu-belgeleri', Licences::class)->name('licences.list')->middleware('can:read licences');
+    Route::get('/surucu-belgesi/{id}/duzenle', LicenceEdit::class)->name('licences.edit')->middleware('can:update licences');
     
 });
 
