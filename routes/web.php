@@ -52,7 +52,11 @@ use App\Livewire\LicenceType\LicenceTypes;
 use App\Livewire\LicenceTypeCategory\LicenceTypeCategories;
 use App\Livewire\LicenceTypeCategory\LicenceTypeCategoryEdit;
 use App\Livewire\Signin;
-
+use App\Livewire\Staff\StaffEdit;
+use App\Livewire\Staff\Staffs;
+use App\Livewire\StaffType\StaffTypes;
+use App\Livewire\StaffTypeCategory\StaffTypeCategories;
+use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
 
 Route::get('/login', Signin::class)->name('login');
 Route::get('/', Signin::class);
@@ -60,8 +64,8 @@ Route::get('/', Signin::class);
 Route::middleware('auth:admin,dealer,web')->prefix('dashboard')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
-    Route::get('/personeller', Users::class)->name('users.list')->middleware('can:read users');
-    Route::get('/personel/{id}/duzenle', UserEdit::class)->name('users.edit')->middleware('can:update users');
+    Route::get('/elemanlar', Users::class)->name('users.list')->middleware('can:read users');
+    Route::get('/eleman/{id}/duzenle', UserEdit::class)->name('users.edit')->middleware('can:update users');
 });
 
 Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
@@ -119,7 +123,15 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/surucu-belgeleri', Licences::class)->name('licences.list')->middleware('can:read licences');
     Route::get('/surucu-belgesi/{id}/duzenle', LicenceEdit::class)->name('licences.edit')->middleware('can:update licences');
-    
+
+    Route::get('/personel-kategorileri', StaffTypeCategories::class)->name('staff_type_categories.list')->middleware('can:read staff_type_categories');
+    Route::get('/personel-kategorisi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_type_categories.edit')->middleware('can:update staff_type_categories');
+
+    Route::get('/personel-tipleri', StaffTypes::class)->name('staff_types.list')->middleware('can:read staff_types');
+    Route::get('/personel-tipi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_types.edit')->middleware('can:update staff_types');
+
+    Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
+    Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');
 });
 
 //\Illuminate\Support\Facades\Auth::routes();

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountTypeCategory;
+namespace App\Livewire\StaffTypeCategory;
 
-use App\Models\AccountTypeCategory;
+use App\Models\StaffTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -17,11 +17,11 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AccountTypeCategoryTable extends PowerGridComponent
+final class StaffTypeCategoryTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'AccountTypeCategoryTable';
+    public string $tableName = 'StaffTypeCategoryTable';
 
     public function setUp(): array
     {
@@ -32,7 +32,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'cari-kategorileri')
+            Exportable::make(fileName: 'personel-kategorileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -46,7 +46,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return AccountTypeCategory::query();
+        return StaffTypeCategory::query();
     }
 
     public function relationSearch(): array
@@ -75,13 +75,13 @@ final class AccountTypeCategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update account_type_categories'),
+                    hasPermission: auth()->user()->can('update staff_type_categories'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update account_type_categories'),
+                    auth()->user()->can('update staff_type_categories'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -100,18 +100,18 @@ final class AccountTypeCategoryTable extends PowerGridComponent
         return [];
     }
 
-    public function actions(AccountTypeCategory $row): array
+    public function actions(StaffTypeCategory $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_type_categories.edit', ['id' => $row->id])
+                ->route('staff_type_categories.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-accountTypeCategory', ['id' => $row->id]),
+                ->dispatch('delete-staffTypeCategory', ['id' => $row->id]),
         ];
     }
 
@@ -119,24 +119,24 @@ final class AccountTypeCategoryTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update account_type_categories') != 1)
+                ->when(fn ($row) => auth()->user()->can('update staff_type_categories') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete account_type_categories') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete staff_type_categories') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountTypeCategory::query()->find($id)->update([
+        StaffTypeCategory::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountTypeCategory::query()->find($id)->update([
+        StaffTypeCategory::query()->find($id)->update([
             $field => e($value),
         ]);
     }

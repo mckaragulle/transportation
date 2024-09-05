@@ -89,6 +89,10 @@ class AppInstall extends Command
                 'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
                 'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
                 'create licences', 'read licences', 'update licences', 'delete licences',
+                
+                'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
+                'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
+                'create staffs', 'read staffs', 'update staffs', 'delete staffs',
 
 
 

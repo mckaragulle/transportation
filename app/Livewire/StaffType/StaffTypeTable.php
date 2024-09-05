@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Livewire\AccountTypeCategory;
+namespace App\Livewire\StaffType;
 
-use App\Models\AccountTypeCategory;
+use App\Models\StaffType;
+use App\Models\StaffTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -17,11 +19,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AccountTypeCategoryTable extends PowerGridComponent
+final class StaffTypeTable extends PowerGridComponent
 {
     use WithExport;
+    public ?int $staffTypeCategoryId = null;
 
-    public string $tableName = 'AccountTypeCategoryTable';
+    public string $tableName = 'StaffTypeTable';
 
     public function setUp(): array
     {
@@ -32,7 +35,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'cari-kategorileri')
+            Exportable::make(fileName: 'personel-secenekleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -46,7 +49,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return AccountTypeCategory::query();
+        return StaffType::query();
     }
 
     public function relationSearch(): array
@@ -58,8 +61,13 @@ final class AccountTypeCategoryTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('staff_type_category_id', function ($role) {
+                return $role->staff_type_category->name ?? "---";
+            })
+            ->add('staff_type_id', function ($role) {
+                return $role->staff_type->name ?? "---";
+            })
             ->add('name')
-            ->add('slug')
             ->add('status')
             ->add('created_at');
     }
@@ -71,17 +79,19 @@ final class AccountTypeCategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Adı', 'name')
+            Column::make('Personel Kategorisi', 'staff_type_category_id'),
+            Column::make('Personel Grubu', 'staff_type_id'),
+            Column::make('Personel', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update account_type_categories'),
+                    hasPermission: auth()->user()->can('update staff_types'),
                     fallback: '- empty -'
                 ),
 
             Column::make('Durum', 'status')
                 ->toggleable(
-                    auth()->user()->can('update account_type_categories'),
+                    auth()->user()->can('update staff_types'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -97,21 +107,37 @@ final class AccountTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        $id = $this->filters['select']['staff_type_category_id']??null;
+        $query = StaffType::query();
+        if($id > 0)
+        {
+            $query->where('staff_type_category_id', $id)->whereNull('staff_type_id')->orderBy('staff_type_category_id', 'asc');
+        }
+        return [
+            Filter::select('staff_type_category_id')
+                ->dataSource(StaffTypeCategory::orderBy('id', 'asc')->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
+            Filter::select('staff_type_id')
+                ->dataSource($query->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
+            
+        ];
     }
 
-    public function actions(AccountTypeCategory $row): array
+    public function actions(StaffType $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_type_categories.edit', ['id' => $row->id])
+                ->route('staff_types.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-accountTypeCategory', ['id' => $row->id]),
+                ->dispatch('delete-staffType', ['id' => $row->id]),
         ];
     }
 
@@ -119,24 +145,24 @@ final class AccountTypeCategoryTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update account_type_categories') != 1)
+                ->when(fn ($row) => auth()->user()->can('update staff_types') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete account_type_categories') != 1)
+                ->when(fn ($row) => auth()->user()->can('delete staff_types') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountTypeCategory::query()->find($id)->update([
+        StaffType::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountTypeCategory::query()->find($id)->update([
+        StaffType::query()->find($id)->update([
             $field => e($value),
         ]);
     }

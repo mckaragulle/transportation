@@ -403,6 +403,40 @@
                                     </ul>
                                 </li>
                             @endif
+                            @if (auth()->user()->hasRole('admin'))
+                                <li>
+                                    <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                                        <i class="fa-solid fa-users-gear "></i>
+                                        <span class="ms-2">Personel</span>
+                                    </a>
+                                    <ul aria-expanded="false" class="mm-collapse left" style="">
+                                        @can('read staff_type_categories')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('staff_type_categories.list') }}"><i
+                                                        class="fa-solid fa-users-gear text-danger"></i> <span
+                                                        class="ms-2">Kategoriler</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read staff_types')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('staff_types.list') }}"><i
+                                                        class="fa-solid fa-users-gear text-danger"></i>
+                                                    <span class="ms-2">Seçenekler</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read staffs')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('staffs.list') }}"><i
+                                                        class="fa-solid fa-users-gear text-danger"></i>
+                                                    <span class="ms-2">Personeller</span></a>
+                                            </li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endif
                         </ul>
                     </li>
 
