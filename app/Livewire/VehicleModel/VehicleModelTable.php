@@ -105,7 +105,7 @@ final class VehicleModelTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update vehicle_models'),
                     fallback: '- empty -'
                 ),
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update vehicle_models'),
                     'Aktif',

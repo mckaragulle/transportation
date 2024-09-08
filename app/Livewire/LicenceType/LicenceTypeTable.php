@@ -89,7 +89,7 @@ final class LicenceTypeTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
 
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update licence_types'),
                     'Aktif',

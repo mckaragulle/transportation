@@ -89,7 +89,7 @@ final class AdminTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update admins'),
                     fallback: '- empty -'
                 ),
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update admins'),
                     'Aktif',

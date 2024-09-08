@@ -97,7 +97,7 @@ final class DealerTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
 
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update dealers'),
                     'Aktif',

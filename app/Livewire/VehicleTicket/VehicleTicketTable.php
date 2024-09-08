@@ -83,7 +83,7 @@ final class VehicleTicketTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update vehicle_tickets'),
                     fallback: '- empty -'
                 ),
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update vehicle_tickets'),
                     'Aktif',

@@ -141,7 +141,7 @@ final class AccountTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     hasPermission: auth()->user()->can('update accounts'),
                     trueLabel: 'Aktif',

@@ -439,6 +439,14 @@
                             @endif
                         </ul>
                     </li>
+                    @can('read fineds')
+                        <li>
+                            <a href="{{ route('fineds.list') }}" aria-expanded="false">
+                                <i class="fas  fa-ticket"></i>
+                                <span class="nav-text">ARAÇ CEZALARI</span>
+                            </a>
+                        </li>
+                    @endcan
 
 
                 </ul>

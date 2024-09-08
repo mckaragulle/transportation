@@ -39,7 +39,8 @@ use App\Livewire\AccountTypeCategory\AccountTypeCategoryEdit;
 
 use App\Livewire\AccountType\AccountTypes;
 use App\Livewire\AccountType\AccountTypeEdit;
-
+use App\Livewire\Fined\FinedEdit;
+use App\Livewire\Fined\Fineds;
 use App\Livewire\HgsTypeCategory\HgsTypeCategories;
 use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
 
@@ -133,6 +134,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
     Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');
+
+    Route::get('/arac-cezalari', Fineds::class)->name('fineds.list')->middleware('can:read fineds');
+    Route::get('/arac-cezasi/{id}/duzenle', FinedEdit::class)->name('fineds.edit')->middleware('can:update fineds');
 });
 
 //\Illuminate\Support\Facades\Auth::routes();

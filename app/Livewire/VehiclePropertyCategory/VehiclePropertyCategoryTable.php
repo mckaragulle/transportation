@@ -79,7 +79,7 @@ final class VehiclePropertyCategoryTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
 
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update vehicle_property_categories'),
                     'Aktif',

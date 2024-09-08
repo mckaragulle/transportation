@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Livewire\HgsTypeCategory;
+namespace App\Livewire\Fined;
 
-use App\Models\HgsTypeCategory;
+use App\Models\Fined;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -17,11 +16,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class HgsTypeCategoryTable extends PowerGridComponent
+final class FinedTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'HgsTypeCategoryTable';
+    public string $tableName = 'FinedTable';
+
+    public bool $showFilters = true;
 
     public function setUp(): array
     {
@@ -32,7 +33,7 @@ final class HgsTypeCategoryTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'cari-kategorileri')
+            Exportable::make('arac-cezalari')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -46,7 +47,7 @@ final class HgsTypeCategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return HgsTypeCategory::query();
+        return Fined::query();
     }
 
     public function relationSearch(): array
@@ -58,8 +59,8 @@ final class HgsTypeCategoryTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('name')
-            ->add('slug')
+            ->add('number')
+            ->add('detail')
             ->add('status')
             ->add('created_at');
     }
@@ -71,17 +72,23 @@ final class HgsTypeCategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Adı', 'name')
+            Column::make('CEZA NUMARASI', 'number')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update hgs_type_categories'),
+                    hasPermission: auth()->user()->can('update fineds'),
                     fallback: '- empty -'
                 ),
-
+            Column::make('AÇIKLAMA', 'detail')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update fineds'),
+                    fallback: '- empty -'
+                ),
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    auth()->user()->can('update hgs_type_categories'),
+                    auth()->user()->can('update fineds'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -97,46 +104,35 @@ final class HgsTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+        ];
     }
 
-    public function actions(HgsTypeCategory $row): array
+    public function actions(Fined $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('hgs_type_categories.edit', ['id' => $row->id])
+                ->route('fineds.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-hgsTypeCategory', ['id' => $row->id]),
-        ];
-    }
-
-    public function actionRules($row): array
-    {
-        return [
-            Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update hgs_type_categories') != 1)
-                ->hide(),
-            Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete hgs_type_categories') != 1)
-                ->hide(),
+                ->dispatch('delete-fined', ['id' => $row->id]),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        HgsTypeCategory::query()->find($id)->update([
+        Fined::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        HgsTypeCategory::query()->find($id)->update([
+        Fined::query()->find($id)->update([
             $field => e($value),
         ]);
     }

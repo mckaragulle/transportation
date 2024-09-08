@@ -93,6 +93,7 @@ class AppInstall extends Command
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
                 'create staffs', 'read staffs', 'update staffs', 'delete staffs',
+                'create finedsfineds', 'read fineds', 'update fineds', 'delete fineds',
 
 
 

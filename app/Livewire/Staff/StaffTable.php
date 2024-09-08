@@ -173,7 +173,7 @@ final class StaffTable extends PowerGridComponent
             Column::make('DOSYA', 'filename')
                 ->sortable()
                 ->searchable(),
-            Column::make('Durum', 'status')
+            Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update staffs'),
                     'Aktif',
