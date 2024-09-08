@@ -59,8 +59,8 @@ final class AdminTable extends PowerGridComponent
             ->add('name')
             ->add('email')
             ->add('status')
-            ->add('role_name', function($role){
-                return $role->roles()->first()->name??null;
+            ->add('role_name', function ($role) {
+                return $role->roles()->first()->name ?? null;
             })
             ->add('created_at');
     }
@@ -96,27 +96,26 @@ final class AdminTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
-//    #[\Livewire\Attributes\On('edit')]
-//    public function edit($rowId, AdminService $adminService): void
-//    {
-//
-//        $this->js('alert(' . $rowId . ')');
-//    }
+    //    #[\Livewire\Attributes\On('edit')]
+    //    public function edit($rowId, AdminService $adminService): void
+    //    {
+    //
+    //        $this->js('alert(' . $rowId . ')');
+    //    }
 
     public function actions(Admin $row): array
     {
@@ -148,7 +147,7 @@ final class AdminTable extends PowerGridComponent
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
         Admin::query()->find($id)->update([
-            $field => e($value)?1:0,
+            $field => e($value) ? 1 : 0,
         ]);
     }
 

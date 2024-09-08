@@ -28,7 +28,7 @@ final class StaffTable extends PowerGridComponent
 
     public ?Collection $staffCategories;
     public ?int $staffTypeCategoryId = null;
-    
+
     public bool $multiSort = true;
 
     public string $tableName = 'StaffTable';
@@ -59,7 +59,6 @@ final class StaffTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Staff::query()
-            ->select(['id', 'number', 'filename', 'buyed_at', 'canceled_at', 'status'])
             ->with(['staff_type_categories:id,name', 'staff_types:id,staff_type_category_id,staff_type_id,name']);
     }
 
@@ -80,14 +79,14 @@ final class StaffTable extends PowerGridComponent
         $fields = PowerGrid::fields()
             ->add('id');
         foreach ($this->staffCategories as $c) {
-            $fields->add("staff_type_category_{$c->id}", function($row) use($c){
+            $fields->add("staff_type_category_{$c->id}", function ($row) use ($c) {
                 $staff_type = $row->staff_types->where('staff_type_category_id', $c->id)->first();
                 $name = '';
-                if(isset($staff_type->staff_type->name)){
+                if (isset($staff_type->staff_type->name)) {
                     $name = $staff_type->staff_type->name . ' -> ';
                 }
                 Log::info($staff_type);
-                return ($name . $staff_type->name??'') ?? '---';
+                return ($name . $staff_type->name ?? '') ?? '---';
             });
         }
         $fields->add('number')
@@ -98,8 +97,13 @@ final class StaffTable extends PowerGridComponent
                 }
                 return $f;
             })
-            ->add('buyed_at')
-            ->add('canceled_at')
+            ->add('id_number')
+            ->add('name')
+            ->add('surname')
+            ->add('phone1')
+            ->add('phone2')
+            ->add('email')
+            ->add('detail')
             ->add('status')
             ->add('created_at');
 
@@ -117,31 +121,58 @@ final class StaffTable extends PowerGridComponent
             array_push($column, Column::make("{$c->name}", "staff_type_category_{$c->id}"));
         }
         $column2 = [
-            Column::make('Staff Numarası', 'number')
+            Column::make('TC KİMLİK NUMARASI', 'id_number')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
                     hasPermission: auth()->user()->can('update staffs'),
                     fallback: '- empty -'
                 ),
-            Column::make('Dosya', 'filename')
+            Column::make('ADI', 'name')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('SOYADI', 'surname')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('1. TELEFON', 'phone1')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('2. TELEFON', 'phone2')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('E-POSTA', 'email')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('AÇIKLAMA', 'detail')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staffs'),
+                    fallback: '- empty -'
+                ),
+            Column::make('DOSYA', 'filename')
                 ->sortable()
                 ->searchable(),
-            Column::make('Alınma Tarihi', 'buyed_at')
-                ->sortable()
-                ->searchable()
-                ->editOnClick(
-                    hasPermission: auth()->user()->can('update staffs'),
-                    fallback: '- empty -'
-                ),
-            Column::make('İptal Edilme Tarihi', 'canceled_at')
-                ->sortable()
-                ->searchable()
-                ->editOnClick(
-                    hasPermission: auth()->user()->can('update staffs'),
-                    fallback: '- empty -'
-                ),
-
             Column::make('Durum', 'status')
                 ->toggleable(
                     auth()->user()->can('update staffs'),
@@ -149,11 +180,11 @@ final class StaffTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
 
@@ -164,15 +195,14 @@ final class StaffTable extends PowerGridComponent
     {
         $filters = [];
 
-        foreach ($this->staffCategories as $c) 
-        {
+        foreach ($this->staffCategories as $c) {
             //WORKING
             $filter =  Filter::inputText("staff_type_category_{$c->id}")
                 ->filterRelation('staff_types', 'name');
-            
+
             array_push($filters,  $filter);
         }
-        
+
         return $filters;
     }
 
@@ -205,14 +235,14 @@ final class StaffTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        StaffType::query()->find($id)->update([
+        Staff::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        StaffType::query()->find($id)->update([
+        Staff::query()->find($id)->update([
             $field => e($value),
         ]);
     }

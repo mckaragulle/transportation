@@ -54,6 +54,7 @@ use App\Livewire\LicenceTypeCategory\LicenceTypeCategoryEdit;
 use App\Livewire\Signin;
 use App\Livewire\Staff\StaffEdit;
 use App\Livewire\Staff\Staffs;
+use App\Livewire\StaffType\StaffTypeEdit;
 use App\Livewire\StaffType\StaffTypes;
 use App\Livewire\StaffTypeCategory\StaffTypeCategories;
 use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
@@ -128,7 +129,7 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/personel-kategorisi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_type_categories.edit')->middleware('can:update staff_type_categories');
 
     Route::get('/personel-tipleri', StaffTypes::class)->name('staff_types.list')->middleware('can:read staff_types');
-    Route::get('/personel-tipi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_types.edit')->middleware('can:update staff_types');
+    Route::get('/personel-tipi/{id}/duzenle', StaffTypeEdit::class)->name('staff_types.edit')->middleware('can:update staff_types');
 
     Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
     Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');

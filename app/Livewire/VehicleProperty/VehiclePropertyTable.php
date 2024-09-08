@@ -97,21 +97,20 @@ final class VehiclePropertyTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        $id = $this->filters['select']['vehicle_property_category_id']??null;
+        $id = $this->filters['select']['vehicle_property_category_id'] ?? null;
         $query = VehicleProperty::query();
-        if($id > 0)
-        {
+        if ($id > 0) {
             $query->where('vehicle_property_category_id', $id)->whereNull('vehicle_property_id');
         }
         return [
@@ -123,7 +122,7 @@ final class VehiclePropertyTable extends PowerGridComponent
                 ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            
+
         ];
     }
 
@@ -146,10 +145,10 @@ final class VehiclePropertyTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update vehicle_properties') != 1)
+                ->when(fn($row) => auth()->user()->can('update vehicle_properties') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete vehicle_properties') != 1)
+                ->when(fn($row) => auth()->user()->can('delete vehicle_properties') != 1)
                 ->hide(),
         ];
     }

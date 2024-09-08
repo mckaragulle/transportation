@@ -112,21 +112,20 @@ final class VehicleModelTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        $id = $this->filters['select']['vehicle_brand_id']??null;
+        $id = $this->filters['select']['vehicle_brand_id'] ?? null;
         $query = VehicleTicket::query();
-        if($id > 0)
-        {
+        if ($id > 0) {
             $query->where('vehicle_brand_id', $id);
         }
         return [

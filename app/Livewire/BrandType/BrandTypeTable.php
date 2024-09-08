@@ -58,8 +58,8 @@ final class BrandTypeTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('brand_id', function($role){
-                return $role->brand->name??null;
+            ->add('brand_id', function ($role) {
+                return $role->brand->name ?? null;
             })
             ->add('name')
             ->add('slug')
@@ -91,19 +91,18 @@ final class BrandTypeTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public function actions(BrandType $row): array
@@ -136,7 +135,7 @@ final class BrandTypeTable extends PowerGridComponent
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
         BrandType::query()->find($id)->update([
-            $field => e($value)?1:0,
+            $field => e($value) ? 1 : 0,
         ]);
     }
 

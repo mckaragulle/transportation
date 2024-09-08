@@ -58,7 +58,7 @@ class StaffTypeCategory extends Model
         );
     }
 
-    public function licence_types(): HasMany
+    public function staff_types(): HasMany
     {
         return $this->hasMany(StaffType::class);
     }

@@ -28,7 +28,7 @@ final class HgsTable extends PowerGridComponent
 
     public ?Collection $hgsCategories;
     public ?int $hgsTypeCategoryId = null;
-    
+
     public bool $multiSort = true;
 
     public string $tableName = 'HgsTable';
@@ -80,14 +80,14 @@ final class HgsTable extends PowerGridComponent
         $fields = PowerGrid::fields()
             ->add('id');
         foreach ($this->hgsCategories as $c) {
-            $fields->add("hgs_type_category_{$c->id}", function($row) use($c){
+            $fields->add("hgs_type_category_{$c->id}", function ($row) use ($c) {
                 $hgs_type = $row->hgs_types->where('hgs_type_category_id', $c->id)->first();
                 $name = '';
-                if(isset($hgs_type->hgs_type->name)){
+                if (isset($hgs_type->hgs_type->name)) {
                     $name = $hgs_type->hgs_type->name . ' -> ';
                 }
                 Log::info($hgs_type);
-                return ($name . $hgs_type->name??'') ?? '---';
+                return ($name . $hgs_type->name ?? '') ?? '---';
             });
         }
         $fields->add('number')
@@ -124,7 +124,7 @@ final class HgsTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update hgses'),
                     fallback: '- empty -'
                 ),
-            Column::make('Dosya', 'filename')
+            Column::make('DOSYA', 'filename')
                 ->sortable()
                 ->searchable(),
             Column::make('Alınma Tarihi', 'buyed_at')
@@ -149,11 +149,11 @@ final class HgsTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
 
@@ -164,15 +164,14 @@ final class HgsTable extends PowerGridComponent
     {
         $filters = [];
 
-        foreach ($this->hgsCategories as $c) 
-        {
+        foreach ($this->hgsCategories as $c) {
             //WORKING
             $filter =  Filter::inputText("hgs_type_category_{$c->id}")
                 ->filterRelation('hgs_types', 'name');
-            
+
             array_push($filters,  $filter);
         }
-        
+
         return $filters;
     }
 

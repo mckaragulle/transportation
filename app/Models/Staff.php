@@ -39,6 +39,7 @@ class Staff extends Model
         "email",
         "detail",
         "filename",
+        "status",
     ];
 
 

@@ -27,11 +27,16 @@ class StaffEdit extends Component
 
     public null|array $staff_type_categories = [];
     public null|array $staff_types = [];
-    public null|int $number;
     public $oldfilename;
     public $filename;
-    public null|string $buyed_at;
-    public null|string $canceled_at;
+    public null|int $id_number;
+    public null|string $name;
+    public null|string $surname;
+    public null|string $phone1;
+    public null|string $phone2;
+    public null|string $email;
+    public null|string $detail;
+    
     public bool $status = true;
 
     protected StaffTypeCategoryService $staffTypeCategoryService;
@@ -39,31 +44,31 @@ class StaffEdit extends Component
     /**
      * List of add/edit form rules
      */
-    public function rules()
-    {
-        return [
-            'staff_type_categories' => ['required', 'array'],
-            'staff_type_categories.*' => ['required'],
-            'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
-            'number' => ['required'],
-            'filename' => ['nullable', 'image', 'max:4096'],
-            'buyed_at' => ['required', 'date'],
-            'canceled_at' => ['nullable', 'date'],
-        ];
-    }
+    protected $rules = [
+        'staff_type_categories' => ['required', 'array'],
+        'staff_type_categories.*' => ['required'],
+        'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
+        'id_number' => ['required'],
+        'name' => ['required'],
+        'surname' => ['required'],
+        'phone1' => ['required'],
+        'phone2' => ['nullable'],
+        'email' => ['nullable', 'email'],
+        'detail' => ['nullable'],
+        'filename' => ['nullable', 'image', 'max:4096'],
+    ];
 
     protected $messages = [
-        'staff_type_category_id.required' => 'Lütfen staff kategorisini seçiniz.',
-        'staff_type_category_id.exists' => 'Lütfen geçerli bir staff kategorisi seçiniz.',
-        'staff_type_id.required' => 'Lütfen staff tipi seçiniz.',
-        'staff_type_id.exists' => 'Lütfen geçerli bir staff tipi seçiniz.',
-        'number.required' => 'Staff numarasını yazınız.',
-        'filename.image' => 'Staff için dosya seçiniz yazınız.',
-        'filename.max' => 'Dosya boyutu en fazla 1 mb olmalıdır.',
+        'staff_type_categories.required' => 'Lütfen staff kategorisini seçiniz.',
+        'staff_type_categories.array' => 'Lütfen geçerli bir staff kategorisi seçiniz.',
+        'id_number.required' => 'Personel TC kimlik numarasını yazınız.',
+        'name.required' => 'Personel adını yazınız.',
+        'surname.required' => 'Personel soyadını yazınız.',
+        'phone1.required' => 'Personel telefon numarasını yazınız.',
+        'email.email' => 'Personel için geçerli bir eposta adresi yazınız.',
+        'filename.image' => 'Personel için dosya seçiniz yazınız.',
+        'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 1 mb olmalıdır.',
-        'buyed_at.required' => 'Staff için satın alma tarihi seçiniz yazınız.',
-        'buyed_at.date' => 'Staff için geçerli bir satın alma tarihi seçiniz yazınız.',
-        'canceled_at.date' => 'Staff için geçerli bir iptal edilme tarihi seçiniz yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -72,12 +77,16 @@ class StaffEdit extends Component
         if (!is_null($id)) {
             $this->staff = $staffService->findById($id);
             $this->status = $this->staff->status;
-            $this->number = $this->staff->number;
+            $this->id_number = $this->staff->id_number;
+            $this->name = $this->staff->name;
+            $this->surname = $this->staff->surname;
+            $this->phone1 = $this->staff->phone1;
+            $this->phone2 = $this->staff->phone2;
+            $this->email = $this->staff->email;
+            $this->detail = $this->staff->detail;
             if (isset($this->staff?->filename) && Storage::exists($this->staff?->filename)) {
                 $this->oldfilename = $this->staff->filename;
             }
-            $this->buyed_at = $this->staff->buyed_at ?? null;
-            $this->canceled_at = $this->staff->canceled_at ?? null;
             //staff_type_categories
             $this->staff_type_categories = $this->staff_types = $this->staff->staff_types->pluck('id', 'staff_type_category_id')->toArray();
             $this->staffTypeCategoryDatas = $staffTypeCategory->query()
@@ -103,16 +112,19 @@ class StaffEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->staff->number = $this->number;
+            $this->staff->id_number = $this->id_number;
+            $this->staff->name = $this->name;
+            $this->staff->surname = $this->surname;
+            $this->staff->phone1 = $this->phone1;
+            $this->staff->phone2 = $this->phone2;
+            $this->staff->email = $this->email;
+            $this->staff->detail = $this->detail;
 
             $filename = null;
             if (!is_null($this->filename)) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->staff->filename = $filename;
             }
-
-            $this->staff->buyed_at = $this->buyed_at ?? null;
-            $this->staff->canceled_at = $this->canceled_at ?? null;
             $this->staff->status = $this->status == false ? 0 : 1;
             $this->staff->save();
             if (!is_null($this->oldfilename) && Storage::exists($this->oldfilename)) {
@@ -133,12 +145,12 @@ class StaffEdit extends Component
                 DB::insert('insert into staff_type_category_staff_type_staff (staff_type_category_id, staff_type_id, staff_id) values (?, ?, ?)', [$staff_type_category_id, $staff_type_id, $this->staff->id]);
             }
 
-            $msg = 'Staff güncellendi.';
+            $msg = 'Personel güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Staff güncellenemedi. {$exception->getMessage()}";
+            $error = "Personel güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

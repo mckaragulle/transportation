@@ -1,13 +1,13 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('staff_type_categories.list')}}">Staff Kategorileri</a></li>
+            <li class="breadcrumb-item"><a href="{{route('staff_type_categories.list')}}">Personel Kategorileri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Staff Kategorisi Düzenle</h4>
+            <h4 class="card-title mb-0">Personel Kategorisi Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
@@ -31,10 +31,10 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Staff kategorisini yazınız :</label>
+                                <label class="col-sm-3 col-form-label">Personel kategorisini yazınız :</label>
                                 <div class="col-sm-9">
                                     <input class="form-control border border-warning" type="text"
-                                        wire:model.defer="name" placeholder="Staff kategorisini yazınız.">
+                                        wire:model.defer="name" placeholder="Personel kategorisini yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

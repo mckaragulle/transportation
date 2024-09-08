@@ -31,13 +31,13 @@
                                 </div>
                             </div>
 
-                            @if(auth()->user()->can('update staff_type_categories'))
+                            @if(auth()->user()->can('update staff_types'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Personel Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="staff_type_category_id" id="staff_type_category_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Personel Kategorisi</option>
+                                        <option value="">Personel Kategorisi Seçiniz</option>
                                         @if(is_iterable($staffTypeCategories))
                                         @forelse($staffTypeCategories as $d)
                                         <option value="{{$d->id}}">{{$d->name}}</option>
@@ -56,20 +56,18 @@
                             @endif
                             @if(auth()->user()->can('update staff_types'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Personel Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="staff_type_id" id="staff_type_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Özellik Grubu Seçiniz</option>
+                                        <option value="">Personel Grubu Seçiniz</option>
                                         @if(is_iterable($staffTypes))
-                                        @forelse($staffTypes as $d)    
-                                        @if($d->id != $staffType->id && $d->id != $staffType->staff_type?->id)                                    
-                                        <option value="{{$d->id}}" {{$staff_type_id == $d->id ? 'selected' : ''}}>{{($d->staff_type?->name ? $d->staff_type?->name . " -> " : '') . $d->name}}</option>
-                                        @endif
+                                        @forelse($staffTypes as $d)
+                                        <option value="{{$d->id}}">{{($d->staff_type?->name ? $d->staff_type?->name . " -> " : '') . $d->name}}</option>
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('staff_type_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

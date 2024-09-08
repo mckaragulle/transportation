@@ -30,7 +30,7 @@
                                     </div>@enderror
                                 </div>
                             </div>
-                            @if(auth()->user()->can('update staff_type_categories'))
+                            @if(auth()->user()->can('update staff_types'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Personel Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">

@@ -21,10 +21,14 @@ class StaffCreate extends Component
     public null|array $staff_type_categories = [];
     public null|Collection $staffTypeCategoryDatas;
     public null|Collection $staffs;
-    public null|int $number;
+    public null|int $id_number;
+    public null|string $name;
+    public null|string $surname;
+    public null|string $phone1;
+    public null|string $phone2;
+    public null|string $email;
+    public null|string $detail;
     public $filename;
-    public null|string $buyed_at;
-    public null|string $canceled_at;
 
 
     public bool $status = true;
@@ -36,22 +40,27 @@ class StaffCreate extends Component
         'staff_type_categories' => ['required', 'array'],
         'staff_type_categories.*' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
-        'number' => ['required'],
+        'id_number' => ['required'],
+        'name' => ['required'],
+        'surname' => ['required'],
+        'phone1' => ['required'],
+        'phone2' => ['nullable'],
+        'email' => ['nullable', 'email'],
+        'detail' => ['nullable'],
         'filename' => ['nullable', 'image', 'max:4096'],
-        'buyed_at' => ['required', 'date'],
-        'canceled_at' => ['nullable', 'date'],
     ];
 
     protected $messages = [
         'staff_type_categories.required' => 'Lütfen staff kategorisini seçiniz.',
         'staff_type_categories.array' => 'Lütfen geçerli bir staff kategorisi seçiniz.',
-        'number.required' => 'Staff numarasını yazınız.',
-        'filename.image' => 'Staff için dosya seçiniz yazınız.',
+        'id_number.required' => 'Personel TC kimlik numarasını yazınız.',
+        'name.required' => 'Personel adını yazınız.',
+        'surname.required' => 'Personel soyadını yazınız.',
+        'phone1.required' => 'Personel telefon numarasını yazınız.',
+        'email.email' => 'Personel için geçerli bir eposta adresi yazınız.',
+        'filename.image' => 'Personel için dosya seçiniz yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 1 mb olmalıdır.',
-        'buyed_at.required' => 'Staff için satın alma tarihi seçiniz yazınız.',
-        'buyed_at.date' => 'Staff için geçerli bir satın alma tarihi seçiniz yazınız.',
-        'canceled_at.date' => 'Staff için geçerli bir iptal edilme tarihi seçiniz yazınız.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -82,10 +91,14 @@ class StaffCreate extends Component
                 $filename = $this->filename->store(path: 'public/photos');
             }
             $staff = $staffService->create([
-                'number' => $this->number,
+                'id_number' => $this->id_number,
+                'name' => $this->name,
+                'surname' => $this->surname,
+                'phone1' => $this->phone1,
+                'phone2' => $this->phone2,
+                'email' => $this->email,
+                'detail' => $this->detail,
                 'filename' => $filename ?? null,
-                'buyed_at' => $this->buyed_at ?? null,
-                'canceled_at' => $this->canceled_at ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
@@ -95,13 +108,13 @@ class StaffCreate extends Component
 
 
             $this->dispatch('pg:eventRefresh-StaffTable');
-            $msg = 'Staff oluşturuldu.';
+            $msg = 'Personel oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
-            $this->reset(['staff_type_categories', 'number', 'filename', 'buyed_at', 'canceled_at']);
+            $this->reset();
         } catch (\Exception $exception) {
-            $error = "Staff oluşturulamadı. {$exception->getMessage()}";
+            $error = "Personel oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

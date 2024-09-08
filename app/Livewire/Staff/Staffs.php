@@ -42,11 +42,11 @@ class Staffs extends Component
     {
         try {
             $staffService->delete($this->data_id);
-            $msg = 'Staff silindi.';
+            $msg = 'Personel silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Staff silinemedi. {$exception->getMessage()}";
+            $error = "Personel silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

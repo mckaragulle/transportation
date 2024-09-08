@@ -77,19 +77,18 @@ final class PermissionTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update permissions'),
                     fallback: '- empty -'
                 ),
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public function actions(Permission $row): array
@@ -122,7 +121,7 @@ final class PermissionTable extends PowerGridComponent
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
         Permission::query()->find($id)->update([
-            $field => e($value)?1:0,
+            $field => e($value) ? 1 : 0,
         ]);
     }
 

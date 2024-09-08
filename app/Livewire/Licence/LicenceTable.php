@@ -129,7 +129,7 @@ final class LicenceTable extends PowerGridComponent
             Column::make('Bitiş Tarihi', 'finished_at')
                 ->sortable()
                 ->searchable(),
-            Column::make('Dosya', 'filename')
+            Column::make('DOSYA', 'filename')
                 ->sortable()
                 ->searchable(),
             Column::make('Dosya', 'detail')
@@ -147,11 +147,11 @@ final class LicenceTable extends PowerGridComponent
                     falseLabel: 'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
 

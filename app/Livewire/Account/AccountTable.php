@@ -90,8 +90,8 @@ final class AccountTable extends PowerGridComponent
             });
         }
         $fields->add('name')
-        ->add('email')
-        ->add('phone')
+            ->add('email')
+            ->add('phone')
             ->add('filename', function ($row) {
                 $f = null;
                 if (!is_null($row->filename) && Storage::exists($row->filename)) {
@@ -137,10 +137,10 @@ final class AccountTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update accounts'),
                     fallback: '- empty -'
                 ),
-            Column::make('Dosya', 'filename')
+            Column::make('DOSYA', 'filename')
                 ->sortable()
                 ->searchable(),
-        
+
             Column::make('Durum', 'status')
                 ->toggleable(
                     hasPermission: auth()->user()->can('update accounts'),
@@ -148,11 +148,11 @@ final class AccountTable extends PowerGridComponent
                     falseLabel: 'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
 

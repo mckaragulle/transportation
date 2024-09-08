@@ -96,21 +96,20 @@ final class StaffTypeTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        $id = $this->filters['select']['staff_type_category_id']??null;
+        $id = $this->filters['select']['staff_type_category_id'] ?? null;
         $query = StaffType::query();
-        if($id > 0)
-        {
+        if ($id > 0) {
             $query->where('staff_type_category_id', $id)->whereNull('staff_type_id')->orderBy('staff_type_category_id', 'asc');
         }
         return [
@@ -122,7 +121,7 @@ final class StaffTypeTable extends PowerGridComponent
                 ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            
+
         ];
     }
 
@@ -145,10 +144,10 @@ final class StaffTypeTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update staff_types') != 1)
+                ->when(fn($row) => auth()->user()->can('update staff_types') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete staff_types') != 1)
+                ->when(fn($row) => auth()->user()->can('delete staff_types') != 1)
                 ->hide(),
         ];
     }

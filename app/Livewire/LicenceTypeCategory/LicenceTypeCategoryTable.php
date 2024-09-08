@@ -86,11 +86,11 @@ final class LicenceTypeCategoryTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
@@ -119,10 +119,10 @@ final class LicenceTypeCategoryTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update licence_type_categories') != 1)
+                ->when(fn($row) => auth()->user()->can('update licence_type_categories') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete licence_type_categories') != 1)
+                ->when(fn($row) => auth()->user()->can('delete licence_type_categories') != 1)
                 ->hide(),
         ];
     }

@@ -96,21 +96,20 @@ final class LicenceTypeTable extends PowerGridComponent
                     'Pasif',
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        $id = $this->filters['select']['licence_type_category_id']??null;
+        $id = $this->filters['select']['licence_type_category_id'] ?? null;
         $query = LicenceType::query();
-        if($id > 0)
-        {
+        if ($id > 0) {
             $query->where('licence_type_category_id', $id)->whereNull('licence_type_id')->orderBy('licence_type_category_id', 'asc');
         }
         return [
@@ -122,7 +121,7 @@ final class LicenceTypeTable extends PowerGridComponent
                 ->dataSource($query->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
-            
+
         ];
     }
 
@@ -145,10 +144,10 @@ final class LicenceTypeTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn ($row) => auth()->user()->can('update licence_types') != 1)
+                ->when(fn($row) => auth()->user()->can('update licence_types') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn ($row) => auth()->user()->can('delete licence_types') != 1)
+                ->when(fn($row) => auth()->user()->can('delete licence_types') != 1)
                 ->hide(),
         ];
     }

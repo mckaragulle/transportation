@@ -79,19 +79,18 @@ final class RoleTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
 
-            Column::make('Oluşturulma Tarihi', 'created_at')
+            Column::make('OLUŞTURULMA TARİHİ', 'created_at')
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Eylemler')
+            Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
     }
 
     public function filters(): array
     {
-        return [
-        ];
+        return [];
     }
 
     public function actions(Role $row): array
@@ -125,7 +124,7 @@ final class RoleTable extends PowerGridComponent
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
         Role::query()->find($id)->update([
-            $field => e($value)?1:0,
+            $field => e($value) ? 1 : 0,
         ]);
     }
 
