@@ -15,7 +15,7 @@ class Account extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = [ "name", "phone", "email", "address", "detail", "filename", "status"];
+    protected $fillable = [ "number", "name", "shortname", "phone", "email", "detail", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

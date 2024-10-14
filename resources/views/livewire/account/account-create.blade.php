@@ -68,9 +68,9 @@
                             <hr />
                             <div class="mb-3 row">
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Hgs numarasını yazınız:</label>
+                                    <label class="col-form-label">Cari numarasını yazınız:</label>
                                     <input class="form-control" type="number" step="1" wire:model.defer="number"
-                                        placeholder="Hgs numarasını yazınız.">
+                                        placeholder="Cari numarasını yazınız.">
                                     @error('number')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"

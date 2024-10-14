@@ -24,14 +24,24 @@ final class UserTable extends PowerGridComponent
 
     public bool $is_admin = false;
 
-    public null|int $dealer_id;
+    public null|int $dealer_id = null;
 
     public function setUp(): array
     {
         $this->is_admin = Auth::user()->hasRole('admin');
-        if (Auth::user()->hasRole('bayi')) {
-            $this->dealer_id = auth()->guard('dealer')->user()->id;
+
+        if (auth()->user()->roleType === 'bayi') {
+            $this->dealer_id = auth()->user()->id;
         }
+        else if(auth()->user()->roleType === 'personel')
+        {
+            $this->dealer_id = auth()->user()->dealer->id;
+        }
+        else
+        {
+            $this->dealer_id = null;
+        }
+
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filters', 'sort'],
@@ -54,7 +64,7 @@ final class UserTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $user = User::query()->with('roles');
-        if (!$this->is_admin) {
+        if (!$this->is_admin && !is_null($this->dealer_id)) {
             return $user->where('dealer_id', $this->dealer_id);
         }
         return $user;

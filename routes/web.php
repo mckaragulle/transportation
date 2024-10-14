@@ -88,7 +88,7 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicle_brands.edit')->middleware('can:update vehicle_brands');
 
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
-    Route::get('/motipdel/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');
+    Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');
 
     Route::get('/modeller', VehicleModels::class)->name('vehicle_models.list')->middleware('can:read vehicle_models');
     Route::get('/model/{id}/duzenle', VehicleModelEdit::class)->name('vehicle_models.edit')->middleware('can:update vehicle_models');
