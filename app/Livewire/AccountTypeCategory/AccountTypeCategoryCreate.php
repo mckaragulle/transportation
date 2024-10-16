@@ -14,6 +14,8 @@ class AccountTypeCategoryCreate extends Component
 
     public null|string $name;
 
+    public bool $is_required = true;
+    public bool $is_multiple = false;
     public bool $status = true;
 
     protected AccountTypeCategoryService $accountTypeCategoryService;
@@ -23,11 +25,15 @@ class AccountTypeCategoryCreate extends Component
      */
     protected $rules = [
         'name' => ['required'],
+        'is_required' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
+        'is_multiple' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
         'name.required' => 'Cari kategorisi yazınız.',
+        'is_required.in' => 'Lütfen geçerli bir durum seçiniz.',
+        'is_multiple.in' => 'Lütfen geçerli bir durum seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -49,6 +55,8 @@ class AccountTypeCategoryCreate extends Component
         try {
             $accountTypeCategory = $this->accountTypeCategoryService->create([
                 'name' => $this->name,
+                'is_required' => $this->is_required == false ? 0 : 1,
+                'is_multiple' => $this->is_multiple == false ? 0 : 1,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 

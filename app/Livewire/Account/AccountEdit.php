@@ -27,10 +27,11 @@ class AccountEdit extends Component
 
     public null|array $account_type_categories = [];
     public null|array $account_types = [];
+    public null|string $number = null;
     public null|string $name = null;
+    public null|string $shortname = null;
     public null|string $email = null;
     public null|string $phone = null;
-    public null|string $address = null;
     public null|string $detail = null;
     public $oldfilename;
     public $filename;
@@ -46,28 +47,28 @@ class AccountEdit extends Component
         return [
             'account_type_categories' => ['required', 'array'],
             'account_type_categories.*' => ['required'],
+            'number' => ['required'],
             'name' => ['required'],
+            'shortname' => ['required'],
             'phone' => ['nullable'],
             'email' => ['nullable', 'email'],
-            'address' => ['nullable'],
             'detail' => ['nullable'],
             'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
-            'filename' => ['nullable', 'image', 'max:4096'],
+            'filename' => ['nullable', 'max:4096'],
         ];
     }
 
     protected $messages = [
         'account_type_categories.required' => 'Lütfen cari kategorisini seçiniz.',
         'account_type_categories.array' => 'Lütfen geçerli bir cari kategorisi seçiniz.',
+        'number.required' => 'Müşteri cari numarasını yazınız.',
         'name.required' => 'Müşteri adını yazınız.',
+        'shortname.required' => 'Müşteri kısa adını yazınız.',
         'phone.required' => 'Müşteri telefonunu yazınız.',
         'email.required' => 'Müşteri eposta adresini yazınız.',
         'email.email' => 'Lütfen geçerli bir eposta adresi yazınız.',
-        'address.required' => 'Müşteri adresini yazınız.',
-        'filename.image' => 'Müşteri için dosya seçiniz yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
-        
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -76,19 +77,21 @@ class AccountEdit extends Component
         if (!is_null($id)) {
             $this->account = $accountService->findById($id);
             $this->status = $this->account->status;
+            $this->number = $this->account->number;
             $this->name = $this->account->name;
+            $this->shortname = $this->account->shortname;
             $this->email = $this->account->email;
             $this->phone = $this->account->phone;
-            $this->address = $this->account->address;
             $this->detail = $this->account->detail;
-            if (isset($this->account?->filename) && Storage::exists($this->account?->filename)) {
-                $this->oldfilename = $this->account->filename;
-            }
-            //account_type_categories
-            $this->account_type_categories = $this->account_types = $this->account->account_types->pluck('id', 'account_type_category_id')->toArray();
             $this->accountTypeCategoryDatas = $accountTypeCategory->query()
                 ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
-                ->get(['id', 'name']);
+                ->get(['id', 'name', 'is_required', 'is_multiple']);
+                
+                $b = [];
+                foreach($this->account->account_types as $a){
+                    $b[$a->account_type_category_id][] = $a->id;
+                }
+                $this->account_type_categories = $b;
         } else {
             return $this->redirect(route('accounts.list'));
         }
@@ -109,10 +112,11 @@ class AccountEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
+            $this->account->number = $this->number;
             $this->account->name = $this->name;
+            $this->account->shortname = $this->shortname;
             $this->account->email = $this->email;
             $this->account->phone = $this->phone;
-            $this->account->address = $this->address;
             $this->account->detail = $this->detail;
 
             $filename = null;
@@ -128,16 +132,34 @@ class AccountEdit extends Component
                 }
             }
 
+           
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                DB::table('account_type_category_account_type_account')
-                    ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $this->account->id])
-                    ->delete();
+                if(is_array($account_type_id)){
+                    foreach($account_type_id as $t2)
+                    {
+                        $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
+                    } 
+                }
+                else {
+                    $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
+                    
+                }
             }
+
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                $data = DB::table('account_type_category_account_type_account')
-                    ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $this->account->id])
-                    ->first();
-                DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $this->account->id]);
+                if(is_array($account_type_id)){
+                    foreach($account_type_id as $t2)
+                    {
+                        if($t2 > 0){
+                            $this->attachAccountTypeCategoryId($account_type_category_id, $t2,$this->account->id);
+                        }
+                    } 
+                }
+                else {
+                    if($account_type_id > 0){
+                        $this->attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $this->account->id);
+                    }
+                }
             }
 
             $msg = 'Cari güncellendi.';
@@ -160,5 +182,17 @@ class AccountEdit extends Component
             ->with('account_type')
             ->orderBy('id')
             ->get(['id', 'account_type_id', 'name']);
+    }
+
+    private function detachAccountTypeCategoryId($account_type_category_id, $account_id){
+        DB::table('account_type_category_account_type_account')
+        ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
+        ->delete();
+    }
+    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id){
+        // DB::table('account_type_category_account_type_account')
+        //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
+        //     ->first();
+        DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
     }
 }

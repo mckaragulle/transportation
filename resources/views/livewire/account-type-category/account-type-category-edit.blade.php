@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-4 col-form-label">Durum :</div>
+                                <div class="col-sm-8">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">
@@ -31,8 +31,40 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Cari kategorisini yazınız :</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-4 col-form-label">Zorunlu Seçenek Mi? :</div>
+                                <div class="col-sm-8">
+                                    <div class="form-check fs-6 mt-2">
+                                        <input class="form-check-input" wire:model.defer="is_required" id="is_required"
+                                            type="checkbox">
+                                        <label class="form-check-label" for="is_required">EVET</label>
+                                    </div>
+                                    @error('is_required')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <div class="col-sm-4 col-form-label">Çoklu Seçim mi? :</div>
+                                <div class="col-sm-8">
+                                    <div class="form-check fs-6 mt-2">
+                                        <input class="form-check-input" wire:model.defer="is_multiple" id="is_multiple"
+                                            type="checkbox">
+                                        <label class="form-check-label" for="is_multiple">EVET</label>
+                                    </div>
+                                    @error('is_multiple')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4 col-form-label">Cari kategorisini yazınız :</label>
+                                <div class="col-sm-8">
                                     <input class="form-control border border-warning" type="text"
                                         wire:model.defer="name" placeholder="Cari kategorisini yazınız.">
                                     @error('name')

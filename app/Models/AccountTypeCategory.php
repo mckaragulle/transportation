@@ -14,7 +14,7 @@ class AccountTypeCategory extends Model
 {
     use HasFactory, Sluggable, LogsActivity;
 
-    protected $fillable = ['name', 'slug', 'status'];
+    protected $fillable = ['name', 'slug', 'is_required', 'is_multiple', 'status'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -38,7 +38,11 @@ class AccountTypeCategory extends Model
     protected function casts(): array
     {
         return [
-            'status' => 'boolean'
+            'name' => 'string',
+            'slug' => 'string',
+            'is_required' => 'boolean',
+            'is_multiple' => 'boolean',
+            'status' => 'boolean',
         ];
     }
 

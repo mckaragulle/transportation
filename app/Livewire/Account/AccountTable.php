@@ -3,13 +3,10 @@
 namespace App\Livewire\Account;
 
 use App\Models\Account;
-use App\Models\AccountType;
 use App\Models\AccountTypeCategory;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
@@ -59,7 +56,7 @@ final class AccountTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Account::query()
-            ->select(['id', 'name', 'email', 'phone', 'address', 'detail', 'filename', 'status'])
+            ->select(['id', 'number', 'name', 'name', 'email', 'phone', 'detail', 'status'])
             ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name']);
     }
 
@@ -81,24 +78,30 @@ final class AccountTable extends PowerGridComponent
             ->add('id');
         foreach ($this->accountCategories as $c) {
             $fields->add("account_type_category_{$c->id}", function ($row) use ($c) {
-                $account_type = $row->account_types->where('account_type_category_id', $c->id)->first();
+                $account_types = $row->account_types->where('account_type_category_id', $c->id);
                 $name = '';
-                if (isset($account_type->account_type->name)) {
-                    $name = $account_type->account_type->name . ' -> ';
+                foreach($account_types as $account_type){
+                    if (isset($account_type->account_type->name)) {
+                        $name = $account_type->account_type->name . ' -> ';
+                    }
+                    $name = ($name . $account_type->name ?? '') .'<br>'; 
                 }
-                return ($name . $account_type->name ?? '') ?? '---';
+                return $name;
             });
         }
-        $fields->add('name')
+        $fields
+            ->add('number')
+            ->add('name')
+            ->add('shortname')
             ->add('email')
             ->add('phone')
-            ->add('filename', function ($row) {
-                $f = null;
-                if (!is_null($row->filename) && Storage::exists($row->filename)) {
-                    $f = '<a href="' . Storage::url($row->filename) . '" target="_blank"> <img width="50" src="' . Storage::url($row->filename) . '"></a>';
-                }
-                return $f;
-            })
+            // ->add('filename', function ($row) {
+            //     $f = null;
+            //     if (!is_null($row->filename) && Storage::exists($row->filename)) {
+            //         $f = '<a href="' . Storage::url($row->filename) . '" target="_blank"> <img width="50" src="' . Storage::url($row->filename) . '"></a>';
+            //     }
+            //     return $f;
+            // })
             ->add('status')
             ->add('created_at');
 
@@ -116,7 +119,21 @@ final class AccountTable extends PowerGridComponent
             array_push($column, Column::make("{$c->name}", "account_type_category_{$c->id}"));
         }
         $column2 = [
+            Column::make('Müşteri Cari Numarası', 'number')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update accounts'),
+                    fallback: '- empty -'
+                ),
             Column::make('Müşteri Adı', 'name')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update accounts'),
+                    fallback: '- empty -'
+                ),
+            Column::make('Müşteri Kısa Adı', 'shortname')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
@@ -137,9 +154,9 @@ final class AccountTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update accounts'),
                     fallback: '- empty -'
                 ),
-            Column::make('DOSYA', 'filename')
-                ->sortable()
-                ->searchable(),
+            // Column::make('DOSYA', 'filename')
+            //     ->sortable()
+            //     ->searchable(),
 
             Column::make('DURUM', 'status')
                 ->toggleable(

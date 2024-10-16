@@ -60,6 +60,8 @@ final class AccountTypeCategoryTable extends PowerGridComponent
             ->add('id')
             ->add('name')
             ->add('slug')
+            ->add('is_required')
+            ->add('is_multiple')
             ->add('status')
             ->add('created_at');
     }
@@ -77,6 +79,20 @@ final class AccountTypeCategoryTable extends PowerGridComponent
                 ->editOnClick(
                     hasPermission: auth()->user()->can('update account_type_categories'),
                     fallback: '- empty -'
+                ),
+
+            Column::make('ZORUNLU MU?', 'is_required')
+                ->toggleable(
+                    auth()->user()->can('update account_type_categories'),
+                    'Zorunlu',
+                    'Değil',
+                ),
+                
+            Column::make('ÇOKLU SEÇİM Mİ?', 'is_multiple')
+                ->toggleable(
+                    auth()->user()->can('update account_type_categories'),
+                    'Çoklu',
+                    'Tekil',
                 ),
 
             Column::make('DURUM', 'status')

@@ -18,6 +18,8 @@ class AccountTypeCategoryEdit extends Component
 
     public null|string $name;
 
+    public bool $is_required = true;
+    public bool $is_multiple = false;
     public bool $status = true;
 
     protected AccountTypeCategoryService $accountTypeCategoryService;
@@ -30,6 +32,14 @@ class AccountTypeCategoryEdit extends Component
             'name' => [
                 'required',
             ],
+            'is_required' => [
+                'in:true,false,null,0,1,active,passive,',
+                'nullable',
+            ],
+            'is_multiple' => [
+                'in:true,false,null,0,1,active,passive,',
+                'nullable',
+            ],
             'status' => [
                 'in:true,false,null,0,1,active,passive,',
                 'nullable',
@@ -39,6 +49,8 @@ class AccountTypeCategoryEdit extends Component
 
     protected $messages = [
         'name.required' => 'Cari kategorisi yazınız.',
+        'is_required.in' => 'Lütfen geçerli bir durum seçiniz.',
+        'is_multiple.in' => 'Lütfen geçerli bir durum seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -48,6 +60,8 @@ class AccountTypeCategoryEdit extends Component
 
             $this->accountTypeCategory = $accountTypeCategoryService->findById($id);
             $this->name = $this->accountTypeCategory->name;
+            $this->is_required = $this->accountTypeCategory->is_required;
+            $this->is_multiple = $this->accountTypeCategory->is_multiple;
             $this->status = $this->accountTypeCategory->status;
         } else {
             return $this->redirect(route('account_type_categories.list'));
@@ -70,6 +84,8 @@ class AccountTypeCategoryEdit extends Component
         DB::beginTransaction();
         try {
             $this->accountTypeCategory->name = $this->name;
+            $this->accountTypeCategory->is_required = ($this->is_required == false ? 0 : 1);
+            $this->accountTypeCategory->is_multiple = ($this->is_multiple == false ? 0 : 1);
             $this->accountTypeCategory->status = ($this->status == false ? 0 : 1);
             $this->accountTypeCategory->save();
 
