@@ -56,7 +56,7 @@ final class AccountTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Account::query()
-            ->select(['id', 'number', 'name', 'name', 'email', 'phone', 'detail', 'status'])
+            ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
             ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name']);
     }
 
