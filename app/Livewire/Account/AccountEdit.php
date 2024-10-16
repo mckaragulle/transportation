@@ -189,6 +189,7 @@ class AccountEdit extends Component
         ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
         ->delete();
     }
+    
     private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id){
         // DB::table('account_type_category_account_type_account')
         //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])

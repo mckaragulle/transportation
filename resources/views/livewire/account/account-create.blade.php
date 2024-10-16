@@ -33,6 +33,7 @@
                             </div>
                             @if (auth()->user()->can('update account_type_categories'))
                                 <div class="mb-3 row">
+                                    @if(is_iterable($accountTypeCategoryDatas))
                                     @foreach ($accountTypeCategoryDatas as $accountTypeCategory)
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $accountTypeCategory->name }} SEÇİNİZ
@@ -62,7 +63,7 @@
                                             @enderror
                                         </div>
                                     @endforeach
-
+                                    @endif
                                 </div>
                             @endif
                             <hr />

@@ -103,13 +103,12 @@ class AccountCreate extends Component
                 if(is_array($t)){
                     foreach($t as $t2)
                     {
-                        DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$k, $t2, $account->id]);
+                        $this->attachAccountTypeCategoryId($k, $t2, $account->id);
                     } 
                 }
                 else {
-                    DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$k, $t, $account->id]);
-                }
-                
+                    $this->attachAccountTypeCategoryId($k, $t, $account->id);
+                }                
             }
 
             $this->dispatch('pg:eventRefresh-AccountTable');
@@ -130,5 +129,15 @@ class AccountCreate extends Component
     public function updated()
     {
         $this->validate();    
+    }
+
+    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id)
+    {
+        // DB::table('account_type_category_account_type_account')
+        //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
+        //     ->first();
+        if($account_type_id > 0){
+            DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
+        }
     }
 }
