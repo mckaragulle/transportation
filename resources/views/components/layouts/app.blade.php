@@ -117,6 +117,12 @@
                                                 class="fas fa-user-group text-danger"></i> <span
                                                 class="ms-2">Mahalleler</span></a>
                                     @endcan
+                                    @can('read localities')
+                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                            href="{{ route('localities.list') }}"><i
+                                                class="fas fa-user-group text-danger"></i> <span
+                                                class="ms-2">Semtler</span></a>
+                                    @endcan
                                     <hr class="my-1" />
                                     @can('read vehicle_brands')
                                         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"

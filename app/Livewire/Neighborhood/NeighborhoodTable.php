@@ -132,7 +132,18 @@ final class NeighborhoodTable extends PowerGridComponent
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('district_id')
-                ->dataSource(District::orderBy('id', 'asc')->get())
+                ->depends(['city_id'])
+                ->dataSource(
+                    fn ($depends) => District::query()
+                        ->when(
+                            isset($depends['city_id']),
+                            fn (Builder $query) => $query->whereRelation(
+                                'city',
+                                fn (Builder $builder) => $builder->where('id', $depends['city_id'])
+                            )
+                        )
+                        ->get()
+                )
                 ->optionLabel('name')
                 ->optionValue('id'),
 

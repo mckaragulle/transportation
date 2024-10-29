@@ -30,7 +30,10 @@ class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
     {
         try {
             $name = Str::trim($row["il"]);
+            $pk = Str::trim($row["pk"]);
+            $id = (int)Str::substr($pk, 0, 2);
             $this->city = City::firstOrCreate([                
+                'id' => $id,
                 'name' => $name
             ]);
     
@@ -41,7 +44,7 @@ class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
             ]);
             
             $name = Str::trim($row["semt_bucak_belde"]);
-            $pk = Str::trim($row["pk"]);
+            
             $this->neighborhood = Neighborhood::firstOrCreate([
                 'city_id' => $this->city->id,
                 'district_id' => $this->district->id,
