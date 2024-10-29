@@ -2,19 +2,19 @@
 
 namespace App\Services;
 
-use App\Repositories\DistrictRepository;
+use App\Repositories\NeighborhoodRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class DistrictService
+class NeighborhoodService
 {
-    public function __construct(protected readonly DistrictRepository $repository)
+    public function __construct(protected readonly NeighborhoodRepository $repository)
     {
     }
 
-    public function where(array $column): Model|Builder
+    public function where(array $column): Model
     {
         return $this->repository->where($column);
     }

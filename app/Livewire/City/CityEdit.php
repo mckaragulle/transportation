@@ -24,6 +24,7 @@ class CityEdit extends Component
     public bool $status = true;
 
     protected CityService $cityService;
+
     /**
      * List of add/edit form rules
      */
@@ -32,6 +33,7 @@ class CityEdit extends Component
         return [
             'name' => [
                 'required',
+                Rule::unique('cities')->ignore($this->city),
             ],
             'status' => [
                 'in:true,false,null,0,1,active,passive,',
@@ -42,7 +44,7 @@ class CityEdit extends Component
 
     protected $messages = [
         'name.required' => 'Şehir adını yazınız.',
-       
+        'name.unique' => 'Bu şehir adı zaten kullanılmaktadır.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 

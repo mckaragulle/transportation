@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Repositories\AdminRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;

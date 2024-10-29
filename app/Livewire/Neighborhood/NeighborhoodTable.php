@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Livewire\District;
+namespace App\Livewire\Neighborhood;
 
-use App\Models\District;
+use App\Models\Neighborhood;
 use App\Models\City;
+use App\Models\District;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
@@ -19,14 +20,14 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class DistrictTable extends PowerGridComponent
+final class NeighborhoodTable extends PowerGridComponent
 {
     use WithExport;
     public ?int $cityId = null;
-
-    public string $tableName = 'DistrictTable';
-
+    public array $postcode;
     public array $name;
+
+    public string $tableName = 'NeighborhoodTable';
 
     public function setUp(): array
     {
@@ -37,7 +38,7 @@ final class DistrictTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'ilceler')
+            Exportable::make(fileName: 'mahalleler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -51,7 +52,7 @@ final class DistrictTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return District::query();
+        return Neighborhood::query();
     }
 
     public function relationSearch(): array
@@ -66,6 +67,9 @@ final class DistrictTable extends PowerGridComponent
             ->add('city_id', function ($role) {
                 return $role->city->name ?? "---";
             })
+            ->add('district_id', function ($role) {
+                return $role->district->name ?? "---";
+            })
             ->add('name')
             ->add('status')
             ->add('created_at');
@@ -79,17 +83,25 @@ final class DistrictTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('İl Adı', 'city_id'),
-            Column::make('İlçe Adı', 'name')
+            Column::make('İlçe Adı', 'district_id'),
+            Column::make('Mahalle Adı', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update districts'),
+                    hasPermission: auth()->user()->can('update neighborhoods'),
+                    fallback: '- empty -'
+                ),
+            Column::make('Posta Kodu', 'postcode')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update neighborhoods'),
                     fallback: '- empty -'
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    auth()->user()->can('update districts'),
+                    auth()->user()->can('update neighborhoods'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -105,32 +117,40 @@ final class DistrictTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $id = $this->filters['select']['city_id'] ?? null;
-        $query = District::query();
-        if ($id > 0) {
-            $query->where('city_id', $id)->orderBy('city_id', 'asc');
+        $city_id = $this->filters['select']['city_id'] ?? null;
+        $query = Neighborhood::query();
+        if ($city_id > 0) {
+            $query->where('city_id', $city_id)->orderBy('city_id', 'asc');
+        }
+        $district_id = $this->filters['select']['district_id'] ?? null;
+        if ($district_id > 0) {
+            $query->where('district_id', $district_id)->orderBy('district_id', 'asc');
         }
         return [
             Filter::select('city_id')
                 ->dataSource(City::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
+            Filter::select('district_id')
+                ->dataSource(District::orderBy('id', 'asc')->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
 
         ];
     }
 
-    public function actions(District $row): array
+    public function actions(Neighborhood $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('districts.edit', ['id' => $row->id])
+                ->route('neighborhoods.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-district', ['id' => $row->id]),
+                ->dispatch('delete-neighborhood', ['id' => $row->id]),
         ];
     }
 
@@ -138,17 +158,17 @@ final class DistrictTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update districts') != 1)
+                ->when(fn($row) => auth()->user()->can('update neighborhoods') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete districts') != 1)
+                ->when(fn($row) => auth()->user()->can('delete neighborhoods') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        District::query()->find($id)->update([
+        Neighborhood::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
         $this->skipRender();
@@ -158,7 +178,13 @@ final class DistrictTable extends PowerGridComponent
     {
         return [
             'name' => [
-                'required', 'unique:neighborhoods'
+                'required',
+                'unique:neighborhoods'
+            ],
+ 
+            'postcode' => [
+                'required',
+                'unique:neighborhoods'
             ],
         ];
     }
@@ -166,15 +192,18 @@ final class DistrictTable extends PowerGridComponent
     protected function validationAttributes()
     {
         return [
-            'name'     => 'İlçe Adı',
+            'name'     => 'Mahalle Adı',
+            'postcode' => 'Mahalle Posta Kodu',
         ];
     }
  
     protected function messages()
     {
         return [
-            'name.required'     => 'Lütfen ilçe adını yazınız.',
-            'name.unique'     => ':value , Bu ilçe adı zaten kullanılmaktadır.',
+            'name.required'     => 'Lütfen mahalle adını yazınız.',
+            'name.unique'     => ':value , Bu mahalle adı zaten kullanılmaktadır.',
+            'postcode.required'     => 'Lütfen posta kodunu yazınız.',
+            'postcode.unique'     => ':value , Bu posta kodu zaten kullanılmaktadır.',
         ];
     }
 
@@ -186,7 +215,7 @@ final class DistrictTable extends PowerGridComponent
             }
         })->validate();
 
-        District::query()->find($id)->update([
+        Neighborhood::query()->find($id)->update([
             $field => e($value),
         ]);
     }

@@ -55,7 +55,6 @@ class DistrictEdit extends Component
 
     public function mount($id = null, CityService $cityService, DistrictService $districtService)
     {
-        
         if (!is_null($id)) {
             $this->district = $districtService->findById($id);
             $this->city_id = $this->district->city_id;

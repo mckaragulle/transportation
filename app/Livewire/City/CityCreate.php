@@ -6,6 +6,7 @@ use App\Services\CityService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -13,7 +14,7 @@ class CityCreate extends Component
 {
     use LivewireAlert;
 
-    public null|Collection $roles;
+    public null|Collection $cities;
 
     public null|string $name;
 
@@ -25,12 +26,16 @@ class CityCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'name' => ['required'],
+        'name' => [
+            'required',
+            'unique:cities'
+        ],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
         'name.required' => 'Şehir adını yazınız.',
+        'name.unique' => 'Bu şehir adı zaten kullanılmaktadır.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 

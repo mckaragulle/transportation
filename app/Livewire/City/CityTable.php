@@ -21,6 +21,8 @@ final class CityTable extends PowerGridComponent
 
     public string $tableName = 'CityTable';
 
+    public $name;
+
     public function setUp(): array
     {
         $this->showCheckBox();
@@ -127,10 +129,42 @@ final class CityTable extends PowerGridComponent
         City::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
+        $this->skipRender();
+    }
+
+    protected function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                'unique:cities'
+            ],
+        ];
+    }
+ 
+    protected function validationAttributes()
+    {
+        return [
+            'name'     => 'İl Adı',
+        ];
+    }
+ 
+    protected function messages()
+    {
+        return [
+            'name.required'     => 'Lütfen il adını yazınız.',
+            'name.unique'     => ':value , Bu il adı zaten kullanılmaktadır.',
+        ];
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
+        $this->withValidator(function (\Illuminate\Validation\Validator $validator) use ($id, $field) {
+            if ($validator->errors()->isNotEmpty()) {
+                $this->dispatch('toggle-'.$field.'-'.$id);
+            }
+        })->validate();
+        
         City::query()->find($id)->update([
             $field => e($value),
         ]);

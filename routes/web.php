@@ -56,6 +56,8 @@ use App\Livewire\LicenceType\LicenceTypeEdit;
 use App\Livewire\LicenceType\LicenceTypes;
 use App\Livewire\LicenceTypeCategory\LicenceTypeCategories;
 use App\Livewire\LicenceTypeCategory\LicenceTypeCategoryEdit;
+use App\Livewire\Neighborhood\NeighborhoodEdit;
+use App\Livewire\Neighborhood\Neighborhoods;
 use App\Livewire\Signin;
 use App\Livewire\Staff\StaffEdit;
 use App\Livewire\Staff\Staffs;
@@ -96,6 +98,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     
     Route::get('/ilceler', Districts::class)->name('districts.list')->middleware('can:read districts');
     Route::get('/ilce/{id}/duzenle', DistrictEdit::class)->name('districts.edit')->middleware('can:update districts');
+    
+    Route::get('/mahalleler', Neighborhoods::class)->name('neighborhoods.list')->middleware('can:read neighborhoods');
+    Route::get('/mahalle/{id}/duzenle', NeighborhoodEdit::class)->name('neighborhoods.edit')->middleware('can:update neighborhoods');
 
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
     Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');

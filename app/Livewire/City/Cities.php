@@ -22,7 +22,7 @@ class Cities extends Component
         return view('livewire.city.cities');
     }
 
-    #[On('delete-cities')]
+    #[On('delete-city')]
     function delete($id)
     {
         $this->data_id = $id;
