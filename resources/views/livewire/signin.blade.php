@@ -1,9 +1,9 @@
 <div class="authincation h-100">
     @section("title","Giriş Yap.")
     <div class="card-body">
-        <div class="text-center mb-3">
+        {{-- <div class="text-center mb-3">
             <a href="{{route('login')}}"><img class="logo-auth" src="{{asset('xhtml/images/logo-renkli.svg')}}" alt="Giriş Yapın"></a>
-        </div>
+        </div> --}}
         <h4 class="text-center mb-4">Hesabınıza Giriş Yapın.</h4>
         <form wire:submit.prevent="submit">
             <div class="form-group mb-4">

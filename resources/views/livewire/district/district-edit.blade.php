@@ -1,22 +1,22 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicle_brands.list')}}">Araç Markaları</a></li>
+            <li class="breadcrumb-item"><a href="{{route('districts.list')}}">İlçeler</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
-    <div class="card overflow-hidden border border-warning">
+    <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Araç Marka Düzenle</h4>
+            <h4 class="card-title mb-0">İlçe Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
                 <form wire:submit.prevent="update">
                     <div class="row">
-                        <div class="col-lg-4 col-sm-12">
+                        <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-4 col-form-label">Durum :</div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-3 col-form-label">Durum :</div>
+                                <div class="col-sm-9">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">
@@ -30,11 +30,36 @@
                                     </div>@enderror
                                 </div>
                             </div>
+
+                           
+                            @if(auth()->user()->can('read cities'))
                             <div class="mb-3 row">
-                                <label class="col-sm-4 col-form-label">İsim :</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control border border-warning" type="text"
-                                        wire:model.defer="name" placeholder="Adını yazınız.">
+                                <label class="col-sm-3 col-form-label">İl Seçiniz :</label>
+                                <div class="col-sm-3">
+                                    <select wire:model.lazy="city_id" id="city_id"
+                                        class="form-select form-select-lg">
+                                        <option value="">İl Seçiniz</option>
+                                        @if(is_iterable($cities))
+                                        @forelse($cities as $d)
+                                        <option value="{{$d->id}}">{{$d->name}}</option>
+                                        @empty
+                                        @endforelse
+                                        @endif
+                                    </select>
+                                    @error('city_id')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                            @endif
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">İlçe adını yazınız:</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" type="text" wire:model.defer="name"
+                                        placeholder="İlçe adını yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

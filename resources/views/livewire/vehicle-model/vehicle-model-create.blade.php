@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-4 col-form-label">Durum :</div>
+                                <div class="col-sm-8">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">
@@ -32,7 +32,7 @@
                             </div>
                             @if(auth()->user()->can('read vehicle_brands'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Araba Markası Seçiniz :</label>
+                                <label class="col-sm-4 col-form-label">Araba Markası Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_brand_id" id="vehicle_brand_id"
                                         class="form-select form-select-lg">
@@ -55,7 +55,7 @@
                             @endif
                             @if(auth()->user()->can('read vehicle_tickets'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Araba Tipini Seçiniz :</label>
+                                <label class="col-sm-4 col-form-label">Araba Tipini Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="vehicle_ticket_id" id="vehicle_ticket_id"
                                         class="form-select form-select-lg">
@@ -77,7 +77,7 @@
                             </div>
                             @endif
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Araç modelini adı :</label>
+                                <label class="col-sm-4 col-form-label">Araç modelini adı :</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="text" wire:model.defer="name"
                                         placeholder="Araç modelini yazınız.">

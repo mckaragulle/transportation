@@ -63,6 +63,12 @@ class AppInstall extends Command
                 'create admins', 'read admins', 'update admins', 'delete admins',
                 'create roles', 'read roles', 'update roles', 'delete roles',
                 'create permissions', 'read permissions', 'update permissions', 'delete permissions',
+                
+                'create cities', 'read cities', 'update cities', 'delete cities',
+                'create districts', 'read districts', 'update districts', 'delete districts',
+                'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
+                'create localities', 'read localities', 'update localities', 'delete localities',
+
 
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
                 'create users', 'read users', 'update users', 'delete users',

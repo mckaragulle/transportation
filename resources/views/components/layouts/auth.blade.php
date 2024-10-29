@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=no">
     <title>TAŞIMACILIK PROGRAMI</title>
 
-    <link rel="shortcut icon" type="image/png" href="{{ asset('xhtml/images/favicon.png') }}" />
+    {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('xhtml/images/favicon.png') }}" /> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/themes@5.0.11/default/default.min.css" />
     <link href="{{ asset('xhtml/css/style.css') }}" rel="stylesheet">
 

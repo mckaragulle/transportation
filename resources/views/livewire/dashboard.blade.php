@@ -6,4 +6,5 @@
     <h1 class="fs-5">{{$name}}</h1>
     <h1 class="fs-6">{{$name}}</h1>
     <button type="button" class="btn btn-primary" wire:click="importBrand">Markalar</button>
+    <button type="button" class="btn btn-secondary" wire:click="importCity">Şehirler</button>
 </div>

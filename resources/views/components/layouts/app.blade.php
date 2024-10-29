@@ -8,7 +8,7 @@
     <meta name="description" content="Jobick : Job Admin Bootstrap 5 Template" />
     <meta name="format-detection" content="telephone=no">
     <title>TAŞIMACILIK PROGRAMI</title>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('xhtml/images/favicon.png') }}" />
+    {{-- <link rel="shortcut icon" type="image/png" href="{{ asset('xhtml/images/favicon.png') }}" /> --}}
     @vite('resources/css/app.css')
     @stack('styles')
     @livewireStyles
@@ -97,6 +97,19 @@
                                             href="{{ route('permissions.list') }}"><i
                                                 class="fas fa-fingerprint text-danger"></i> <span
                                                 class="ms-2">İzinler</span></a>
+                                    @endcan
+                                    <hr class="my-1" />
+                                    @can('read cities')
+                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                            href="{{ route('cities.list') }}"><i
+                                                class="fas fa-user-group text-danger"></i> <span
+                                                class="ms-2">İller</span></a>
+                                    @endcan
+                                    @can('read districts')
+                                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                            href="{{ route('districts.list') }}"><i
+                                                class="fas fa-user-group text-danger"></i> <span
+                                                class="ms-2">İlçeler</span></a>
                                     @endcan
                                     <hr class="my-1" />
                                     @can('read vehicle_brands')

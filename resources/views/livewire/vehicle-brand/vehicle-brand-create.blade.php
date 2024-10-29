@@ -15,8 +15,8 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Durum :</div>
-                                <div class="col-sm-9">
+                                <div class="col-sm-4 col-form-label">Durum :</div>
+                                <div class="col-sm-8">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
                                             type="checkbox">
@@ -31,8 +31,8 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">İsim :</label>
-                                <div class="col-sm-9">
+                                <label class="col-sm-4 col-form-label">İsim :</label>
+                                <div class="col-sm-8">
                                     <input class="form-control border border-warning" type="text"
                                         wire:model.defer="name" placeholder="Adını yazınız.">
                                     @error('name')

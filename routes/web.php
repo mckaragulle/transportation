@@ -2,6 +2,8 @@
 
 use App\Livewire\Account\AccountEdit;
 use App\Livewire\Account\Accounts;
+use App\Livewire\City\Cities;
+use App\Livewire\City\CityEdit;
 use App\Livewire\Hgs\HgsEdit;
 use App\Livewire\Hgs\Hgses;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +41,8 @@ use App\Livewire\AccountTypeCategory\AccountTypeCategoryEdit;
 
 use App\Livewire\AccountType\AccountTypes;
 use App\Livewire\AccountType\AccountTypeEdit;
+use App\Livewire\District\DistrictEdit;
+use App\Livewire\District\Districts;
 use App\Livewire\Fined\FinedEdit;
 use App\Livewire\Fined\Fineds;
 use App\Livewire\HgsTypeCategory\HgsTypeCategories;
@@ -86,6 +90,12 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/markalar', VehicleBrands::class)->name('vehicle_brands.list')->middleware('can:read vehicle_brands');
     Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicle_brands.edit')->middleware('can:update vehicle_brands');
+
+    Route::get('/iller', Cities::class)->name('cities.list')->middleware('can:read cities');
+    Route::get('/il/{id}/duzenle', CityEdit::class)->name('cities.edit')->middleware('can:update cities');
+    
+    Route::get('/ilceler', Districts::class)->name('districts.list')->middleware('can:read districts');
+    Route::get('/ilce/{id}/duzenle', DistrictEdit::class)->name('districts.edit')->middleware('can:update districts');
 
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
     Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');

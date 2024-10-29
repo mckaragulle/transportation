@@ -1,13 +1,13 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('vehicle_brands.list')}}">Araç Markaları</a></li>
+            <li class="breadcrumb-item"><a href="{{route('cities.list')}}">İller</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Araç Marka Düzenle</h4>
+            <h4 class="card-title mb-0">İl Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
@@ -15,34 +15,37 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-12">
                             <div class="mb-3 row">
-                                <div class="col-sm-4 col-form-label">Durum :</div>
-                                <div class="col-sm-8">
+                                <div class="col-sm-3 col-form-label">Durum :</div>
+                                <div class="col-sm-9">
                                     <div class="form-check fs-6 mt-2">
                                         <input class="form-check-input" wire:model.defer="status" id="status"
-                                            type="checkbox">
+                                               type="checkbox">
                                         <label class="form-check-label" for="status">AKTİF</label>
                                     </div>
                                     @error('status')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
+                                                aria-label="btn-close">
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row">
-                                <label class="col-sm-4 col-form-label">İsim :</label>
-                                <div class="col-sm-8">
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">İl Adı :</label>
+                                <div class="col-sm-9">
                                     <input class="form-control border border-warning" type="text"
-                                        wire:model.defer="name" placeholder="Adını yazınız.">
+                                           wire:model.defer="name" placeholder="İl adı yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
+                                                aria-label="btn-close">
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="row">
@@ -55,6 +58,7 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
