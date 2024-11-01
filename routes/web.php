@@ -2,6 +2,10 @@
 
 use App\Livewire\Account\AccountEdit;
 use App\Livewire\Account\Accounts;
+use App\Livewire\AccountAddress\AccountAddresses;
+use App\Livewire\AccountAddress\AccountAddressEdit;
+use App\Livewire\AccountBank\AccountBankEdit;
+use App\Livewire\AccountBank\AccountBanks;
 use App\Livewire\City\Cities;
 use App\Livewire\City\CityEdit;
 use App\Livewire\Hgs\HgsEdit;
@@ -41,6 +45,8 @@ use App\Livewire\AccountTypeCategory\AccountTypeCategoryEdit;
 
 use App\Livewire\AccountType\AccountTypes;
 use App\Livewire\AccountType\AccountTypeEdit;
+use App\Livewire\Bank\BankEdit;
+use App\Livewire\Bank\Banks;
 use App\Livewire\District\DistrictEdit;
 use App\Livewire\District\Districts;
 use App\Livewire\Fined\FinedEdit;
@@ -67,6 +73,7 @@ use App\Livewire\StaffType\StaffTypeEdit;
 use App\Livewire\StaffType\StaffTypes;
 use App\Livewire\StaffTypeCategory\StaffTypeCategories;
 use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
+use App\Models\AccountAddress;
 
 Route::get('/login', Signin::class)->name('login');
 Route::get('/', Signin::class);
@@ -107,6 +114,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/semtler', Localities::class)->name('localities.list')->middleware('can:read localities');
     Route::get('/semt/{id}/duzenle', LocalityEdit::class)->name('localities.edit')->middleware('can:update localities');
 
+    Route::get('/bankalar', Banks::class)->name('banks.list')->middleware('can:read banks');
+    Route::get('/banka/{id}/duzenle', BankEdit::class)->name('banks.edit')->middleware('can:update banks');
+
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
     Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');
 
@@ -127,6 +137,12 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
     Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
+    
+    Route::get('/cari-adresleri', AccountAddresses::class)->name('account_addresses.list')->middleware('can:read account_addresses');
+    Route::get('/cari-adresi/{id}/duzenle', AccountAddressEdit::class)->name('account_addresses.edit')->middleware('can:update account_addresses');
+    
+    Route::get('/cari-banka-bilgileri', AccountBanks::class)->name('account_banks.list')->middleware('can:read account_banks');
+    Route::get('/cari-banka-bilgisi/{id}/duzenle', AccountBankEdit::class)->name('account_banks.edit')->middleware('can:update account_banks');
 
     Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
     Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');

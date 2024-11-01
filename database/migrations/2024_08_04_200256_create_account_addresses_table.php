@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreignIdFor(District::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Neighborhood::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Locality::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->string('locality')->nullable()->index();
             $table->string('name')->unique()->index();
             $table->string('slug')->nullable()->unique()->index();
             $table->string('phone1')->nullable()->index();

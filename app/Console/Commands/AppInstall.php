@@ -68,6 +68,7 @@ class AppInstall extends Command
                 'create districts', 'read districts', 'update districts', 'delete districts',
                 'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
                 'create localities', 'read localities', 'update localities', 'delete localities',
+                'create banks', 'read banks', 'update banks', 'delete banks',
 
 
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
@@ -87,6 +88,8 @@ class AppInstall extends Command
                 'create account_type_categories', 'read account_type_categories', 'update account_type_categories', 'delete account_type_categories',
                 'create account_types', 'read account_types', 'update account_types', 'delete account_types',
                 'create accounts', 'read accounts', 'update accounts', 'delete accounts',
+                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
+                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
                 
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
@@ -99,7 +102,8 @@ class AppInstall extends Command
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
                 'create staffs', 'read staffs', 'update staffs', 'delete staffs',
-                'create finedsfineds', 'read fineds', 'update fineds', 'delete fineds',
+                'create fineds', 'read fineds', 'update fineds', 'delete fineds',
+                
 
 
 

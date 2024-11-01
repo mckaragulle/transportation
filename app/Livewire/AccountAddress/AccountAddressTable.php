@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire\Locality;
+namespace App\Livewire\AccountAddress;
 
-use App\Models\Locality;
+use App\Models\AccountAddress;
+use App\Models\AccountAddressTypeCategory;
 use App\Models\City;
 use App\Models\District;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -20,24 +21,24 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class LocalityTable extends PowerGridComponent
+final class AccountAddressTable extends PowerGridComponent
 {
     use WithExport;
-    public ?int $cityId = null;
-    public array $name;
 
-    public string $tableName = 'LocalityTable';
+    public bool $multiSort = true;
+
+    public string $tableName = 'AccountAddressTable';
 
     public function setUp(): array
     {
         $this->showCheckBox();
         $this->persist(
-            tableItems: ['columns', 'sort'],
+            tableItems: ['columns', 'filter', 'sort'],
             prefix: auth()->user()->id
         );
 
         return [
-            Exportable::make(fileName: 'semtler')
+            Exportable::make(fileName: 'Cari Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()
@@ -51,18 +52,25 @@ final class LocalityTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Locality::query();
+        return AccountAddress::query();
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'accounts' => [
+                "number", "name", "shortname", "phone", "email"
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
     {
-        return PowerGrid::fields()
+        $fields = PowerGrid::fields()
             ->add('id')
+            ->add('account_id', function ($role) {
+                return $role->account->name ?? "---";
+            })
             ->add('city_id', function ($role) {
                 return $role->city->name ?? "---";
             })
@@ -72,9 +80,19 @@ final class LocalityTable extends PowerGridComponent
             ->add('neighborhood_id', function ($role) {
                 return $role->neighborhood->name ?? "---";
             })
+            ->add('locality_id', function ($role) {
+                return $role->locality->name ?? "---";
+            })
             ->add('name')
+            ->add('address1')
+            ->add('address2')
+            ->add('phone1')
+            ->add('phone2')
+            ->add('email')
             ->add('status')
             ->add('created_at');
+
+        return $fields;
     }
 
     public function columns(): array
@@ -83,23 +101,59 @@ final class LocalityTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-
+                
             Column::make('İl Adı', 'city_id'),
             Column::make('İlçe Adı', 'district_id'),
             Column::make('Mahalle Adı', 'neighborhood_id'),
-            Column::make('Semt Adı', 'name')
+            Column::make('Semt Adı', 'locality_id'),
+            Column::make('Adres Başlığı', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update localities'),
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    fallback: '- empty -'
+                ),
+            Column::make('1. Adres', 'address1')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    fallback: '- empty -'
+                ),
+            Column::make('2. Adres', 'address2')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    fallback: '- empty -'
+                ),
+            Column::make('1. Telefon', 'phone1')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    fallback: '- empty -'
+                ),
+            Column::make('2. Telefon', 'phone2')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    fallback: '- empty -'
+                ),
+            Column::make('EPosta Adresi', 'email')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update account_addresses'),
                     fallback: '- empty -'
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    auth()->user()->can('update localities'),
-                    'Aktif',
-                    'Pasif',
+                    hasPermission: auth()->user()->can('update account_addresses'),
+                    trueLabel: 'Aktif',
+                    falseLabel: 'Pasif',
                 ),
 
             Column::make('OLUŞTURULMA TARİHİ', 'created_at')
@@ -108,14 +162,13 @@ final class LocalityTable extends PowerGridComponent
 
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
-        ];
+            ];
     }
 
     public function filters(): array
     {
-        // return [];
         $city_id = $this->filters['select']['city_id'] ?? null;
-        $query = Locality::query();
+        $query = AccountAddress::query();
         if ($city_id > 0) {
             $query->where('city_id', $city_id)->orderBy('city_id', 'asc');
         }
@@ -147,18 +200,18 @@ final class LocalityTable extends PowerGridComponent
         ];
     }
 
-    public function actions(Locality $row): array
+    public function actions(AccountAddress $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('localities.edit', ['id' => $row->id])
+                ->route('account_addresses.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-locality', ['id' => $row->id]),
+                ->dispatch('delete-account_address', ['id' => $row->id]),
         ];
     }
 
@@ -166,56 +219,24 @@ final class LocalityTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update localities') != 1)
+                ->when(fn($row) => auth()->user()->can('update account_addresses') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete localities') != 1)
+                ->when(fn($row) => auth()->user()->can('delete account_addresses') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        Locality::query()->find($id)->update([
+        AccountAddress::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
-        $this->skipRender();
-    }
-
-    protected function rules()
-    {
-        return [
-            'name' => [
-                'required',
-                'unique:localities'
-            ],
-        ];
-    }
- 
-    protected function validationAttributes()
-    {
-        return [
-            'name'     => 'Mahalle Adı',
-        ];
-    }
- 
-    protected function messages()
-    {
-        return [
-            'name.required'     => 'Lütfen mahalle adını yazınız.',
-            'name.unique'       => ':value , Bu mahalle adı zaten kullanılmaktadır.',
-        ];
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        $this->withValidator(function (\Illuminate\Validation\Validator $validator) use ($id, $field) {
-            if ($validator->errors()->isNotEmpty()) {
-                $this->dispatch('toggle-'.$field.'-'.$id);
-            }
-        })->validate();
-
-        Locality::query()->find($id)->update([
+        AccountAddress::query()->find($id)->update([
             $field => e($value),
         ]);
     }

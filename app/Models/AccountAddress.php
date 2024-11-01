@@ -28,7 +28,7 @@ class AccountAddress extends Model
     }
 
     protected $fillable = [
-        "account_id", "city_id", "district_id", "neighborhood_id", "locality",
+        "account_id", "city_id", "district_id", "neighborhood_id", "locality_id",
         "name", "slug", "address1", "address2", "phone1", "phone2", 
         "email", "detail", "status",
     ];
@@ -43,5 +43,25 @@ class AccountAddress extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function neighborhood(): BelongsTo
+    {
+        return $this->belongsTo(Neighborhood::class);
+    }
+
+    public function locality(): BelongsTo
+    {
+        return $this->belongsTo(Locality::class);
     }
 }

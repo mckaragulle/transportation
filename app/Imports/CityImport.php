@@ -67,11 +67,11 @@ class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
 
     public function batchSize(): int
     {
-        return 1000;
+        return 100;
     }
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 100;
     }
 }

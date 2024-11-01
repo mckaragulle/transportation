@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Imports\BankImport;
 use App\Imports\CityImport;
 use App\Imports\VehicleBrandsImport;
 use Livewire\Component;
@@ -28,5 +29,10 @@ class Dashboard extends Component
     public function importCity(){
         $file = Storage::path('public/city.xlsx');
         Excel::import(new CityImport(), $file);
+    }
+    
+    public function importBank(){
+        $file = Storage::path('public/bank.xlsx');
+        Excel::import(new BankImport(), $file);
     }
 }

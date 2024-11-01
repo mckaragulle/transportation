@@ -123,6 +123,12 @@
                                                 class="fas fa-user-group text-danger"></i> <span
                                                 class="ms-2">Semtler</span></a>
                                     @endcan
+                                    @can('read banks')
+                                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                        href="{{ route('banks.list') }}"><i
+                                            class="fas fa-user-group text-danger"></i> <span
+                                            class="ms-2">Bankalar</span></a>
+                                    @endcan
                                     <hr class="my-1" />
                                     @can('read vehicle_brands')
                                         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
@@ -354,6 +360,22 @@
                                                     href="{{ route('accounts.list') }}"><i
                                                         class="fas fa-users text-danger"></i>
                                                     <span class="ms-2">Cariler</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read account_addresses')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('account_addresses.list') }}"><i
+                                                        class="fas fa-users text-danger"></i>
+                                                    <span class="ms-2">Cari Adresleri</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read account_banks')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('account_banks.list') }}"><i
+                                                        class="fas fa-money text-danger"></i>
+                                                    <span class="ms-2">Cari Banka Bilgileri</span></a>
                                             </li>
                                         @endcan
                                     </ul>
