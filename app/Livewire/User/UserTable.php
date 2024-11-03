@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
@@ -32,13 +33,9 @@ final class UserTable extends PowerGridComponent
 
         if (auth()->user()->roleType === 'bayi') {
             $this->dealer_id = auth()->user()->id;
-        }
-        else if(auth()->user()->roleType === 'personel')
-        {
+        } else if (auth()->user()->roleType === 'personel') {
             $this->dealer_id = auth()->user()->dealer->id;
-        }
-        else
-        {
+        } else {
             $this->dealer_id = null;
         }
 
@@ -52,7 +49,7 @@ final class UserTable extends PowerGridComponent
             Exportable::make('personeller')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -145,7 +142,9 @@ final class UserTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(User $row): array

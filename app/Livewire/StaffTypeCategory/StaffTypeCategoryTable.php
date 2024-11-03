@@ -35,7 +35,7 @@ final class StaffTypeCategoryTable extends PowerGridComponent
             Exportable::make(fileName: 'personel-kategorileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -97,7 +97,9 @@ final class StaffTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(StaffTypeCategory $row): array

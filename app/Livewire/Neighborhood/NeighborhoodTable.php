@@ -41,7 +41,7 @@ final class NeighborhoodTable extends PowerGridComponent
             Exportable::make(fileName: 'mahalleler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -127,6 +127,7 @@ final class NeighborhoodTable extends PowerGridComponent
             $query->where('district_id', $district_id)->orderBy('district_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('city_id')
                 ->dataSource(City::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
@@ -134,12 +135,12 @@ final class NeighborhoodTable extends PowerGridComponent
             Filter::select('district_id')
                 ->depends(['city_id'])
                 ->dataSource(
-                    fn ($depends) => District::query()
+                    fn($depends) => District::query()
                         ->when(
                             isset($depends['city_id']),
-                            fn (Builder $query) => $query->whereRelation(
+                            fn(Builder $query) => $query->whereRelation(
                                 'city',
-                                fn (Builder $builder) => $builder->where('id', $depends['city_id'])
+                                fn(Builder $builder) => $builder->where('id', $depends['city_id'])
                             )
                         )
                         ->get()
@@ -192,14 +193,14 @@ final class NeighborhoodTable extends PowerGridComponent
                 'required',
                 'unique:neighborhoods'
             ],
- 
+
             'postcode' => [
                 'required',
                 'unique:neighborhoods'
             ],
         ];
     }
- 
+
     protected function validationAttributes()
     {
         return [
@@ -207,7 +208,7 @@ final class NeighborhoodTable extends PowerGridComponent
             'postcode' => 'Mahalle Posta Kodu',
         ];
     }
- 
+
     protected function messages()
     {
         return [
@@ -222,7 +223,7 @@ final class NeighborhoodTable extends PowerGridComponent
     {
         $this->withValidator(function (\Illuminate\Validation\Validator $validator) use ($id, $field) {
             if ($validator->errors()->isNotEmpty()) {
-                $this->dispatch('toggle-'.$field.'-'.$id);
+                $this->dispatch('toggle-' . $field . '-' . $id);
             }
         })->validate();
 

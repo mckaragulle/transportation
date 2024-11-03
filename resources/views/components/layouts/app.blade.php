@@ -374,8 +374,16 @@
                                             <li>
                                                 <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                                                     href="{{ route('account_banks.list') }}"><i
-                                                        class="fas fa-money text-danger"></i>
+                                                        class="fa-solid fa-building-columns text-danger"></i>
                                                     <span class="ms-2">Cari Banka Bilgileri</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read account_officers')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('account_officers.list') }}"><i
+                                                        class="fa-solid fa-user-tie text-danger"></i>
+                                                    <span class="ms-2">Cari Yetkilileri</span></a>
                                             </li>
                                         @endcan
                                     </ul>

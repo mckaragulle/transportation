@@ -38,7 +38,7 @@ final class AccountTypeTable extends PowerGridComponent
             Exportable::make(fileName: 'cariler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -113,6 +113,7 @@ final class AccountTypeTable extends PowerGridComponent
             $query->where('account_type_category_id', $id)->whereNull('account_type_id')->orderBy('account_type_category_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('account_type_category_id')
                 ->dataSource(AccountTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')

@@ -40,7 +40,7 @@ final class DistrictTable extends PowerGridComponent
             Exportable::make(fileName: 'ilceler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -111,6 +111,7 @@ final class DistrictTable extends PowerGridComponent
             $query->where('city_id', $id)->orderBy('city_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('city_id')
                 ->dataSource(City::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
@@ -158,18 +159,19 @@ final class DistrictTable extends PowerGridComponent
     {
         return [
             'name' => [
-                'required', 'unique:neighborhoods'
+                'required',
+                'unique:neighborhoods'
             ],
         ];
     }
- 
+
     protected function validationAttributes()
     {
         return [
             'name'     => 'İlçe Adı',
         ];
     }
- 
+
     protected function messages()
     {
         return [
@@ -182,7 +184,7 @@ final class DistrictTable extends PowerGridComponent
     {
         $this->withValidator(function (\Illuminate\Validation\Validator $validator) use ($id, $field) {
             if ($validator->errors()->isNotEmpty()) {
-                $this->dispatch('toggle-'.$field.'-'.$id);
+                $this->dispatch('toggle-' . $field . '-' . $id);
             }
         })->validate();
 

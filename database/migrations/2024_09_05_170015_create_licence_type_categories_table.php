@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -41,9 +43,10 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->timestamp('started_at', precision: 0);
             $table->timestamp('finished_at', precision: 0)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
-        
+
         Schema::create('licence_type_category_licence_type_licence', function (Blueprint $table) {
             $table->foreignIdFor(LicenceTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(LicenceType::class)->nullable()->constrained()->cascadeOnDelete();

@@ -38,7 +38,7 @@ final class VehicleModelTable extends PowerGridComponent
             Exportable::make('marka-modelleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -129,6 +129,7 @@ final class VehicleModelTable extends PowerGridComponent
             $query->where('vehicle_brand_id', $id);
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('vehicle_brand_id')
                 ->dataSource(VehicleBrand::all())
                 ->optionLabel('name')

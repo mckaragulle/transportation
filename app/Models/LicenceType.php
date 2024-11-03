@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LicenceType extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -28,7 +29,7 @@ class LicenceType extends Model
         ];
     }
 
-    protected $fillable = ["licence_type_category_id","licence_type_id", "name", "slug", "phone", "email", "address", "status"];
+    protected $fillable = ["licence_type_category_id", "licence_type_id", "name", "slug", "phone", "email", "address", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

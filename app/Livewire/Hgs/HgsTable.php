@@ -47,7 +47,7 @@ final class HgsTable extends PowerGridComponent
             Exportable::make(fileName: 'hgsler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -162,7 +162,9 @@ final class HgsTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $filters = [];
+        $filters = [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
 
         foreach ($this->hgsCategories as $c) {
             //WORKING

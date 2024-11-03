@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Hgs extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -29,8 +29,15 @@ class Hgs extends Model
         ];
     }
 
-    protected $fillable = ["name", "slug", "number", "filename", "status", "buyed_at", "canceled_at",
-];
+    protected $fillable = [
+        "name",
+        "slug",
+        "number",
+        "filename",
+        "status",
+        "buyed_at",
+        "canceled_at",
+    ];
 
 
     public function getActivitylogOptions(): LogOptions

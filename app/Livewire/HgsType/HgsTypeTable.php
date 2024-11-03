@@ -38,7 +38,7 @@ final class HgsTypeTable extends PowerGridComponent
             Exportable::make(fileName: 'cariler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -113,6 +113,7 @@ final class HgsTypeTable extends PowerGridComponent
             $query->where('hgs_type_category_id', $id)->whereNull('hgs_type_id')->orderBy('hgs_type_category_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('hgs_type_category_id')
                 ->dataSource(HgsTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')

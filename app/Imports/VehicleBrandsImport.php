@@ -71,11 +71,11 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
 
     public function batchSize(): int
     {
-        return 100;
+        return 50;
     }
 
     public function chunkSize(): int
     {
-        return 100;
+        return 50;
     }
 }

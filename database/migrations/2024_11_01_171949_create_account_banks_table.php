@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Bank::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('iban')->unique()->index();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

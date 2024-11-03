@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('is_required')->default(true);
             $table->boolean('is_multiple')->default(false);
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

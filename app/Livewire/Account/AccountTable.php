@@ -44,7 +44,7 @@ final class AccountTable extends PowerGridComponent
             Exportable::make(fileName: 'Cariler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -80,11 +80,11 @@ final class AccountTable extends PowerGridComponent
             $fields->add("account_type_category_{$c->id}", function ($row) use ($c) {
                 $account_types = $row->account_types->where('account_type_category_id', $c->id);
                 $name = '';
-                foreach($account_types as $account_type){
+                foreach ($account_types as $account_type) {
                     if (isset($account_type->account_type->name)) {
                         $name = $account_type->account_type->name . ' -> ';
                     }
-                    $name = ($name . $account_type->name ?? '') .'<br>'; 
+                    $name = ($name . $account_type->name ?? '') . '<br>';
                 }
                 return $name;
             });
@@ -178,7 +178,9 @@ final class AccountTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $filters = [];
+        $filters = [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
 
         foreach ($this->accountCategories as $c) {
             //WORKING

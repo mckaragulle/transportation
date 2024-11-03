@@ -38,7 +38,7 @@ final class StaffTypeTable extends PowerGridComponent
             Exportable::make(fileName: 'personel-secenekleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -113,6 +113,7 @@ final class StaffTypeTable extends PowerGridComponent
             $query->where('staff_type_category_id', $id)->whereNull('staff_type_id')->orderBy('staff_type_category_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('staff_type_category_id')
                 ->dataSource(StaffTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')

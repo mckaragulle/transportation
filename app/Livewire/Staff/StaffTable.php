@@ -47,7 +47,7 @@ final class StaffTable extends PowerGridComponent
             Exportable::make(fileName: 'personeller')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -193,7 +193,9 @@ final class StaffTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $filters = [];
+        $filters = [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
 
         foreach ($this->staffCategories as $c) {
             //WORKING

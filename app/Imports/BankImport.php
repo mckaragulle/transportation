@@ -3,10 +3,6 @@
 namespace App\Imports;
 
 use App\Models\Bank;
-use App\Models\City;
-use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;

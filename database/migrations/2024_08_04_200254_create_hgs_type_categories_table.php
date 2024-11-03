@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -39,6 +41,7 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->timestamp('buyed_at', precision: 0);
             $table->timestamp('canceled_at', precision: 0)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
         Schema::create('hgs_type_category_hgs_type_hgs', function (Blueprint $table) {

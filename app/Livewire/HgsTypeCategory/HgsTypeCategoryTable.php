@@ -35,7 +35,7 @@ final class HgsTypeCategoryTable extends PowerGridComponent
             Exportable::make(fileName: 'cari-kategorileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -97,7 +97,9 @@ final class HgsTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(HgsTypeCategory $row): array

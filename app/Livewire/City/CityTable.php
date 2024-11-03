@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
@@ -35,7 +36,7 @@ final class CityTable extends PowerGridComponent
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -94,7 +95,9 @@ final class CityTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(City $row): array
@@ -141,14 +144,14 @@ final class CityTable extends PowerGridComponent
             ],
         ];
     }
- 
+
     protected function validationAttributes()
     {
         return [
             'name'     => 'İl Adı',
         ];
     }
- 
+
     protected function messages()
     {
         return [
@@ -161,10 +164,10 @@ final class CityTable extends PowerGridComponent
     {
         $this->withValidator(function (\Illuminate\Validation\Validator $validator) use ($id, $field) {
             if ($validator->errors()->isNotEmpty()) {
-                $this->dispatch('toggle-'.$field.'-'.$id);
+                $this->dispatch('toggle-' . $field . '-' . $id);
             }
         })->validate();
-        
+
         City::query()->find($id)->update([
             $field => e($value),
         ]);

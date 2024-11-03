@@ -38,7 +38,7 @@ final class LicenceTypeTable extends PowerGridComponent
             Exportable::make(fileName: 'surucu-belgesi-tipleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -113,6 +113,7 @@ final class LicenceTypeTable extends PowerGridComponent
             $query->where('licence_type_category_id', $id)->whereNull('licence_type_id')->orderBy('licence_type_category_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('licence_type_category_id')
                 ->dataSource(LicenceTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')

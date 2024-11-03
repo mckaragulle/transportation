@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class HgsType extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -29,7 +30,7 @@ class HgsType extends Model
         ];
     }
 
-    protected $fillable = ["hgs_type_category_id","hgs_type_id", "name", "slug", "status"];
+    protected $fillable = ["hgs_type_category_id", "hgs_type_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

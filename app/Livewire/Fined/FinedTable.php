@@ -36,7 +36,7 @@ final class FinedTable extends PowerGridComponent
             Exportable::make('arac-cezalari')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -105,6 +105,7 @@ final class FinedTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
     }
 

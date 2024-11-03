@@ -36,7 +36,7 @@ final class BankTable extends PowerGridComponent
             Exportable::make('arac-cezalari')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -126,7 +126,7 @@ final class BankTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update banks'),
                     fallback: '- empty -'
                 ),
-           
+
             Column::make('DURUM', 'status')
                 ->toggleable(
                     auth()->user()->can('update banks'),
@@ -146,6 +146,7 @@ final class BankTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
     }
 

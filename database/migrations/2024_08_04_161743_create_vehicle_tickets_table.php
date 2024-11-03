@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name')->unique()->index();
             $table->string('slug')->nullable()->unique()->index();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

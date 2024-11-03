@@ -6,12 +6,13 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class AccountAddress extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -28,9 +29,20 @@ class AccountAddress extends Model
     }
 
     protected $fillable = [
-        "account_id", "city_id", "district_id", "neighborhood_id", "locality_id",
-        "name", "slug", "address1", "address2", "phone1", "phone2", 
-        "email", "detail", "status",
+        "account_id",
+        "city_id",
+        "district_id",
+        "neighborhood_id",
+        "locality_id",
+        "name",
+        "slug",
+        "address1",
+        "address2",
+        "phone1",
+        "phone2",
+        "email",
+        "detail",
+        "status",
     ];
 
 

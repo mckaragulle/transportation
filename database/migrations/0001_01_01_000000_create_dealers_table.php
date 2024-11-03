@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,7 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-//        Schema::dropIfExists('departments');
+        //        Schema::dropIfExists('departments');
         Schema::dropIfExists('dealers');
     }
 };

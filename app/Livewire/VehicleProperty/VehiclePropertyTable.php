@@ -38,7 +38,7 @@ final class VehiclePropertyTable extends PowerGridComponent
             Exportable::make(fileName: 'arac-ozellikleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -114,6 +114,7 @@ final class VehiclePropertyTable extends PowerGridComponent
             $query->where('vehicle_property_category_id', $id)->whereNull('vehicle_property_id');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('vehicle_property_category_id')
                 ->dataSource(VehiclePropertyCategory::all())
                 ->optionLabel('name')

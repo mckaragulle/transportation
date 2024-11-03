@@ -41,7 +41,7 @@ final class AccountAddressTable extends PowerGridComponent
             Exportable::make(fileName: 'Cari Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -59,7 +59,11 @@ final class AccountAddressTable extends PowerGridComponent
     {
         return [
             'accounts' => [
-                "number", "name", "shortname", "phone", "email"
+                "number",
+                "name",
+                "shortname",
+                "phone",
+                "email"
             ],
         ];
     }
@@ -101,7 +105,7 @@ final class AccountAddressTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-                
+
             Column::make('İl Adı', 'city_id'),
             Column::make('İlçe Adı', 'district_id'),
             Column::make('Mahalle Adı', 'neighborhood_id'),
@@ -162,7 +166,7 @@ final class AccountAddressTable extends PowerGridComponent
 
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
-            ];
+        ];
     }
 
     public function filters(): array
@@ -177,6 +181,7 @@ final class AccountAddressTable extends PowerGridComponent
             $query->where('district_id', $district_id)->orderBy('district_id', 'asc');
         }
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('city_id')
                 ->dataSource(City::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
@@ -184,12 +189,12 @@ final class AccountAddressTable extends PowerGridComponent
             Filter::select('district_id')
                 ->depends(['city_id'])
                 ->dataSource(
-                    fn ($depends) => District::query()
+                    fn($depends) => District::query()
                         ->when(
                             isset($depends['city_id']),
-                            fn (Builder $query) => $query->whereRelation(
+                            fn(Builder $query) => $query->whereRelation(
                                 'city',
-                                fn (Builder $builder) => $builder->where('id', $depends['city_id'])
+                                fn(Builder $builder) => $builder->where('id', $depends['city_id'])
                             )
                         )
                         ->get()

@@ -38,7 +38,7 @@ final class AccountBankTable extends PowerGridComponent
             Exportable::make(fileName: 'Cari Banka Bilgileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -56,10 +56,18 @@ final class AccountBankTable extends PowerGridComponent
     {
         return [
             'accounts' => [
-                "number", "name", "shortname", "phone", "email"
+                "number",
+                "name",
+                "shortname",
+                "phone",
+                "email"
             ],
             'banks' => [
-                "name", "eft", "swift", "email", "phone"
+                "name",
+                "eft",
+                "swift",
+                "email",
+                "phone"
             ],
         ];
     }
@@ -87,7 +95,7 @@ final class AccountBankTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-                
+
             Column::make('Cari Adı', 'account_id'),
             Column::make('Banka Adı', 'bank_id'),
             Column::make('Adres Başlığı', 'iban')
@@ -111,12 +119,13 @@ final class AccountBankTable extends PowerGridComponent
 
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
-            ];
+        ];
     }
 
     public function filters(): array
     {
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('account_id')
                 ->dataSource(Account::orderBy('id', 'asc')->get())
                 ->optionLabel('name')

@@ -2,17 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\StatusScope;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountType extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -28,7 +31,7 @@ class AccountType extends Model
         ];
     }
 
-    protected $fillable = ["account_type_category_id","account_type_id", "name", "slug", "phone", "email", "address", "status"];
+    protected $fillable = ["account_type_category_id", "account_type_id", "name", "slug", "phone", "email", "address", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleProperty extends Model
 {
-    use HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -28,7 +29,7 @@ class VehicleProperty extends Model
         ];
     }
 
-    protected $fillable = ["vehicle_property_category_id","vehicle_property_id", "name", "slug", "status"];
+    protected $fillable = ["vehicle_property_category_id", "vehicle_property_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

@@ -6,6 +6,8 @@ use App\Livewire\AccountAddress\AccountAddresses;
 use App\Livewire\AccountAddress\AccountAddressEdit;
 use App\Livewire\AccountBank\AccountBankEdit;
 use App\Livewire\AccountBank\AccountBanks;
+use App\Livewire\AccountOfficer\AccountOfficerEdit;
+use App\Livewire\AccountOfficer\AccountOfficers;
 use App\Livewire\City\Cities;
 use App\Livewire\City\CityEdit;
 use App\Livewire\Hgs\HgsEdit;
@@ -143,6 +145,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     
     Route::get('/cari-banka-bilgileri', AccountBanks::class)->name('account_banks.list')->middleware('can:read account_banks');
     Route::get('/cari-banka-bilgisi/{id}/duzenle', AccountBankEdit::class)->name('account_banks.edit')->middleware('can:update account_banks');
+    
+    Route::get('/cari-yetkilileri', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
+    Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
 
     Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
     Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');

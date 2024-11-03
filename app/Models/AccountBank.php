@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountBank extends Model
 {
-    use HasFactory, LogsActivity;
+    use SoftDeletes, HasFactory, LogsActivity;
 
     protected $fillable = [
-        "account_id", "bank_id", "iban",
+        "account_id",
+        "bank_id",
+        "iban",
     ];
 
 

@@ -35,7 +35,7 @@ final class BrandTypeTable extends PowerGridComponent
             Exportable::make(fileName: 'marka-tipleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -102,7 +102,9 @@ final class BrandTypeTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(BrandType $row): array

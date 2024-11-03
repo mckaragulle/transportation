@@ -63,10 +63,10 @@ class AccountAddressEdit extends Component
     ];
 
     protected $messages = [
-        'account_id.required' => 'Lütfen müşteri seçiniz yazınız.',
-        'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz yazınız.',
+        'account_id.required' => 'Lütfen cari seçiniz yazınız.',
+        'account_id.exists' => 'Lütfen geçerli bir cari seçiniz yazınız.',
         'city_id.required' => 'Lütfen şehir seçiniz yazınız.',
-        'city_id.exists' => 'Lütfen geçerli bir müşteri seçiniz yazınız.',
+        'city_id.exists' => 'Lütfen geçerli bir şehir seçiniz yazınız.',
         'district_id.required' => 'Lütfen ilçe seçiniz yazınız.',
         'district_id.exists' => 'Lütfen geçerli bir ilçe seçiniz yazınız.',
         'neighborhood_id.required' => 'Lütfen mahalle seçiniz yazınız.',

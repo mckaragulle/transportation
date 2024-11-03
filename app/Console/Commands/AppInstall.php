@@ -90,6 +90,7 @@ class AppInstall extends Command
                 'create accounts', 'read accounts', 'update accounts', 'delete accounts',
                 'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
                 'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
+                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
                 
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
@@ -103,10 +104,6 @@ class AppInstall extends Command
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
                 'create staffs', 'read staffs', 'update staffs', 'delete staffs',
                 'create fineds', 'read fineds', 'update fineds', 'delete fineds',
-                
-
-
-
             ],
 
             'bayi' => [

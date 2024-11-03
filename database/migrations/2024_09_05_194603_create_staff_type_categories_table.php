@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -45,9 +47,10 @@ return new class extends Migration
             $table->text('detail')->nullable();
             $table->string('filename')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
-        
+
         Schema::create('staff_type_category_staff_type_staff', function (Blueprint $table) {
             $table->foreignIdFor(StaffTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(StaffType::class)->nullable()->constrained()->cascadeOnDelete();

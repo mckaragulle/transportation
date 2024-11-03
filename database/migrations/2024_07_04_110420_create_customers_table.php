@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone', 15);
             $table->string('email', 50)->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -37,7 +37,7 @@ final class VehicleTicketTable extends PowerGridComponent
             Exportable::make('marka-tipleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -102,6 +102,7 @@ final class VehicleTicketTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('vehicle_brand_id', 'vehicle_brand_id')
                 ->dataSource(VehicleBrand::all())
                 ->optionLabel('name')

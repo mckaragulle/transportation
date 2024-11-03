@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->string('insurance_number')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

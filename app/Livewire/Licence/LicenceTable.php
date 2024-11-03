@@ -47,7 +47,7 @@ final class LicenceTable extends PowerGridComponent
             Exportable::make(fileName: 'surucu-belgeleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -160,7 +160,9 @@ final class LicenceTable extends PowerGridComponent
 
     public function filters(): array
     {
-        $filters = [];
+        $filters = [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
 
         foreach ($this->licenceCategories as $c) {
             //WORKING

@@ -35,7 +35,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
             Exportable::make(fileName: 'cari-kategorileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()
+            Header::make()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             Footer::make()
@@ -87,7 +87,7 @@ final class AccountTypeCategoryTable extends PowerGridComponent
                     'Zorunlu',
                     'Değil',
                 ),
-                
+
             Column::make('ÇOKLU SEÇİM Mİ?', 'is_multiple')
                 ->toggleable(
                     auth()->user()->can('update account_type_categories'),
@@ -113,7 +113,9 @@ final class AccountTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [];
+        return [
+            Filter::boolean('status')->label('Aktif', 'Pasif'),
+        ];
     }
 
     public function actions(AccountTypeCategory $row): array
