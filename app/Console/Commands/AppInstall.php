@@ -91,6 +91,8 @@ class AppInstall extends Command
                 'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
                 'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
                 'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
+                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
+                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
                 
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',

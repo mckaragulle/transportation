@@ -44,7 +44,8 @@
                                                 @if (is_iterable($hgsTypeCategory->hgs_types))
                                                     @forelse($hgsTypeCategory->hgs_types as $hgsType)
                                                         @if (count($hgsType->hgs_types) == 0)
-                                                            <option value="{{ $hgsType->id }}" {{in_array($hgsType->id, $hgs_types)? 'selected':''}}>
+                                                            <option value="{{ $hgsType->id }}"
+                                                                {{ in_array($hgsType->id, $hgs_types) ? 'selected' : '' }}>
                                                                 {{ isset($hgsType->hgs_type->name) ? $hgsType->hgs_type->name . ' => ' : '' }}{{ $hgsType->name }}
                                                             </option>
                                                         @endif
@@ -83,7 +84,7 @@
                                 <label class="col-sm-2 col-form-label">Dosya seçiniz:</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="file" wire:model="filename" />
-                                    <div wire:loading wire:target="photo">Uploading...</div>
+                                    <div wire:loading wire:target="photo">Yükleniyor...</div>
                                     @error('filename')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -94,14 +95,14 @@
                                 </div>
 
                                 @if ($filename)
-                                <div class="col-sm-2">
-                                    <img src="{{ $filename->temporaryUrl() }}" width="100">
-                                </div>
+                                    <div class="col-sm-2">
+                                        <img src="{{ $filename->temporaryUrl() }}" width="100">
+                                    </div>
                                 @endif
                                 @if ($oldfilename)
-                                <div class="col-sm-2">
-                                    <img src="{{ \Storage::url($oldfilename) }}" width="100">
-                                </div>
+                                    <div class="col-sm-2">
+                                        <img src="{{ \Storage::url($oldfilename) }}" width="100">
+                                    </div>
                                 @endif
                             </div>
                             <div class="mb-3 row">

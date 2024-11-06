@@ -39,7 +39,8 @@
     ***********************************-->
         <div class="nav-header notprintable">
             <a href="{{ route('dashboard') }}" class="brand-logo">
-                <img src="{{ asset('xhtml/images/logo-renkli.svg') }}" alt="">
+                {{-- <img src="{{ asset('xhtml/images/logo-renkli.svg') }}" alt=""> --}}
+                Logo
             </a>
             <div class="nav-control">
                 <div class="hamburger">
@@ -78,8 +79,9 @@
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                                    <img src="{{ asset('xhtml/images/profil-foto.jpg') }}" width="20"
-                                        alt="" />
+                                    {{-- <img src="{{ asset('xhtml/images/profil-foto.jpg') }}" width="20"
+                                        alt="" /> --}}
+                                        Logo
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     @can('read admins')
@@ -222,7 +224,8 @@
                 <div class="dropdown header-profile2 ">
                     <a class="nav-link " href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                         <div class="header-info2 d-flex align-items-center">
-                            <img src="{{ asset('xhtml/images/profil-foto.jpg') }}" alt="">
+                            {{-- <img src="{{ asset('xhtml/images/profil-foto.jpg') }}" alt=""> --}}
+                            Logo
                             <div class="d-flex align-items-center sidebar-info">
                                 <div>
                                     <span class="font-w400 d-block">{{ auth()->user()->name ?? '' }}</span>
@@ -384,6 +387,22 @@
                                                     href="{{ route('account_officers.list') }}"><i
                                                         class="fa-solid fa-user-tie text-danger"></i>
                                                     <span class="ms-2">Cari Yetkilileri</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read account_files')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('account_files.list') }}"><i
+                                                        class="fa-solid fa-file text-danger"></i>
+                                                    <span class="ms-2">Cari Dosyaları</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('read account_groups')
+                                            <li>
+                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                                                    href="{{ route('account_groups.list') }}"><i
+                                                        class="fa-solid fa-groups text-danger"></i>
+                                                    <span class="ms-2">Cari Grupları</span></a>
                                             </li>
                                         @endcan
                                     </ul>

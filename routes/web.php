@@ -6,6 +6,8 @@ use App\Livewire\AccountAddress\AccountAddresses;
 use App\Livewire\AccountAddress\AccountAddressEdit;
 use App\Livewire\AccountBank\AccountBankEdit;
 use App\Livewire\AccountBank\AccountBanks;
+use App\Livewire\AccountFile\AccountFiles;
+use App\Livewire\AccountGroup\AccountGroups;
 use App\Livewire\AccountOfficer\AccountOfficerEdit;
 use App\Livewire\AccountOfficer\AccountOfficers;
 use App\Livewire\City\Cities;
@@ -145,6 +147,13 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     
     Route::get('/cari-banka-bilgileri', AccountBanks::class)->name('account_banks.list')->middleware('can:read account_banks');
     Route::get('/cari-banka-bilgisi/{id}/duzenle', AccountBankEdit::class)->name('account_banks.edit')->middleware('can:update account_banks');
+    
+    Route::get('/cari-yetkilileri', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
+    Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
+    
+    Route::get('/cari-dosyalari', AccountFiles::class)->name('account_files.list')->middleware('can:read account_files');
+    
+    Route::get('/cari-gruplari', AccountGroups::class)->name('account_groups.list')->middleware('can:read account_groups');
     
     Route::get('/cari-yetkilileri', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
     Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');

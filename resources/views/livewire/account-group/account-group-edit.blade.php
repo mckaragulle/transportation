@@ -1,17 +1,17 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('staffs.list') }}">Staffler</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('account_officers.list') }}">Cari Yetkilileri</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Staff Oluştur</h4>
+            <h4 class="card-title mb-0">Cari Yetkilisi Düzenle</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <form wire:submit.prevent="store">
+                <form wire:submit.prevent="update">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
@@ -30,47 +30,33 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>
-                            @if (auth()->user()->can('update staff_type_categories'))
-                                <div class="mb-3 row">
-                                    @foreach ($staffTypeCategoryDatas as $staffTypeCategory)
-                                        <div class="col-lg-2 col-sm-12">
-                                            <label class="col-form-label">{{ $staffTypeCategory->name }} SEÇİNİZ
-                                                :</label>
-                                            <select wire:model.lazy="staff_type_categories.{{ $staffTypeCategory->id }}"
-                                                id="staff_type_category_id{{ $staffTypeCategory->id }}"
-                                                class="form-select form-select-lg">
-                                                <option value="">{{ $staffTypeCategory->name }} SEÇİNİZ</option>
-                                                @if (is_iterable($staffTypeCategory->staff_types))
-                                                    @forelse($staffTypeCategory->staff_types as $staffType)
-                                                        @if (count($staffType->staff_types) == 0)
-                                                            <option value="{{ $staffType->id }}">
-                                                                {{ isset($staffType->staff_type->name) ? $staffType->staff_type->name . ' => ' : '' }}{{ $staffType->name }}
-                                                            </option>
-                                                        @endif
-                                                    @empty
-                                                    @endforelse
-                                                @endif
-                                            </select>
-                                            @error('staff_type_categories')
-                                                <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                        aria-label="btn-close">
-                                                    </button>{{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                            @endif
+                            </div>        
                             <hr />
                             <div class="mb-3 row">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Hesap Seçiniz :</label>
+                                    <select wire:model.lazy="account_id" id="account_id"
+                                        class="form-select form-select-lg">
+                                        <option value="">Hesap Seçiniz</option>
+                                        @if(is_iterable($accounts))
+                                        @forelse($accounts as $a)
+                                        <option value="{{$a->id}}">{{$a->name}}</option>
+                                        @empty
+                                        @endforelse
+                                        @endif
+                                    </select>
+                                    @error('account_id')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel TC kimlik numarasını yazınız:</label>
-                                    <input class="form-control" type="number" wire:model.defer="id_number"
-                                        placeholder="Personel TC kimlik numarasını yazınız.">
-                                    @error('id_number')
+                                    <label class="col-form-label">Yetkili no'sunu yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="number"
+                                        placeholder="Yetkili no'sunu yazınız.">
+                                    @error('number')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="btn-close">
@@ -79,9 +65,9 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel adını yazınız:</label>
-                                    <input class="form-control" type="text" wire:model.defer="name"
-                                        placeholder="Personel adını yazınız.">
+                                    <label class="col-form-label">Yetkili adını yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="name"
+                                        placeholder="Yetkili adını yazınız.">
                                     @error('name')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -91,9 +77,9 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel soyadını yazınız:</label>
-                                    <input class="form-control" type="text" wire:model.defer="surname"
-                                        placeholder="Personel soyadını yazınız.">
+                                    <label class="col-form-label">Yetkili soyadını yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="surname"
+                                        placeholder="Yetkili soyadını yazınız.">
                                     @error('surname')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -103,9 +89,21 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel 1. telefonunu yazınız:</label>
-                                    <input class="form-control" type="text" wire:model.defer="phone1"
-                                        placeholder="Personel 1. telefonunu yazınız.">
+                                    <label class="col-form-label">Yetkili ünvanını yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="title"
+                                        placeholder="Yetkili ünvanını yazınız.">
+                                    @error('title')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">1. Telefonu yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="phone1"
+                                        placeholder="1. Telefonu yazınız.">
                                     @error('phone1')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -115,9 +113,9 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel 2. telefonunu yazınız:</label>
-                                    <input class="form-control" type="text" wire:model.defer="phone2"
-                                        placeholder="Personel 2. telefonunu yazınız.">
+                                    <label class="col-form-label">2. Telefonu yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="phone2"
+                                        placeholder="2. Telefonu yazınız.">
                                     @error('phone2')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -127,9 +125,9 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">Personel eposta adresini yazınız:</label>
-                                    <input class="form-control" type="text" wire:model.defer="email"
-                                        placeholder="Personel eposta adresini yazınız.">
+                                    <label class="col-form-label">Eposta adresini yazınız:</label>
+                                    <input class="form-control" type="text" required wire:model.defer="email"
+                                        placeholder="Eposta adresini yazınız.">
                                     @error('email')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -138,9 +136,10 @@
                                         </div>
                                     @enderror
                                 </div>
+
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Açıklama yazınız:</label>
-                                    <textarea class="form-control" type="text" wire:model.defer="detail" placeholder="Açıklama yazınız."></textarea>
+                                    <textarea class="form-control" required wire:model.defer="detail" placeholder="Açıklama yazınız."></textarea>
                                     @error('detail')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -150,21 +149,29 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Dosya seçiniz:</label>
-                                    <input class="form-control" type="file" wire:model="filename" />
-                                    <div wire:loading wire:target="photo">Yükleniyor...</div>
-                                    @error('filename')
+                                    <label class="col-form-label">Dosya/ları seçiniz:</label>
+                                    <input class="form-control" type="file" wire:model.lazy="files" multiple />
+                                    <div wire:loading wire:target="files">Yükleniyor...</div>
+                                    @error('files')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="btn-close">
                                             </button>{{ $message }}
                                         </div>
                                     @enderror
-                                    @if ($filename)
-                                        <img src="{{ $filename->temporaryUrl() }}" width="100">
-                                    @endif
                                 </div>
+                                @if (is_array($oldfiles) && count($oldfiles) > 0)
+                                <div class="row">
+                                @foreach($oldfiles as $k => $oldfile)
+                                @if(\Storage::exists($oldfile))
+                                <div class="col-sm-1">
+                                    <a href="{{\Storage::url($oldfile)}}" target="_blank">{{$k+1}}. Dosya</a>
+                                </div>
+                                @endif
+                                @endforeach
 
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

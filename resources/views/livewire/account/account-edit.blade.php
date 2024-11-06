@@ -33,45 +33,47 @@
                             </div>
 
                             @if (auth()->user()->can('update account_type_categories'))
-                            <div class="mb-3 row">
-                                @foreach ($accountTypeCategoryDatas as $accountTypeCategory)
-                                    <div class="col-lg-2 col-sm-12">
-                                        <label class="col-form-label">{{ $accountTypeCategory->name }} SEÇİNİZ
-                                            :</label>
-                                        <select
-                                            wire:model.defer="account_type_categories.{{ $accountTypeCategory->id }}"
-                                            id="account_type_category_id{{ $accountTypeCategory->id }}"
-                                            class="form-select form-select-lg" {{$accountTypeCategory->is_required?'required':''}} {{$accountTypeCategory->is_multiple?'multiple':''}}>
-                                            <option value="0">{{ $accountTypeCategory->name }} SEÇİNİZ</option>
-                                            @if (is_iterable($accountTypeCategory->account_types))
-                                                @forelse($accountTypeCategory->account_types as $accountType)
-                                                    @if (count($accountType->account_types) == 0)
-                                                        <option value="{{ $accountType->id }}">
-                                                            {{ isset($accountType->account_type->name) ? $accountType->account_type->name . ' => ' : '' }}{{ $accountType->name }}
-                                                        </option>
-                                                    @endif
-                                                @empty
-                                                @endforelse
-                                            @endif
-                                        </select>
-                                        @error('account_type_categories')
-                                            <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                    aria-label="btn-close">
-                                                </button>{{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                @endforeach
+                                <div class="mb-3 row">
+                                    @foreach ($accountTypeCategoryDatas as $accountTypeCategory)
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label class="col-form-label">{{ $accountTypeCategory->name }} SEÇİNİZ
+                                                :</label>
+                                            <select
+                                                wire:model.defer="account_type_categories.{{ $accountTypeCategory->id }}"
+                                                id="account_type_category_id{{ $accountTypeCategory->id }}"
+                                                class="form-select form-select-lg"
+                                                {{ $accountTypeCategory->is_required ? 'required' : '' }}
+                                                {{ $accountTypeCategory->is_multiple ? 'multiple' : '' }}>
+                                                <option value="0">{{ $accountTypeCategory->name }} SEÇİNİZ</option>
+                                                @if (is_iterable($accountTypeCategory->account_types))
+                                                    @forelse($accountTypeCategory->account_types as $accountType)
+                                                        @if (count($accountType->account_types) == 0)
+                                                            <option value="{{ $accountType->id }}">
+                                                                {{ isset($accountType->account_type->name) ? $accountType->account_type->name . ' => ' : '' }}{{ $accountType->name }}
+                                                            </option>
+                                                        @endif
+                                                    @empty
+                                                    @endforelse
+                                                @endif
+                                            </select>
+                                            @error('account_type_categories')
+                                                <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="btn-close">
+                                                    </button>{{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    @endforeach
 
-                            </div>
+                                </div>
                             @endif
                             <hr />
                             <div class="mb-3 row">
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Müşterinin cari numarasını yazınız:</label>
-                                    <input class="form-control" type="number" required step="1" wire:model.defer="number"
-                                        placeholder="Müşterinin cari numarasını yazınız.">
+                                    <input class="form-control" type="number" required step="1"
+                                        wire:model.defer="number" placeholder="Müşterinin cari numarasını yazınız.">
                                     @error('number')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -130,8 +132,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Açıklama yazınız:</label>
-                                    <textarea class="form-control" type="text" wire:model.defer="detail"
-                                    placeholder="Açıklama yazınız."></textarea>
+                                    <textarea class="form-control" type="text" wire:model.defer="detail" placeholder="Açıklama yazınız."></textarea>
                                     @error('detail')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -145,7 +146,7 @@
                                 <label class="col-sm-2 col-form-label">Dosya seçiniz:</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="file" wire:model="filename" />
-                                    <div wire:loading wire:target="photo">Uploading...</div>
+                                    <div wire:loading wire:target="photo">Yükleniyor...</div>
                                     @error('filename')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -166,7 +167,7 @@
                                     </div>
                                 @endif
                             </div> --}}
-                            
+
                         </div>
                     </div>
                     <div class="row">

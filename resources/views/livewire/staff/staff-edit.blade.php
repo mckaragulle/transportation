@@ -150,13 +150,13 @@
                                             </button>{{ $message }}
                                         </div>
                                     @enderror
-                                </div>                            
+                                </div>
                             </div>
                             <div class="mb-3 row">
                                 <label class="col-sm-2 col-form-label">Dosya seçiniz:</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="file" wire:model="filename" />
-                                    <div wire:loading wire:target="photo">Uploading...</div>
+                                    <div wire:loading wire:target="photo">Yükleniyor...</div>
                                     @error('filename')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
