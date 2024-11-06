@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AccountGroup extends Model
+class AccountSector extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         "account_id",
-        "group_id",
+        "sector_id",
     ];
 
     /**
@@ -26,8 +26,8 @@ class AccountGroup extends Model
     /**
      * Get the prices for the type post.
      */
-    public function group(): BelongsTo
+    public function sector(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(Sector::class);
     }
 }
