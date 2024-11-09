@@ -397,14 +397,6 @@
                                                     <span class="ms-2">Cari Dosyaları</span></a>
                                             </li>
                                         @endcan
-                                        @can('read account_groups')
-                                            <li>
-                                                <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-                                                    href="{{ route('account_groups.list') }}"><i
-                                                        class="fa-solid fa-groups text-danger"></i>
-                                                    <span class="ms-2">Cari Grupları</span></a>
-                                            </li>
-                                        @endcan
                                     </ul>
                                 </li>
                             @endif

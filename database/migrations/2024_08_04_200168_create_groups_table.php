@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account;
 use App\Models\Group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(model: Account::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(model: Group::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();

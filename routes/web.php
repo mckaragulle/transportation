@@ -55,6 +55,8 @@ use App\Livewire\District\DistrictEdit;
 use App\Livewire\District\Districts;
 use App\Livewire\Fined\FinedEdit;
 use App\Livewire\Fined\Fineds;
+use App\Livewire\Group\GroupEdit;
+use App\Livewire\Group\Groups;
 use App\Livewire\HgsTypeCategory\HgsTypeCategories;
 use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
 
@@ -70,6 +72,8 @@ use App\Livewire\Locality\Localities;
 use App\Livewire\Locality\LocalityEdit;
 use App\Livewire\Neighborhood\NeighborhoodEdit;
 use App\Livewire\Neighborhood\Neighborhoods;
+use App\Livewire\Sector\SectorEdit;
+use App\Livewire\Sector\Sectors;
 use App\Livewire\Signin;
 use App\Livewire\Staff\StaffEdit;
 use App\Livewire\Staff\Staffs;
@@ -121,6 +125,12 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/bankalar', Banks::class)->name('banks.list')->middleware('can:read banks');
     Route::get('/banka/{id}/duzenle', BankEdit::class)->name('banks.edit')->middleware('can:update banks');
 
+    Route::get('/gruplar', Groups::class)->name('groups.list')->middleware('can:read groups');
+    Route::get('/grup/{id}/duzenle', GroupEdit::class)->name('groups.edit')->middleware('can:update groups');
+
+    Route::get('/sektorler', Sectors::class)->name('sectors.list')->middleware('can:read sectors');
+    Route::get('/sektor/{id}/duzenle', SectorEdit::class)->name('sectors.edit')->middleware('can:update sectors');
+
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
     Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');
 
@@ -152,11 +162,6 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
     
     Route::get('/cari-dosyalari', AccountFiles::class)->name('account_files.list')->middleware('can:read account_files');
-    
-    Route::get('/cari-gruplari', AccountGroups::class)->name('account_groups.list')->middleware('can:read account_groups');
-    
-    Route::get('/cari-yetkilileri', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
-    Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
 
     Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
     Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');

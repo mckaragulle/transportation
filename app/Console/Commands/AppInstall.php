@@ -68,7 +68,7 @@ class AppInstall extends Command
                 'create districts', 'read districts', 'update districts', 'delete districts',
                 'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
                 'create localities', 'read localities', 'update localities', 'delete localities',
-                'create banks', 'read banks', 'update banks', 'delete banks',
+                
 
 
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
@@ -85,6 +85,10 @@ class AppInstall extends Command
                 'create vehicle_properties', 'read vehicle_properties', 'update vehicle_properties', 'delete vehicle_properties',
                 'create vehicles', 'read vehicles', 'update vehicles', 'delete vehicles',
                 
+                'create banks', 'read banks', 'update banks', 'delete banks',
+                'create groups', 'read groups', 'update groups', 'delete groups',
+                'create sectors', 'read sectors', 'update groups', 'delete groups',
+
                 'create account_type_categories', 'read account_type_categories', 'update account_type_categories', 'delete account_type_categories',
                 'create account_types', 'read account_types', 'update account_types', 'delete account_types',
                 'create accounts', 'read accounts', 'update accounts', 'delete accounts',
@@ -93,6 +97,7 @@ class AppInstall extends Command
                 'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
                 'create account_files', 'read account_files', 'update account_files', 'delete account_files',
                 'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
+                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
                 
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',

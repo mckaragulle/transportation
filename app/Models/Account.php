@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Account extends Model
 {
-    use SoftDeletes, HasFactory, LogsActivity, SoftDeletes;
+    use SoftDeletes, HasFactory, LogsActivity;
 
     protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "status"];
 
