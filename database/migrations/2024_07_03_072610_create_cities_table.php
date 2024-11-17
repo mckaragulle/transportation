@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedTinyInteger('plate');
             $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();

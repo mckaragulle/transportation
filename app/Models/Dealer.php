@@ -16,7 +16,7 @@ class Dealer extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity;
 
-    protected $guard_name = 'admin';
+    protected $guard_name = 'dealer';
 
     public $roleType = 'bayi';
 

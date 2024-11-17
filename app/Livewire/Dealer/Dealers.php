@@ -3,6 +3,7 @@
 namespace App\Livewire\Dealer;
 
 use App\Services\DealerService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -53,5 +54,15 @@ class Dealers extends Component
         } finally {
             $this->dispatch('pg:eventRefresh-DealerTable');
         }
+    }
+
+
+    #[On('login-dealer')]
+    public function login($id)
+    {
+        Auth::guard('dealer')->loginUsingId($id);
+        Auth::guard('admin')->logout();
+        Auth::guard('web')->logout();
+        return redirect()->route('dashboard');
     }
 }

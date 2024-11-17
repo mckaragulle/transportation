@@ -1,6 +1,6 @@
 <div>
     @can('create accounts')
-    <livewire:account.account-create />
+    <livewire:account.account-create is_show="0" />
     <hr>
     @endcan
     @can('read accounts')

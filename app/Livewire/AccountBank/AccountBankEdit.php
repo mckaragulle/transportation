@@ -6,6 +6,7 @@ use App\Models\AccountBank;
 use App\Services\AccountBankService;
 use App\Services\AccountService;
 use App\Services\BankService;
+use App\Services\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,9 +19,11 @@ class AccountBankEdit extends Component
 
     public ?AccountBank $accountBank = null;
 
+    public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
     
+    public null|int $dealer_id = null;
     public null|int $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
@@ -38,6 +41,8 @@ class AccountBankEdit extends Component
     ];
 
     protected $messages = [
+        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
+        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen müşteri seçiniz.',
         'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
         'bank_id.required' => 'Lütfen banka seçiniz.',
@@ -47,12 +52,19 @@ class AccountBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
+    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
     {
         if (!is_null($id)) {
             $this->accountBank = $accountBankService->findById($id);
+            $this->dealers = $dealerService->all(['id', 'name']);
             $this->accounts = $accountService->all(['id', 'name']);
             $this->banks = $bankService->all(['id', 'name']);
+            
+            if(auth()->getDefaultDriver() == 'dealer'){
+                $this->dealer_id = auth()->user()->id;
+            } else if(auth()->getDefaultDriver() == 'users'){
+                $this->dealer_id = auth()->user()->dealer()->id;
+            }
             $this->account_id = $this->accountBank->account_id;
             $this->bank_id = $this->accountBank->bank_id;
             $this->iban = $this->accountBank->iban;
@@ -77,6 +89,7 @@ class AccountBankEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
+            $this->accountBank->dealer_id = $this->dealer_id;
             $this->accountBank->account_id = $this->account_id;
             $this->accountBank->bank_id = $this->bank_id;
             

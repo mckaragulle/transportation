@@ -3,6 +3,7 @@
 use App\Models\Account;
 use App\Models\Bank;
 use App\Models\City;
+use App\Models\Dealer;
 use App\Models\District;
 use App\Models\Locality;
 use App\Models\Neighborhood;
@@ -19,6 +20,7 @@ return new class extends Migration
     {
         Schema::create('account_banks', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Dealer::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Account::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Bank::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('iban')->unique()->index();

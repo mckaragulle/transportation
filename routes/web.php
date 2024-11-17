@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Account\AccountEdit;
+use App\Livewire\Account\AccountManagement;
 use App\Livewire\Account\Accounts;
 use App\Livewire\AccountAddress\AccountAddresses;
 use App\Livewire\AccountAddress\AccountAddressEdit;
@@ -91,6 +92,34 @@ Route::middleware('auth:admin,dealer,web')->prefix('dashboard')->group(function 
 
     Route::get('/elemanlar', Users::class)->name('users.list')->middleware('can:read users');
     Route::get('/eleman/{id}/duzenle', UserEdit::class)->name('users.edit')->middleware('can:update users');
+
+    Route::get('/gruplar', Groups::class)->name('groups.list')->middleware('can:read groups');
+    Route::get('/grup/{id}/duzenle', GroupEdit::class)->name('groups.edit')->middleware('can:update groups');
+
+    Route::get('/sektorler', Sectors::class)->name('sectors.list')->middleware('can:read sectors');
+    Route::get('/sektor/{id}/duzenle', SectorEdit::class)->name('sectors.edit')->middleware('can:update sectors');
+
+    Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
+    Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
+
+    Route::get('/hgsler', Hgses::class)->name('hgses.list')->middleware('can:read hgses');
+    Route::get('/hgs/{id}/duzenle', HgsEdit::class)->name('hgses.edit')->middleware('can:update hgses');
+
+    Route::get('/cari-adresleri/{id?}/{is_show?}', AccountAddresses::class)->name('account_addresses.list')->middleware('can:read account_addresses');
+    Route::get('/cari-adresi/{id}/duzenle', AccountAddressEdit::class)->name('account_addresses.edit')->middleware('can:update account_addresses');
+    Route::get('/cari-banka-bilgisi/{id}/duzenle', AccountBankEdit::class)->name('account_banks.edit')->middleware('can:update account_banks');
+Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
+
+    Route::get('/cari-yonetimi/{id}', AccountManagement::class)->name('account_managements.edit')->middleware('can:read accounts');
+
+    Route::get('/surucu-belgeleri', Licences::class)->name('licences.list')->middleware('can:read licences');
+    Route::get('/surucu-belgesi/{id}/duzenle', LicenceEdit::class)->name('licences.edit')->middleware('can:update licences');
+
+    Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
+    Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');
+
+    Route::get('/arac-cezalari', Fineds::class)->name('fineds.list')->middleware('can:read fineds');
+    Route::get('/arac-cezasi/{id}/duzenle', FinedEdit::class)->name('fineds.edit')->middleware('can:update fineds');
 });
 
 Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
@@ -125,12 +154,6 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/bankalar', Banks::class)->name('banks.list')->middleware('can:read banks');
     Route::get('/banka/{id}/duzenle', BankEdit::class)->name('banks.edit')->middleware('can:update banks');
 
-    Route::get('/gruplar', Groups::class)->name('groups.list')->middleware('can:read groups');
-    Route::get('/grup/{id}/duzenle', GroupEdit::class)->name('groups.edit')->middleware('can:update groups');
-
-    Route::get('/sektorler', Sectors::class)->name('sectors.list')->middleware('can:read sectors');
-    Route::get('/sektor/{id}/duzenle', SectorEdit::class)->name('sectors.edit')->middleware('can:update sectors');
-
     Route::get('/tipler', VehicleTickets::class)->name('vehicle_tickets.list')->middleware('can:read vehicle_tickets');
     Route::get('/tip/{id}/duzenle', VehicleTicketEdit::class)->name('vehicle_tickets.edit')->middleware('can:update vehicle_tickets');
 
@@ -148,20 +171,16 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/cari-tipleri', AccountTypes::class)->name('account_types.list')->middleware('can:read account_types');
     Route::get('/cari-tipi/{id}/duzenle', AccountTypeEdit::class)->name('account_types.edit')->middleware('can:update account_types');
-
-    Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
-    Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
     
-    Route::get('/cari-adresleri', AccountAddresses::class)->name('account_addresses.list')->middleware('can:read account_addresses');
-    Route::get('/cari-adresi/{id}/duzenle', AccountAddressEdit::class)->name('account_addresses.edit')->middleware('can:update account_addresses');
+    Route::get('/cari-banka-bilgileri/{id?}/{is_show?}', AccountBanks::class)->name('account_banks.list')->middleware('can:read account_banks');
     
-    Route::get('/cari-banka-bilgileri', AccountBanks::class)->name('account_banks.list')->middleware('can:read account_banks');
-    Route::get('/cari-banka-bilgisi/{id}/duzenle', AccountBankEdit::class)->name('account_banks.edit')->middleware('can:update account_banks');
     
-    Route::get('/cari-yetkilileri', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
-    Route::get('/cari-yetkili/{id}/duzenle', AccountOfficerEdit::class)->name('account_officers.edit')->middleware('can:update account_officers');
+    Route::get('/cari-yetkilileri/{id?}/{is_show?}', AccountOfficers::class)->name('account_officers.list')->middleware('can:read account_officers');
     
-    Route::get('/cari-dosyalari', AccountFiles::class)->name('account_files.list')->middleware('can:read account_files');
+    
+    Route::get('/cari-dosyalari/{id?}/{is_show?}', AccountFiles::class)->name('account_files.list')->middleware('can:read account_files');
+    
+    
 
     Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
     Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');
@@ -169,8 +188,6 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/hgs-tipleri', HgsTypes::class)->name('hgs_types.list')->middleware('can:read hgs_types');
     Route::get('/hgs-tipi/{id}/duzenle', HgsTypeEdit::class)->name('hgs_types.edit')->middleware('can:update hgs_types');
 
-    Route::get('/hgsler', Hgses::class)->name('hgses.list')->middleware('can:read hgses');
-    Route::get('/hgs/{id}/duzenle', HgsEdit::class)->name('hgses.edit')->middleware('can:update hgses');
 
     Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
     Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');
@@ -178,20 +195,12 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
     Route::get('/surucu-belgesi-tipleri', LicenceTypes::class)->name('licence_types.list')->middleware('can:read licence_types');
     Route::get('/surucu-belgesi-tipi/{id}/duzenle', LicenceTypeEdit::class)->name('licence_types.edit')->middleware('can:update licence_types');
 
-    Route::get('/surucu-belgeleri', Licences::class)->name('licences.list')->middleware('can:read licences');
-    Route::get('/surucu-belgesi/{id}/duzenle', LicenceEdit::class)->name('licences.edit')->middleware('can:update licences');
-
     Route::get('/personel-kategorileri', StaffTypeCategories::class)->name('staff_type_categories.list')->middleware('can:read staff_type_categories');
     Route::get('/personel-kategorisi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_type_categories.edit')->middleware('can:update staff_type_categories');
 
     Route::get('/personel-tipleri', StaffTypes::class)->name('staff_types.list')->middleware('can:read staff_types');
     Route::get('/personel-tipi/{id}/duzenle', StaffTypeEdit::class)->name('staff_types.edit')->middleware('can:update staff_types');
 
-    Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
-    Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');
-
-    Route::get('/arac-cezalari', Fineds::class)->name('fineds.list')->middleware('can:read fineds');
-    Route::get('/arac-cezasi/{id}/duzenle', FinedEdit::class)->name('fineds.edit')->middleware('can:update fineds');
 });
 
 //\Illuminate\Support\Facades\Auth::routes();

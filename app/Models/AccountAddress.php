@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -29,6 +30,7 @@ class AccountAddress extends Model
     }
 
     protected $fillable = [
+        "dealer_id", 
         "account_id",
         "city_id",
         "district_id",
@@ -52,6 +54,14 @@ class AccountAddress extends Model
             ->logAll();
     }
 
+    /**
+     * Get the Dealer.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+    
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
@@ -75,5 +85,18 @@ class AccountAddress extends Model
     public function locality(): BelongsTo
     {
         return $this->belongsTo(Locality::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (AccountAddress $dish) => self::clearCache());
+        static::updated(fn (AccountAddress $dish) => self::clearCache());
+        static::deleted(fn (AccountAddress $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-account_addresses-AccountAddressTable'])->flush();
     }
 }

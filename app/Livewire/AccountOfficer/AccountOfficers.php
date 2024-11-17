@@ -15,8 +15,15 @@ class AccountOfficers extends Component
 {
     use LivewireAlert;
 
+    public null|int $account_id = null;
     public null|int $data_id;
+    public bool $is_show = false;
 
+    public function mount($id = null, bool $is_show)
+    {
+        $this->account_id = $id;
+        $this->is_show = $is_show;
+    }
 
     public function render()
     {

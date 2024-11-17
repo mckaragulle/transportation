@@ -1,6 +1,6 @@
 <div>
     @can('create account_addresses')
-    <livewire:account-address.account-address-create />
+    <livewire:account-address.account-address-create id="{{$account_id}}" is_show="{{$is_show}}" />
     <hr>
     @endcan
     @can('read account_addresses')

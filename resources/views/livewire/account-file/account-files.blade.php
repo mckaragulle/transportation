@@ -1,6 +1,6 @@
 <div>
     @can('create account_files')
-    <livewire:account-file.account-file-create />
+    <livewire:account-file.account-file-create id="{{$account_id}}" is_show="{{$is_show}}"/>
     <hr>
     @endcan
     @can('read account_files')

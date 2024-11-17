@@ -14,6 +14,7 @@ class AccountBank extends Model
     use SoftDeletes, HasFactory, LogsActivity;
 
     protected $fillable = [
+        "dealer_id", 
         "account_id",
         "bank_id",
         "iban",
@@ -26,6 +27,14 @@ class AccountBank extends Model
             ->logAll();
     }
 
+    /**
+     * Get the Dealer.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+    
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);

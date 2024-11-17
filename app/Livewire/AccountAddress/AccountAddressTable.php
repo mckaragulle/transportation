@@ -3,20 +3,16 @@
 namespace App\Livewire\AccountAddress;
 
 use App\Models\AccountAddress;
-use App\Models\AccountAddressTypeCategory;
 use App\Models\City;
 use App\Models\District;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
-use PowerComponents\LivewirePowerGrid\Footer;
-use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -31,6 +27,7 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function setUp(): array
     {
+        $id =  auth()->user()->id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -38,13 +35,16 @@ final class AccountAddressTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'Cari Adresleeri')
+            PowerGrid::cache() 
+            ->ttl(60) 
+            ->prefix( $id . '_'),
+            PowerGrid::exportable(fileName: 'Cari Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -52,7 +52,13 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return AccountAddress::query();
+        $account = AccountAddress::query();
+        if(Auth::getDefaultDriver() == 'dealer'){
+            $account->where('dealer_id', auth()->user()->id);
+        } else if(Auth::getDefaultDriver() == 'users'){
+            $account->where('dealer_id', auth()->user()->dealer()->id);
+        }
+        return $account;
     }
 
     public function relationSearch(): array
@@ -105,7 +111,9 @@ final class AccountAddressTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-
+            Column::make('Cari Adı', 'account_id')
+                ->sortable()
+                ->searchable(),
             Column::make('İl Adı', 'city_id'),
             Column::make('İlçe Adı', 'district_id'),
             Column::make('Mahalle Adı', 'neighborhood_id'),

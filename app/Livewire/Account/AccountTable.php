@@ -6,15 +6,13 @@ use App\Models\Account;
 use App\Models\AccountTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
-use PowerComponents\LivewirePowerGrid\Footer;
-use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -41,13 +39,13 @@ final class AccountTable extends PowerGridComponent
         $this->accountCategories = AccountTypeCategory::query()->with(['account_types'])->get(['id', 'name']);
 
         return [
-            Exportable::make(fileName: 'Cariler')
+            PowerGrid::exportable(fileName: 'Cariler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -55,9 +53,19 @@ final class AccountTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Account::query()
-            ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
-            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name']);
+        $account = Account::query()
+        ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
+        ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
+
+        if(Auth::getDefaultDriver() == 'dealer'){
+            $account->where('dealer_id', auth()->user()->id);
+        } else if(Auth::getDefaultDriver() == 'users'){
+            $account->where('dealer_id', auth()->user()->dealer()->id);
+        }
+        return $account;
+        // return Account::query()
+        //     ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
+        //     ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name']);
     }
 
     public function relationSearch(): array
@@ -90,6 +98,9 @@ final class AccountTable extends PowerGridComponent
             });
         }
         $fields
+            ->add('dealer_id', function ($role) {
+                return $role->dealer->name ?? "---";
+            })
             ->add('number')
             ->add('name')
             ->add('shortname')
@@ -112,8 +123,11 @@ final class AccountTable extends PowerGridComponent
     {
         $column = [
             Column::make('Id', 'id')
-                ->sortable()
-                ->searchable(),
+            ->sortable()
+            ->searchable(),
+            Column::make('Bayi Adı', 'dealer_id')
+            ->sortable()
+            ->searchable(),
         ];
         foreach ($this->accountCategories as $c) {
             array_push($column, Column::make("{$c->name}", "account_type_category_{$c->id}"));
@@ -196,6 +210,10 @@ final class AccountTable extends PowerGridComponent
     public function actions(Account $row): array
     {
         return [
+            Button::add('manage')
+                ->slot('<i class="fa fa-person"></i>')
+                ->route('account_managements.edit', ['id' => $row->id])
+                ->class('badge badge-primary'),
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
                 ->route('accounts.edit', ['id' => $row->id])
@@ -211,6 +229,9 @@ final class AccountTable extends PowerGridComponent
     public function actionRules($row): array
     {
         return [
+            Rule::button('manage')
+                ->when(fn($row) => auth()->user()->can('update accounts') != 1)
+                ->hide(),
             Rule::button('view')
                 ->when(fn($row) => auth()->user()->can('update accounts') != 1)
                 ->hide(),

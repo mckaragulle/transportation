@@ -68,7 +68,7 @@ class DealerCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $dealer->syncRoles('bayi');
+            $dealer->syncRoles('dealer');
 
             $this->dispatch('pg:eventRefresh-DealerTable');
             $msg = 'Yeni bayi oluşturuldu.';

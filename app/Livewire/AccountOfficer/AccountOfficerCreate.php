@@ -4,6 +4,7 @@ namespace App\Livewire\AccountOfficer;
 
 use App\Services\AccountOfficerService;
 use App\Services\AccountService;
+use App\Services\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,9 @@ class AccountOfficerCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
+    public null|Collection $dealers = null;
     public null|Collection $accounts = null;
+    public null|int $dealer_id = null;
     public null|int $account_id = null;
     public null|string $number = null;
     public null|string $name = null;
@@ -28,11 +31,13 @@ class AccountOfficerCreate extends Component
     public null|array $files = [];
 
     public bool $status = true;
+    public bool $is_show = false;
 
     /**
      * List of add/edit form rules
      */
     protected $rules = [
+        'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
         'number' => ['required'],
         'name' => ['required'],
@@ -47,6 +52,8 @@ class AccountOfficerCreate extends Component
     ];
 
     protected $messages = [
+        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
+        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen cari seçiniz yazınız.',
         'account_id.exists' => 'Lütfen geçerli bir cari seçiniz yazınız.',
         'number.required' => 'Lütfen yetkili no\'sunu yazınız.',
@@ -64,10 +71,18 @@ class AccountOfficerCreate extends Component
         return view('livewire.account-officer.account-officer-create');
     }
 
-    public function mount(AccountService $accountService)
+    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
     {
+        if(auth()->getDefaultDriver() == 'dealer'){
+            $this->dealer_id = auth()->user()->id;
+        } else if(auth()->getDefaultDriver() == 'users'){
+            $this->dealer_id = auth()->user()->dealer()->id;
+        }
+        $this->account_id = $id > 0 ? $id : null;
+        $this->is_show = $is_show;
+        
+        $this->dealers = $dealerService->all(['id', 'name']);
         $this->accounts = $accountService->all(['id', 'name']);
-       
     }
 
     /**
@@ -90,6 +105,7 @@ class AccountOfficerCreate extends Component
             }
 
             $account = $accountOfficerService->create([
+                'dealer_id' => $this->dealer_id,
                 'account_id' => $this->account_id ?? null,
                 'number' => $this->number ?? null,
                 'name' => $this->name ?? null,

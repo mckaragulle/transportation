@@ -14,7 +14,7 @@ class AccountService
     {
     }
 
-    public function where(array $column): Model
+    public function where(array $column): Builder
     {
         return $this->repository->where($column);
     }

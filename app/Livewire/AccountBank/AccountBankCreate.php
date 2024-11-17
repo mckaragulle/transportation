@@ -4,6 +4,7 @@ namespace App\Livewire\AccountBank;
 use App\Services\AccountBankService;
 use App\Services\AccountService;
 use App\Services\BankService;
+use App\Services\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,18 +15,22 @@ class AccountBankCreate extends Component
 {
     use LivewireAlert;
 
+    public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
+    public null|int $dealer_id = null;
     public null|int $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
     public bool $status = true;
+    public bool $is_show = false;
 
     /**
      * List of add/edit form rules
      */
     protected $rules = [
+        'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
         'bank_id' => ['required', 'exists:banks,id'],
         'iban' => ['required', 'unique:account_banks'],
@@ -33,6 +38,8 @@ class AccountBankCreate extends Component
     ];
 
     protected $messages = [
+        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
+        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen müşteri seçiniz.',
         'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
         'bank_id.required' => 'Lütfen banka seçiniz.',
@@ -47,8 +54,20 @@ class AccountBankCreate extends Component
         return view('livewire.account-bank.account-bank-create');
     }
 
-    public function mount(AccountService $accountService, BankService $bankService)
+    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
     {
+        if(auth()->getDefaultDriver() == 'dealer'){
+            $this->dealer_id = auth()->user()->id;
+        } else if(auth()->getDefaultDriver() == 'users'){
+            $this->dealer_id = auth()->user()->dealer()->id;
+        }
+        else {
+            $this->dealers = $dealerService->all(['id', 'name']);
+            $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
+        }
+        $this->account_id = $id > 0 ? $id : null;
+        $this->is_show = $is_show;
+        $this->dealers = $dealerService->all(['id', 'name']);
         $this->accounts = $accountService->all(['id', 'name', 'shortname']);
         $this->banks = $bankService->all(['id', 'name']);
     }
@@ -64,6 +83,7 @@ class AccountBankCreate extends Component
         DB::beginTransaction();
         try {
             $account = $accountBankService->create([
+                'dealer_id' => $this->dealer_id,
                 'account_id' => $this->account_id ?? null,
                 'bank_id' => $this->bank_id ?? null,
                 'iban' => $this->iban ?? null,
@@ -84,5 +104,10 @@ class AccountBankCreate extends Component
             Log::error($error);
             DB::rollBack();
         }
+    }
+
+    public function updatedDealerId(AccountService $accountService)
+    {
+        $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
     }
 }

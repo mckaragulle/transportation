@@ -20,6 +20,7 @@ class City extends Model
      */
     protected $fillable = [
         'name',
+        'plate',
         'slug',
         'status',
     ];

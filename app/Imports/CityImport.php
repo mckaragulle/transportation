@@ -32,8 +32,9 @@ class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
             $name = Str::trim($row["il"]);
             $pk = Str::trim($row["pk"]);
             $id = (int)Str::substr($pk, 0, 2);
+
             $this->city = City::firstOrCreate([                
-                'id' => $id,
+                'plate' => $id,
                 'name' => $name
             ]);
     
@@ -67,11 +68,11 @@ class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
 
     public function batchSize(): int
     {
-        return 50;
+        return 1000;
     }
 
     public function chunkSize(): int
     {
-        return 50;
+        return 1000;
     }
 }

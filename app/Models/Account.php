@@ -14,7 +14,7 @@ class Account extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity;
 
-    protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "status"];
+    protected $fillable = ["dealer_id", "number", "name", "shortname", "phone", "email", "detail", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -23,6 +23,14 @@ class Account extends Model
             ->logAll();
     }
 
+    /**
+     * Get the Dealer.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+    
     /**
      * Get the prices for the type post.
      */

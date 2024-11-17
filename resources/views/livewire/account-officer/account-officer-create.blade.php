@@ -1,15 +1,19 @@
 <div class="col-xl-12">
+    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('account_officers.list') }}">Cari Adresleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
+    @endif
     <div class="card overflow-hidden">
+        @if($is_show)
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Cari Yetkilisi Oluştur</h4>
         </div>
-        <div class="card-body">
+        @endif
+        <div class="card-body {{$is_show ? '':'p-0'}}">
             <div class="basic-form">
                 <form wire:submit.prevent="store">
                     <div class="row">
@@ -34,11 +38,12 @@
                         <hr />
 
                             <div class="mb-3 row">
+                                @if(auth()->user()->roleType == "admin")
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Hesap Seçiniz :</label>
+                                    <label class="col-form-label">Cari Seçiniz :</label>
                                     <select wire:model.lazy="account_id" id="account_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Hesap Seçiniz</option>
+                                        <option value="">Cari Seçiniz</option>
                                         @if(is_iterable($accounts))
                                         @forelse($accounts as $a)
                                         <option value="{{$a->id}}">{{$a->name}}</option>
@@ -53,6 +58,7 @@
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
+                                @endif
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Yetkili no'sunu yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.defer="number"
@@ -176,6 +182,9 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="card-footer">
+            @include('components.errors')
         </div>
     </div>
 </div>

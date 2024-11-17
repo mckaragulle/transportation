@@ -16,6 +16,7 @@ class AccountFile extends Model
     use SoftDeletes, HasFactory, LogsActivity;
 
     protected $fillable = [
+        "dealer_id", 
         "account_id",
         "title",
         "filename",
@@ -29,6 +30,14 @@ class AccountFile extends Model
             ->logAll();
     }
 
+    /**
+     * Get the Dealer.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
+    }
+    
     /**
      * Get the prices for the type post.
      */

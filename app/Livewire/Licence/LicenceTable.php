@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -44,13 +44,13 @@ final class LicenceTable extends PowerGridComponent
         $this->licenceCategories = LicenceTypeCategory::query()->with(['licence_types'])->get(['id', 'name']);
 
         return [
-            Exportable::make(fileName: 'surucu-belgeleri')
+            PowerGrid::exportable(fileName: 'surucu-belgeleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];

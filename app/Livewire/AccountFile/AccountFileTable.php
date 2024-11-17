@@ -5,15 +5,16 @@ namespace App\Livewire\AccountFile;
 use App\Models\Account;
 use App\Models\AccountFile;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -35,13 +36,13 @@ final class AccountFileTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'Cari Dosyaları')
+            PowerGrid::exportable(fileName: 'Cari Dosyaları')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -49,7 +50,13 @@ final class AccountFileTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return AccountFile::query();
+        $account = AccountFile::query();
+        if(Auth::getDefaultDriver() == 'dealer'){
+            $account->where('dealer_id', auth()->user()->id);
+        } else if(Auth::getDefaultDriver() == 'users'){
+            $account->where('dealer_id', auth()->user()->dealer()->id);
+        }
+        return $account;
     }
 
     public function relationSearch(): array
@@ -73,10 +80,9 @@ final class AccountFileTable extends PowerGridComponent
                 return $role->account->name ?? "---";
             })
             ->add('title')
-            ->add('filename', function ($dish) { 
-                return '<a href="'.Storage::url($dish->filename).'" target="_blank">'.$dish->title.'</a>';
-            });
-            ;
+            ->add('filename', function ($dish) {
+                return '<a href="' . Storage::url($dish->filename) . '" target="_blank">' . $dish->title . '</a>';
+            });;
 
         return $fields;
     }
@@ -87,8 +93,9 @@ final class AccountFileTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-
-            Column::make('Cari', 'account_id'),
+            Column::make('Cari Adı', 'account_id')
+                ->sortable()
+                ->searchable(),
             Column::make('Dosya Adı', 'title')
                 ->sortable()
                 ->searchable()

@@ -15,7 +15,7 @@
         "livewire/livewire": "^3.5",
         "maatwebsite/excel": "^3.1",
         "openspout/openspout": "^4.24",
-        "power-components/livewire-powergrid": "^5.9",
+        "power-components/livewire-powergrid": "^6.0",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-permission": "^6.9"
     },

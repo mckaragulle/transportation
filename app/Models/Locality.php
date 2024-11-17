@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Locality extends Model
 {
@@ -61,5 +62,17 @@ class Locality extends Model
     public function neighborhood(): BelongsTo
     {
         return $this->belongsTo(Neighborhood::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (Locality $dish) => self::clearCache());
+        static::updated(fn (Locality $dish) => self::clearCache());
+        static::deleted(fn (Locality $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        Cache::tags(['powergrid-localities-LocalityTable'])->flush();
     }
 }

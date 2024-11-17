@@ -6,12 +6,10 @@ use App\Models\City;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
-use PowerComponents\LivewirePowerGrid\Footer;
-use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -33,13 +31,13 @@ final class CityTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make('export')
+            PowerGrid::exportable('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -59,6 +57,7 @@ final class CityTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('plate')
             ->add('name')
             ->add('status')
             ->add('created_at');
@@ -68,6 +67,9 @@ final class CityTable extends PowerGridComponent
     {
         return [
             Column::make('Id', 'id')
+                ->sortable()
+                ->searchable(),
+            Column::make('Plaka', 'plate')
                 ->sortable()
                 ->searchable(),
             Column::make('İl', 'name')

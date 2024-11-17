@@ -112,11 +112,12 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                @if(auth()->user()->roleType == "admin")
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Hesap Seçiniz :</label>
+                                    <label class="col-form-label">Cari Seçiniz :</label>
                                     <select wire:model.lazy="account_id" id="account_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Hesap Seçiniz</option>
+                                        <option value="">Cari Seçiniz</option>
                                         @if(is_iterable($accounts))
                                         @forelse($accounts as $a)
                                         <option value="{{$a->id}}">{{$a->name}}</option>
@@ -131,6 +132,7 @@
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
+                                @endif
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Cari adres başlığını yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.defer="name"

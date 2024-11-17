@@ -34,10 +34,10 @@
                             <hr />
                             <div class="mb-3 row">
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Hesap Seçiniz :</label>
+                                    <label class="col-form-label">Cari Seçiniz :</label>
                                     <select wire:model.lazy="account_id" id="account_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Hesap Seçiniz</option>
+                                        <option value="">Cari Seçiniz</option>
                                         @if(is_iterable($accounts))
                                         @forelse($accounts as $a)
                                         <option value="{{$a->id}}">{{$a->name}}</option>

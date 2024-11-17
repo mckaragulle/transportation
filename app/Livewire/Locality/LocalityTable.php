@@ -5,17 +5,15 @@ namespace App\Livewire\Locality;
 use App\Models\Locality;
 use App\Models\City;
 use App\Models\District;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -37,13 +35,16 @@ final class LocalityTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'semtler')
+            PowerGrid::cache()
+                ->ttl(60)
+                ->prefix(auth()->user()->id . '_'),
+            PowerGrid::exportable(fileName: 'semtler')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -51,7 +52,12 @@ final class LocalityTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+        // Cache::forget('localities');
         return Locality::query();
+        // $data = Cache::remember("localities", 600, function () {
+        //     return Locality::query()->with(['neighborhood:id,name', 'district:id,name', 'city:id,name']); // İstediğiniz veriyi buradan çekin
+        // });
+        // return $data;
     }
 
     public function relationSearch(): array

@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -35,13 +35,13 @@ final class GroupTable extends PowerGridComponent
         );
 
         return [
-            Exportable::make(fileName: 'cari-gruplari')
+            PowerGrid::exportable(fileName: 'cari-gruplari')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSoftDeletes()
+            PowerGrid::header()->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
-            Footer::make()
+            PowerGrid::footer()
                 ->showPerPage(perPage: 50)
                 ->showRecordCount(),
         ];
@@ -107,8 +107,8 @@ final class GroupTable extends PowerGridComponent
         $query = Group::query();
         if ($id > 0) {
             $query->where('group_id', $id)
-            ->whereNull('group_id')
-            ->orderBy('group_id', 'asc');
+                ->whereNull('group_id')
+                ->orderBy('group_id', 'asc');
         }
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),

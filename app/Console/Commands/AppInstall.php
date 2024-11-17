@@ -69,8 +69,6 @@ class AppInstall extends Command
                 'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
                 'create localities', 'read localities', 'update localities', 'delete localities',
                 
-
-
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
@@ -113,9 +111,45 @@ class AppInstall extends Command
                 'create fineds', 'read fineds', 'update fineds', 'delete fineds',
             ],
 
-            'bayi' => [
+            'dealer' => [
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
+
+                'create accounts', 'read accounts', 'update accounts', 'delete accounts',
+                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
+                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
+                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
+                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
+                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
+                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
+                
+                'read cities',
+                'read districts',
+                'read neighborhoods',
+                'read localities',
+                'read banks',
+                'create groups', 'read groups', 'update groups', 'delete groups',
+                'create sectors', 'read sectors', 'update groups', 'delete groups',
+
+                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
+                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
+                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
+                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
+                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
+                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
+
+                'read hgs_type_categories',
+                'read hgs_types',
+                'create hgses', 'read hgses', 'update hgses', 'delete hgses',
+                
+                'read licence_type_categories',
+                'read licence_types',
+                'create licences', 'read licences', 'update licences', 'delete licences',
+                
+                'read staff_type_categories',
+                'read staff_types',
+                'create staffs', 'read staffs', 'update staffs', 'delete staffs',
+                'create fineds', 'read fineds', 'update fineds', 'delete fineds',
             ],
 
             'satis' => [
@@ -132,7 +166,7 @@ class AppInstall extends Command
         ];
 
         foreach ($guards as $guard_name => $permissions) {
-            $role_data = ['name' => $guard_name, 'guard_name' => 'admin'];
+            $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
 
             $r = Role::where($role_data);
             if (!$r->exists()) {
@@ -143,7 +177,7 @@ class AppInstall extends Command
             $this->info($role);
 
             foreach ($permissions as $permission) {
-                $permission_data = ['name' => $permission, 'guard_name' => 'admin'];
+                $permission_data = ['name' => $permission, 'guard_name' => $guard_name];
                 $p = Permission::where($permission_data);
                 if (!$p->exists()) {
                     $p = Permission::create($permission_data);
@@ -155,6 +189,6 @@ class AppInstall extends Command
             }
         }
         $this->user->assignRole('admin');
-        $this->dealer->assignRole('bayi');
+        $this->dealer->assignRole('dealer');
     }
 }
