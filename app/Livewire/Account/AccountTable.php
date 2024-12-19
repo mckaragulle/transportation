@@ -54,7 +54,7 @@ final class AccountTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = Account::query()
-        ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
+        ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
         ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
 
         if(Auth::getDefaultDriver() == 'dealer'){
@@ -106,6 +106,8 @@ final class AccountTable extends PowerGridComponent
             ->add('shortname')
             ->add('email')
             ->add('phone')
+            ->add('tax')
+            ->add('taxoffice')
             // ->add('filename', function ($row) {
             //     $f = null;
             //     if (!is_null($row->filename) && Storage::exists($row->filename)) {
@@ -162,6 +164,20 @@ final class AccountTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
             Column::make('Müşteri Eposta Adresi', 'email')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update accounts'),
+                    fallback: '- empty -'
+                ),
+            Column::make('TC Kimlik / Vergi Numarası', 'tax')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update accounts'),
+                    fallback: '- empty -'
+                ),
+            Column::make('Vergi Dairesi', 'taxoffice')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(

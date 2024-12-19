@@ -14,7 +14,7 @@ class Account extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity;
 
-    protected $fillable = ["dealer_id", "number", "name", "shortname", "phone", "email", "detail", "status"];
+    protected $fillable = ["dealer_id", "number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

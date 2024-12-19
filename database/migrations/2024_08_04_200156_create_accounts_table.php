@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('shortname');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('tax')->nullable();
+            $table->string('taxoffice')->nullable();
             $table->text('detail')->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();

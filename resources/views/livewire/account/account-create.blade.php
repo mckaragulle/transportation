@@ -129,6 +129,30 @@
                                     @enderror
                                 </div>
                                 <div class="col-sm-2">
+                                    <label class="col-form-label">TC Kimlik / Vergi numarasını yazınız:</label>
+                                    <input class="form-control" type="text" wire:model.defer="tax"
+                                        placeholder="TC Kimlik / Vergi numarasını yazınız:">
+                                    @error('tax')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">Vergi dairesini yazınız:</label>
+                                    <input class="form-control" type="text" wire:model.defer="taxoffice"
+                                        placeholder="Vergi dairesini yazınız:">
+                                    @error('taxoffice')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-sm-2">
                                     <label class="col-form-label">Açıklama yazınız:</label>
                                     <textarea class="form-control" type="text" wire:model.defer="detail"
                                     placeholder="Açıklama yazınız."></textarea>

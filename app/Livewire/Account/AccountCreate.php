@@ -26,6 +26,8 @@ class AccountCreate extends Component
     public null|string $email = null;
     public null|string $phone = null;
     public null|string $detail = null;
+    public null|string $tax = null;
+    public null|string $taxoffice = null;
     public $filename;
 
     public bool $status = true;
@@ -43,6 +45,8 @@ class AccountCreate extends Component
         'phone' => ['nullable'],
         'email' => ['nullable', 'email'],
         'detail' => ['nullable'],
+        'tax' => ['nullable'],
+        'taxoffice' => ['nullable'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
         'filename' => ['nullable', 'max:4096'],
     ];
@@ -103,6 +107,8 @@ class AccountCreate extends Component
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'detail' => $this->detail,
+                'tax' => $this->tax,
+                'taxoffice' => $this->taxoffice,
                 'filename' => $filename ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);

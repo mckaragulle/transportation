@@ -36,6 +36,8 @@ class AccountEdit extends Component
     public null|string $email = null;
     public null|string $phone = null;
     public null|string $detail = null;
+    public null|string $tax = null;
+    public null|string $taxoffice = null;
     public $oldfilename;
     public $filename;
     public bool $status = true;
@@ -57,6 +59,8 @@ class AccountEdit extends Component
             'phone' => ['nullable'],
             'email' => ['nullable', 'email'],
             'detail' => ['nullable'],
+            'tax' => ['nullable'],
+            'taxoffice' => ['nullable'],
             'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
             'filename' => ['nullable', 'max:4096'],
         ];
@@ -96,6 +100,8 @@ class AccountEdit extends Component
             $this->email = $this->account->email;
             $this->phone = $this->account->phone;
             $this->detail = $this->account->detail;
+            $this->tax = $this->account->tax;
+            $this->taxoffice = $this->account->taxoffice;
             $this->accountTypeCategoryDatas = $accountTypeCategory->query()
                 ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
                 ->get(['id', 'name', 'is_required', 'is_multiple']);
@@ -132,6 +138,8 @@ class AccountEdit extends Component
             $this->account->email = $this->email;
             $this->account->phone = $this->phone;
             $this->account->detail = $this->detail;
+            $this->account->tax = $this->tax;
+            $this->account->taxoffice = $this->taxoffice;
 
             $filename = null;
             if (!is_null($this->filename)) {
@@ -145,8 +153,7 @@ class AccountEdit extends Component
                     Storage::delete($this->oldfilename);
                 }
             }
-
-           
+ 
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
                 if(is_array($account_type_id)){
                     foreach($account_type_id as $t2)

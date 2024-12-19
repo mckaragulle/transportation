@@ -16,6 +16,8 @@ class AccountManagement extends Component
     public null|string $email = null;
     public null|string $phone = null;
     public null|string $detail = null;
+    public null|string $tax = null;
+    public null|string $taxoffice = null;
     public bool $status = true;
 
     public function mount($id = null, AccountService $accountService)
@@ -28,6 +30,8 @@ class AccountManagement extends Component
         $this->email = $this->account->email;
         $this->phone = $this->account->phone;
         $this->detail = $this->account->detail;
+        $this->tax = $this->account->tax;
+        $this->taxoffice = $this->account->taxoffice;
     }
 
     public function render()

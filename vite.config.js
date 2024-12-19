@@ -15,10 +15,11 @@ export default defineConfig({
         }),
     ],
     server: {
-        https: {
-            key: './localhost-key.pem',
-            cert: './localhost.pem',
-        },
+        // https: {
+        //     key: './localhost-key.pem',
+        //     cert: './localhost.pem',
+        // },
+        https: false,
         hmr: {
             host: 'localhost',
         },
