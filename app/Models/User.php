@@ -18,7 +18,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity;
 
-    protected $guard_name = 'users';
+    protected $guard_name = ['satis', 'muhasebe', 'depo'];
 
     public $roleType = 'personel';
 

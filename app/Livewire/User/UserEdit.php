@@ -68,7 +68,7 @@ class UserEdit extends Component
 
     protected $messages = [
         'name.required' => 'Personel adını yazınız.',
-        'email.required' => 'Personelnin eposta adresini yazınız.',
+        'email.required' => 'Personelin eposta adresini yazınız.',
         'email.email' => 'Geçerli bir eposta adresi yazınız.',
         'email.unique' => 'Bu eposta adresi başkası tarafından kullanılmaktadır.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',

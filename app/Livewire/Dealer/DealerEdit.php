@@ -15,6 +15,7 @@ class DealerEdit extends Component
     use LivewireAlert;
 
     public null|Dealer $dealer;
+    public bool $is_show = false;
 
     public null|string $name;
     public null|string $phone;
@@ -68,10 +69,10 @@ class DealerEdit extends Component
         'password_confirmation.same' => 'Lütfen aynı şifreyi tekrar yazınız.',
     ];
 
-    public function mount($id = null, DealerService $dealerService)
+    public function mount($id = null, DealerService $dealerService, bool $is_show = true)
     {
         if(!is_null($id)) {
-
+            $this->is_show = $is_show;
             $this->dealer =$dealerService->findById($id);
             $this->name = $this->dealer->name;
             $this->email = $this->dealer->email;

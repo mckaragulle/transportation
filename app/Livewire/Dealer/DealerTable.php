@@ -123,6 +123,10 @@ final class DealerTable extends PowerGridComponent
     public function actions(Dealer $row): array
     {
         return [
+            Button::add('manage')
+                ->slot('<i class="fa fa-person"></i>')
+                ->route('dealer_managements.edit', ['id' => $row->id])
+                ->class('badge badge-primary'),
             Button::add('login')
                 ->slot('<i class="fa-solid fa-right-to-bracket"></i>')
                 ->class('badge badge-secondary')

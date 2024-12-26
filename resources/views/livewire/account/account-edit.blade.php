@@ -1,5 +1,5 @@
 <div class="col-xl-12">
-    @if($is_show)
+    @if($is_show) 
     <div class="row page-titles">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('accounts.list') }}">Cariler</a></li>

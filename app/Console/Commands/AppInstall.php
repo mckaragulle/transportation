@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 
 class AppInstall extends Command
 {
-    protected Model $user;
+    protected Model $admin;
     protected Model $dealer;
 
     protected AdminService $adminService;
@@ -43,12 +43,12 @@ class AppInstall extends Command
      */
     public function handle()
     {
-        $user = [
+        $admin = [
             'name' => 'Mustafa KARAGÜLLE',
             'email' => 'mustafacelalettinkaragulle@gmail.com',
             'password' => bcrypt(123123),
         ];
-        $this->user = $this->adminService->create($user);
+        $this->admin = $this->adminService->create($admin);
 
         $dealer = [
             "name" => "Gaziantep MERKEZ",
@@ -70,6 +70,13 @@ class AppInstall extends Command
                 'create localities', 'read localities', 'update localities', 'delete localities',
                 
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
+                'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
+                
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
@@ -89,31 +96,31 @@ class AppInstall extends Command
 
                 'create account_type_categories', 'read account_type_categories', 'update account_type_categories', 'delete account_type_categories',
                 'create account_types', 'read account_types', 'update account_types', 'delete account_types',
-                'create accounts', 'read accounts', 'update accounts', 'delete accounts',
-                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
-                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
-                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
-                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
-                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
-                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
+                
                 
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
-                'create hgses', 'read hgses', 'update hgses', 'delete hgses',
+                
                 
                 'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
                 'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
-                'create licences', 'read licences', 'update licences', 'delete licences',
+                
                 
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
-                'create staffs', 'read staffs', 'update staffs', 'delete staffs',
-                'create fineds', 'read fineds', 'update fineds', 'delete fineds',
+                
             ],
 
             'dealer' => [
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
+
+                'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
 
                 'create accounts', 'read accounts', 'update accounts', 'delete accounts',
                 'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
@@ -166,6 +173,7 @@ class AppInstall extends Command
         ];
 
         foreach ($guards as $guard_name => $permissions) {
+            // $g = in_array($guard_name, ['admin', 'dealer']) ? $guard_name : 'web';
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
 
             $r = Role::where($role_data);
@@ -184,11 +192,11 @@ class AppInstall extends Command
                 } else {
                     $p = $p->first();
                 }
-                $this->info($p);
+                // $this->info($p);
                 $role->givePermissionTo($p->name);
             }
         }
-        $this->user->assignRole('admin');
+        $this->admin->assignRole('admin');
         $this->dealer->assignRole('dealer');
     }
 }

@@ -51,7 +51,7 @@ class UserCreate extends Component
         'dealer_id.required' => 'Lütfen bayi seçiniz.',
         'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'name.required' => 'Personel adını yazınız.',
-        'email.required' => 'Personelnin eposta adresini yazınız.',
+        'email.required' => 'Personelin eposta adresini yazınız.',
         'email.email' => 'Geçerli bir eposta adresi yazınız.',
         'email.unique' => 'Bu eposta adresi başkası tarafından kullanılmaktadır.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
@@ -71,13 +71,13 @@ class UserCreate extends Component
         if($this->is_admin){
             $this->dealers = $dealer->query()->get();
         }
-        else if(Auth::user()->hasRole('bayi')){
+        else if($this->is_admin == false && Auth::user()->hasRole('dealer')){
             $this->dealer_id = auth()->user()->id;
         }
         else {
             $this->dealer_id = auth()->user()->dealer_id??null;
         }
-        $this->roles = $role->query()->whereNotIn('name', ['admin', 'bayi'])->get(['id', 'name']);
+        $this->roles = $role->query()->whereNotIn('name', ['admin', 'dealer'])->get(['id', 'name']);
     }
 
     /**

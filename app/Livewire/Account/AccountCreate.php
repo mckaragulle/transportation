@@ -79,7 +79,6 @@ class AccountCreate extends Component
         } else if(auth()->getDefaultDriver() == 'users'){
             $this->dealer_id = auth()->user()->dealer()->id;
         }
-
         $this->accountTypeCategoryDatas = $accountTypeCategory->query()
         ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
         ->get(['id', 'name', 'is_required', 'is_multiple']);

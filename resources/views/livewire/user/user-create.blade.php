@@ -154,6 +154,7 @@
                 </form>
             </div>
         </div>
+        @include('components.errors')
     </div>
     @script()
     <script>

@@ -1,14 +1,18 @@
 <div class="col-xl-12">
+    @if($is_show) 
     <div class="row page-titles">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('dealers.list')}}">Bayiler</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
+    @endif
     <div class="card overflow-hidden border border-warning">
+        @if($is_show)
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Bayi Düzenle</h4>
         </div>
+        @endif
         <div class="card-body">
             <div class="basic-form">
                 <form wire:submit.prevent="update">

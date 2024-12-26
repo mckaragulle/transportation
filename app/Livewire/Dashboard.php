@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class Dashboard extends Component
 {
-
     use LivewireAlert;
     public $name = 'Mustafa';
 
