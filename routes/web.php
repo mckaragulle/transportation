@@ -55,6 +55,7 @@ use App\Livewire\Bank\Banks;
 use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\DealerAddress\DealerAddressEdit;
 use App\Livewire\DealerAddress\DealerAddresses;
+use App\Livewire\DealerBank\DealerBankEdit;
 use App\Livewire\District\DistrictEdit;
 use App\Livewire\District\Districts;
 use App\Livewire\Fined\FinedEdit;
@@ -112,6 +113,7 @@ Route::middleware('auth:admin,dealer,web')->prefix('dashboard')->group(function 
     Route::get('/bayi-yonetimi/{id}', DealerManagement::class)->name('dealer_managements.edit')->middleware('can:read dealers');
     Route::get('/bayi-adresleri/{id?}/{is_show?}', DealerAddresses::class)->name('dealer_addresses.list')->middleware('can:read dealer_addresses');
     Route::get('/bayi-adresi/{id}/duzenle', DealerAddressEdit::class)->name('dealer_addresses.edit')->middleware('can:update dealer_addresses');
+    Route::get('/bayi-banka-bilgisi/{id}/duzenle', DealerBankEdit::class)->name('dealer_banks.edit')->middleware('can:update dealer_banks');
 
     Route::get('/cari-adresleri/{id?}/{is_show?}', AccountAddresses::class)->name('account_addresses.list')->middleware('can:read account_addresses');
     Route::get('/cari-adresi/{id}/duzenle', AccountAddressEdit::class)->name('account_addresses.edit')->middleware('can:update account_addresses');

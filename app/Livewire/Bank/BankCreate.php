@@ -12,13 +12,13 @@ class BankCreate extends Component
 {
     use LivewireAlert;
 
-    public null|string $name;
-    public null|string $phone;
-    public null|string $fax;
-    public null|string $email;
-    public null|string $website;
-    public null|string $eft;
-    public null|string $swift;
+    public null|string $name = null;
+    public null|string $phone = null;
+    public null|string $fax = null;
+    public null|string $email = null;
+    public null|string $website = null;
+    public null|string $eft = null;
+    public null|string $swift = null;
 
     public bool $status = true;
 
@@ -61,9 +61,9 @@ class BankCreate extends Component
                 'phone' => $this->phone,
                 'fax' => $this->fax,
                 'email' => $this->email,
-                'website' => $this->website,
-                'eft' => $this->eft,
-                'swift' => $this->swift,
+                'website' => $this->website??null,
+                'eft' => $this->eft??null,
+                'swift' => $this->swift??null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 

@@ -1,17 +1,21 @@
 <div class="col-xl-12">
+    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('account_banks.list') }}">Cari Banka Bilgileri</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dealer_addresses.list') }}">Bayi Bankaları</a></li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
+    @endif
     <div class="card overflow-hidden">
+        @if($is_show)
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Cari Banka Bilgisi Düzenle</h4>
+            <h4 class="card-title mb-0">Bayi Banka Oluştur</h4>
         </div>
-        <div class="card-body">
+        @endif
+        <div class="card-body {{$is_show ? '':'p-0'}}">
             <div class="basic-form">
-                <form wire:submit.prevent="update">
+                <form wire:submit.prevent="store">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
                             <div class="mb-3 row">
@@ -31,29 +35,29 @@
                                     @enderror
                                 </div>
                             </div>        
-                        <hr />
-
+                            <hr />
                             <div class="mb-3 row">
                                 @if(auth()->user()->roleType == "admin")
                                 <div class="col-sm-3">
-                                    <label class="col-form-label">Cari Seçiniz :</label>
-                                    <select wire:model.lazy="account_id" id="account_id"
+                                    <label class="col-form-label">Bayi Seçiniz :</label>
+                                    <select wire:model.lazy="dealer_id" id="dealer_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Cari Seçiniz</option>
-                                        @if(is_iterable($accounts))
-                                        @forelse($accounts as $a)
+                                        <option value="">Bayi Seçiniz</option>
+                                        @if(is_iterable($dealers))
+                                        @forelse($dealers as $a)
                                         <option value="{{$a->id}}">{{$a->name}}</option>
                                         @empty
                                         @endforelse
                                         @endif
                                     </select>
-                                    @error('account_id')
+                                    @error('dealer_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="btn-close">
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
+                                @endif
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Banka Seçiniz :</label>
                                     <select wire:model.lazy="bank_id" id="bank_id"
@@ -73,7 +77,6 @@
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
-                                @endif
                                 <div class="col-sm-2">
                                     <label class="col-form-label">İban adresini yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.lazy="iban"
@@ -99,7 +102,6 @@
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
