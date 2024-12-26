@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Services\AdminService;
 use App\Services\DealerService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class AppInstall extends Command
 {
@@ -174,6 +175,7 @@ class AppInstall extends Command
 
         foreach ($guards as $guard_name => $permissions) {
             // $g = in_array($guard_name, ['admin', 'dealer']) ? $guard_name : 'web';
+            // $uuid = Str::uuid();
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
 
             $r = Role::where($role_data);
@@ -192,7 +194,7 @@ class AppInstall extends Command
                 } else {
                     $p = $p->first();
                 }
-                // $this->info($p);
+                $this->info($p);
                 $role->givePermissionTo($p->name);
             }
         }

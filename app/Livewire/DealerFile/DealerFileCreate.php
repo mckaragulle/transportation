@@ -15,7 +15,7 @@ class DealerFileCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public $filename;
     public null|string $title = null;
 
@@ -46,11 +46,11 @@ class DealerFileCreate extends Component
         return view('livewire.dealer-file.dealer-file-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
         $this->dealer_id = $id;
@@ -67,8 +67,8 @@ class DealerFileCreate extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            
-            if(!is_null($this->filename)){
+
+            if (!is_null($this->filename)) {
                 $filename = $this->filename->store(path: 'public/photos');
             }
 

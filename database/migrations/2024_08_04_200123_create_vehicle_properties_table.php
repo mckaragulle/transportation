@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\VehicleProperty;
-use App\Models\VehiclePropertyCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicle_properties', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(VehiclePropertyCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(VehicleProperty::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('vehicle_property_category_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);

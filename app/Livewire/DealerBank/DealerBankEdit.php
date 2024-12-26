@@ -20,8 +20,8 @@ class DealerBankEdit extends Component
 
     public null|Collection $dealers = null;
     public null|Collection $banks = null;
-    
-    public null|int $dealer_id = null;
+
+    public null|string $dealer_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
@@ -53,13 +53,13 @@ class DealerBankEdit extends Component
             $this->dealerBank = $dealerBankService->findById($id);
             $this->dealers = $dealerService->all(['id', 'name']);
             $this->banks = $bankService->all(['id', 'name']);
-            
-            if(auth()->getDefaultDriver() == 'dealer'){
+
+            if (auth()->getDefaultDriver() == 'dealer') {
                 $this->dealer_id = auth()->user()->id;
-            } else if(auth()->getDefaultDriver() == 'users'){
+            } else if (auth()->getDefaultDriver() == 'users') {
                 $this->dealer_id = auth()->user()->dealer()->id;
             }
-            
+
             $this->bank_id = $this->dealerBank->bank_id;
             $this->iban = $this->dealerBank->iban;
             $this->status = $this->dealerBank->status;
@@ -85,12 +85,12 @@ class DealerBankEdit extends Component
         try {
             $this->dealerBank->dealer_id = $this->dealer_id;
             $this->dealerBank->bank_id = $this->bank_id;
-            
+
             $this->dealerBank->iban = $this->iban ?? null;
-            
+
             $this->dealerBank->status = $this->status == false ? 0 : 1;
             $this->dealerBank->save();
-            
+
             $msg = 'Bayi banka bilgisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

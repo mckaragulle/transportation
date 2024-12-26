@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class PermissionService
 {
-    public function __construct(protected readonly PermissionRepository $repository)
-    {
-    }
+    public function __construct(protected readonly PermissionRepository $repository) {}
 
     /**
      * Yeni öğretim görevlisi ekler.
@@ -21,7 +19,7 @@ class PermissionService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

@@ -15,7 +15,7 @@ class DealerBanks extends Component
     public null|int $data_id;
 
     public bool $is_show = false;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
 
     public function mount($id = null, bool $is_show)
     {

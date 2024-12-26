@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccountSector extends Model
 {
-    use HasFactory;
+    use HasFactory, StrUuidTrait;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         "account_id",

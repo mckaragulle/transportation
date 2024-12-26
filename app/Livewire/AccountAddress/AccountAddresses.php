@@ -18,7 +18,7 @@ class AccountAddresses extends Component
 
     public bool $is_show = false;
 
-    public function mount(null|int $id = null, null|bool $is_show)
+    public function mount(null|string $id = null, null|bool $is_show)
     {
         $this->account_id = $id;
         $this->is_show = $is_show;

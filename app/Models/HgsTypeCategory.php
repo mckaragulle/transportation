@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class HgsTypeCategory extends Model
 {
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = ['name', 'slug', 'status'];
 

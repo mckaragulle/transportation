@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicle_brands', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name')->unique()->index();
             $table->string('slug')->nullable()->unique()->index();
             $table->boolean('status')->default(true);

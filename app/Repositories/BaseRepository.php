@@ -57,7 +57,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->first();
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->model->findOrFail($id);
     }

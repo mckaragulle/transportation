@@ -22,7 +22,7 @@ class DealerAddressCreate extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $city_id = null;
     public null|int $district_id = null;
     public null|int $neighborhood_id = null;
@@ -77,8 +77,8 @@ class DealerAddressCreate extends Component
         return view('livewire.dealer-address.dealer-address-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, CityService $cityService)
-    {   
+    public function mount(null|string $id = null, bool $is_show, CityService $cityService)
+    {
         $this->is_show = $is_show;
         $this->dealer_id = $id > 0 ? $id : null;
 

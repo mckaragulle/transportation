@@ -18,7 +18,7 @@ class AccountFileCreate extends Component
 
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public $filename;
     public null|string $title = null;
@@ -53,11 +53,11 @@ class AccountFileCreate extends Component
         return view('livewire.account-file.account-file-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
         $this->account_id = $id > 0 ? $id : null;
@@ -77,8 +77,8 @@ class AccountFileCreate extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            
-            if(!is_null($this->filename)){
+
+            if (!is_null($this->filename)) {
                 $filename = $this->filename->store(path: 'public/photos');
             }
 

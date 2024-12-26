@@ -29,7 +29,7 @@ class AccountAddressEdit extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|int $city_id = null;
     public null|int $district_id = null;
@@ -139,10 +139,10 @@ class AccountAddressEdit extends Component
             $this->accountAddress->phone2 = $this->phone2 ?? null;
             $this->accountAddress->email = $this->email ?? null;
             $this->accountAddress->detail = $this->detail ?? null;
-            
+
             $this->accountAddress->status = $this->status == false ? 0 : 1;
             $this->accountAddress->save();
-            
+
             $msg = 'Cari adresi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

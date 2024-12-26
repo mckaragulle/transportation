@@ -25,7 +25,7 @@ final class UserTable extends PowerGridComponent
 
     public bool $is_admin = false;
 
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
 
     public function setUp(): array
     {

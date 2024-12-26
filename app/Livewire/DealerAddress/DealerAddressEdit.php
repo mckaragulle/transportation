@@ -27,7 +27,7 @@ class DealerAddressEdit extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $city_id = null;
     public null|int $district_id = null;
     public null|int $neighborhood_id = null;
@@ -130,10 +130,10 @@ class DealerAddressEdit extends Component
             $this->dealerAddress->phone2 = $this->phone2 ?? null;
             $this->dealerAddress->email = $this->email ?? null;
             $this->dealerAddress->detail = $this->detail ?? null;
-            
+
             $this->dealerAddress->status = $this->status == false ? 0 : 1;
             $this->dealerAddress->save();
-            
+
             $msg = 'Bayi adresi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

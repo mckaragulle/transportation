@@ -18,7 +18,7 @@ class AccountOfficerCreate extends Component
 
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|string $number = null;
     public null|string $name = null;
@@ -71,16 +71,16 @@ class AccountOfficerCreate extends Component
         return view('livewire.account-officer.account-officer-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
         $this->account_id = $id > 0 ? $id : null;
         $this->is_show = $is_show;
-        
+
         $this->dealers = $dealerService->all(['id', 'name']);
         $this->accounts = $accountService->all(['id', 'name']);
     }
@@ -95,11 +95,11 @@ class AccountOfficerCreate extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            
+
             $files = null;
-            if(!is_null($this->files) && is_array($this->files)){
+            if (!is_null($this->files) && is_array($this->files)) {
                 $files = [];
-                foreach($this->files as $file){
+                foreach ($this->files as $file) {
                     $files[] = $file->store(path: 'public/photos');
                 }
             }

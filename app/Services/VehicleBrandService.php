@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class VehicleBrandService
 {
-    public function __construct(protected readonly VehicleBrandRepository $repository)
-    {
-    }
+    public function __construct(protected readonly VehicleBrandRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -34,7 +32,7 @@ class VehicleBrandService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

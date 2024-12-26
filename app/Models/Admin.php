@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,14 +13,27 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Admin extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, LogsActivity;
+    use SoftDeletes, HasFactory, Notifiable, HasRoles, LogsActivity, StrUuidTrait;
 
+    
     protected $guard_name = 'admin';
 
     public $roleType = 'admin';
+
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    public static function boot() {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
+    }
 
     /**
      * The attributes that are mass assignable.

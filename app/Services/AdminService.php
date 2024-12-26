@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminService
 {
-    public function __construct(protected readonly AdminRepository $repository)
-    {
-    }
+    public function __construct(protected readonly AdminRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -36,7 +34,7 @@ class AdminService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

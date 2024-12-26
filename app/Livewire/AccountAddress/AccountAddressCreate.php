@@ -25,7 +25,7 @@ class AccountAddressCreate extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|int $city_id = null;
     public null|int $district_id = null;
@@ -84,14 +84,14 @@ class AccountAddressCreate extends Component
         return view('livewire.account-address.account-address-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, CityService $cityService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, CityService $cityService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
-        
+
         $this->is_show = $is_show;
         $this->account_id = $id > 0 ? $id : null;
 

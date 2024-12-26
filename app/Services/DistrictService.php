@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 
 class DistrictService
 {
-    public function __construct(protected readonly DistrictRepository $repository)
-    {
-    }
+    public function __construct(protected readonly DistrictRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {
@@ -40,7 +38,7 @@ class DistrictService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

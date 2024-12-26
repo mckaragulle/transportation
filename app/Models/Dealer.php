@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,11 +15,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dealer extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity, StrUuidTrait;
 
     protected $guard_name = 'dealer';
 
     public $roleType = 'bayi';
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,8 +13,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleModel extends Model
 {
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = ["vehicle_brand_id", "vehicle_ticket_id", "name", "slug", "insurance_number", "status"];
 

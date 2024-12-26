@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,7 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DealerOfficer extends Model
 {
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.

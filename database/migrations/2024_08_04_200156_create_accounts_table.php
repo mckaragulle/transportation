@@ -16,8 +16,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Dealer::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('number');
             $table->string('name');
             $table->string('shortname');
@@ -32,9 +32,9 @@ return new class extends Migration
         });
 
         Schema::create('account_type_category_account_type_account', function (Blueprint $table) {
-            $table->foreignIdFor(AccountTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(AccountType::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Account::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('account_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('account_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 

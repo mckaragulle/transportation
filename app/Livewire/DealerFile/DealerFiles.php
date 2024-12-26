@@ -16,9 +16,9 @@ class DealerFiles extends Component
     use LivewireAlert;
 
     public null|int $data_id;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public bool $is_show = false;
-    
+
 
     public function mount($id = null, bool $is_show)
     {
@@ -60,7 +60,7 @@ class DealerFiles extends Component
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
 
-            if(!is_null($data->filename) && Storage::exists($data->filename)){
+            if (!is_null($data->filename) && Storage::exists($data->filename)) {
                 Storage::delete($data->filename);
             }
         } catch (\Exception $exception) {

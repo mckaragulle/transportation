@@ -22,7 +22,7 @@ class AccountOfficerEdit extends Component
     public ?AccountOfficer $accountOfficer = null;
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|string $number = null;
     public null|string $name = null;
@@ -76,9 +76,9 @@ class AccountOfficerEdit extends Component
             $this->accountOfficer = $accountOfficerService->findById($id);
             $this->dealers = $dealerService->all(['id', 'name']);
             $this->accounts = $accountService->all(['id', 'name']);
-            if(auth()->getDefaultDriver() == 'dealer'){
+            if (auth()->getDefaultDriver() == 'dealer') {
                 $this->dealer_id = auth()->user()->id;
-            } else if(auth()->getDefaultDriver() == 'users'){
+            } else if (auth()->getDefaultDriver() == 'users') {
                 $this->dealer_id = auth()->user()->dealer()->id;
             }
 
@@ -94,12 +94,11 @@ class AccountOfficerEdit extends Component
             $this->status = $this->accountOfficer->status;
 
             if (isset($this->accountOfficer?->files) && is_array($this->accountOfficer?->files)) {
-                foreach($this->accountOfficer?->files as $file){
-                    if(Storage::exists($file)){
+                foreach ($this->accountOfficer?->files as $file) {
+                    if (Storage::exists($file)) {
                         $this->oldfiles[] = $file;
                     }
                 }
-                
             }
         } else {
             return $this->redirect(route('account_officers.list'));
@@ -121,7 +120,7 @@ class AccountOfficerEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            
+
             $this->accountOfficer->dealer_id = $this->dealer_id;
             $this->accountOfficer->account_id = $this->account_id;
             $this->accountOfficer->number = $this->number;
@@ -134,19 +133,19 @@ class AccountOfficerEdit extends Component
             $this->accountOfficer->detail = $this->detail ?? null;
 
             $files = null;
-            
-            if(!is_null($this->files) && is_array($this->files)){ 
+
+            if (!is_null($this->files) && is_array($this->files)) {
                 $files = [];
-                foreach($this->files as $file){
+                foreach ($this->files as $file) {
                     $files[] = $file->store(path: 'public/photos');
                 }
                 $this->accountOfficer->files = $files;
             }
-            
-            
+
+
             $this->accountOfficer->status = $this->status == false ? 0 : 1;
             $this->accountOfficer->save();
-            
+
             $msg = 'Cari yetkilisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

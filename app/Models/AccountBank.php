@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountBank extends Model
 {
-    use SoftDeletes, HasFactory, LogsActivity;
+    use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         "dealer_id", 

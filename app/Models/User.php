@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,8 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity;
+    use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity, SoftDeletes, StrUuidTrait;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
+    
     protected $guard_name = ['satis', 'muhasebe', 'depo'];
 
     public $roleType = 'personel';

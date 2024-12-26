@@ -21,7 +21,7 @@ interface RepositoryInterface
 
     public function first(): Model;
 
-    public function findById(int $id): Model;
+    public function findById(string $id): Model;
 
     /**
      * @return array|Collection

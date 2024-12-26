@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class FinedService
 {
-    public function __construct(protected readonly FinedRepository $repository)
-    {
-    }
+    public function __construct(protected readonly FinedRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -34,7 +32,7 @@ class FinedService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

@@ -19,7 +19,7 @@ class DealerOfficerEdit extends Component
     use LivewireAlert, WithFileUploads;
 
     public ?DealerOfficer $dealerOfficer = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $surname = null;
@@ -79,12 +79,11 @@ class DealerOfficerEdit extends Component
             $this->status = $this->dealerOfficer->status;
 
             if (isset($this->dealerOfficer?->files) && is_array($this->dealerOfficer?->files)) {
-                foreach($this->dealerOfficer?->files as $file){
-                    if(Storage::exists($file)){
+                foreach ($this->dealerOfficer?->files as $file) {
+                    if (Storage::exists($file)) {
                         $this->oldfiles[] = $file;
                     }
                 }
-                
             }
         } else {
             return $this->redirect(route('dealer_officers.list'));
@@ -105,7 +104,7 @@ class DealerOfficerEdit extends Component
     {
         $this->validate();
         DB::beginTransaction();
-        try {            
+        try {
             $this->dealerOfficer->number = $this->number;
             $this->dealerOfficer->name = $this->name;
             $this->dealerOfficer->surname = $this->surname;
@@ -116,19 +115,19 @@ class DealerOfficerEdit extends Component
             $this->dealerOfficer->detail = $this->detail ?? null;
 
             $files = null;
-            
-            if(!is_null($this->files) && is_array($this->files)){ 
+
+            if (!is_null($this->files) && is_array($this->files)) {
                 $files = [];
-                foreach($this->files as $file){
+                foreach ($this->files as $file) {
                     $files[] = $file->store(path: 'public/photos');
                 }
                 $this->dealerOfficer->files = $files;
             }
-            
-            
+
+
             $this->dealerOfficer->status = $this->status == false ? 0 : 1;
             $this->dealerOfficer->save();
-            
+
             $msg = 'Bayi yetkilisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

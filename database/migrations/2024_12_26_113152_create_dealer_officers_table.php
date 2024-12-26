@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dealer_officers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Dealer::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('number')->index();
             $table->string('name')->index();
             $table->string('slug')->nullable()->index();

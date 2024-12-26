@@ -22,7 +22,7 @@ final class DealerAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public int $dealer_id;
+    public string $dealer_id;
 
     public string $tableName = 'DealerAddressTable';
 
@@ -36,9 +36,9 @@ final class DealerAddressTable extends PowerGridComponent
         );
 
         return [
-            PowerGrid::cache() 
-            ->ttl(300) 
-            ->prefix( $id . '_'),
+            PowerGrid::cache()
+                ->ttl(300)
+                ->prefix($id . '_'),
             PowerGrid::exportable(fileName: 'Bayi Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),

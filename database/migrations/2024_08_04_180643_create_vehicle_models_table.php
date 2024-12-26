@@ -14,9 +14,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicle_models', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(VehicleBrand::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(VehicleTicket::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('vehicle_brand_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('vehicle_ticket_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name')->index();
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);

@@ -15,7 +15,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('hgs_type_categories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -24,9 +24,8 @@ return new class extends Migration
         });
 
         Schema::create('hgs_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(HgsTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(HgsType::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('hgs_type_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -35,7 +34,7 @@ return new class extends Migration
         });
 
         Schema::create('hgs', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('number');
             $table->string('filename')->nullable();
             $table->boolean('status')->default(true);
@@ -44,11 +43,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        Schema::create('hgs_type_category_hgs_type_hgs', function (Blueprint $table) {
-            $table->foreignIdFor(HgsTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(HgsType::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Hgs::class)->nullable()->constrained()->cascadeOnDelete();
-        });
+        
     }
 
     /**

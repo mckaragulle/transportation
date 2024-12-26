@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class BankService
 {
-    public function __construct(protected readonly BankRepository $repository)
-    {
-    }
+    public function __construct(protected readonly BankRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -34,7 +32,7 @@ class BankService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

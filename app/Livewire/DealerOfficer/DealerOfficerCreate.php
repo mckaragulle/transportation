@@ -13,7 +13,7 @@ use Livewire\WithFileUploads;
 class DealerOfficerCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $surname = null;
@@ -62,8 +62,8 @@ class DealerOfficerCreate extends Component
         return view('livewire.dealer-officer.dealer-officer-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show)
-    {       
+    public function mount(null|string $id = null, bool $is_show)
+    {
         $this->dealer_id = $id > 0 ? $id : null;
         $this->is_show = $is_show;
     }
@@ -78,11 +78,11 @@ class DealerOfficerCreate extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            
+
             $files = null;
-            if(!is_null($this->files) && is_array($this->files)){
+            if (!is_null($this->files) && is_array($this->files)) {
                 $files = [];
-                foreach($this->files as $file){
+                foreach ($this->files as $file) {
                     $files[] = $file->store(path: 'public/photos');
                 }
             }

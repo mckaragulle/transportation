@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class StaffTypeCategoryService
 {
-    public function __construct(protected readonly StaffTypeCategoryRepository $repository)
-    {
-    }
+    public function __construct(protected readonly StaffTypeCategoryRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -34,7 +32,7 @@ class StaffTypeCategoryService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

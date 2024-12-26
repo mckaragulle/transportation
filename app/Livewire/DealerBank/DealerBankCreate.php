@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\DealerBank;
+
 use App\Services\DealerBankService;
 use App\Services\BankService;
 use Illuminate\Support\Collection;
@@ -14,7 +15,7 @@ class DealerBankCreate extends Component
     use LivewireAlert;
 
     public null|Collection $banks = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
@@ -46,7 +47,7 @@ class DealerBankCreate extends Component
         return view('livewire.dealer-bank.dealer-bank-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, BankService $bankService)
+    public function mount(null|string $id = null, bool $is_show, BankService $bankService)
     {
         $this->dealer_id = $id;
         $this->is_show = $is_show;

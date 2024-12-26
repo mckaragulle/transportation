@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,10 +14,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Licence extends Model
 {
-    use SoftDeletes, HasFactory, LogsActivity;
+    use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = ["number", "filename", "detail", "status", "started_at", "finished_at"];
-
 
     public function getActivitylogOptions(): LogOptions
     {

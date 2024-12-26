@@ -13,12 +13,12 @@ class DealerAddresses extends Component
 {
     use LivewireAlert;
 
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $data_id;
 
     public bool $is_show = false;
 
-    public function mount(null|int $id = null, null|bool $is_show)
+    public function mount(null|string $id = null, null|bool $is_show)
     {
         $this->dealer_id = $id;
         $this->is_show = $is_show;

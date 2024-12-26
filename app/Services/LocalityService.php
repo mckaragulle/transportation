@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 
 class LocalityService
 {
-    public function __construct(protected readonly LocalityRepository $repository)
-    {
-    }
+    public function __construct(protected readonly LocalityRepository $repository) {}
 
     public function where(array $column): Model
     {
@@ -40,7 +38,7 @@ class LocalityService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

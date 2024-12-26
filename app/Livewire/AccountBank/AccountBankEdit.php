@@ -22,8 +22,8 @@ class AccountBankEdit extends Component
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
-    
-    public null|int $dealer_id = null;
+
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
@@ -59,10 +59,10 @@ class AccountBankEdit extends Component
             $this->dealers = $dealerService->all(['id', 'name']);
             $this->accounts = $accountService->all(['id', 'name']);
             $this->banks = $bankService->all(['id', 'name']);
-            
-            if(auth()->getDefaultDriver() == 'dealer'){
+
+            if (auth()->getDefaultDriver() == 'dealer') {
                 $this->dealer_id = auth()->user()->id;
-            } else if(auth()->getDefaultDriver() == 'users'){
+            } else if (auth()->getDefaultDriver() == 'users') {
                 $this->dealer_id = auth()->user()->dealer()->id;
             }
             $this->account_id = $this->accountBank->account_id;
@@ -92,12 +92,12 @@ class AccountBankEdit extends Component
             $this->accountBank->dealer_id = $this->dealer_id;
             $this->accountBank->account_id = $this->account_id;
             $this->accountBank->bank_id = $this->bank_id;
-            
+
             $this->accountBank->iban = $this->iban ?? null;
-            
+
             $this->accountBank->status = $this->status == false ? 0 : 1;
             $this->accountBank->save();
-            
+
             $msg = 'Cari banka bilgisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

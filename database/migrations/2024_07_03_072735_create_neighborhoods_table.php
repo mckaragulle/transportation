@@ -14,9 +14,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('neighborhoods', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(City::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(District::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('city_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('district_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('postcode');
             $table->string('slug')->unique()->nullable();

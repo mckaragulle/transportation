@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 
 class RoleService
 {
-    public function __construct(protected readonly RoleRepository $repository)
-    {
-    }
+    public function __construct(protected readonly RoleRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -35,7 +33,7 @@ class RoleService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }

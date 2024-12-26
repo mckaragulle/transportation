@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\StatusScope;
+use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccountType extends Model
 {
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity;
+    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.

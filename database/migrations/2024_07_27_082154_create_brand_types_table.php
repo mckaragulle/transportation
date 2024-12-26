@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('brand_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Brand::class)->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('brand_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(true);

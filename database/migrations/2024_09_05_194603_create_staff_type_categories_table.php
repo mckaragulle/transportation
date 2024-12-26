@@ -16,7 +16,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('staff_type_categories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -25,9 +25,8 @@ return new class extends Migration
         });
 
         Schema::create('staff_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(StaffTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(StaffType::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -36,7 +35,7 @@ return new class extends Migration
         });
 
         Schema::create('staff', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('id_number');
             $table->string('name');
             $table->string('surname')->nullable();
@@ -52,9 +51,9 @@ return new class extends Migration
         });
 
         Schema::create('staff_type_category_staff_type_staff', function (Blueprint $table) {
-            $table->foreignIdFor(StaffTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(StaffType::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Staff::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('staff_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('staff_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 

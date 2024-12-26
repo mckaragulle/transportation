@@ -13,8 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sectors', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(model: Sector::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->unique()->primary();
+            // $table->foreignUuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);

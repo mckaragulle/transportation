@@ -19,7 +19,7 @@ class AccountCreate extends Component
     public null|array $account_type_categories = [];
     public null|Collection $accountTypeCategoryDatas;
     public null|Collection $accounts;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $shortname = null;
@@ -74,14 +74,14 @@ class AccountCreate extends Component
 
     public function mount(AccountTypeCategory $accountTypeCategory)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
         $this->accountTypeCategoryDatas = $accountTypeCategory->query()
-        ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
-        ->get(['id', 'name', 'is_required', 'is_multiple']);
+            ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
+            ->get(['id', 'name', 'is_required', 'is_multiple']);
     }
 
     /**
@@ -95,7 +95,7 @@ class AccountCreate extends Component
         DB::beginTransaction();
         try {
 
-            if(!is_null($this->filename)){
+            if (!is_null($this->filename)) {
                 $filename = $this->filename->store(path: 'public/photos');
             }
             $account = $accountService->create([
@@ -112,22 +112,18 @@ class AccountCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            if(is_iterable($this->account_type_categories) && count($this->account_type_categories) > 0)
-            {
-                foreach($this->account_type_categories as $k => $t)
-                {
-                    if(is_array($t)){
-                        foreach($t as $t2)
-                        {
+            if (is_iterable($this->account_type_categories) && count($this->account_type_categories) > 0) {
+                foreach ($this->account_type_categories as $k => $t) {
+                    if (is_array($t)) {
+                        foreach ($t as $t2) {
                             $this->attachAccountTypeCategoryId($k, $t2, $account->id);
-                        } 
-                    }
-                    else {
+                        }
+                    } else {
                         $this->attachAccountTypeCategoryId($k, $t, $account->id);
-                    }                
+                    }
                 }
             }
-            
+
 
             $this->dispatch('pg:eventRefresh-AccountTable');
             $msg = 'Cari oluşturuldu.';
@@ -149,7 +145,7 @@ class AccountCreate extends Component
         // DB::table('account_type_category_account_type_account')
         //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
         //     ->first();
-        if($account_type_id > 0){
+        if ($account_type_id > 0) {
             DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
         }
     }

@@ -16,7 +16,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('licence_type_categories', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -25,9 +25,8 @@ return new class extends Migration
         });
 
         Schema::create('licence_types', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(LicenceTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(LicenceType::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('licence_type_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -36,7 +35,7 @@ return new class extends Migration
         });
 
         Schema::create('licences', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('number');
             $table->string('filename')->nullable();
             $table->text('detail')->nullable();
@@ -48,9 +47,9 @@ return new class extends Migration
         });
 
         Schema::create('licence_type_category_licence_type_licence', function (Blueprint $table) {
-            $table->foreignIdFor(LicenceTypeCategory::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(LicenceType::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Licence::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('licence_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('licence_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('licence_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 

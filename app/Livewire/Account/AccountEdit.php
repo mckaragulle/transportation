@@ -29,7 +29,7 @@ class AccountEdit extends Component
 
     public null|array $account_type_categories = [];
     public null|array $account_types = [];
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $shortname = null;
@@ -53,7 +53,7 @@ class AccountEdit extends Component
             'account_type_categories' => ['nullable', 'array'],
             'account_type_categories.*' => ['nullable'],
             'dealer_id' => ['required', 'exists:dealers,id'],
-            'number' => ['required'],   
+            'number' => ['required'],
             'name' => ['required'],
             'shortname' => ['required'],
             'phone' => ['nullable'],
@@ -82,12 +82,12 @@ class AccountEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, AccountTypeCategory $accountTypeCategory,AccountService $accountService, bool $is_show = true)
+    public function mount($id = null, AccountTypeCategory $accountTypeCategory, AccountService $accountService, bool $is_show = true)
     {
         if (!is_null($id)) {
-            if(auth()->getDefaultDriver() == 'dealer'){
+            if (auth()->getDefaultDriver() == 'dealer') {
                 $this->dealer_id = auth()->user()->id;
-            } else if(auth()->getDefaultDriver() == 'users'){
+            } else if (auth()->getDefaultDriver() == 'users') {
                 $this->dealer_id = auth()->user()->dealer()->id;
             }
             $this->is_show = $is_show;
@@ -105,12 +105,12 @@ class AccountEdit extends Component
             $this->accountTypeCategoryDatas = $accountTypeCategory->query()
                 ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
                 ->get(['id', 'name', 'is_required', 'is_multiple']);
-                
-                $b = [];
-                foreach($this->account->account_types as $a){
-                    $b[$a->account_type_category_id][] = $a->id;
-                }
-                $this->account_type_categories = $b;
+
+            $b = [];
+            foreach ($this->account->account_types as $a) {
+                $b[$a->account_type_category_id][] = $a->id;
+            }
+            $this->account_type_categories = $b;
         } else {
             return $this->redirect(route('accounts.list'));
         }
@@ -153,31 +153,26 @@ class AccountEdit extends Component
                     Storage::delete($this->oldfilename);
                 }
             }
- 
+
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                if(is_array($account_type_id)){
-                    foreach($account_type_id as $t2)
-                    {
+                if (is_array($account_type_id)) {
+                    foreach ($account_type_id as $t2) {
                         $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
-                    } 
-                }
-                else {
+                    }
+                } else {
                     $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
-                    
                 }
             }
 
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                if(is_array($account_type_id)){
-                    foreach($account_type_id as $t2)
-                    {
-                        if($t2 > 0){
-                            $this->attachAccountTypeCategoryId($account_type_category_id, $t2,$this->account->id);
+                if (is_array($account_type_id)) {
+                    foreach ($account_type_id as $t2) {
+                        if ($t2 > 0) {
+                            $this->attachAccountTypeCategoryId($account_type_category_id, $t2, $this->account->id);
                         }
-                    } 
-                }
-                else {
-                    if($account_type_id > 0){
+                    }
+                } else {
+                    if ($account_type_id > 0) {
                         $this->attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $this->account->id);
                     }
                 }
@@ -205,13 +200,15 @@ class AccountEdit extends Component
             ->get(['id', 'account_type_id', 'name']);
     }
 
-    private function detachAccountTypeCategoryId($account_type_category_id, $account_id){
+    private function detachAccountTypeCategoryId($account_type_category_id, $account_id)
+    {
         DB::table('account_type_category_account_type_account')
-        ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
-        ->delete();
+            ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
+            ->delete();
     }
-    
-    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id){
+
+    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id)
+    {
         // DB::table('account_type_category_account_type_account')
         //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
         //     ->first();

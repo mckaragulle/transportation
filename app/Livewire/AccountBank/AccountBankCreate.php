@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\AccountBank;
+
 use App\Services\AccountBankService;
 use App\Services\AccountService;
 use App\Services\BankService;
@@ -18,7 +19,7 @@ class AccountBankCreate extends Component
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
-    public null|int $dealer_id = null;
+    public null|string $dealer_id = null;
     public null|int $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
@@ -54,14 +55,13 @@ class AccountBankCreate extends Component
         return view('livewire.account-bank.account-bank-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
+        if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
+        } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
-        }
-        else {
+        } else {
             $this->dealers = $dealerService->all(['id', 'name']);
             $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
         }

@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CityService
 {
-    public function __construct(protected readonly CityRepository $repository)
-    {
-    }
+    public function __construct(protected readonly CityRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -36,7 +34,7 @@ class CityService
         return $this->repository->insert($data);
     }
 
-    public function findById(int $id): Model
+    public function findById(string $id): Model
     {
         return $this->repository->findById($id);
     }
