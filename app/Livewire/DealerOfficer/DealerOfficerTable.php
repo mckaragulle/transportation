@@ -23,18 +23,23 @@ final class DealerOfficerTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
+    public int $dealer_id;
 
     public string $tableName = 'DealerOfficerTable';
 
     public function setUp(): array
     {
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "dealer_officer_{$id}"
         );
 
         return [
+            PowerGrid::cache() 
+            ->ttl(300) 
+            ->prefix( $id . '_'),
             PowerGrid::exportable(fileName: 'Bayi Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
@@ -49,12 +54,8 @@ final class DealerOfficerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerOfficer::query();
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $dealer->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $dealer->where('dealer_id', auth()->user()->dealer()->id);
-        }
+        $dealer = DealerOfficer::query()
+            ->whereDealerId($this->dealer_id);
         return $dealer;
     }
 

@@ -67,7 +67,6 @@ class DealerOfficerEdit extends Component
     {
         if (!is_null($id)) {
             $this->dealerOfficer = $dealerOfficerService->findById($id);
-
             $this->dealer_id = $this->dealerOfficer->dealer_id;
             $this->number = $this->dealerOfficer->number;
             $this->name = $this->dealerOfficer->name;

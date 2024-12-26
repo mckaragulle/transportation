@@ -2,7 +2,6 @@
 
 namespace App\Livewire\DealerBank;
 use App\Services\DealerBankService;
-use App\Services\DealerService;
 use App\Services\BankService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +13,6 @@ class DealerBankCreate extends Component
 {
     use LivewireAlert;
 
-    public null|Collection $dealers = null;
     public null|Collection $banks = null;
     public null|int $dealer_id = null;
     public null|int $bank_id = null;
@@ -48,18 +46,10 @@ class DealerBankCreate extends Component
         return view('livewire.dealer-bank.dealer-bank-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, BankService $bankService)
+    public function mount(null|int $id = null, bool $is_show, BankService $bankService)
     {
-        if(auth()->getDefaultDriver() == 'dealer'){
-            $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
-            $this->dealer_id = auth()->user()->dealer()->id;
-        }
-        else {
-            $this->dealers = $dealerService->all(['id', 'name']);
-        }
+        $this->dealer_id = $id;
         $this->is_show = $is_show;
-        $this->dealers = $dealerService->all(['id', 'name']);
         $this->banks = $bankService->all(['id', 'name']);
     }
 

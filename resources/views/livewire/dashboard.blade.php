@@ -5,7 +5,7 @@
     <button type="button" class="btn btn-blue" wire:click="importBank">Bankalar İçe Aktar</button>
     @endif
 
-    @if(auth()->getDefaultDriver() == 'dealer')
+    {{-- @if(auth()->getDefaultDriver() == 'admin')
     <livewire:dealer.dealer-management id="{{auth()->user()->id}}">
-    @endif
+    @endif --}}
 </div>

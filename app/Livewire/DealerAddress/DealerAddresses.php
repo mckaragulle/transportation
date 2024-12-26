@@ -2,7 +2,7 @@
 
 namespace App\Livewire\DealerAddress;
 
-use App\Services\DealerService;
+use App\Services\DealerAddressService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -47,7 +47,7 @@ class DealerAddresses extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(DealerService $dealerAddressService)
+    public function handleConfirmed(DealerAddressService $dealerAddressService)
     {
         try {
             $dealerAddressService->delete($this->data_id);

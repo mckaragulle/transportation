@@ -6,7 +6,6 @@ use App\Models\District;
 use App\Models\Locality;
 use App\Models\Neighborhood;
 use App\Services\DealerAddressService;
-use App\Services\DealerService;
 use App\Services\CityService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +18,6 @@ class DealerAddressCreate extends Component
 {
     use LivewireAlert;
 
-    public null|Collection $dealers = null;
     public null|Collection $cities = null;
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
@@ -79,14 +77,8 @@ class DealerAddressCreate extends Component
         return view('livewire.dealer-address.dealer-address-create');
     }
 
-    public function mount(null|int $id = null, bool $is_show, DealerService $dealerService, CityService $cityService)
-    {
-        if(auth()->getDefaultDriver() == 'dealer'){
-            $this->dealer_id = auth()->user()->id;
-        } else if(auth()->getDefaultDriver() == 'users'){
-            $this->dealer_id = auth()->user()->dealer()->id;
-        }
-        
+    public function mount(null|int $id = null, bool $is_show, CityService $cityService)
+    {   
         $this->is_show = $is_show;
         $this->dealer_id = $id > 0 ? $id : null;
 
@@ -119,6 +111,7 @@ class DealerAddressCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
+            Log::info($dealer);
 
             $this->dispatch('pg:eventRefresh-DealerAddressTable');
             $msg = 'Bayi Adresi oluşturuldu.';

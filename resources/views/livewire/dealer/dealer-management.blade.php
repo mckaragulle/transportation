@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="officers">
                                         <div class="pt-4">
-                                            {{-- <livewire:dealer-officer.dealer-officers id="{{$dealer->id}}" is_show="0" /> --}}
+                                            <livewire:dealer-officer.dealer-officers id="{{$dealer->id}}" is_show="0" />
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="files">

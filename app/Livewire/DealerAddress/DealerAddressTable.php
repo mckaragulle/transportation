@@ -22,26 +22,28 @@ final class DealerAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
+    public int $dealer_id;
 
     public string $tableName = 'DealerAddressTable';
 
     public function setUp(): array
     {
-        $id =  auth()->user()->id;
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "dealer_address_{$id}"
         );
 
         return [
             PowerGrid::cache() 
-            ->ttl(60) 
+            ->ttl(300) 
             ->prefix( $id . '_'),
             PowerGrid::exportable(fileName: 'Bayi Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            PowerGrid::header()->showSoftDeletes()
+            PowerGrid::header()
+                ->showSoftDeletes()
                 ->showSearchInput()
                 ->showToggleColumns(),
             PowerGrid::footer()
@@ -52,12 +54,8 @@ final class DealerAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerAddress::query();
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $dealer->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $dealer->where('dealer_id', auth()->user()->dealer()->id);
-        }
+        $dealer = DealerAddress::query()
+            ->whereDealerId($this->dealer_id);
         return $dealer;
     }
 
@@ -95,10 +93,6 @@ final class DealerAddressTable extends PowerGridComponent
             })
             ->add('name')
             ->add('address1')
-            ->add('address2')
-            ->add('phone1')
-            ->add('phone2')
-            ->add('email')
             ->add('status')
             ->add('created_at');
 
@@ -133,27 +127,6 @@ final class DealerAddressTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
             Column::make('2. Adres', 'address2')
-                ->sortable()
-                ->searchable()
-                ->editOnClick(
-                    hasPermission: auth()->user()->can('update dealer_addresses'),
-                    fallback: '- empty -'
-                ),
-            Column::make('1. Telefon', 'phone1')
-                ->sortable()
-                ->searchable()
-                ->editOnClick(
-                    hasPermission: auth()->user()->can('update dealer_addresses'),
-                    fallback: '- empty -'
-                ),
-            Column::make('2. Telefon', 'phone2')
-                ->sortable()
-                ->searchable()
-                ->editOnClick(
-                    hasPermission: auth()->user()->can('update dealer_addresses'),
-                    fallback: '- empty -'
-                ),
-            Column::make('EPosta Adresi', 'email')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
@@ -224,7 +197,7 @@ final class DealerAddressTable extends PowerGridComponent
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-dealer_address', ['id' => $row->id]),
+                ->dispatch('delete-dealer-address', ['id' => $row->id]),
         ];
     }
 

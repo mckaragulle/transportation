@@ -1,12 +1,10 @@
 <div class="col-xl-12">
-    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dealer_addresses.list') }}">Bayi Adresleri</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dealer_managements.edit', ['id' => $dealer_id]) }}">Bayi Adresleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
-    @endif
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Bayi Adresi Düzenle</h4>
@@ -114,27 +112,6 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                @if(auth()->user()->roleType == "admin")
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Bayi Seçiniz :</label>
-                                    <select wire:model.lazy="dealer_id" id="dealer_id"
-                                        class="form-select form-select-lg">
-                                        <option value="">Bayi Seçiniz</option>
-                                        @if(is_iterable($dealers))
-                                        @forelse($dealers as $a)
-                                        <option value="{{$a->id}}">{{$a->name}}</option>
-                                        @empty
-                                        @endforelse
-                                        @endif
-                                    </select>
-                                    @error('dealer_id')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
-                                </div>
-                                @endif
                                 <div class="col-sm-2">
                                     <label class="col-form-label">Bayi adres başlığını yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.defer="name"

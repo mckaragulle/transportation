@@ -23,7 +23,6 @@ class DealerAddressEdit extends Component
     use LivewireAlert;
 
     public ?DealerAddress $dealerAddress = null;
-    public null|Collection $dealers = null;
     public null|Collection $cities = null;
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
@@ -77,12 +76,11 @@ class DealerAddressEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, CityService $cityService, DistrictService $districtService, NeighborhoodService $neighborhoodService, LocalityService $localityService, DealerAddressService $dealerAddressService)
+    public function mount($id = null, CityService $cityService, DistrictService $districtService, NeighborhoodService $neighborhoodService, LocalityService $localityService, DealerAddressService $dealerAddressService)
     {
         //TODO: Burada bayi ve cari seçimi yapılacak.
         if (!is_null($id)) {
             $this->dealerAddress = $dealerAddressService->findById($id);
-            $this->dealers = $dealerService->all(['id', 'name']);
             $this->cities = $cityService->all(['id', 'name']);
             $this->districts = $districtService->all(['id', 'name']);
             $this->neighborhoods = $neighborhoodService->all(['id', 'name']);
