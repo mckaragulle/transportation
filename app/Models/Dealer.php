@@ -38,7 +38,19 @@ class Dealer extends Authenticatable
         ];
     }
 
-    protected $fillable = ['name', 'slug', 'email', 'password', 'phone', 'status'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'number',
+        'shortname',
+        'phone',
+        'tax',
+        'taxoffice',
+        'detail',
+        'email',
+        'password',
+        'status'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -64,7 +76,19 @@ class Dealer extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'slug', 'email', 'password', 'phone', 'status']);
+            ->logOnly([
+                'name',
+                'slug',
+                'number',
+                'shortname',
+                'phone',
+                'tax',
+                'taxoffice',
+                'detail',
+                'email',
+                'password',
+                'status'
+            ]);
     }
 
     /**

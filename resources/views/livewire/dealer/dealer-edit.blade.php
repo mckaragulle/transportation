@@ -35,16 +35,47 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">İsim :</label>
+                                <div class="col-sm-3 col-form-label">Cari numarasını yazınız:</div>
                                 <div class="col-sm-9">
-                                    <input class="form-control border border-warning" type="text"
-                                           wire:model.defer="name" placeholder="Adını yazınız.">
-                                    @error('name')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    <input class="form-control" type="number" required step="1" wire:model.defer="number"
+                                    placeholder="Cari numarasını yazınız.">
+                                    @error('number')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
                                                 aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-sm-3 col-form-label">Bayi adını yazınız:</div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" required wire:model.defer="name"
+                                    placeholder="Bayi adını yazınız.">
+                                    @error('name')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <div class="col-sm-3 col-form-label">Bayi kısa adını yazınız:</div>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" required wire:model.defer="shortname"
+                                    placeholder="Bayi kısa adını yazınız.">
+                                    @error('shortname')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -67,7 +98,7 @@
                                 <label class="col-sm-3 col-form-label">E-posta :</label>
                                 <div class="col-sm-9">
                                     <input class="form-control border border-warning" type="email"
-                                           wire:model.defer="email" placeholder="E-posta yazınız.">
+                                           wire:model.defer="email" placeholder="E-posta yazınız." autocomplete="false">
                                     @error('email')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -76,6 +107,36 @@
                                     </div>@enderror
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">TC Kimlik / Vergi numarasını yazınız:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="number" wire:model.defer="tax"
+                                        placeholder="TC Kimlik / Vergi numarasını yazınız:">
+                                    @error('tax')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">Vergi dairesini yazınız:</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" wire:model.defer="taxoffice"
+                                    placeholder="Vergi dairesini yazınız:">
+                                    @error('taxoffice')
+                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="btn-close">
+                                            </button>{{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-lg-4 col-sm-12">
                             <div class="row mb-3">
@@ -102,7 +163,22 @@
                                             </button>{{$message}}
                                         </div>@enderror
                                     </div>
+                                    
 
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">Açıklama yazınız:</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" type="text" wire:model.defer="detail"
+                                placeholder="Açıklama yazınız."></textarea>
+                                @error('detail')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{ $message }}
+                                    </div>
+                                @enderror
                                 </div>
                             </div>
                         </div>

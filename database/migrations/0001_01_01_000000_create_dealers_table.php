@@ -15,7 +15,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->unique()->nullable();
-            $table->string('phone')->unique()->nullable();
+            $table->string('number');            
+            $table->string('shortname');
+            $table->string('phone')->nullable();
+            $table->string('tax')->nullable();
+            $table->string('taxoffice')->nullable();
+            $table->text('detail')->nullable();            
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

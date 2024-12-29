@@ -7,7 +7,6 @@ use App\Models\District;
 use App\Models\Locality;
 use App\Models\Neighborhood;
 use App\Services\DealerAddressService;
-use App\Services\DealerService;
 use App\Services\CityService;
 use App\Services\DistrictService;
 use App\Services\LocalityService;
@@ -27,7 +26,6 @@ class DealerAddressEdit extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|string $dealer_id = null;
     public null|int $city_id = null;
     public null|int $district_id = null;
     public null|int $neighborhood_id = null;
@@ -46,7 +44,6 @@ class DealerAddressEdit extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
         'city_id' => ['required', 'exists:cities,id'],
         'district_id' => ['required', 'exists:districts,id'],
         'neighborhood_id' => ['required', 'exists:neighborhoods,id'],
@@ -61,8 +58,6 @@ class DealerAddressEdit extends Component
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'city_id.required' => 'Lütfen şehir seçiniz yazınız.',
         'city_id.exists' => 'Lütfen geçerli bir şehir seçiniz yazınız.',
         'district_id.required' => 'Lütfen ilçe seçiniz yazınız.',
@@ -85,7 +80,6 @@ class DealerAddressEdit extends Component
             $this->districts = $districtService->all(['id', 'name']);
             $this->neighborhoods = $neighborhoodService->all(['id', 'name']);
             $this->localities = $localityService->all(['id', 'name']);
-            $this->dealer_id = $this->dealerAddress->dealer_id;
             $this->city_id = $this->dealerAddress->city_id;
             $this->district_id = $this->dealerAddress->district_id;
             $this->neighborhood_id = $this->dealerAddress->neighborhood_id;
@@ -118,7 +112,6 @@ class DealerAddressEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->dealerAddress->dealer_id = $this->dealer_id;
             $this->dealerAddress->city_id = $this->city_id;
             $this->dealerAddress->district_id = $this->district_id;
             $this->dealerAddress->neighborhood_id = $this->neighborhood_id;

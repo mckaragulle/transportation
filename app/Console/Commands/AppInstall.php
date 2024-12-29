@@ -56,6 +56,11 @@ class AppInstall extends Command
             "email" => "gaziantep@app.com",
             "password" => bcrypt(123123),
             "phone" => "05545559411",
+            "number" => rand(000000000000, 999999999999),
+            "shortname" => "Gaziantep",
+            "tax" => rand(00000000000, 99999999999),
+            "taxoffice" => "Gazikent",
+            "detail" => 'Açıklama',
         ];
         $this->dealer = $this->dealerService->create($dealer);
 

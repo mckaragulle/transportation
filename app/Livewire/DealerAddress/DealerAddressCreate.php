@@ -81,7 +81,7 @@ class DealerAddressCreate extends Component
     {
         $this->is_show = $is_show;
         $this->dealer_id = $id > 0 ? $id : null;
-
+        $this->is_show = $is_show;
         $this->cities = $cityService->all(['id', 'name']);
     }
 

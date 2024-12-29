@@ -18,6 +18,13 @@ class DealerCreate extends Component
     public null|string $password;
     public null|string $password_confirmation;
 
+    public null|string $number = null;
+    public null|string $shortname = null;
+    public null|string $detail = null;
+    public null|string $tax = null;
+    public null|string $taxoffice = null;
+    public $filename;
+
     public bool $status = true;
 
     protected DealerService $dealerService;
@@ -30,7 +37,13 @@ class DealerCreate extends Component
         'phone' => ['nullable', ],
         'email' => ['required', 'email', 'unique:dealers,email'],
         'password' => ['required', 'confirmed', 'min:6'],
+        'number' => ['required'],
+        'shortname' => ['required'],
+        'detail' => ['nullable'],
+        'tax' => ['nullable'],
+        'taxoffice' => ['nullable'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
+        'filename' => ['nullable', 'max:4096'],
     ];
 
     protected $messages = [
@@ -42,6 +55,13 @@ class DealerCreate extends Component
         'password.required' => 'Lütfen şifreyi yazınız.',
         'password.confirmed' => 'Lütfen şifreyi tekrar yazınız.',
         'password.min' => 'Şifre en az 6 karakter olmalıdır.',
+
+        'number.required' => 'Bayi cari numarasını yazınız.',
+        'shortname.required' => 'Bayi kısa adını yazınız.',
+        'phone.required' => 'Bayi telefonunu yazınız.',
+        'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
+        'filename.uploaded' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
+        'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
     public function render()
@@ -65,6 +85,12 @@ class DealerCreate extends Component
                 'phone' => $this->phone??null,
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
+                'number' => $this->number,
+                'shortname' => $this->shortname,
+                'detail' => $this->detail,
+                'tax' => $this->tax,
+                'taxoffice' => $this->taxoffice,
+                'filename' => $filename ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 

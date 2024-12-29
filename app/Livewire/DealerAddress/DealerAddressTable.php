@@ -22,7 +22,7 @@ final class DealerAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public int $dealer_id;
 
     public string $tableName = 'DealerAddressTable';
 
@@ -54,8 +54,13 @@ final class DealerAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
+<<<<<<< Updated upstream
         $dealer = DealerAddress::query()
             ->whereDealerId($this->dealer_id);
+=======
+        $dealer = DealerAddress::query();
+        $dealer->where('dealer_id', $this->dealer_id);
+>>>>>>> Stashed changes
         return $dealer;
     }
 
@@ -76,9 +81,6 @@ final class DealerAddressTable extends PowerGridComponent
     {
         $fields = PowerGrid::fields()
             ->add('id')
-            ->add('dealer_id', function ($role) {
-                return $role->dealer->name ?? "---";
-            })
             ->add('city_id', function ($role) {
                 return $role->city->name ?? "---";
             })
@@ -104,10 +106,7 @@ final class DealerAddressTable extends PowerGridComponent
         return [
             Column::make('Id', 'id')
                 ->sortable()
-                ->searchable(),
-            Column::make('Bayi Adı', 'dealer_id')
-                ->sortable()
-                ->searchable(),
+                ->searchable(),            
             Column::make('İl Adı', 'city_id'),
             Column::make('İlçe Adı', 'district_id'),
             Column::make('Mahalle Adı', 'neighborhood_id'),
