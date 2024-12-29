@@ -12,7 +12,7 @@ class DealerBanks extends Component
 {
     use LivewireAlert;
 
-    public null|int $data_id;
+    public null|string $data_id;
 
     public bool $is_show = false;
     public null|string $dealer_id = null;

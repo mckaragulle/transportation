@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable; 
+use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -25,15 +25,17 @@ final class AccountTable extends PowerGridComponent
     public ?int $accountTypeCategoryId = null;
 
     public bool $multiSort = true;
+    public string $dealer_id;
 
     public string $tableName = 'AccountTable';
 
     public function setUp(): array
     {
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "account_{$id}"
         );
 
         $this->accountCategories = AccountTypeCategory::query()->with(['account_types'])->get(['id', 'name']);
@@ -54,14 +56,8 @@ final class AccountTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = Account::query()
-        ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
-        ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
-
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $account->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $account->where('dealer_id', auth()->user()->dealer()->id);
-        }
+            ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
+            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name'])->whereDealerId($this->dealer_id);;
         return $account;
         // return Account::query()
         //     ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
@@ -125,11 +121,11 @@ final class AccountTable extends PowerGridComponent
     {
         $column = [
             Column::make('Id', 'id')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
             Column::make('Bayi Adı', 'dealer_id')
-            ->sortable()
-            ->searchable(),
+                ->sortable()
+                ->searchable(),
         ];
         foreach ($this->accountCategories as $c) {
             array_push($column, Column::make("{$c->name}", "account_type_category_{$c->id}"));

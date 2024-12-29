@@ -142,7 +142,7 @@ class AccountEdit extends Component
             $this->account->taxoffice = $this->taxoffice;
 
             $filename = null;
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->account->filename = $filename;
             }

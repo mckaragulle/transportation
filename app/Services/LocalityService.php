@@ -66,7 +66,7 @@ class LocalityService
     /**
      * Bayiyi siler.
      */
-    public function delete(int $id): bool
+    public function delete(int|string $id): bool
     {
         return $this->repository->delete($id);
     }

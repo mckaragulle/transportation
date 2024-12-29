@@ -13,6 +13,9 @@
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" href="#home2"><i class="la la-home me-2"></i> Bayi Seçimleri</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#logos"><i class="la la-file-image me-2"></i> Bayi Logoları</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="home1" role="tabpanel">
@@ -70,6 +73,12 @@
                     <div class="tab-pane fade" id="home2" role="tabpanel">
                         <div class="pt-4">
                             <livewire:dealer.dealer-selections id="{{$dealer->id}}" />
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="logos" role="tabpanel">
+                        <div class="pt-4">
+                            <livewire:dealer-logo.dealer-logos id="{{$dealer->id}}" is_show="0" />
                         </div>
                     </div>
                 </div>

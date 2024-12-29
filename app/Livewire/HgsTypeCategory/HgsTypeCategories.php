@@ -14,7 +14,7 @@ class HgsTypeCategories extends Component
 
     protected HgsTypeCategoryService $hgsTypeCategoryService;
 
-    public null|int $data_id;
+    public null|string $data_id;
 
 
     public function render()
@@ -26,15 +26,17 @@ class HgsTypeCategories extends Component
     function delete($id)
     {
         $this->data_id = $id;
-        $this->confirm('Bu işlemi yapmak istediğinize emin misiniz?',
-        [
-            'onConfirmed' => 'handleConfirmed',
-            'position' => 'center',
-            'toast' => false,
-            'confirmButtonText' => 'Evet',
-            'cancelButtonText' => 'Hayır',
-            'theme' => 'dark',
-        ]);
+        $this->confirm(
+            'Bu işlemi yapmak istediğinize emin misiniz?',
+            [
+                'onConfirmed' => 'handleConfirmed',
+                'position' => 'center',
+                'toast' => false,
+                'confirmButtonText' => 'Evet',
+                'cancelButtonText' => 'Hayır',
+                'theme' => 'dark',
+            ]
+        );
     }
 
     #[On('handleConfirmed')]

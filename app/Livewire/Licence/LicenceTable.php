@@ -30,6 +30,7 @@ final class LicenceTable extends PowerGridComponent
     public ?int $licenceTypeCategoryId = null;
 
     public bool $multiSort = true;
+    public string $dealer_id;
 
     public string $tableName = 'LicenceTable';
 

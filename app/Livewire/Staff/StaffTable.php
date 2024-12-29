@@ -30,6 +30,7 @@ final class StaffTable extends PowerGridComponent
     public ?int $staffTypeCategoryId = null;
 
     public bool $multiSort = true;
+    public string $dealer_id;
 
     public string $tableName = 'StaffTable';
 

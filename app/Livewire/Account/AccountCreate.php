@@ -95,7 +95,7 @@ class AccountCreate extends Component
         DB::beginTransaction();
         try {
 
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
             }
             $account = $accountService->create([

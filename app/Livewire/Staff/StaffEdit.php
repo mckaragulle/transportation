@@ -36,7 +36,7 @@ class StaffEdit extends Component
     public null|string $phone2;
     public null|string $email;
     public null|string $detail;
-    
+
     public bool $status = true;
 
     protected StaffTypeCategoryService $staffTypeCategoryService;
@@ -121,7 +121,7 @@ class StaffEdit extends Component
             $this->staff->detail = $this->detail;
 
             $filename = null;
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->staff->filename = $filename;
             }

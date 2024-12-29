@@ -62,7 +62,7 @@ class LicenceEdit extends Component
         'filename.image' => 'Belge için dosya seçiniz yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
-        
+
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -75,7 +75,7 @@ class LicenceEdit extends Component
             $this->started_at = $this->licence->started_at;
             $this->finished_at = $this->licence->finished_at;
             $this->detail = $this->licence->detail;
-            
+
             if (isset($this->licence?->filename) && Storage::exists($this->licence?->filename)) {
                 $this->oldfilename = $this->licence->filename;
             }
@@ -110,7 +110,7 @@ class LicenceEdit extends Component
             $this->licence->detail = $this->detail;
 
             $filename = null;
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->licence->filename = $filename;
             }

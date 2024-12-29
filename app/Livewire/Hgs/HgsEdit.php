@@ -106,7 +106,7 @@ class HgsEdit extends Component
             $this->hgs->number = $this->number;
 
             $filename = null;
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
                 $this->hgs->filename = $filename;
             }

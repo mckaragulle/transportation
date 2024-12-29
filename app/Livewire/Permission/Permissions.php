@@ -15,7 +15,7 @@ class Permissions extends Component
 
     protected PermissionService $permissionService;
 
-    public null|int $data_id;
+    public null|string $data_id;
 
     public function alertMessage()
     {
@@ -31,15 +31,17 @@ class Permissions extends Component
     function delete($id)
     {
         $this->data_id = $id;
-        $this->confirm('Bu işlemi yapmak istediğinize emin misiniz?',
-        [
-            'onConfirmed' => 'handleConfirmed',
-            'position' => 'center',
-            'toast' => false,
-            'confirmButtonText' => 'Evet',
-            'cancelButtonText' => 'Hayır',
-            'theme' => 'dark',
-        ]);
+        $this->confirm(
+            'Bu işlemi yapmak istediğinize emin misiniz?',
+            [
+                'onConfirmed' => 'handleConfirmed',
+                'position' => 'center',
+                'toast' => false,
+                'confirmButtonText' => 'Evet',
+                'cancelButtonText' => 'Hayır',
+                'theme' => 'dark',
+            ]
+        );
     }
 
     #[On('handleConfirmed')]

@@ -102,7 +102,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $model;
     }
 
-    public function delete(int $id): bool
+    public function delete(int|string $id): bool
     {
         return $this->model->destroy($id);
     }

@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('dealer_files', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->boolean('status')->default(true);
-            $table->string('filename');
             $table->string('title');
+            $table->string('filename');
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

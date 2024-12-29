@@ -3,7 +3,6 @@
 namespace App\Livewire\DealerFile;
 
 use App\Services\DealerFileService;
-use App\Services\DealerService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +14,7 @@ class DealerFiles extends Component
 {
     use LivewireAlert;
 
-    public null|int $data_id;
+    public null|string $data_id;
     public null|string $dealer_id = null;
     public bool $is_show = false;
 

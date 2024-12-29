@@ -12,7 +12,7 @@ class Licences extends Component
 {
     use LivewireAlert;
 
-    public null|int $data_id;
+    public null|string $data_id;
 
 
     public function render()

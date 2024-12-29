@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:dealer-bank.dealer-bank-table />
+                <livewire:dealer-bank.dealer-bank-table id="{{$dealer_id}}" />
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible alert-alt solid fade show">

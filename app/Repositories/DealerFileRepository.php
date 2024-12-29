@@ -6,7 +6,7 @@ use App\Models\DealerFile;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @var DealerOfficer $model
+ * @var DealerFile $model
  */
 class DealerFileRepository extends BaseRepository implements RepositoryInterface
 {

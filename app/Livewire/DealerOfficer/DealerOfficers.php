@@ -16,7 +16,7 @@ class DealerOfficers extends Component
     use LivewireAlert;
 
     public null|string $dealer_id = null;
-    public null|int $data_id;
+    public null|string $data_id;
     public bool $is_show = false;
 
     public function mount($id = null, bool $is_show)

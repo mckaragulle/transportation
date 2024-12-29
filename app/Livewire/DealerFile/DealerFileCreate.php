@@ -48,11 +48,6 @@ class DealerFileCreate extends Component
 
     public function mount(null|string $id = null, bool $is_show, DealerService $dealerService)
     {
-        if (auth()->getDefaultDriver() == 'dealer') {
-            $this->dealer_id = auth()->user()->id;
-        } else if (auth()->getDefaultDriver() == 'users') {
-            $this->dealer_id = auth()->user()->dealer()->id;
-        }
         $this->dealer_id = $id;
         $this->is_show = $is_show;
     }
@@ -68,7 +63,7 @@ class DealerFileCreate extends Component
         DB::beginTransaction();
         try {
 
-            if (!is_null($this->filename)) {
+            if ($this->filename != null) {
                 $filename = $this->filename->store(path: 'public/photos');
             }
 

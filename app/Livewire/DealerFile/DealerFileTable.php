@@ -24,19 +24,21 @@ final class DealerFileTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
+    public null|string $dealer_id = null;
 
     public string $tableName = 'DealerFileTable';
 
     public function setUp(): array
     {
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "dealer_file_{$id}"
         );
 
         return [
-            PowerGrid::exportable(fileName: 'Cari Dosyaları')
+            PowerGrid::exportable(fileName: 'Bayi Dosyaları')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -50,12 +52,8 @@ final class DealerFileTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerFile::query();
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $dealer->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $dealer->where('dealer_id', auth()->user()->dealer()->id);
-        }
+        $dealer = DealerFile::query()
+            ->whereDealerId($this->dealer_id);
         return $dealer;
     }
 
@@ -75,11 +73,11 @@ final class DealerFileTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         $fields = PowerGrid::fields()
-            ->add('id')
             ->add('title')
             ->add('filename', function ($dish) {
                 return '<a href="' . Storage::url($dish->filename) . '" target="_blank">' . $dish->title . '</a>';
-            });;
+            })
+            ->add('status');
 
         return $fields;
     }
@@ -87,9 +85,6 @@ final class DealerFileTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id')
-                ->sortable()
-                ->searchable(),
             Column::make('Dosya Adı', 'title')
                 ->sortable()
                 ->searchable()
@@ -98,6 +93,12 @@ final class DealerFileTable extends PowerGridComponent
                     fallback: '- empty -'
                 ),
             Column::make('Dosya', 'filename'),
+            Column::make('DURUM', 'status')
+                ->toggleable(
+                    hasPermission: auth()->user()->can('update dealer_logos'),
+                    trueLabel: 'Aktif',
+                    falseLabel: 'Pasif',
+                ),
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];

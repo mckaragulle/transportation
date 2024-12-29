@@ -80,6 +80,7 @@ class AppInstall extends Command
                 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
                 'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
                 'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
                 'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
                 'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
                 
@@ -125,6 +126,7 @@ class AppInstall extends Command
                 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
                 'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
                 'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
                 'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
                 'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
 

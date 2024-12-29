@@ -22,22 +22,23 @@ final class AccountAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
+    public string $dealer_id;
 
     public string $tableName = 'AccountAddressTable';
 
     public function setUp(): array
     {
-        $id =  auth()->user()->id;
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "account_address_{$id}"
         );
 
         return [
-            PowerGrid::cache() 
-            ->ttl(60) 
-            ->prefix( $id . '_'),
+            PowerGrid::cache()
+                ->ttl(60)
+                ->prefix($id . '_'),
             PowerGrid::exportable(fileName: 'Cari Adresleeri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
@@ -52,12 +53,7 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountAddress::query();
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $account->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $account->where('dealer_id', auth()->user()->dealer()->id);
-        }
+        $account = AccountAddress::query()->whereDealerId($this->dealer_id);
         return $account;
     }
 

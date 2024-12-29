@@ -24,15 +24,17 @@ final class DealerBankTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
+    public null|string $dealer_id = null;
 
     public string $tableName = 'DealerBankTable';
 
     public function setUp(): array
     {
+        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: auth()->user()->id
+            prefix: "dealer_bank_{$id}"
         );
 
         return [
@@ -50,12 +52,8 @@ final class DealerBankTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerBank::query();
-        if(Auth::getDefaultDriver() == 'dealer'){
-            $dealer->where('dealer_id', auth()->user()->id);
-        } else if(Auth::getDefaultDriver() == 'users'){
-            $dealer->where('dealer_id', auth()->user()->dealer()->id);
-        }
+        $dealer = DealerBank::query()
+            ->whereDealerId($this->dealer_id);
         return $dealer;
     }
 

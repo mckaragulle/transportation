@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
+
 class Users extends Component
 {
     use LivewireAlert;
 
     protected UserService $userService;
 
-    public null|int $data_id;
+    public null|string $data_id;
 
     public function render()
     {
@@ -24,15 +25,17 @@ class Users extends Component
     function delete($id)
     {
         $this->data_id = $id;
-        $this->confirm('Bu işlemi yapmak istediğinize emin misiniz?',
-        [
-            'onConfirmed' => 'handleConfirmed',
-            'position' => 'center',
-            'toast' => false,
-            'confirmButtonText' => 'Evet',
-            'cancelButtonText' => 'Hayır',
-            'theme' => 'dark',
-        ]);
+        $this->confirm(
+            'Bu işlemi yapmak istediğinize emin misiniz?',
+            [
+                'onConfirmed' => 'handleConfirmed',
+                'position' => 'center',
+                'toast' => false,
+                'confirmButtonText' => 'Evet',
+                'cancelButtonText' => 'Hayır',
+                'theme' => 'dark',
+            ]
+        );
     }
 
     #[On('handleConfirmed')]
