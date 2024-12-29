@@ -6,6 +6,7 @@ use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
@@ -99,6 +100,14 @@ class Dealer extends Authenticatable
         return Attribute::make(
             get: fn(string $value) => $value ? 1 : 0,
         );
+    }
+
+    /**
+     * Get the Dealer.
+     */
+    public function dealer_selection(): HasOne
+    {
+        return $this->hasOne(DealerSelection::class, 'dealer_id');
     }
 
 }

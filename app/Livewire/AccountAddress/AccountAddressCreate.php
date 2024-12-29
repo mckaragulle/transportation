@@ -26,11 +26,11 @@ class AccountAddressCreate extends Component
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
     public null|string $dealer_id = null;
-    public null|int $account_id = null;
-    public null|int $city_id = null;
-    public null|int $district_id = null;
-    public null|int $neighborhood_id = null;
-    public null|int $locality_id = null;
+    public null|string $account_id = null;
+    public null|string $city_id = null;
+    public null|string $district_id = null;
+    public null|string $neighborhood_id = null;
+    public null|string $locality_id = null;
     public null|string $name = null;
     public null|string $address1 = null;
     public null|string $address2 = null;
@@ -124,7 +124,6 @@ class AccountAddressCreate extends Component
                 'detail' => $this->detail ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
-
 
             $this->dispatch('pg:eventRefresh-AccountAddressTable');
             $msg = 'Cari Adresi oluşturuldu.';

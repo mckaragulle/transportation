@@ -15,10 +15,10 @@ class AccountFiles extends Component
 {
     use LivewireAlert;
 
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public null|int $data_id;
     public bool $is_show = false;
-    
+
 
     public function mount($id = null, bool $is_show)
     {
@@ -60,7 +60,7 @@ class AccountFiles extends Component
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
 
-            if(!is_null($data->filename) && Storage::exists($data->filename)){
+            if (!is_null($data->filename) && Storage::exists($data->filename)) {
                 Storage::delete($data->filename);
             }
         } catch (\Exception $exception) {

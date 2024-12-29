@@ -12,6 +12,18 @@ class DistrictService
 {
     public function __construct(protected readonly DistrictRepository $repository) {}
 
+    /**
+     * 
+     * 
+     * @param mixed $column
+     * @param mixed $sort
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function orderBy($column, $sort): Builder|Model
+    {
+        return $this->repository->orderBy($column, $sort = 'asc');
+    }
+
     public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);

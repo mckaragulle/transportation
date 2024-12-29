@@ -12,7 +12,7 @@ class AccountFileService
 {
     public function __construct(protected readonly AccountFileRepository $repository) {}
 
-    public function where(array $column): Model
+    public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
     }

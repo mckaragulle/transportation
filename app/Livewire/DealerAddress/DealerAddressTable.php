@@ -22,7 +22,7 @@ final class DealerAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public int $dealer_id;
+    public string $dealer_id;
 
     public string $tableName = 'DealerAddressTable';
 
@@ -54,13 +54,8 @@ final class DealerAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-<<<<<<< Updated upstream
         $dealer = DealerAddress::query()
             ->whereDealerId($this->dealer_id);
-=======
-        $dealer = DealerAddress::query();
-        $dealer->where('dealer_id', $this->dealer_id);
->>>>>>> Stashed changes
         return $dealer;
     }
 

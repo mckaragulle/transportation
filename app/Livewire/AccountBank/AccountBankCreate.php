@@ -20,7 +20,7 @@ class AccountBankCreate extends Component
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
     public null|string $dealer_id = null;
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 

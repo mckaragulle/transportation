@@ -23,8 +23,8 @@ class NeighborhoodEdit extends Component
 
     public ?Neighborhood $neighborhood = null;
 
-    public null|int $city_id = null;
-    public null|int $district_id = null;
+    public null|string $city_id = null;
+    public null|string $district_id = null;
     public null|string $name;
     public null|string $postcode;
     public bool $status = true;
@@ -77,11 +77,11 @@ class NeighborhoodEdit extends Component
     {
         if (!is_null($id)) {
             $this->neighborhood = $neighborhoodService->findById($id);
-            
+
             $this->city_id = $this->neighborhood->city_id;
             $this->district_id = $this->neighborhood->district_id;
-            $this->name = $this->neighborhood->name??null;
-            $this->postcode = $this->neighborhood->postcode??null;
+            $this->name = $this->neighborhood->name ?? null;
+            $this->postcode = $this->neighborhood->postcode ?? null;
             $this->status = $this->neighborhood->status;
             $this->cities = $cityService->all(['id', 'name']);
             $this->districts = $districtService->where(['city_id' => $this->city_id])->get(['id', 'city_id', 'name']);

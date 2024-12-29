@@ -25,9 +25,9 @@ class LocalityEdit extends Component
 
     public ?Locality $locality = null;
 
-    public null|int $city_id = null;
-    public null|int $district_id = null;
-    public null|int $neighborhood_id = null;
+    public null|string $city_id = null;
+    public null|string $district_id = null;
+    public null|string $neighborhood_id = null;
     public null|string $name;
     public bool $status = true;
 
@@ -79,11 +79,11 @@ class LocalityEdit extends Component
     {
         if (!is_null($id)) {
             $this->locality = $localityService->findById($id);
-            
+
             $this->city_id = $this->locality->city_id;
             $this->district_id = $this->locality->district_id;
             $this->neighborhood_id = $this->locality->neighborhood_id;
-            $this->name = $this->locality->name??null;
+            $this->name = $this->locality->name ?? null;
             $this->status = $this->locality->status;
             $this->cities = $cityService->all(['id', 'name']);
             $this->districts = $districtService->where(['city_id' => $this->city_id])->get(['id', 'city_id', 'name']);

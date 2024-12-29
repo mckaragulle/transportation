@@ -20,7 +20,7 @@ class DistrictEdit extends Component
 
     public ?District $district = null;
 
-    public null|int $city_id = null;
+    public null|string $city_id = null;
     public null|string $name;
     public bool $status = true;
 
@@ -58,7 +58,7 @@ class DistrictEdit extends Component
         if (!is_null($id)) {
             $this->district = $districtService->findById($id);
             $this->city_id = $this->district->city_id;
-            $this->name = $this->district->name??null;
+            $this->name = $this->district->name ?? null;
             $this->status = $this->district->status;
             $this->cities = $cityService->all(['id', 'name']);
         } else {

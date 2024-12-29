@@ -23,7 +23,7 @@ class AccountOfficerEdit extends Component
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|string $dealer_id = null;
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $surname = null;

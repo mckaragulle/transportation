@@ -12,7 +12,7 @@ class AccountOfficerService
 {
     public function __construct(protected readonly AccountOfficerRepository $repository) {}
 
-    public function where(array $column): Model
+    public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
     }

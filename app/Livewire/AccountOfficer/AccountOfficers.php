@@ -15,7 +15,7 @@ class AccountOfficers extends Component
 {
     use LivewireAlert;
 
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public null|int $data_id;
     public bool $is_show = false;
 
@@ -59,9 +59,9 @@ class AccountOfficers extends Component
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
 
-            if(!is_null($data->files) && count($data->files) > 0){
-                foreach($data->files as $file){
-                    if(Storage::exists($file)){
+            if (!is_null($data->files) && count($data->files) > 0) {
+                foreach ($data->files as $file) {
+                    if (Storage::exists($file)) {
                         Storage::delete($file);
                     }
                 }

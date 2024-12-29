@@ -2,11 +2,15 @@
 
 namespace App\Livewire\DealerAddress;
 
+use App\Models\DealerAddress;
 use App\Models\District;
 use App\Models\Locality;
 use App\Models\Neighborhood;
 use App\Services\DealerAddressService;
 use App\Services\CityService;
+use App\Services\DistrictService;
+use App\Services\LocalityService;
+use App\Services\NeighborhoodService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,10 +27,10 @@ class DealerAddressCreate extends Component
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
     public null|string $dealer_id = null;
-    public null|int $city_id = null;
-    public null|int $district_id = null;
-    public null|int $neighborhood_id = null;
-    public null|int $locality_id = null;
+    public null|string $city_id = null;
+    public null|string $district_id = null;
+    public null|string $neighborhood_id = null;
+    public null|string $locality_id = null;
     public null|string $name = null;
     public null|string $address1 = null;
     public null|string $address2 = null;
@@ -82,7 +86,7 @@ class DealerAddressCreate extends Component
         $this->is_show = $is_show;
         $this->dealer_id = $id > 0 ? $id : null;
         $this->is_show = $is_show;
-        $this->cities = $cityService->all(['id', 'name']);
+        $this->cities = $cityService->orderBy('plate', 'asc')->get(['id', 'name']);
     }
 
     /**
@@ -128,19 +132,21 @@ class DealerAddressCreate extends Component
         }
     }
 
-    public function updatedCityId()
+    public function updatedCityId(DistrictService $districtService)
     {
-        $this->districts = District::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
+        $this->districts = $districtService->where(['city_id' => $this->city_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'name']);
         $this->neighborhoods = null;
+        $this->localities = null;
     }
 
-    public function updatedDistrictId()
+    public function updatedDistrictId(NeighborhoodService $neighborhoodService)
     {
-        $this->neighborhoods = Neighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->neighborhoods = $neighborhoodService->where(['district_id' => $this->district_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->localities = null;
     }
 
-    public function updatedNeighborhoodId()
+    public function updatedNeighborhoodId(LocalityService $localityService)
     {
-        $this->localities = Locality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
+        $this->localities = $localityService->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }
 }

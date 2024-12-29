@@ -19,7 +19,7 @@ class AccountFileCreate extends Component
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|string $dealer_id = null;
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public $filename;
     public null|string $title = null;
 

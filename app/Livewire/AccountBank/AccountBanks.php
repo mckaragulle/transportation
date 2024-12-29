@@ -12,7 +12,7 @@ class AccountBanks extends Component
 {
     use LivewireAlert;
 
-    public null|int $account_id = null;
+    public null|string $account_id = null;
     public null|int $data_id;
 
     public bool $is_show = false;

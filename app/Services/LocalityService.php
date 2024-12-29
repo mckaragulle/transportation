@@ -12,7 +12,19 @@ class LocalityService
 {
     public function __construct(protected readonly LocalityRepository $repository) {}
 
-    public function where(array $column): Model
+    /**
+     * 
+     * 
+     * @param mixed $column
+     * @param mixed $sort
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     */
+    public function orderBy($column, $sort): Builder|Model
+    {
+        return $this->repository->orderBy($column, $sort = 'asc');
+    }
+
+    public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
     }

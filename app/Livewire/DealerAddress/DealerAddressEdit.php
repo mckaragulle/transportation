@@ -26,10 +26,10 @@ class DealerAddressEdit extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|int $city_id = null;
-    public null|int $district_id = null;
-    public null|int $neighborhood_id = null;
-    public null|int $locality_id = null;
+    public null|string $city_id = null;
+    public null|string $district_id = null;
+    public null|string $neighborhood_id = null;
+    public null|string $locality_id = null;
     public null|string $name = null;
     public null|string $address1 = null;
     public null|string $address2 = null;
@@ -76,10 +76,10 @@ class DealerAddressEdit extends Component
         //TODO: Burada bayi ve cari seçimi yapılacak.
         if (!is_null($id)) {
             $this->dealerAddress = $dealerAddressService->findById($id);
-            $this->cities = $cityService->all(['id', 'name']);
-            $this->districts = $districtService->all(['id', 'name']);
-            $this->neighborhoods = $neighborhoodService->all(['id', 'name']);
-            $this->localities = $localityService->all(['id', 'name']);
+            $this->cities = $cityService->orderBy('plate', 'asc')->get(['id', 'name']);
+            $this->districts = $districtService->get(['id', 'name']);
+            $this->neighborhoods = $neighborhoodService->get(['id', 'name']);
+            $this->localities = $localityService->get(['id', 'name']);
             $this->city_id = $this->dealerAddress->city_id;
             $this->district_id = $this->dealerAddress->district_id;
             $this->neighborhood_id = $this->dealerAddress->neighborhood_id;
@@ -139,20 +139,22 @@ class DealerAddressEdit extends Component
             DB::rollBack();
         }
     }
-
-    public function updatedCityId()
+    
+    public function updatedCityId(DistrictService $districtService)
     {
-        $this->districts = District::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
+        $this->districts = $districtService->where(['city_id' => $this->city_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'name']);
         $this->neighborhoods = null;
+        $this->localities = null;
     }
 
-    public function updatedDistrictId()
+    public function updatedDistrictId(NeighborhoodService $neighborhoodService)
     {
-        $this->neighborhoods = Neighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->neighborhoods = $neighborhoodService->where(['district_id' => $this->district_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->localities = null;
     }
 
-    public function updatedNeighborhoodId()
+    public function updatedNeighborhoodId(LocalityService $localityService)
     {
-        $this->localities = Locality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
+        $this->localities = $localityService->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }
 }
