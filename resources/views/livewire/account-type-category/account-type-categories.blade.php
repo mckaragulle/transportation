@@ -1,9 +1,9 @@
 <div>
-    @can('create dealer_property_categories')
+    @can('create account_type_categories')
     <livewire:account-type-category.account-type-category-create />
     <hr>
     @endcan
-    @can('read dealer_property_categories')
+    @can('read account_type_categories')
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Cari Kategorileri</h4>
