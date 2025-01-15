@@ -53,6 +53,8 @@ use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\DealerAddress\DealerAddressEdit;
 use App\Livewire\DealerAddress\DealerAddresses;
 use App\Livewire\DealerBank\DealerBankEdit;
+use App\Livewire\DealerTypeCategory\DealerTypeCategories;
+use App\Livewire\DealerTypeCategory\DealerTypeCategoryEdit;
 use App\Livewire\District\DistrictEdit;
 use App\Livewire\District\Districts;
 use App\Livewire\Fined\FinedEdit;
@@ -140,6 +142,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/izinler', Permissions::class)->name('permissions.list')->middleware('can:read permissions');
     Route::get('/izin/{id}/duzenle', PermissionEdit::class)->name('permissions.edit')->middleware('can:update permissions');
+
+    Route::get('/bayi-kategorileri', DealerTypeCategories::class)->name('dealer_type_categories.list')->middleware('can:read dealer_type_categories');
+    Route::get('/bayi-kategorisi/{id}/duzenle', DealerTypeCategoryEdit::class)->name('dealer_type_categories.edit')->middleware('can:update dealer_type_categories');
 
     Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
     Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');

@@ -79,6 +79,7 @@ class AccountCreate extends Component
         } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
+
         $this->accountTypeCategoryDatas = $accountTypeCategory->query()
             ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
             ->get(['id', 'name', 'is_required', 'is_multiple']);
@@ -124,7 +125,6 @@ class AccountCreate extends Component
                 }
             }
 
-
             $this->dispatch('pg:eventRefresh-AccountTable');
             $msg = 'Cari oluşturuldu.';
             session()->flash('message', $msg);
@@ -142,9 +142,6 @@ class AccountCreate extends Component
 
     private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id)
     {
-        // DB::table('account_type_category_account_type_account')
-        //     ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
-        //     ->first();
         if ($account_type_id > 0) {
             DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
         }

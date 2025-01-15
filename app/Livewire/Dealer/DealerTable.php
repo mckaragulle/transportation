@@ -3,8 +3,10 @@
 namespace App\Livewire\Dealer;
 
 use App\Models\Dealer;
+use App\Models\DealerTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
@@ -21,6 +23,8 @@ final class DealerTable extends PowerGridComponent
 {
     use WithExport;
 
+    public ?Collection $dealerCategories;
+
     public string $tableName = 'DealerTable';
 
     public function setUp(): array
@@ -30,6 +34,8 @@ final class DealerTable extends PowerGridComponent
             tableItems: ['columns', 'filters', 'sort'],
             prefix: auth()->user()->id
         );
+
+        $this->dealerCategories = DealerTypeCategory::query()->with(['dealer_types'])->get(['id', 'name']);
 
         return [
             PowerGrid::exportable(fileName: 'bayiler')
@@ -46,32 +52,68 @@ final class DealerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Dealer::query();
+        $dealer = Dealer::query()
+            ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
+            ->with(['dealer_type_categories:id,name', 'dealer_types:id,dealer_type_category_id,dealer_type_id,name']);
+        return $dealer;
     }
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'dealer_type_categories' => [
+                'name',
+            ],
+            'dealer_types' => [
+                'name',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
     {
-        return PowerGrid::fields()
-            ->add('id')
+        $fields = PowerGrid::fields()
+            ->add('id');
+        foreach ($this->dealerCategories as $c) {
+            $fields->add("dealer_type_category_{$c->id}", function ($row) use ($c) {
+                $dealer_types = $row->dealer_types->where('dealer_type_category_id', $c->id);
+                $name = '';
+                foreach ($dealer_types as $dealer_type) {
+                    if (isset($dealer_type->dealer_type->name)) {
+                        $name = $dealer_type->dealer_type->name . ' -> ';
+                    }
+                    $name = ($name . $dealer_type->name ?? '') . '<br>';
+                }
+                return $name;
+            });
+        }
+        $fields
+            ->add('number')
             ->add('name')
-            ->add('slug')
-            ->add('phone')
+            ->add('shortname')
             ->add('email')
+            ->add('phone')
+            ->add('tax')
+            ->add('taxoffice')
             ->add('status')
             ->add('created_at');
+
+        return $fields;
     }
 
     public function columns(): array
     {
-        return [
+        $column = [
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
+        ];
+        foreach ($this->dealerCategories as $c) {
+            array_push($column, Column::make("{$c->name}", "dealer_type_category_{$c->id}"));
+        }
+
+
+        $column2 = [
 
             Column::make('Bayi Adı', 'name')
                 ->sortable()
@@ -111,13 +153,24 @@ final class DealerTable extends PowerGridComponent
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
+
+        return array_merge($column, $column2);
     }
 
     public function filters(): array
     {
-        return [
+        $filters = [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
+
+        foreach ($this->dealerCategories as $c) {
+            //WORKING
+            $filter =  Filter::inputText("dealer_type_category_{$c->id}")
+                ->filterRelation('dealer_types', 'name');
+            array_push($filters,  $filter);
+        }
+
+        return $filters;
     }
 
     public function actions(Dealer $row): array

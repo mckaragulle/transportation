@@ -31,6 +31,41 @@
                                     </div>@enderror
                                 </div>
                             </div>
+                            @if (auth()->user()->can('update dealer_type_categories'))
+                                <div class="mb-3 row">
+                                    @if(is_iterable($dealerTypeCategoryDatas))
+                                    @foreach ($dealerTypeCategoryDatas as $dealerTypeCategory)
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label class="col-form-label">{{ $dealerTypeCategory->name }} SEÇİNİZ
+                                                :</label>
+                                            <select
+                                                wire:model.defer="dealer_type_categories.{{ $dealerTypeCategory->id }}"
+                                                id="dealer_type_category_id{{ $dealerTypeCategory->id }}"
+                                                class="form-select form-select-lg" {{$dealerTypeCategory->is_required?'required':''}} {{$dealerTypeCategory->is_multiple?'multiple':''}}>
+                                                <option value="">{{ $dealerTypeCategory->name }} SEÇİNİZ</option>
+                                                @if (is_iterable($dealerTypeCategory->dealer_types))
+                                                    @forelse($dealerTypeCategory->dealer_types as $dealerType)
+                                                        @if (count($dealerType->dealer_types) == 0)
+                                                            <option value="{{ $dealerType->id }}">
+                                                                {{ isset($dealerType->dealer_type->name) ? $dealerType->dealer_type->name . ' => ' : '' }}{{ $dealerType->name }}
+                                                            </option>
+                                                        @endif
+                                                    @empty
+                                                    @endforelse
+                                                @endif
+                                            </select>
+                                            @error('dealer_type_categories')
+                                                <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                        aria-label="btn-close">
+                                                    </button>{{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    @endforeach
+                                    @endif
+                                </div>
+                            @endif
                             <div class="mb-3 row">
                                 <div class="col-sm-3 col-form-label">Cari numarasını yazınız:</div>
                                 <div class="col-sm-9">

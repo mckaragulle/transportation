@@ -25,7 +25,7 @@ final class AccountTable extends PowerGridComponent
     public ?int $accountTypeCategoryId = null;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $dealer_id = null;
 
     public string $tableName = 'AccountTable';
 

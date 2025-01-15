@@ -3,6 +3,7 @@
 namespace App\Livewire\Dealer;
 
 use App\Services\DealerService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -12,6 +13,8 @@ class DealerCreate extends Component
 {
     use LivewireAlert;
 
+    public null|array $dealer_type_categories = [];
+    public null|Collection $dealerTypeCategoryDatas;
     public null|string $name;
     public null|string $phone;
     public null|string $email;
@@ -33,6 +36,8 @@ class DealerCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
+        'dealer_type_categories' => ['nullable', 'array'],
+        'dealer_type_categories.*' => ['nullable'],
         'name' => ['required'],
         'phone' => ['nullable', ],
         'email' => ['required', 'email', 'unique:dealers,email'],
@@ -47,6 +52,8 @@ class DealerCreate extends Component
     ];
 
     protected $messages = [
+        'dealer_type_categories.required' => 'Lütfen bayi kategorisini seçiniz.',
+        'dealer_type_categories.array' => 'Lütfen geçerli bir bayi kategorisi seçiniz.',
         'name.required' => 'Bayi adını yazınız.',
         'email.required' => 'Bayinin eposta adresini yazınız.',
         'email.email' => 'Geçerli bir eposta adresi yazınız.',
@@ -56,7 +63,7 @@ class DealerCreate extends Component
         'password.confirmed' => 'Lütfen şifreyi tekrar yazınız.',
         'password.min' => 'Şifre en az 6 karakter olmalıdır.',
 
-        'number.required' => 'Bayi cari numarasını yazınız.',
+        'number.required' => 'Bayi bayi numarasını yazınız.',
         'shortname.required' => 'Bayi kısa adını yazınız.',
         'phone.required' => 'Bayi telefonunu yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
@@ -96,6 +103,18 @@ class DealerCreate extends Component
 
             $dealer->syncRoles('dealer');
 
+            if (is_iterable($this->dealer_type_categories) && count($this->dealer_type_categories) > 0) {
+                foreach ($this->dealer_type_categories as $k => $t) {
+                    if (is_array($t)) {
+                        foreach ($t as $t2) {
+                            $this->attachdealerTypeCategoryId($k, $t2, $dealer->id);
+                        }
+                    } else {
+                        $this->attachdealerTypeCategoryId($k, $t, $dealer->id);
+                    }
+                }
+            }
+
             $this->dispatch('pg:eventRefresh-DealerTable');
             $msg = 'Yeni bayi oluşturuldu.';
             session()->flash('message', $msg);
@@ -108,6 +127,13 @@ class DealerCreate extends Component
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
+        }
+    }
+
+    private function attachdealerTypeCategoryId($dealer_type_category_id, $dealer_type_id, $dealer_id)
+    {
+        if ($dealer_type_id > 0) {
+            DB::insert('insert into dealer_type_category_dealer_type_dealer (dealer_type_category_id, dealer_type_id, dealer_id) values (?, ?, ?)', [$dealer_type_category_id, $dealer_type_id, $dealer_id]);
         }
     }
 }

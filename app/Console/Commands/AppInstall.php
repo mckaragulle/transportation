@@ -75,6 +75,9 @@ class AppInstall extends Command
                 'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
                 'create localities', 'read localities', 'update localities', 'delete localities',
                 
+                'create dealer_type_categories', 'read dealer_type_categories', 'update dealer_type_categories', 'delete dealer_type_categories',
+                'create dealer_types', 'read dealer_types', 'update dealer_types', 'delete dealer_types',
+
                 'create dealers', 'read dealers', 'update dealers', 'delete dealers',
                 'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
                 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
