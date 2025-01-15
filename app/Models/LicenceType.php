@@ -48,7 +48,7 @@ class LicenceType extends Model
      */
     public function licence_type_category(): BelongsTo
     {
-        return $this->belongsTo(LicenceTypeCategory::class);
+        return $this->belongsTo(LicenceTypeCategory::class, 'licence_type_category_id');
     }
 
     /**
@@ -56,7 +56,7 @@ class LicenceType extends Model
      */
     public function licence_type(): BelongsTo
     {
-        return $this->belongsTo(LicenceType::class);
+        return $this->belongsTo(LicenceType::class, 'licence_type_id');
     }
 
     /**

@@ -78,6 +78,7 @@ final class LicenceTable extends PowerGridComponent
 
     public function fields(): PowerGridFields
     {
+        
         $fields = PowerGrid::fields()
             ->add('id');
         foreach ($this->licenceCategories as $c) {

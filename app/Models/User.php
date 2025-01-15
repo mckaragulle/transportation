@@ -23,7 +23,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
     public $incrementing = false;
     
-    protected $guard_name = ['yonetici', 'satis', 'muhasebe', 'depo'];
+    protected $guard_name = ['web', 'satis', 'muhasebe', 'depo'];
 
     /**
      * Return the sluggable configuration array for this model.

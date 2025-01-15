@@ -58,7 +58,7 @@ class Staff extends Model
      */
     public function staff_type_category(): BelongsTo
     {
-        return $this->belongsTo(StaffTypeCategory::class, 'staff_type_category_staff_type_staff');
+        return $this->belongsTo(StaffTypeCategory::class, 'staff_type_category_id');
     }
 
     /**
@@ -66,7 +66,7 @@ class Staff extends Model
      */
     public function staff_type(): BelongsTo
     {
-        return $this->belongsTo(StaffType::class, 'staff_type_category_staff_type_staff');
+        return $this->belongsTo(StaffType::class, 'staff_type_category_id');
     }
 
     public function staff_type_categories(): BelongsToMany

@@ -31,14 +31,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if (auth()->user()->can('update licence_type_categories'))
+                            @if (auth()->user()->can('read licence_type_categories') && count($licenceTypeCategoryDatas) > 0)
                                 <div class="mb-3 row">
                                     @foreach ($licenceTypeCategoryDatas as $licenceTypeCategory)
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $licenceTypeCategory->name }} SEÇİNİZ
                                                 :</label>
                                             <select
-                                                wire:model.lazy="licence_type_categories.{{ $licenceTypeCategory->id }}"
+                                                wire:model.defer="licence_type_categories.{{ $licenceTypeCategory->id }}"
                                                 id="licence_type_category_id{{ $licenceTypeCategory->id }}"
                                                 class="form-select form-select-lg">
                                                 <option value="">{{ $licenceTypeCategory->name }} SEÇİNİZ</option>

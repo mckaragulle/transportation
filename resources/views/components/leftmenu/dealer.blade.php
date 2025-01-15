@@ -80,12 +80,3 @@
         </a>
     </li>
 @endcan
-<li>
-    @php 
-    $id = auth()->user()->id;
-    @endphp
-    <a href="{{ route('dealer_managements.edit', ['id' => $id]) }}" aria-expanded="false">
-        <i class="fas fa-ticket"></i>
-        <span class="nav-text">BAYİ YÖNETİMİ</span>
-    </a>
-</li>

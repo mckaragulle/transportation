@@ -47,7 +47,7 @@ class AppInstall extends Command
         $this->user = $this->userService->create($user);
 
         $guards = [
-            'yonetici' => [
+            'web' => [
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
@@ -95,8 +95,6 @@ class AppInstall extends Command
         ];
 
         foreach ($guards as $guard_name => $permissions) {
-            // $g = in_array($guard_name, ['admin', 'dealer']) ? $guard_name : 'web';
-            // $uuid = Str::uuid();
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
 
             $r = Role::where($role_data);
@@ -119,6 +117,6 @@ class AppInstall extends Command
                 $role->givePermissionTo($p->name);
             }
         }
-        $this->user->assignRole('yonetici');
+        $this->user->assignRole('web');
     }
 }

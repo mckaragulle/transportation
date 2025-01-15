@@ -24,7 +24,7 @@ use App\Livewire\Staff\Staffs;
 Route::get('/login', Signin::class)->name('login');
 Route::get('/', Signin::class);
 
-Route::middleware('auth:dealer,web')->prefix('dashboard')->group(function () {
+Route::middleware('auth:web')->prefix('dashboard')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
     Route::get('/elemanlar', Users::class)->name('users.list')->middleware('can:read users');
