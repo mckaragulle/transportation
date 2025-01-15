@@ -23,9 +23,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
     public $incrementing = false;
     
-    protected $guard_name = ['satis', 'muhasebe', 'depo'];
-
-    public $roleType = 'personel';
+    protected $guard_name = ['yonetici', 'satis', 'muhasebe', 'depo'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -100,10 +98,5 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn(string $value) => $value ? 1 : 0,
         );
-    }
-
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
 }

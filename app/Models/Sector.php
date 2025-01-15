@@ -16,6 +16,7 @@ class Sector extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
 
+    protected $connection = 'pgsql_main';
     protected $keyType = 'string';
     public $incrementing = false;
     
@@ -49,7 +50,6 @@ class Sector extends Model
     {
         return $this->belongsTo(Sector::class);
     }
-
 
     /**
      * Get the prices for the type post.

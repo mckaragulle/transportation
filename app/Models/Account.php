@@ -17,21 +17,13 @@ class Account extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ["dealer_id", "number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
+    protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll();
-    }
-
-    /**
-     * Get the Dealer.
-     */
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
     
     /**

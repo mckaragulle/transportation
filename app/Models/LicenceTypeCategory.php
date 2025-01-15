@@ -16,6 +16,7 @@ class LicenceTypeCategory extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
 
+    protected $connection = 'pgsql_main';
     protected $keyType = 'string';
     public $incrementing = false;
 

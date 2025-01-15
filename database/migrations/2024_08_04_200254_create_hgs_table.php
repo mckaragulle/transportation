@@ -14,25 +14,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hgs_type_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('slug')->nullable();
-            $table->boolean('status')->default(true);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-        Schema::create('hgs_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('hgs_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->nullable();
-            $table->boolean('status')->default(true);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
         Schema::create('hgs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('number');
@@ -42,6 +23,12 @@ return new class extends Migration
             $table->timestamp('canceled_at', precision: 0)->nullable();
             $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::create('hgs_type_category_hgs_type_hgs', function (Blueprint $table) {
+            $table->uuid('hgs_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('hgs_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('hgs_id')->nullable()->constrained()->cascadeOnDelete();
         });
         
     }
@@ -53,7 +40,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('hgs_type_category_hgs_type_hgs');
         Schema::dropIfExists('hgs');
-        Schema::dropIfExists('hgs_types');
-        Schema::dropIfExists('hgs_type_categories');
     }
 };

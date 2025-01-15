@@ -15,25 +15,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_type_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('slug')->nullable();
-            $table->boolean('status')->default(true);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-        Schema::create('staff_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->nullable();
-            $table->boolean('status')->default(true);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
         Schema::create('staff', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('id_number');
@@ -51,8 +32,8 @@ return new class extends Migration
         });
 
         Schema::create('staff_type_category_staff_type_staff', function (Blueprint $table) {
-            $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignUuid('staff_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('staff_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('staff_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
@@ -64,7 +45,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('staff_type_category_staff_type_staff');
         Schema::dropIfExists('staff');
-        Schema::dropIfExists('staff_types');
-        Schema::dropIfExists('staff_type_categories');
     }
 };

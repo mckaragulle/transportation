@@ -34,26 +34,6 @@
                         <hr />
 
                             <div class="mb-3 row">
-                                @if(auth()->user()->roleType == "admin")
-                                <div class="col-sm-3">
-                                    <label class="col-form-label">Cari Seçiniz :</label>
-                                    <select wire:model.lazy="account_id" id="account_id"
-                                        class="form-select form-select-lg">
-                                        <option value="">Cari Seçiniz</option>
-                                        @if(is_iterable($accounts))
-                                        @forelse($accounts as $a)
-                                        <option value="{{$a->id}}">{{$a->name}}</option>
-                                        @empty
-                                        @endforelse
-                                        @endif
-                                    </select>
-                                    @error('account_id')
-                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="btn-close">
-                                        </button>{{$message}}
-                                    </div>@enderror
-                                </div>
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Banka Seçiniz :</label>
                                     <select wire:model.lazy="bank_id" id="bank_id"
@@ -73,7 +53,6 @@
                                         </button>{{$message}}
                                     </div>@enderror
                                 </div>
-                                @endif
                                 <div class="col-sm-2">
                                     <label class="col-form-label">İban adresini yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.lazy="iban"

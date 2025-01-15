@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Account;
-use App\Models\Group;
-use App\Models\Sector;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +14,7 @@ return new class extends Migration
         Schema::create('account_sector', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignUuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
