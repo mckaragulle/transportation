@@ -122,6 +122,9 @@ final class DealerTable extends PowerGridComponent
                     hasPermission: auth()->user()->can('update dealers'),
                     fallback: '- empty -'
                 ),
+            Column::make('Bayi Numarası', 'number')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Telefon', 'phone')
                 ->sortable()

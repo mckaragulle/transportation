@@ -66,20 +66,6 @@
                                     @endif
                                 </div>
                             @endif
-                            <div class="mb-3 row">
-                                <div class="col-sm-3 col-form-label">Cari numarasını yazınız:</div>
-                                <div class="col-sm-9">
-                                    <input class="form-control" type="number" required step="1" wire:model.defer="number"
-                                    placeholder="Cari numarasını yazınız.">
-                                    @error('number')
-                                        <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="btn-close">
-                                            </button>{{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="mb-3 row">
                                 <div class="col-sm-3 col-form-label">Bayi adını yazınız:</div>

@@ -6,6 +6,8 @@ use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -108,6 +110,32 @@ class Dealer extends Authenticatable
     public function dealer_selection(): HasOne
     {
         return $this->hasOne(DealerSelection::class, 'dealer_id');
+    }
+
+    /**
+     * Get the prices for the type post.
+     */
+    public function dealer_type_category(): BelongsTo
+    {
+        return $this->belongsTo(DealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer');
+    }
+
+    /**
+     * Get the prices for the type post.
+     */
+    public function dealer_type(): BelongsTo
+    {
+        return $this->belongsTo(DealerType::class, 'dealer_type_category_dealer_type_dealer');
+    }
+
+    public function dealer_type_categories(): BelongsToMany
+    {
+        return $this->belongsToMany(DealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer');
+    }
+
+    public function dealer_types(): BelongsToMany
+    {
+        return $this->belongsToMany(DealerType::class, 'dealer_type_category_dealer_type_dealer');
     }
 
 }

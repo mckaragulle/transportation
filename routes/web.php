@@ -53,6 +53,8 @@ use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\DealerAddress\DealerAddressEdit;
 use App\Livewire\DealerAddress\DealerAddresses;
 use App\Livewire\DealerBank\DealerBankEdit;
+use App\Livewire\DealerType\DealerTypeEdit;
+use App\Livewire\DealerType\DealerTypes;
 use App\Livewire\DealerTypeCategory\DealerTypeCategories;
 use App\Livewire\DealerTypeCategory\DealerTypeCategoryEdit;
 use App\Livewire\District\DistrictEdit;
@@ -145,6 +147,9 @@ Route::middleware('auth:admin')->prefix('dashboard')->group(function () {
 
     Route::get('/bayi-kategorileri', DealerTypeCategories::class)->name('dealer_type_categories.list')->middleware('can:read dealer_type_categories');
     Route::get('/bayi-kategorisi/{id}/duzenle', DealerTypeCategoryEdit::class)->name('dealer_type_categories.edit')->middleware('can:update dealer_type_categories');
+    
+    Route::get('/bayi-tipleri', DealerTypes::class)->name('dealer_types.list')->middleware('can:read dealer_types');
+    Route::get('/bayi-tipi/{id}/duzenle', DealerTypeEdit::class)->name('dealer_types.edit')->middleware('can:update dealer_types');
 
     Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
     Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');

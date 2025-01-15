@@ -97,12 +97,24 @@
         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
             href="{{ route('hgs_types.list') }}"><i class="fas fa-car text-danger"></i>
             <span class="ms-2">HGS Seçenekleri</span></a>
-    @endcan
     <hr class="my-1" />
+    @endcan
+    
+    @can('read dealer_type_categories')
+        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+            href="{{ route('dealer_type_categories.list') }}"><i class="fas fa-shop text-danger"></i>
+            <span class="ms-2">Bayi Kategorileri</span></a>
+    @endcan
+    @can('read dealer_type_categories')
+        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+            href="{{ route('dealer_types.list') }}"><i class="fas fa-shop text-danger"></i>
+            <span class="ms-2">Bayi Seçenekleri</span></a>
+    @endcan
     @can('read dealers')
         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
             href="{{ route('dealers.list') }}"><i class="fas fa-shop text-danger"></i>
             <span class="ms-2">Bayiler</span></a>
+    <hr class="my-1" />
     @endcan
 
     @can('read users')

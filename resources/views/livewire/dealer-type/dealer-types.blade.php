@@ -6,7 +6,7 @@
     @can('read dealer_types')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Bayiler</h4>
+            <h4 class="card-title mb-0">Bayi Seçenekleri</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">

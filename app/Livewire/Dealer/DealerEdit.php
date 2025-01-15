@@ -80,7 +80,6 @@ class DealerEdit extends Component
         'email.required' => 'Bayinin eposta adresini yazınız.',
         'email.email' => 'Geçerli bir eposta adresi yazınız.',
         'email.unique' => 'Bu eposta adresi başkası tarafından kullanılmaktadır.',
-        'status.in' => 'Lütfen geçerli bir durum seçiniz.',
         'password.required' => 'Lütfen şifreyi yazınız.',
         'password.confirmed' => 'Lütfen şifreyi tekrar yazınız.',
         'password.min' => 'Şifre en az 6 karakter olmalıdır.',
@@ -143,7 +142,6 @@ class DealerEdit extends Component
                 $this->dealer->password = bcrypt($this->password);
             }
             
-            $this->dealer->number = $this->number;
             $this->dealer->shortname = $this->shortname;
             $this->dealer->phone = $this->phone;
             $this->dealer->detail = $this->detail;

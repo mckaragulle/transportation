@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Livewire\DealerTypeCategory;
+namespace App\Livewire\DealerType;
 
+use App\Models\DealerType;
 use App\Models\DealerTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
@@ -17,11 +19,12 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class DealerTypeCategoryTable extends PowerGridComponent
+final class DealerTypeTable extends PowerGridComponent
 {
     use WithExport;
+    public ?int $dealerTypeCategoryId = null;
 
-    public string $tableName = 'DealerTypeCategoryTable';
+    public string $tableName = 'DealerTypeTable';
 
     public function setUp(): array
     {
@@ -32,7 +35,7 @@ final class DealerTypeCategoryTable extends PowerGridComponent
         );
 
         return [
-            PowerGrid::exportable(fileName: 'bayi-kategorileri')
+            PowerGrid::exportable(fileName: 'bayi seçenekleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -46,7 +49,7 @@ final class DealerTypeCategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return DealerTypeCategory::query();
+        return DealerType::query();
     }
 
     public function relationSearch(): array
@@ -58,10 +61,13 @@ final class DealerTypeCategoryTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
+            ->add('dealer_type_category_id', function ($role) {
+                return $role->dealer_type_category->name ?? "---";
+            })
+            ->add('dealer_type_id', function ($role) {
+                return $role->dealer_type->name ?? "---";
+            })
             ->add('name')
-            ->add('slug')
-            ->add('is_required')
-            ->add('is_multiple')
             ->add('status')
             ->add('created_at');
     }
@@ -73,31 +79,19 @@ final class DealerTypeCategoryTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Adı', 'name')
+            Column::make('Bayi Kategorisi', 'dealer_type_category_id'),
+            Column::make('Bayi Grubu', 'dealer_type_id'),
+            Column::make('Bayi', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update dealer_type_categories'),
+                    hasPermission: auth()->user()->can('update dealer_types'),
                     fallback: '- empty -'
-                ),
-
-            Column::make('ZORUNLU MU?', 'is_required')
-                ->toggleable(
-                    auth()->user()->can('update dealer_type_categories'),
-                    'Zorunlu',
-                    'Değil',
-                ),
-
-            Column::make('ÇOKLU SEÇİM Mİ?', 'is_multiple')
-                ->toggleable(
-                    auth()->user()->can('update dealer_type_categories'),
-                    'Çoklu',
-                    'Tekil',
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    auth()->user()->can('update dealer_type_categories'),
+                    auth()->user()->can('update dealer_types'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -113,17 +107,31 @@ final class DealerTypeCategoryTable extends PowerGridComponent
 
     public function filters(): array
     {
+        $id = $this->filters['select']['dealer_type_category_id'] ?? null;
+        $query = DealerType::query();
+        if ($id > 0) {
+            $query->where('dealer_type_category_id', $id)->whereNull('dealer_type_id')->orderBy('dealer_type_category_id', 'asc');
+        }
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
+            Filter::select('dealer_type_category_id')
+                ->dataSource(DealerTypeCategory::orderBy('id', 'asc')->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
+            Filter::select('dealer_type_id')
+                ->dataSource($query->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
+
         ];
     }
 
-    public function actions(DealerTypeCategory $row): array
+    public function actions(DealerType $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('dealer_type_categories.edit', ['id' => $row->id])
+                ->route('dealer_types.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
@@ -137,24 +145,24 @@ final class DealerTypeCategoryTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update dealer_type_categories') != 1)
+                ->when(fn($row) => auth()->user()->can('update dealer_types') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete dealer_type_categories') != 1)
+                ->when(fn($row) => auth()->user()->can('delete dealer_types') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerTypeCategory::query()->find($id)->update([
+        DealerType::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerTypeCategory::query()->find($id)->update([
+        DealerType::query()->find($id)->update([
             $field => e($value),
         ]);
     }

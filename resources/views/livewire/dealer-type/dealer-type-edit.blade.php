@@ -33,11 +33,11 @@
 
                             @if(auth()->user()->can('update dealer_type_categories'))
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Cari Kategorisini Seçiniz :</label>
+                                <label class="col-sm-3 col-form-label">Bayi Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
                                     <select wire:model.lazy="dealer_type_category_id" id="dealer_type_category_id"
                                         class="form-select form-select-lg">
-                                        <option value="">Cari Kategorisi</option>
+                                        <option value="">Bayi Kategorisi</option>
                                         @if(is_iterable($dealerTypeCategories))
                                         @forelse($dealerTypeCategories as $d)
                                         <option value="{{$d->id}}">{{$d->name}}</option>
@@ -80,10 +80,10 @@
                             </div>
                             @endif
                             <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Cari seçeneğini yazınız:</label>
+                                <label class="col-sm-3 col-form-label">Bayi seçeneğini yazınız:</label>
                                 <div class="col-sm-3">
                                     <input class="form-control" type="text" wire:model.defer="name"
-                                        placeholder="Cari seçeneğini yazınız.">
+                                        placeholder="Bayi seçeneğini yazınız.">
                                     @error('name')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

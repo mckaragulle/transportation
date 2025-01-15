@@ -20,8 +20,6 @@ class DealerCreate extends Component
     public null|string $email;
     public null|string $password;
     public null|string $password_confirmation;
-
-    public null|string $number = null;
     public null|string $shortname = null;
     public null|string $detail = null;
     public null|string $tax = null;
@@ -42,7 +40,6 @@ class DealerCreate extends Component
         'phone' => ['nullable', ],
         'email' => ['required', 'email', 'unique:dealers,email'],
         'password' => ['required', 'confirmed', 'min:6'],
-        'number' => ['required'],
         'shortname' => ['required'],
         'detail' => ['nullable'],
         'tax' => ['nullable'],
@@ -58,12 +55,9 @@ class DealerCreate extends Component
         'email.required' => 'Bayinin eposta adresini yazınız.',
         'email.email' => 'Geçerli bir eposta adresi yazınız.',
         'email.unique' => 'Bu eposta adresi başkası tarafından kullanılmaktadır.',
-        'status.in' => 'Lütfen geçerli bir durum seçiniz.',
         'password.required' => 'Lütfen şifreyi yazınız.',
         'password.confirmed' => 'Lütfen şifreyi tekrar yazınız.',
         'password.min' => 'Şifre en az 6 karakter olmalıdır.',
-
-        'number.required' => 'Bayi bayi numarasını yazınız.',
         'shortname.required' => 'Bayi kısa adını yazınız.',
         'phone.required' => 'Bayi telefonunu yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
@@ -92,7 +86,7 @@ class DealerCreate extends Component
                 'phone' => $this->phone??null,
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
-                'number' => $this->number,
+                'number' => random_int(00000000, 99999999),
                 'shortname' => $this->shortname,
                 'detail' => $this->detail,
                 'tax' => $this->tax,

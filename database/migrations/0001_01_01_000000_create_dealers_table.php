@@ -29,6 +29,12 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('dealer_type_category_dealer_type_dealer', function (Blueprint $table) {
+            $table->foreignUuid('dealer_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('dealer_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
+        });
     }
 
     /**
