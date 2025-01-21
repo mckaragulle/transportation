@@ -60,8 +60,8 @@ final class LicenceTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return Licence::query()
-            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status'])
-            ->with(['licence_type_categories:id,name', 'licence_types:id,licence_type_category_id,licence_type_id,name']);
+            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status']);         
+            // ->with(['licence_type_categories:id,name', 'licence_types:id,licence_type_category_id,licence_type_id,name']);
     }
 
     public function relationSearch(): array
@@ -81,14 +81,18 @@ final class LicenceTable extends PowerGridComponent
         
         $fields = PowerGrid::fields()
             ->add('id');
+            //TODO: HATA BURADA
         foreach ($this->licenceCategories as $c) {
+            
             $fields->add("licence_type_category_{$c->id}", function ($row) use ($c) {
-                $licence_type = $row->licence_types->where('licence_type_category_id', $c->id)->first();
-                $name = '';
-                if (isset($licence_type->licence_type->name)) {
-                    $name = $licence_type->licence_type->name . ' -> ';
-                }
-                return ($name . $licence_type->name ?? '') ?? '---';
+                dd($row->licence_types);
+                // dd( $row->with('licence_types')->first());
+                // $licence_type = $row->licence_types->where('licence_type_category_id', $c->id)->first();
+                // $name = '';
+                // if (isset($licence_type->licence_type->name)) {
+                //     $name = $licence_type->licence_type->name . ' -> ';
+                // }
+                // return ($name . $licence_type->name ?? '') ?? '---';
             });
         }
         $fields->add('number')
@@ -114,9 +118,9 @@ final class LicenceTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
         ];
-        foreach ($this->licenceCategories as $c) {
-            array_push($column, Column::make("{$c->name}", "licence_type_category_{$c->id}"));
-        }
+        // foreach ($this->licenceCategories as $c) {
+        //     array_push($column, Column::make("{$c->name}", "licence_type_category_{$c->id}"));
+        // }
         $column2 = [
             Column::make('Sürücü Belgesi Numarası', 'number')
                 ->sortable()
@@ -131,10 +135,10 @@ final class LicenceTable extends PowerGridComponent
             Column::make('Bitiş Tarihi', 'finished_at')
                 ->sortable()
                 ->searchable(),
-            Column::make('DOSYA', 'filename')
+            Column::make('Dosya', 'filename')
                 ->sortable()
                 ->searchable(),
-            Column::make('Dosya', 'detail')
+            Column::make('Açıklama', 'detail')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
@@ -166,13 +170,13 @@ final class LicenceTable extends PowerGridComponent
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
 
-        foreach ($this->licenceCategories as $c) {
-            //WORKING
-            $filter =  Filter::inputText("licence_type_category_{$c->id}")
-                ->filterRelation('licence_types', 'name');
+        // foreach ($this->licenceCategories as $c) {
+        //     //WORKING
+        //     $filter =  Filter::inputText("licence_type_category_{$c->id}")
+        //         ->filterRelation('licence_types', 'name');
 
-            array_push($filters,  $filter);
-        }
+        //     array_push($filters,  $filter);
+        // }
 
         return $filters;
     }

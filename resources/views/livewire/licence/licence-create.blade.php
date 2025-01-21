@@ -31,7 +31,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if (auth()->user()->can('read licence_type_categories') && count($licenceTypeCategoryDatas) > 0)
+                            @if (auth()->user()->can('read licence_type_categories') && isset($licenceTypeCategoryDatas) && count($licenceTypeCategoryDatas) > 0)
                                 <div class="mb-3 row">
                                     @foreach ($licenceTypeCategoryDatas as $licenceTypeCategory)
                                         <div class="col-lg-2 col-sm-12">
