@@ -1,9 +1,6 @@
 <div class="authincation h-100">
     @section("title","Giriş Yap.")
     <div class="card-body">
-        {{-- <div class="text-center mb-3">
-            <a href="{{route('login')}}"><img class="logo-auth" src="{{asset('xhtml/images/logo-renkli.svg')}}" alt="Giriş Yapın"></a>
-        </div> --}}
         <h4 class="text-center mb-4">Hesabınıza Giriş Yapın.</h4>
         <form wire:submit.prevent="submit">
             <div class="form-group mb-4">
@@ -19,13 +16,11 @@
                        wire:model.defer="password">
                 @error('password')
                 <div class="alert alert-danger">{{ $message }}</div> @enderror
-{{--                <span class="show-pass eye">--}}
-{{--                                        <i class="fa fa-eye-slash"></i>--}}
-{{--                                        <i class="fa fa-eye"></i>--}}
-{{--                                    </span>--}}
             </div>
             <div class="text-center">
                 <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+                {{ app('currentTenant')->name ?? '' }}
+
             </div>
         </form>
         <div class="new-account mt-3">
