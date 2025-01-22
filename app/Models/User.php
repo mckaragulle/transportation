@@ -15,10 +15,12 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity, SoftDeletes, StrUuidTrait;
+    use UsesTenantConnection;
 
     protected $keyType = 'string';
     public $incrementing = false;

@@ -18,6 +18,7 @@
         "power-components/livewire-powergrid": "^6.0",
         "simplesoftwareio/simple-qrcode": "*",
         "spatie/laravel-activitylog": "^4.8",
+        "spatie/laravel-multitenancy": "^4.0",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {

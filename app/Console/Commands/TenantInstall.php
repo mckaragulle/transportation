@@ -7,19 +7,23 @@ use App\Models\Role;
 use App\Services\UserService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Spatie\Multitenancy\Models\Tenant;
 
-class AppInstall extends Command
+class TenantInstall extends Command
 {
-    protected Model $user;
+    use TenantAware;
+    protected Model $dealer;
 
-    protected UserService $userService;
+    protected DealerService $dealerService;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:install';
+    protected $signature = 'app:install {--tenant=*}';
 
     /**
      * The console command description.
@@ -28,10 +32,10 @@ class AppInstall extends Command
      */
     protected $description = 'First Roles And Permissions';
 
-    public function __construct(UserService $userService)
+    public function __construct(DealerService $dealerService)
     {
         parent::__construct();
-        $this->userService = $userService;
+        $this->dealerService = $dealerService;
     }
 
     /**
@@ -39,17 +43,35 @@ class AppInstall extends Command
      */
     public function handle()
     {
-        $user = [
-            'name' => 'Mustafa KARAGÜLLE',
-            'email' => 'mustafacelalettinkaragulle@gmail.com',
-            'password' => bcrypt(123123),
+        $this->line('The tenant is '. Tenant::current()->name);
+
+        $name = Str::upper(app('currentTenant')->name);
+        $email = Str::lower(app('currentTenant')->name);
+        $dealer = [
+            "name" => $name,
+            "email" => "{$email}@app.com",
+            "password" => bcrypt(value: 123123),
+            "phone" => "05545559411",
+            "number" => random_int(000000000000, 999999999999),
+            "shortname" => $name,
+            "tax" => random_int(00000000000, 99999999999),
+            "taxoffice" => "Gazikent",
+            "detail" => 'Açıklama',
         ];
-        $this->user = $this->userService->create($user);
+        $this->dealer = $this->dealerService->create($dealer);
 
         $guards = [
-            'web' => [
+            'dealer' => [
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
+
+                'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
+                'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
 
                 'create accounts', 'read accounts', 'update accounts', 'delete accounts',
                 'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
@@ -96,27 +118,18 @@ class AppInstall extends Command
 
         foreach ($guards as $guard_name => $permissions) {
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
-
             $r = Role::where($role_data);
-            if (!$r->exists()) {
-                $role = Role::create($role_data);
-            } else {
-                $role = $r->first();
-            }
+            $role = !$r->exists() ? Role::create($role_data) : $r->first();
             $this->info($role);
 
             foreach ($permissions as $permission) {
                 $permission_data = ['name' => $permission, 'guard_name' => $guard_name];
                 $p = Permission::where($permission_data);
-                if (!$p->exists()) {
-                    $p = Permission::create($permission_data);
-                } else {
-                    $p = $p->first();
-                }
+                $p = !$p->exists() ? Permission::create($permission_data) : $p->first();
                 $this->info($p);
                 $role->givePermissionTo($p->name);
             }
         }
-        $this->user->assignRole('web');
+        $this->dealer->assignRole('dealer');
     }
 }

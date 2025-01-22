@@ -6,10 +6,12 @@ use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class AccountSector extends Model
 {
     use HasFactory, StrUuidTrait;
+    use UsesTenantConnection;
 
     protected $keyType = 'string';
     public $incrementing = false;

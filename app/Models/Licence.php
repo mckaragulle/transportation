@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\StrUuidTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Licence extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
+    use UsesTenantConnection;
 
     protected $connection = 'pgsql';
     protected $keyType = 'string';
