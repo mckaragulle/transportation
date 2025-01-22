@@ -139,5 +139,4 @@ class Dealer extends Authenticatable
     {
         return $this->belongsToMany(DealerType::class, 'dealer_type_category_dealer_type_dealer');
     }
-
 }

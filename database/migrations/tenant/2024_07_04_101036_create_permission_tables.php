@@ -7,10 +7,21 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration
 {
     /**
+     * Get the migration connection name.
+     */
+    public function getConnection(): ?string
+    {
+        return 'tenant';
+        // return config('telescope.storage.database.connection');
+    }
+
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
+        $schema = Schema::connection($this->getConnection());
+
         $teams = config('permission.teams');
         $tableNames = config('permission.table_names');
         $columnNames = config('permission.column_names');
@@ -24,7 +35,7 @@ return new class extends Migration
             throw new \Exception('Error: team_foreign_key on config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
 
-        Schema::create($tableNames['permissions'], function (Blueprint $table) {
+        $schema->create($tableNames['permissions'], function (Blueprint $table) {
             //$table->engine('InnoDB');
             $table->uuid('uuid')->primary()->unique(); // permission id
             $table->string('name');       // For MyISAM use string('name', 225); // (or 166 for InnoDB with Redundant/Compact row format)
@@ -35,7 +46,7 @@ return new class extends Migration
             $table->unique(['name', 'guard_name']);
         });
 
-        Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
+        $schema->create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
             //$table->engine('InnoDB');
             $table->uuid('uuid')->primary()->unique(); // role id
             if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
@@ -53,7 +64,7 @@ return new class extends Migration
             }
         });
 
-        Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams) {
+        $schema->create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotPermission, $teams) {
             $table->uuid($pivotPermission);
 
             $table->string('model_type');
@@ -80,7 +91,7 @@ return new class extends Migration
             }
         });
 
-        Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
+        $schema->create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
             $table->uuid($pivotRole);
 
             $table->string('model_type');
@@ -107,7 +118,7 @@ return new class extends Migration
             }
         });
 
-        Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
+        $schema->create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
             $table->uuid($pivotPermission);
             $table->uuid($pivotRole);
 
@@ -140,10 +151,12 @@ return new class extends Migration
             throw new \Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
         }
 
-        Schema::drop($tableNames['role_has_permissions']);
-        Schema::drop($tableNames['model_has_roles']);
-        Schema::drop($tableNames['model_has_permissions']);
-        Schema::drop($tableNames['roles']);
-        Schema::drop($tableNames['permissions']);
+        $schema = Schema::connection($this->getConnection());
+
+        $schema->drop($tableNames['role_has_permissions']);
+        $schema->drop($tableNames['model_has_roles']);
+        $schema->drop($tableNames['model_has_permissions']);
+        $schema->drop($tableNames['roles']);
+        $schema->drop($tableNames['permissions']);
     }
 };
