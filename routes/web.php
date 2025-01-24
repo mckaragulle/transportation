@@ -30,12 +30,11 @@ use App\Livewire\StaffTypeCategory\StaffTypeCategories;
 use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
 
 
-Route::get('/giris-yap', Signin::class)->name('login');
-Route::get('/', Signin::class);
+Route::get('/', Signin::class)->name('login');
 
-Route::middleware('tenant')->group(function() {
+Route::middleware('tenant')->prefix('panel')->group(function() {
     Route::get('/', Dashboard::class)->name('dashboard');
-    Route::middleware('auth:dealer,web')->prefix('panel')
+    Route::middleware('auth:dealer,web')
     ->group(function () {
         Route::get('/', Dashboard::class)->name('dashboard');
 

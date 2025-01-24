@@ -32,7 +32,7 @@ class Signin extends Component
 
         $credentials = $this->validate();
 
-       if (Auth::guard('web')->attempt($credentials)) {
+       if (Auth::guard('dealer')->attempt($credentials)) {
             session()->flash('message', 'Giriş yaptınız.');
 
             return redirect()->route('dashboard');

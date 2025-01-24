@@ -11,7 +11,7 @@
                 <span class="ms-2">CARİLER</span>
             </a>
             <ul aria-expanded="false" class="mm-collapse left" style="">
-                @can('read accounts')
+                @can('read accounts', 'dealer')
                     <li>
                         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                             href="{{ route('accounts.list') }}"><i
@@ -19,6 +19,12 @@
                             <span class="ms-2">Cariler</span></a>
                     </li>
                 @endcan
+                <li>
+                    <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                        href="{{ route('accounts.list') }}"><i
+                            class="fas fa-users text-danger"></i>
+                        <span class="ms-2">Cariler</span></a>
+                </li>
             </ul>
         </li>
         <li>
