@@ -34,7 +34,6 @@ class Signin extends Component
 
        if (Auth::guard('dealer')->attempt($credentials)) {
             session()->flash('message', 'Giriş yaptınız.');
-
             return redirect()->route('dashboard');
         }
         else {

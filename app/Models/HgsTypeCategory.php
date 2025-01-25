@@ -20,8 +20,7 @@ class HgsTypeCategory extends Model
     use UsesTenantConnection;
 
     protected $connection = 'pgsql_main';
-    protected $keyType = 'string';
-    public $incrementing = false;
+
 
     protected $fillable = ['name', 'slug', 'status'];
 

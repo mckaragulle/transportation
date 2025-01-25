@@ -26,8 +26,11 @@ class Dealer extends Authenticatable
 
     public $roleType = 'bayi';
 
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
+
+
 
     /**
      * Return the sluggable configuration array for this model.

@@ -101,8 +101,8 @@ class TenantInstall extends Command
                 'read hgs_types',
                 'create hgses', 'read hgses', 'update hgses', 'delete hgses',
                 
-                'read licence_type_categories',
-                'read licence_types',
+                'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
+                'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
                 'create licences', 'read licences', 'update licences', 'delete licences',
                 
                 'read staff_type_categories',
