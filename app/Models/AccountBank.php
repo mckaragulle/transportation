@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class AccountBank extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
+    use UsesTenantConnection;
     protected $keyType = 'string';
     public $incrementing = false;
 

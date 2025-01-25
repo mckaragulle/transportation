@@ -4,6 +4,7 @@ namespace App\Livewire\Licence;
 
 use App\Models\LicenceType;
 use App\Models\LicenceTypeCategory;
+use App\Models\LicenceTypeCategoryLicenceTypeLicence;
 use App\Services\LicenceService;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
@@ -66,7 +67,7 @@ class LicenceCreate extends Component
     public function mount(LicenceTypeCategory $licenceTypeCategory)
     {
         $this->licenceTypeCategoryDatas = $licenceTypeCategory->query()
-        ->with(['licence_types:id,licence_type_category_id,licence_type_id,name', 'licence_types.licence_types:id,licence_type_category_id,licence_type_id,name'])
+        ->with(['licence_types:id,licence_type_category_id,licence_type_id,name'])
         ->get(['id', 'name']);
     }
 
@@ -81,7 +82,7 @@ class LicenceCreate extends Component
         DB::beginTransaction();
         try {
 
-            if(!is_null($this->filename)){
+            if($this->filename !== null){
                 $filename = $this->filename->store(path: 'public/photos');
             }
             $licence = $licenceService->create([
@@ -95,7 +96,15 @@ class LicenceCreate extends Component
 
             foreach($this->licence_type_categories as $k => $t)
             {
-                DB::insert('insert into licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$k, $t, $licence->id]);
+                // DB::insert('insert into tenant.licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$k, $t, $licence->id]);
+                $data = [
+                    'licence_type_category_id' => $k, 
+                    'licence_type_id' => $t, 
+                    'licence_id' => $licence->id];
+                $l = LicenceTypeCategoryLicenceTypeLicence::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
+                }
             }
 
             $this->dispatch('pg:eventRefresh-LicenceTable');

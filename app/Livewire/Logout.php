@@ -14,6 +14,8 @@ class Logout extends Component
     {
         $this->alert('success', __('Logout successfully'), ['position' =>  'top-end']);
         Auth::logout();
+        $guard = auth()->user();
+        // dd($guard);
         return redirect()->route('login');
     }
     public function render()

@@ -10,10 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Account extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
+    use UsesTenantConnection;
+    
     protected $keyType = 'string';
     public $incrementing = false;
 

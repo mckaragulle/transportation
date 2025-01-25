@@ -115,8 +115,11 @@
                             <div class="d-flex align-items-center sidebar-info">
                                 <div>
                                     <span class="font-w400 d-block">{{ auth()->user()->name ?? '' }}</span>
+                                    @if (isset(auth()->user()->roles))
                                     <small
-                                        class="text-end font-w400">{{ \Illuminate\Support\Str::ucfirst(auth()->user()->roles->first()->name ?? '') }}</small>
+                                    class="text-end font-w400">{{ \Illuminate\Support\Str::ucfirst(auth()->user()->roles->first()->name ?? '') }}</small>
+                                    @endif
+                                    
                                 </div>
                                 <i class="fas fa-chevron-down"></i>
                             </div>

@@ -11,7 +11,7 @@
                 <span class="ms-2">CARİLER</span>
             </a>
             <ul aria-expanded="false" class="mm-collapse left" style="">
-                @can('read accounts')
+                @can('read accounts', 'dealer')
                     <li>
                         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
                             href="{{ route('accounts.list') }}"><i
@@ -27,6 +27,22 @@
                 <span class="ms-2">SÜRÜCÜ BELGELERİ</span>
             </a>
             <ul aria-expanded="false" class="mm-collapse left" style="">
+                @can('read licence_type_categories')
+                    <li>
+                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                            href="{{ route('licence_type_categories.list') }}"><i
+                                class="fa-solid fa-id-card text-danger"></i>
+                            <span class="ms-2">Kategoriler</span></a>
+                    </li>
+                @endcan
+                @can('read licence_types')
+                    <li>
+                        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
+                            href="{{ route('licence_types.list') }}"><i
+                                class="fa-solid fa-id-card text-danger"></i>
+                            <span class="ms-2">Seçenekler</span></a>
+                    </li>
+                @endcan
                 @can('read licences')
                     <li>
                         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"

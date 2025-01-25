@@ -7,16 +7,19 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class LicenceTypeCategory extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
+    use UsesTenantConnection;
 
-    protected $connection = 'pgsql_main';
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -66,6 +69,14 @@ class LicenceTypeCategory extends Model
 
     public function licence_types(): HasMany
     {
-        return $this->hasMany(LicenceType::class);
+        return $this->hasMany(LicenceType::class)->orderBy('updated_at', 'desc');
+    }
+
+    public function licences(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Licence::class,
+            'licence_type_category_licence_type_licence',
+        );
     }
 }

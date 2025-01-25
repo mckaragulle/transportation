@@ -57,7 +57,9 @@ final class AccountTable extends PowerGridComponent
     {
         $account = Account::query()
             ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
-            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name'])->whereDealerId($this->dealer_id);;
+            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
+            
+            // ->whereDealerId($this->dealer_id);
         return $account;
         // return Account::query()
         //     ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'detail', 'status'])
