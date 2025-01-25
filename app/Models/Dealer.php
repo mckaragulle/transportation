@@ -26,8 +26,11 @@ class Dealer extends Authenticatable
 
     public $roleType = 'bayi';
 
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
+
+
 
     /**
      * Return the sluggable configuration array for this model.
@@ -139,5 +142,4 @@ class Dealer extends Authenticatable
     {
         return $this->belongsToMany(DealerType::class, 'dealer_type_category_dealer_type_dealer');
     }
-
 }

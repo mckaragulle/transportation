@@ -5,6 +5,7 @@ namespace App\Livewire\Licence;
 use App\Models\Licence;
 use App\Models\LicenceType;
 use App\Models\LicenceTypeCategory;
+use App\Models\LicenceTypeCategoryLicenceTypeLicence;
 use App\Services\LicenceService;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
@@ -68,7 +69,7 @@ class LicenceEdit extends Component
 
     public function mount($id = null, LicenceTypeCategory $licenceTypeCategory, LicenceService $licenceService)
     {
-        if (!is_null($id)) {
+        if ($id !== null) {
             $this->licence = $licenceService->findById($id);
             $this->status = $this->licence->status;
             $this->number = $this->licence->number;
@@ -123,15 +124,26 @@ class LicenceEdit extends Component
             }
 
             foreach ($this->licence_type_categories as $licence_type_category_id => $licence_type_id) {
-                DB::table('licence_type_category_licence_type_licence')
-                    ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
-                    ->delete();
+                $where = ['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id];
+                LicenceTypeCategoryLicenceTypeLicence::query()->where($where)->delete();
+                // DB::table('tenant.licence_type_category_licence_type_licence')
+                //     ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
+                //     ->delete();
             }
             foreach ($this->licence_type_categories as $licence_type_category_id => $licence_type_id) {
-                $data = DB::table('licence_type_category_licence_type_licence')
-                    ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
-                    ->first();
-                DB::insert('insert into licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$licence_type_category_id, $licence_type_id, $this->licence->id]);
+                // $data = DB::table('tenant.licence_type_category_licence_type_licence')
+                //     ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
+                //     ->first();
+                // DB::insert('insert into licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$licence_type_category_id, $licence_type_id, $this->licence->id]);
+
+                $data = [
+                    'licence_type_category_id' => $licence_type_category_id, 
+                    'licence_type_id' => $licence_type_id, 
+                    'licence_id' => $this->licence->id];
+                $l = LicenceTypeCategoryLicenceTypeLicence::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
+                }
             }
 
             $msg = 'Sürücü belgesi güncellendi.';

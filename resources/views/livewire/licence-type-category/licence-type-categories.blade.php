@@ -1,9 +1,9 @@
 <div>
-    @can('create vehicle_property_categories')
+    @can('create licence_type_categories')
     <livewire:licence-type-category.licence-type-category-create />
     <hr>
     @endcan
-    @can('read vehicle_property_categories')
+    @can('read licence_type_categories')
     <div class="card overflow-hidden border border-warning">
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Sürücü Belgesi Kategorileri</h4>

@@ -8,6 +8,7 @@ use App\Models\LicenceTypeCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -42,7 +43,7 @@ final class LicenceTable extends PowerGridComponent
             prefix: auth()->user()->id
         );
 
-        $this->licenceCategories = LicenceTypeCategory::query()->with(['licence_types'])->get(['id', 'name']);
+        $this->licenceCategories = LicenceTypeCategory::query()->with(['licence_types:id,licence_type_category_id,name'])->get(['id', 'name']);
 
         return [
             PowerGrid::exportable(fileName: 'surucu-belgeleri')
@@ -59,9 +60,10 @@ final class LicenceTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Licence::query()
-            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status']);         
-            // ->with(['licence_type_categories:id,name', 'licence_types:id,licence_type_category_id,licence_type_id,name']);
+        $licence = Licence::query()
+            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status'])         
+            ->with(['licence_type_categories:id,name', 'licence_types:id,licence_type_category_id,licence_type_id,name']);
+            return $licence;
     }
 
     public function relationSearch(): array
@@ -85,14 +87,13 @@ final class LicenceTable extends PowerGridComponent
         foreach ($this->licenceCategories as $c) {
             
             $fields->add("licence_type_category_{$c->id}", function ($row) use ($c) {
-                dd($row->licence_types);
-                // dd( $row->with('licence_types')->first());
-                // $licence_type = $row->licence_types->where('licence_type_category_id', $c->id)->first();
-                // $name = '';
-                // if (isset($licence_type->licence_type->name)) {
-                //     $name = $licence_type->licence_type->name . ' -> ';
-                // }
-                // return ($name . $licence_type->name ?? '') ?? '---';
+                $licence_type = $row->licence_types->where('licence_type_category_id', $c->id)->first();
+
+                $name = '';
+                if (isset($licence_type->licence_type->name)) {
+                    $name = $licence_type->licence_type->name . ' -> ';
+                }
+                return ($name . $licence_type->name ?? '') ?? '---';
             });
         }
         $fields->add('number')
@@ -118,9 +119,9 @@ final class LicenceTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
         ];
-        // foreach ($this->licenceCategories as $c) {
-        //     array_push($column, Column::make("{$c->name}", "licence_type_category_{$c->id}"));
-        // }
+        foreach ($this->licenceCategories as $c) {
+            array_push($column, Column::make("{$c->name}", "licence_type_category_{$c->id}"));
+        }
         $column2 = [
             Column::make('Sürücü Belgesi Numarası', 'number')
                 ->sortable()
@@ -170,13 +171,13 @@ final class LicenceTable extends PowerGridComponent
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
 
-        // foreach ($this->licenceCategories as $c) {
-        //     //WORKING
-        //     $filter =  Filter::inputText("licence_type_category_{$c->id}")
-        //         ->filterRelation('licence_types', 'name');
+        foreach ($this->licenceCategories as $c) {
+            //WORKING
+            $filter =  Filter::inputText("licence_type_category_{$c->id}")
+                ->filterRelation('licence_types', 'name');
 
-        //     array_push($filters,  $filter);
-        // }
+            array_push($filters,  $filter);
+        }
 
         return $filters;
     }

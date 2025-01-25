@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Services\AdminService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Spatie\Multitenancy\Models\Tenant;
 
 class LandlordInstall extends Command
 {
@@ -47,13 +49,13 @@ class LandlordInstall extends Command
         ];
        
         $admin = Admin::query()->where($admin_data);
-        if($admin->exists()){
-            $this->admin = $admin->first();
-        }
-        else {
+        if(!$admin->exists()){
             $admin_data['password'] = bcrypt(123123);
             $this->admin = $this->adminService->create($admin_data);
+            
         }
+
+        $this->admin = $admin->first();
 
         $this->info($this->admin);
 
@@ -112,9 +114,7 @@ class LandlordInstall extends Command
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
                 
-            ],
-
-            
+            ], 
         ];
 
         foreach ($guards as $guard_name => $permissions) {
@@ -135,9 +135,12 @@ class LandlordInstall extends Command
                 $per = $p->where($permission_data)->exists() ? $p->where($permission_data)->first() : $p->create($permission_data);
 
                 $this->info($per);
-                $role->givePermissionTo($per->name);
+                $r->givePermissionTo($per->name);
             }
         }
         $this->admin->assignRole('admin');
+
+        DB::table('tenants')->insert(['name' => 'Aztekin', 'domain' => 'aztekin.test', 'database' => 'aztekin']);
+        DB::table('tenants')->insert(['name' => 'Atlas', 'domain' => 'atlas.test', 'database' => 'atlas']);
     }
 }

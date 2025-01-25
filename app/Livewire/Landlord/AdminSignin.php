@@ -35,7 +35,7 @@ class AdminSignin extends Component
         if (Auth::guard('admin')->attempt($credentials)) {
             session()->flash('message', 'Giriş yaptınız.');
 
-            return redirect()->route('dashboard');
+            return redirect()->route('yonetim');
         }
         else {
             $error = 'Giriş yapılamadı.';

@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Dealer;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Services\UserService;
+use App\Services\DealerService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ class TenantInstall extends Command
      *
      * @var string
      */
-    protected $signature = 'app:install {--tenant=*}';
+    protected $signature = 'tenant:install {--tenant=*}';
 
     /**
      * The console command description.
@@ -43,22 +44,29 @@ class TenantInstall extends Command
      */
     public function handle()
     {
-        $this->line('The tenant is '. Tenant::current()->name);
+        $tenant = Tenant::current();
+        $this->line("The tenant is: {$tenant->name}");
 
         $name = Str::upper(app('currentTenant')->name);
         $email = Str::lower(app('currentTenant')->name);
-        $dealer = [
+        $dealer_data = [
             "name" => $name,
             "email" => "{$email}@app.com",
-            "password" => bcrypt(value: 123123),
             "phone" => "05545559411",
-            "number" => random_int(000000000000, 999999999999),
             "shortname" => $name,
-            "tax" => random_int(00000000000, 99999999999),
             "taxoffice" => "Gazikent",
             "detail" => 'Açıklama',
         ];
-        $this->dealer = $this->dealerService->create($dealer);
+       
+        $dealer = Dealer::query()->where($dealer_data);
+        if(!$dealer->exists()){
+            $dealer_data['password'] = bcrypt(123123);
+            $dealer_data['number'] = random_int(000000000000, 999999999999);
+            $dealer_data['tax'] = random_int(00000000000, 99999999999);
+            $this->dealer = $this->dealerService->create($dealer_data);
+        }
+
+        $this->dealer = $dealer->first();
 
         $guards = [
             'dealer' => [
@@ -93,8 +101,8 @@ class TenantInstall extends Command
                 'read hgs_types',
                 'create hgses', 'read hgses', 'update hgses', 'delete hgses',
                 
-                'read licence_type_categories',
-                'read licence_types',
+                'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
+                'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
                 'create licences', 'read licences', 'update licences', 'delete licences',
                 
                 'read staff_type_categories',
@@ -115,21 +123,51 @@ class TenantInstall extends Command
                 'create users', 'read users', 'update users', 'delete users',
             ],
         ];
-
+        
         foreach ($guards as $guard_name => $permissions) {
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
-            $r = Role::where($role_data);
-            $role = !$r->exists() ? Role::create($role_data) : $r->first();
-            $this->info($role);
+            
+            $role = new Role();
+            $role->setConnection('tenant');
+            
+            if(!$role->where($role_data)->exists()){
+                $role = new Role();
+                $role->setConnection('tenant');
+                $role->name = $guard_name;
+                $role->guard_name = $guard_name;
+                $role->save();
+            }
+            $r = $role->where($role_data)->first();
+            $this->info($r);
 
             foreach ($permissions as $permission) {
                 $permission_data = ['name' => $permission, 'guard_name' => $guard_name];
-                $p = Permission::where($permission_data);
-                $p = !$p->exists() ? Permission::create($permission_data) : $p->first();
-                $this->info($p);
-                $role->givePermissionTo($p->name);
+                $p = new Permission();
+                $p->setConnection('tenant');
+
+                if(!$p->where($permission_data)->exists()){
+                    $p = new Permission();
+                    $p->setConnection('tenant');
+                    $p->name = $permission;
+                    $p->guard_name = $guard_name;
+                    $p->save();
+
+
+
+                    // $r = Role::query()->where($role_data)->first();
+                    $per = $p->where($permission_data)->first();
+                    // $per->assignRole($r->name);
+                    // $this->line($r);
+                    $r->givePermissionTo($per);
+                    // $r->setConnection('tenant')->givePermissionTo($per->name);
+                }                
             }
         }
-        $this->dealer->assignRole('dealer');
+        
+        $this->line($this->dealer->name);
+        $role = new Role();
+        $role->setConnection('tenant');
+        $r = $role->where('name', 'dealer')->first();
+        $this->dealer->assignRole($r);
     }
 }
