@@ -5,6 +5,7 @@ use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Notifications\SendQueuedNotifications;
 use Illuminate\Queue\CallQueuedClosure;
+use Maatwebsite\Excel\Jobs\AfterImportJob;
 use Spatie\Multitenancy\Actions\ForgetCurrentTenantAction;
 use Spatie\Multitenancy\Actions\MakeQueueTenantAwareAction;
 use Spatie\Multitenancy\Actions\MakeTenantCurrentAction;
@@ -111,7 +112,7 @@ return [
      * Jobs tenant aware even if these don't implement the TenantAware interface.
      */
     'tenant_aware_jobs' => [
-        // ...
+        AfterImportJob::class,
     ],
 
     /*

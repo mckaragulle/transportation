@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\HgsTypeCategory;
-use App\Models\Licence;
-use App\Models\LicenceType;
-use App\Models\LicenceTypeCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

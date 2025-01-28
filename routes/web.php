@@ -137,12 +137,10 @@ Route::middleware(['tenant', 'auth:dealer,web'])
         Route::get('/arac-cezasi/{id}/duzenle', FinedEdit::class)->name('fineds.edit')->middleware('can:update fineds');
 });
 
-//  Route::get('/', AdminSignin::class)->name('login');
-
 Route::prefix('yonetim')->group(function () {
-    Route::get('/', AdminSignin::class)->name('login');
+    Route::get('/', AdminSignin::class)->name('admin.login');
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/', Dashboard::class)->name('yonetim');
+        Route::get('/panel', Dashboard::class)->name('yonetim');
         Route::get('/yoneticiler', Admins::class)->name('admins.list')->middleware('can:read admins');
         Route::get('/yonetici/{id}/duzenle', AdminEdit::class)->name('admins.edit')->middleware('can:update admins');
 
