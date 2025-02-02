@@ -93,6 +93,9 @@ Route::middleware(['tenant', 'auth:dealer,web'])
     ->group(function () {
         Route::get('/', Dashboard::class)->name('dashboard');
 
+        Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
+        Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
+
         Route::get('/elemanlar', Users::class)->name('users.list')->middleware('can:read users');
         Route::get('/eleman/{id}/duzenle', UserEdit::class)->name('users.edit')->middleware('can:update users');
 
@@ -108,7 +111,7 @@ Route::middleware(['tenant', 'auth:dealer,web'])
         Route::get('/hgsler', Hgses::class)->name('hgses.list')->middleware('can:read hgses');
         Route::get('/hgs/{id}/duzenle', HgsEdit::class)->name('hgses.edit')->middleware('can:update hgses');
 
-        // Route::get('/bayi-yonetimi/{id}', DealerManagement::class)->name('dealer_managements.edit')->middleware('can:read dealers');
+        Route::get('/bayi-yonetimi/{id}', DealerManagement::class)->name('dealer_managements.edit')->middleware('can:read dealers');
         // Route::get('/bayi-adresleri/{id?}/{is_show?}', DealerAddresses::class)->name('dealer_addresses.list')->middleware('can:read dealer_addresses');
         // Route::get('/bayi-adresi/{id}/duzenle', DealerAddressEdit::class)->name('dealer_addresses.edit')->middleware('can:update dealer_addresses');
         // Route::get('/bayi-banka-bilgisi/{id}/duzenle', DealerBankEdit::class)->name('dealer_banks.edit')->middleware('can:update dealer_banks');
@@ -156,8 +159,8 @@ Route::prefix('yonetim')->group(function () {
         Route::get('/bayi-tipleri', DealerTypes::class)->name('dealer_types.list')->middleware('can:read dealer_types');
         Route::get('/bayi-tipi/{id}/duzenle', DealerTypeEdit::class)->name('dealer_types.edit')->middleware('can:update dealer_types');
 
-        Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
-        Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
+        // Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
+        // Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
 
         Route::get('/markalar', VehicleBrands::class)->name('vehicle_brands.list')->middleware('can:read vehicle_brands');
         Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicle_brands.edit')->middleware('can:update vehicle_brands');

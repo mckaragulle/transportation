@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\VehicleBrand;
+use App\Models\VehicleTicket;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,22 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_properties', function (Blueprint $table) {
+        Schema::create('vehicle_models', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('vehicle_property_category_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();           
-        });
-
-        Schema::table('vehicle_properties', function (Blueprint $table) {
-            $table->foreignUuid('vehicle_property_id')
-            ->nullable()
-            ->constrained()
-            ->cascadeOnDelete();
-            $table->string('name');
+            $table->foreignUuid('vehicle_brand_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('vehicle_ticket_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('name')->index();
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->string('insurance_number')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -37,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicle_properties');
+        Schema::dropIfExists('vehicle_models');
     }
 };

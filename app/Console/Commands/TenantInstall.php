@@ -73,6 +73,17 @@ class TenantInstall extends Command
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
+                // 'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                // 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                // 'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                // 'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                // 'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
+                // 'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                // 'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
+                'create dealer_type_categories', 'read dealer_type_categories', 'update dealer_type_categories', 'delete dealer_type_categories',
+                'create dealer_types', 'read dealer_types', 'update dealer_types', 'delete dealer_types',
+
+                'create dealers', 'read dealers', 'update dealers', 'delete dealers',
                 'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
                 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
                 'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',

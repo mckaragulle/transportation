@@ -13,8 +13,9 @@ use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Str;
+use Spatie\Multitenancy\Jobs\NotTenantAware;
 
-class CityImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow
+class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow
 {
     public ?City $city = null;
     public ?District $district = null;

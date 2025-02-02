@@ -136,7 +136,7 @@
                                 <div class="col-sm-9 row">
                                     <div class="col-lg-12 col-sm-12 mb-3">
                                         <input class="form-control border border-warning" type="password"
-                                               wire:model.defer="password" placeholder="Şifre yazınız.">
+                                               wire:model.defer="password" placeholder="Şifre yazınız." autocomplete="off">
                                         @error('password')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -147,7 +147,7 @@
                                     <div class="col-lg-12 col-sm-12 mb-3">
                                         <input class="form-control border border-warning" type="password"
                                                wire:model.defer="password_confirmation"
-                                               placeholder="Şifreyi tekrar yazınız.">
+                                               placeholder="Şifreyi tekrar yazınız." autocomplete="off">
                                         @error('password_confirmation')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"

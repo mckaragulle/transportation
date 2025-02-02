@@ -1,5 +1,5 @@
-php artisan migrate --path=database/migrations/landlord --database=landlord
-php artisan landlord:install
+php artisan migrate --path=database/migrations/landlord --database=landlord && php artisan landlord:install
 
-php artisan tenants:artisan "migrate:fresh --path=database/migrations/tenant --database=tenant"
-php artisan tenant:install
+php artisan tenants:artisan "migrate:fresh --path=database/migrations/tenant --database=tenant" && php artisan tenant:install
+
+MARKALAR: 29172 SATIR

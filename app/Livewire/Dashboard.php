@@ -5,6 +5,10 @@ namespace App\Livewire;
 use App\Imports\BankImport;
 use App\Imports\CityImport;
 use App\Imports\VehicleBrandsImport;
+use App\Jobs\LandlordBankJob;
+use App\Jobs\LandlordCityJob;
+use App\Jobs\LandlordExcelImportJob;
+use App\Models\Bank;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -17,24 +21,27 @@ class Dashboard extends Component
     use LivewireAlert;
 
     public function importBrand(){
-        $file = Storage::path('public/VehicleBrands.xlsx');
-        Excel::import(new VehicleBrandsImport(), $file);
+        $className = VehicleBrandsImport::class;
+        $filePath = Storage::path('public/VehicleBrands.xlsx');
+        // Excel::import(new VehicleBrandsImport(), $file);
+        LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
     }
     
     public function importCity(){
-        $file = Storage::path('public/city.xlsx');
-        Excel::import(new CityImport(), $file);
+        $className = CityImport::class;
+        $filePath = Storage::path('public/city.xlsx');
+        LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
     }
     
     public function importBank(){
-        $file = Storage::path('public/bank.xlsx');        
-        Tenant::all()->eachCurrent(function(Tenant $tenant) use($file) {
-            Excel::import(new BankImport($tenant->id), $file);
-        });
+        $className = BankImport::class;
+        $filePath = Storage::path('public/bank.xlsx');        
+        // LandlordBankJob::dispatch($filePath);
+        LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
     }

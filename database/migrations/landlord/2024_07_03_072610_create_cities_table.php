@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dealer_types', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dealer_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-        });
-
-        Schema::table('dealer_types', function (Blueprint $table) {
-            $table->foreignUuid('dealer_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('slug')->nullable();
+            $table->unsignedTinyInteger('plate');
+            $table->string('slug')->unique()->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dealer_types');
+        Schema::dropIfExists('cities');
     }
 };

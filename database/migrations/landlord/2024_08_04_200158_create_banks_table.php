@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 return new class extends Migration
 {
@@ -11,15 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dealer_types', function (Blueprint $table) {
+        Schema::create('banks', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dealer_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-        });
-
-        Schema::table('dealer_types', function (Blueprint $table) {
-            $table->foreignUuid('dealer_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('slug')->unique()->nullable();
+            $table->string('phone')->nullable();
+            $table->string('fax')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->string('eft')->nullable();
+            $table->string('swift')->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dealer_types');
+        Schema::dropIfExists('account_banks');
     }
 };

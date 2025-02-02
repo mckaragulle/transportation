@@ -140,6 +140,7 @@ class Dealer extends Authenticatable
 
     public function dealer_types(): BelongsToMany
     {
-        return $this->belongsToMany(DealerType::class, 'dealer_type_category_dealer_type_dealer');
+        return $this->belongsToMany(DealerType::class, DealerTypeCategoryDealerTypeDealer::class);
+        
     }
 }

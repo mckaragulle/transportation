@@ -31,9 +31,11 @@ return new class extends Migration
         });
 
         Schema::create('dealer_type_category_dealer_type_dealer', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('dealer_type_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('dealer_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

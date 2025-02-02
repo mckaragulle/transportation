@@ -14,9 +14,9 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow
 {
-    public ?VehicleBrand $vehicleBrand = null;
-    public ?VehicleTicket $vehicleTicket = null;
-    public ?VehicleModel $vehicleModel = null;
+    protected ?VehicleBrand $vehicleBrand = null;
+    protected ?VehicleTicket $vehicleTicket = null;
+    protected ?VehicleModel $vehicleModel = null;
 
     /**
      * @param array $row
@@ -36,7 +36,7 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
             ]);
     
             $years = [
-                2024    , 
+                2024, 
                 2023, 
                 2022, 
                 2021, 
@@ -50,11 +50,11 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
                 2013, 
                 2012, 
                 2011, 
-                2010, 
+                2010
             ];
     
             foreach($years as $year){
-                if($row[$year] > 0){
+                if(isset($row[$year]) && $row[$year] > 0){
                     VehicleModel::firstOrCreate([
                         'vehicle_brand_id' => $this->vehicleBrand->id,
                         'vehicle_ticket_id' => $this->vehicleTicket->id,
@@ -71,11 +71,11 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
 
     public function batchSize(): int
     {
-        return 1000;
+        return 100;
     }
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 100;
     }
 }

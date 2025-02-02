@@ -11,19 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vehicle_properties', function (Blueprint $table) {
+        Schema::create('vehicle_property_categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('vehicle_property_category_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();           
-        });
-
-        Schema::table('vehicle_properties', function (Blueprint $table) {
-            $table->foreignUuid('vehicle_property_id')
-            ->nullable()
-            ->constrained()
-            ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
@@ -37,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vehicle_properties');
+        Schema::dropIfExists('vehicle_property_categories');
     }
 };

@@ -1,11 +1,18 @@
 <?php
 
+use App\Imports\BankImport;
+use App\Imports\CityImport;
+use App\Jobs\LandlordBankJob;
+use App\Jobs\LandlordCityJob;
 use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Notifications\SendQueuedNotifications;
 use Illuminate\Queue\CallQueuedClosure;
+use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Jobs\AfterImportJob;
+use Maatwebsite\Excel\Jobs\QueueImport;
+use Maatwebsite\Excel\Jobs\ReadChunk;
 use Spatie\Multitenancy\Actions\ForgetCurrentTenantAction;
 use Spatie\Multitenancy\Actions\MakeQueueTenantAwareAction;
 use Spatie\Multitenancy\Actions\MakeTenantCurrentAction;
@@ -112,13 +119,23 @@ return [
      * Jobs tenant aware even if these don't implement the TenantAware interface.
      */
     'tenant_aware_jobs' => [
-        AfterImportJob::class,
+        
     ],
 
     /*
      * Jobs not tenant aware even if these don't implement the NotTenantAware interface.
      */
     'not_tenant_aware_jobs' => [
-        // ...
+        QueueImport::class,
+        ReadChunk::class,
+        AfterImportJob::class,
+
+        BankImport::class,
+        LandlordBankJob::class,
+
+        CityImport::class,
+        LandlordCityJob::class,
+
+        
     ],
 ];
