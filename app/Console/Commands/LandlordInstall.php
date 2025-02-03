@@ -47,12 +47,12 @@ class LandlordInstall extends Command
             'name' => 'Mustafa KARAGÜLLE',
             'email' => 'mustafacelalettinkaragulle@gmail.com',
         ];
-       
+
         $admin = Admin::query()->where($admin_data);
         if(!$admin->exists()){
             $admin_data['password'] = bcrypt(123123);
             $this->admin = $this->adminService->create($admin_data);
-            
+
         }
 
         $this->admin = $admin->first();
@@ -64,12 +64,12 @@ class LandlordInstall extends Command
                 'create admins', 'read admins', 'update admins', 'delete admins',
                 'create roles', 'read roles', 'update roles', 'delete roles',
                 'create permissions', 'read permissions', 'update permissions', 'delete permissions',
-                
+
                 'create cities', 'read cities', 'update cities', 'delete cities',
                 'create districts', 'read districts', 'update districts', 'delete districts',
                 'create neighborhoods', 'read neighborhoods', 'update neighborhoods', 'delete neighborhoods',
                 'create localities', 'read localities', 'update localities', 'delete localities',
-                
+
                 'create dealer_type_categories', 'read dealer_type_categories', 'update dealer_type_categories', 'delete dealer_type_categories',
                 'create dealer_types', 'read dealer_types', 'update dealer_types', 'delete dealer_types',
 
@@ -81,7 +81,7 @@ class LandlordInstall extends Command
                 'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
                 'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
                 'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
-                
+
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
@@ -94,27 +94,35 @@ class LandlordInstall extends Command
                 'create vehicle_property_categories', 'read vehicle_property_categories', 'update vehicle_property_categories', 'delete vehicle_property_categories',
                 'create vehicle_properties', 'read vehicle_properties', 'update vehicle_properties', 'delete vehicle_properties',
                 'create vehicles', 'read vehicles', 'update vehicles', 'delete vehicles',
-                
+
                 'create banks', 'read banks', 'update banks', 'delete banks',
                 'create groups', 'read groups', 'update groups', 'delete groups',
                 'create sectors', 'read sectors', 'update groups', 'delete groups',
 
                 'create account_type_categories', 'read account_type_categories', 'update account_type_categories', 'delete account_type_categories',
                 'create account_types', 'read account_types', 'update account_types', 'delete account_types',
-                
-                
+
+                'create accounts', 'read accounts', 'update accounts', 'delete accounts',
+                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
+                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
+                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
+                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
+                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
+                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
+
+
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
-                
-                
+
+
                 'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
                 'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
-                
-                
+
+
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
-                
-            ], 
+
+            ],
         ];
 
         foreach ($guards as $guard_name => $permissions) {
@@ -122,7 +130,7 @@ class LandlordInstall extends Command
 
             $role = new Role();
             $role->setConnection('landlord');
-            
+
             $r = $role->where($role_data)->exists() ? $role->where($role_data)->first() : $role->create($role_data);
             $this->info($r);
 
@@ -140,7 +148,7 @@ class LandlordInstall extends Command
         }
         $this->admin->assignRole('admin');
 
-        DB::table('tenants')->insert(['name' => 'Aztekin', 'domain' => 'aztekin.test', 'database' => 'aztekin']);
-        DB::table('tenants')->insert(['name' => 'Atlas', 'domain' => 'atlas.test', 'database' => 'atlas']);
+        DB::table('tenants')->updateOrInsert(['name' => 'Aztekin'], ['domain' => 'aztekin.test', 'database' => 'aztekin']);
+        DB::table('tenants')->updateOrInsert(['name' => 'Atlas'], ['domain' => 'atlas.test', 'database' => 'atlas']);
     }
 }

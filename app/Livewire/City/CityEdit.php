@@ -20,6 +20,7 @@ class CityEdit extends Component
     public null|City $city;
 
     public null|string $name;
+    public null|int $plate;
 
     public bool $status = true;
 
@@ -53,6 +54,7 @@ class CityEdit extends Component
         if(!is_null($id)) {
             $this->city = $city->whereId($id)->first();
             $this->name = $this->city->name;
+            $this->plate = $this->city->plate;
         }
         else{
             return $this->redirect(route('cities.list'));
@@ -75,6 +77,7 @@ class CityEdit extends Component
         DB::beginTransaction();
         try {
             $this->city->name = $this->name;
+            $this->city->plate = $this->plate;
 
             $this->city->status = ($this->status == false ? 0 : 1);
             $this->city->save();

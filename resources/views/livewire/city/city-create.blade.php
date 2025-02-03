@@ -47,6 +47,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label">İl Plaka Kodu :</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control border border-warning" type="text"
+                                        wire:model.defer="plate" placeholder="İl Plaka Kodu.">
+                                    @error('plate')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">

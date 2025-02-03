@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Observers;
+
+use App\Jobs\Tenant\TenantDistrictJob;
+use App\Models\District;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Spatie\Multitenancy\Models\Tenant;
+
+class DistrictObserver implements ShouldHandleEventsAfterCommit
+{
+    /**
+     * Handle the District "created" event.
+     */
+    public function created(District $district): void
+    {
+        Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
+            TenantDistrictJob::dispatch($tenant->id, $district);
+        });
+
+    }
+
+    /**
+     * Handle the District "updated" event.
+     */
+    public function updated(District $district): void
+    {
+        Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
+            TenantDistrictJob::dispatch($tenant->id, $district);
+        });
+    }
+
+    /**
+     * Handle the District "deleted" event.
+     */
+    public function deleted(District $district): void
+    {
+
+    }
+
+    /**
+     * Handle the District "restored" event.
+     */
+    public function restored(District $district): void
+    {
+        //
+    }
+
+    /**
+     * Handle the District "force deleted" event.
+     */
+    public function forceDeleted(District $district): void
+    {
+        //
+    }
+}

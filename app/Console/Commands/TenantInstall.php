@@ -57,7 +57,7 @@ class TenantInstall extends Command
             "taxoffice" => "Gazikent",
             "detail" => 'Açıklama',
         ];
-       
+
         $dealer = Dealer::query()->where($dealer_data);
         if(!$dealer->exists()){
             $dealer_data['password'] = bcrypt(123123);
@@ -73,13 +73,13 @@ class TenantInstall extends Command
                 'create users', 'read users', 'update users', 'delete users',
                 'create customers', 'read customers', 'update customers', 'delete customers',
 
-                // 'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
-                // 'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
-                // 'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
-                // 'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
-                // 'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
-                // 'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
-                // 'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
+                'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
+                'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
                 'create dealer_type_categories', 'read dealer_type_categories', 'update dealer_type_categories', 'delete dealer_type_categories',
                 'create dealer_types', 'read dealer_types', 'update dealer_types', 'delete dealer_types',
 
@@ -99,7 +99,7 @@ class TenantInstall extends Command
                 'create account_files', 'read account_files', 'update account_files', 'delete account_files',
                 'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
                 'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
-                
+
                 'read cities',
                 'read districts',
                 'read neighborhoods',
@@ -111,11 +111,11 @@ class TenantInstall extends Command
                 'read hgs_type_categories',
                 'read hgs_types',
                 'create hgses', 'read hgses', 'update hgses', 'delete hgses',
-                
+
                 'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
                 'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
                 'create licences', 'read licences', 'update licences', 'delete licences',
-                
+
                 'read staff_type_categories',
                 'read staff_types',
                 'create staffs', 'read staffs', 'update staffs', 'delete staffs',
@@ -134,13 +134,13 @@ class TenantInstall extends Command
                 'create users', 'read users', 'update users', 'delete users',
             ],
         ];
-        
+
         foreach ($guards as $guard_name => $permissions) {
             $role_data = ['name' => $guard_name, 'guard_name' => $guard_name];
-            
+
             $role = new Role();
             $role->setConnection('tenant');
-            
+
             if(!$role->where($role_data)->exists()){
                 $role = new Role();
                 $role->setConnection('tenant');
@@ -171,10 +171,10 @@ class TenantInstall extends Command
                     // $this->line($r);
                     $r->givePermissionTo($per);
                     // $r->setConnection('tenant')->givePermissionTo($per->name);
-                }                
+                }
             }
         }
-        
+
         $this->line($this->dealer->name);
         $role = new Role();
         $role->setConnection('tenant');

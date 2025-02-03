@@ -198,6 +198,9 @@ Route::prefix('yonetim')->group(function () {
         Route::get('/cari-tipleri', AccountTypes::class)->name('account_types.list')->middleware('can:read account_types');
         Route::get('/cari-tipi/{id}/duzenle', AccountTypeEdit::class)->name('account_types.edit')->middleware('can:update account_types');
 
+        Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
+        Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
+
         Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
         Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');
 

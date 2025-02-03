@@ -17,6 +17,7 @@ class CityCreate extends Component
     public null|Collection $cities;
 
     public null|string $name;
+    public null|int $plate;
 
     public bool $status = true;
 
@@ -57,6 +58,7 @@ class CityCreate extends Component
         try {
             $city = $this->cityService->create([
                 'name' => $this->name,
+                'plate' => $this->plate,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 

@@ -5,15 +5,15 @@ namespace App\Imports;
 use App\Models\Bank;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Str;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 
 class BankImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow, NotTenantAware
-{   
+{
     /**
      * @param array $row
      *
@@ -24,7 +24,7 @@ class BankImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
         $row = array_values($row);
         try {
             // Log::info($row[0]);
-            Bank::firstOrCreate([
+            $bank = Bank::firstOrCreate([
                 'name' => Str::trim($row[0] ?? null),
                 'phone' => Str::trim($row[1] ?? null),
                 'fax' => Str::trim($row[2] ?? null),
@@ -34,6 +34,7 @@ class BankImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkRea
                 'swift' => Str::trim($row[6] ?? null),
                 'status' => true,
             ]);
+
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
