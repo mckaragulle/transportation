@@ -14,7 +14,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([NeighborhoodObserver::class])]
+
 class Neighborhood extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;

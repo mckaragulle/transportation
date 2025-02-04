@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\Tenant\TenantDistrictJob;
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\District;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Spatie\Multitenancy\Models\Tenant;
@@ -15,7 +16,9 @@ class DistrictObserver implements ShouldHandleEventsAfterCommit
     public function created(District $district): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
-            TenantDistrictJob::dispatch($tenant->id, $district);
+            $data = getTenantSyncDataJob($district);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Eklenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(5));
         });
 
     }
@@ -26,7 +29,9 @@ class DistrictObserver implements ShouldHandleEventsAfterCommit
     public function updated(District $district): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
-            TenantDistrictJob::dispatch($tenant->id, $district);
+            $data = getTenantSyncDataJob($district);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Güncellenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(5));
         });
     }
 

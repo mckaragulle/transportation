@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\Tenant\TenantCityJob;
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\City;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Spatie\Multitenancy\Models\Tenant;
@@ -15,7 +16,8 @@ class CityObserver implements ShouldHandleEventsAfterCommit
     public function created(City $city): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($city) {
-            TenantCityJob::dispatch($tenant->id, $city);
+            $data = getTenantSyncDataJob($city);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'cities', 'Şehir Eklenirken Hata Oluştu.');
         });
 
     }
@@ -26,7 +28,8 @@ class CityObserver implements ShouldHandleEventsAfterCommit
     public function updated(City $city): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($city) {
-            TenantCityJob::dispatch($tenant->id, $city);
+            $data = getTenantSyncDataJob($city);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'cities', 'Şehir Güncellenirken Hata Oluştu.');
         });
     }
 

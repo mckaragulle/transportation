@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\Tenant\TenantNeighborhoodJob;
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\Neighborhood;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Spatie\Multitenancy\Models\Tenant;
@@ -15,7 +16,9 @@ class NeighborhoodObserver implements ShouldHandleEventsAfterCommit
     public function created(Neighborhood $neighborhood): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($neighborhood) {
-            TenantNeighborhoodJob::dispatch($tenant->id, $neighborhood);
+            $data = getTenantSyncDataJob($neighborhood);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Eklenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(20));
         });
     }
 
@@ -25,7 +28,9 @@ class NeighborhoodObserver implements ShouldHandleEventsAfterCommit
     public function updated(Neighborhood $neighborhood): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($neighborhood) {
-            TenantNeighborhoodJob::dispatch($tenant->id, $neighborhood);
+            $data = getTenantSyncDataJob($neighborhood);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Güncellenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(20));
         });
     }
 

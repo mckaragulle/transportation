@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([LocalityObserver::class])]
+
 class Locality extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;

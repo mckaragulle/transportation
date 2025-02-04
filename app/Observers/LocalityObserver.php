@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Jobs\Tenant\TenantLocalityJob;
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\Locality;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Spatie\Multitenancy\Models\Tenant;
@@ -15,7 +16,9 @@ class LocalityObserver implements ShouldHandleEventsAfterCommit
     public function created(Locality $locality): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($locality) {
-            TenantLocalityJob::dispatch($tenant->id, $locality);
+            $data = getTenantSyncDataJob($locality);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Eklenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(10));
         });
 
     }
@@ -26,7 +29,9 @@ class LocalityObserver implements ShouldHandleEventsAfterCommit
     public function updated(Locality $locality): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($locality) {
-            TenantLocalityJob::dispatch($tenant->id, $locality);
+            $data = getTenantSyncDataJob($locality);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Güncellenirken Hata Oluştu.')
+                ->delay(now()->addMinutes(10));
         });
     }
 

@@ -6,6 +6,7 @@ use App\Jobs\Tenant\TenantCityJob;
 use App\Jobs\Tenant\TenantDistrictJob;
 use App\Jobs\Tenant\TenantLocalityJob;
 use App\Jobs\Tenant\TenantNeighborhoodJob;
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Locality;
@@ -39,45 +40,85 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
             $pk = Str::trim($row["pk"]);
             $id = (int)Str::substr($pk, 0, 2);
 
-            $this->city = City::firstOrCreate([
+            /**
+             * İl yoksa ekle ve job oluştur. Varsa mevcut ili getir.
+             */
+            $whereData = [
                 'plate' => $id,
                 'name' => $name
-            ]);
+            ];
+            $city = City::query();
+            if(!$city->where($whereData)->exists()){
+                $this->city = $city->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->city);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'cities', 'Şehirler Eklenirken Hata Oluştu.');
+                });
+            }
+            $this->city = $city->where($whereData)->first();
 
-            Tenant::all()->eachCurrent(function(Tenant $tenant) {
-                TenantCityJob::dispatch($tenant->id, $this->city);
-            });
 
+            /**
+             * İlçe yoksa ekle ve job oluştur. Varsa mevcut ilçeyi getir.
+             */
             $name = Str::trim($row["ilce"]);
-            $this->district = District::firstOrCreate([
+            $whereData = [
                 'city_id' => $this->city->id,
                 'name' => $name
-            ]);
-            Tenant::all()->eachCurrent(function(Tenant $tenant) {
-                TenantDistrictJob::dispatch($tenant->id, $this->district);
-            });
+            ];
+            $district = District::query();
+            if(!$district->where($whereData)->exists()){
+                $this->district = $district->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->district);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçeler Eklenirken Hata Oluştu.')
+                        ->delay(now()->addMinutes(5));
+                });
+            }
+            $this->district = $district->where($whereData)->first();
 
+            /**
+             * Semt yoksa ekle ve job oluştur. Varsa mevcut semti getir.
+             */
             $name = Str::trim($row["semt_bucak_belde"]);
-            $this->neighborhood = Neighborhood::firstOrCreate([
+            $whereData = [
                 'city_id' => $this->city->id,
                 'district_id' => $this->district->id,
                 'name' => $name,
                 'postcode' => $pk,
-            ]);
-            Tenant::all()->eachCurrent(function(Tenant $tenant) {
-                TenantNeighborhoodJob::dispatch($tenant->id, $this->neighborhood);
-            });
+            ];
 
+            $neighborhood = Neighborhood::query();
+            if(!$neighborhood->where($whereData)->exists()){
+                $this->neighborhood = $neighborhood->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->neighborhood);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semtler Eklenirken Hata Oluştu.')
+                        ->delay(now()->addMinutes(10));
+                });
+            }
+            $this->neighborhood = $neighborhood->where($whereData)->first();
+
+            /**
+             * Mahalle yoksa ekle ve job oluştur. Varsa mevcut mahalleyi getir.
+             */
             $name = Str::trim($row["mahalle"]);
-            $this->locality = Locality::firstOrCreate([
+            $whereData = [
                 'city_id' => $this->city->id,
                 'district_id' => $this->district->id,
                 'neighborhood_id' => $this->neighborhood->id,
                 'name' => $name
-            ]);
-            Tenant::all()->eachCurrent(function(Tenant $tenant) {
-                TenantLocalityJob::dispatch($tenant->id, $this->locality);
-            });
+            ];
+
+            $locality = Locality::query();
+            if(!$locality->where($whereData)->exists()){
+                $this->locality = $locality->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->locality);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalleler Eklenirken Hata Oluştu.')
+                        ->delay(now()->addMinutes(20));
+                });
+            }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
