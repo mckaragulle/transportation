@@ -17,8 +17,7 @@ class LocalityObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($locality) {
             $data = getTenantSyncDataJob($locality);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Eklenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(10));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Eklenirken Hata Oluştu.');
         });
 
     }
@@ -30,8 +29,7 @@ class LocalityObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($locality) {
             $data = getTenantSyncDataJob($locality);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Güncellenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(10));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalle Güncellenirken Hata Oluştu.');
         });
     }
 

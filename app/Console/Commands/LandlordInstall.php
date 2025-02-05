@@ -148,7 +148,7 @@ class LandlordInstall extends Command
         }
         $this->admin->assignRole('admin');
 
-        DB::table('tenants')->updateOrInsert(['name' => 'Aztekin'], ['domain' => 'aztekin.test', 'database' => 'aztekin']);
-        DB::table('tenants')->updateOrInsert(['name' => 'Atlas'], ['domain' => 'atlas.test', 'database' => 'atlas']);
+        DB::connection('landlord')->table('tenants')->updateOrInsert(['name' => 'Aztekin'], ['domain' => 'aztekin.test', 'database' => 'aztekin']);
+        DB::connection('landlord')->table('tenants')->updateOrInsert(['name' => 'Atlas'], ['domain' => 'atlas.test', 'database' => 'atlas']);
     }
 }

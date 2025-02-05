@@ -72,7 +72,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
                 Tenant::all()->eachCurrent(function(Tenant $tenant) {
                     $data = getTenantSyncDataJob($this->district);
                     TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçeler Eklenirken Hata Oluştu.')
-                        ->delay(now()->addMinutes(5));
+                        ->delay(now()->addMinute());
                 });
             }
             $this->district = $district->where($whereData)->first();
@@ -94,7 +94,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
                 Tenant::all()->eachCurrent(function(Tenant $tenant) {
                     $data = getTenantSyncDataJob($this->neighborhood);
                     TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semtler Eklenirken Hata Oluştu.')
-                        ->delay(now()->addMinutes(10));
+                        ->delay(now()->addMinutes(2));
                 });
             }
             $this->neighborhood = $neighborhood->where($whereData)->first();
@@ -116,7 +116,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
                 Tenant::all()->eachCurrent(function(Tenant $tenant) {
                     $data = getTenantSyncDataJob($this->locality);
                     TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'localities', 'Mahalleler Eklenirken Hata Oluştu.')
-                        ->delay(now()->addMinutes(20));
+                        ->delay(now()->addMinutes(4));
                 });
             }
         } catch (\Exception $e) {

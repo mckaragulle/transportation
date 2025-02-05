@@ -19,7 +19,6 @@ class CityObserver implements ShouldHandleEventsAfterCommit
             $data = getTenantSyncDataJob($city);
             TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'cities', 'Şehir Eklenirken Hata Oluştu.');
         });
-
     }
 
     /**

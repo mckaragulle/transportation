@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\VehicleBrand;
-use App\Models\VehicleTicket;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

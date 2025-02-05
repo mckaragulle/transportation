@@ -17,8 +17,7 @@ class DistrictObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
             $data = getTenantSyncDataJob($district);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Eklenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(5));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Eklenirken Hata Oluştu.');
         });
 
     }
@@ -30,8 +29,7 @@ class DistrictObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($district) {
             $data = getTenantSyncDataJob($district);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Güncellenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(5));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'districts', 'İlçe Güncellenirken Hata Oluştu.');
         });
     }
 

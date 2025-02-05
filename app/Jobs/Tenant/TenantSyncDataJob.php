@@ -30,14 +30,17 @@ class TenantSyncDataJob implements ShouldQueue, TenantAware
      */
     public function handle(): void
     {
+        DB::beginTransaction();
         try {
             DB::connection('tenant')->table($this->tableName)->updateOrInsert(
                 $this->dataId,
                 $this->data
             );
+            DB::commit();
         }
         catch (\Exception $e) {
             Log::error("{$this->errorMessage} {$e->getMessage()}");
+            DB::rollBack();
         }
     }
 }

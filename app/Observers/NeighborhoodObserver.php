@@ -17,8 +17,7 @@ class NeighborhoodObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($neighborhood) {
             $data = getTenantSyncDataJob($neighborhood);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Eklenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(20));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Eklenirken Hata Oluştu.');
         });
     }
 
@@ -29,8 +28,7 @@ class NeighborhoodObserver implements ShouldHandleEventsAfterCommit
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($neighborhood) {
             $data = getTenantSyncDataJob($neighborhood);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Güncellenirken Hata Oluştu.')
-                ->delay(now()->addMinutes(20));
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Semt Güncellenirken Hata Oluştu.');
         });
     }
 

@@ -23,7 +23,6 @@ class Dashboard extends Component
     public function importBrand(){
         $className = VehicleBrandsImport::class;
         $filePath = Storage::path('public/VehicleBrands.xlsx');
-        // Excel::import(new VehicleBrandsImport(), $file);
         LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
@@ -40,7 +39,6 @@ class Dashboard extends Component
     public function importBank(){
         $className = BankImport::class;
         $filePath = Storage::path('public/bank.xlsx');        
-        // LandlordBankJob::dispatch($filePath);
         LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);

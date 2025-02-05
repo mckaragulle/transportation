@@ -2,15 +2,18 @@
 
 namespace App\Imports;
 
+use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
 use App\Models\VehicleTicket;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Spatie\Multitenancy\Models\Tenant;
 
 class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, WithChunkReading, WithHeadingRow
 {
@@ -25,15 +28,43 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
      */
     public function model(array $row)
     {
+        DB::beginTransaction();
         try {
-            $this->vehicleBrand = VehicleBrand::firstOrCreate([                
+
+            /**
+             * Araç markası yoksa ekle ve job oluştur. Varsa mevcut araç markası getir.
+             */
+            $whereData = [                
                 'name' => $row["marka_adi"]
-            ]);
+            ];
+            $vehicleBrand = VehicleBrand::query();
+            if(!$vehicleBrand->where($whereData)->exists()){
+                $this->vehicleBrand = $vehicleBrand->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->vehicleBrand);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'vehicle_brands', 'Araç Markaları Eklenirken Hata Oluştu.');
+                });
+            }
+            $this->vehicleBrand = $vehicleBrand->where($whereData)->first();
     
-            $this->vehicleTicket = VehicleTicket::firstOrCreate([
+            /**
+             * Araç etiketi yoksa ekle ve job oluştur. Varsa mevcut araç etiketi getir.
+             */
+
+            $whereData = [
                 'vehicle_brand_id' => $this->vehicleBrand->id,
                 'name' => $row["tip_adi"],
-            ]);
+            ];
+            $vehicleTicket = VehicleTicket::query();
+            if(!$vehicleTicket->where($whereData)->exists()){
+                $this->vehicleTicket = $vehicleTicket->create($whereData);
+                Tenant::all()->eachCurrent(function(Tenant $tenant) {
+                    $data = getTenantSyncDataJob($this->vehicleTicket);
+                    TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'vehicle_tickets', 'Araç Etiketleri Eklenirken Hata Oluştu.');
+                });
+            }
+            $this->vehicleTicket = $vehicleTicket->where($whereData)->first();
+
     
             $years = [
                 2024, 
@@ -52,19 +83,34 @@ class VehicleBrandsImport implements ShouldQueue, ToModel, WithBatchInserts, Wit
                 2011, 
                 2010
             ];
+
     
             foreach($years as $year){
                 if(isset($row[$year]) && $row[$year] > 0){
-                    VehicleModel::firstOrCreate([
+                    $whereData = [
                         'vehicle_brand_id' => $this->vehicleBrand->id,
                         'vehicle_ticket_id' => $this->vehicleTicket->id,
                         'name' => $year,
                         'insurance_number' => $row[$year],
-                    ]);
+                    ];
+
+                    $vehicleModel = VehicleModel::query();
+                    if(!$vehicleModel->where($whereData)->exists()){
+                        $this->vehicleModel = $vehicleModel->create($whereData);
+                        Tenant::all()->eachCurrent(function(Tenant $tenant) use($whereData) {
+                            $data = [
+                                'status' => true
+                            ];
+                            TenantSyncDataJob::dispatch($tenant->id, $whereData, $data, 'vehicle_models', 'Araç Modelleri Eklenirken Hata Oluştu.');
+                        });
+                    }
+                    
                 }
             } 
+            DB::commit();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            DB::rollBack();
         }
         
     }
