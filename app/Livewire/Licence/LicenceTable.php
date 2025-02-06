@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Licence;
 
-use App\Models\Licence;
-use App\Models\LicenceTypeCategory;
+use App\Models\Tenant\Licence;
+use App\Models\Tenant\LicenceTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -11,10 +11,10 @@ use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class LicenceTable extends PowerGridComponent
@@ -56,7 +56,7 @@ final class LicenceTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $licence = Licence::query()
-            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status'])         
+            ->select(['id', 'number', 'started_at', 'finished_at', 'detail', 'filename', 'status'])
             ->with(['licence_type_categories:id,name', 'licence_types:id,licence_type_category_id,licence_type_id,name']);
         return $licence;
     }
@@ -75,12 +75,12 @@ final class LicenceTable extends PowerGridComponent
 
     public function fields(): PowerGridFields
     {
-        
+
         $fields = PowerGrid::fields()
             ->add('id');
             //TODO: HATA BURADA
         foreach ($this->licenceCategories as $c) {
-            
+
             $fields->add("licence_type_category_{$c->id}", function ($row) use ($c) {
                 $licence_type = $row->licence_types->where('licence_type_category_id', $c->id)->first();
 
@@ -165,11 +165,11 @@ final class LicenceTable extends PowerGridComponent
         $filters = [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
-        
+
         foreach ($this->licenceCategories as $c) {
             //WORKING
             $filter =  Filter::inputText("licence_type_category_{$c->id}")->filterRelation('licence_types', 'name');
-            
+
             $filters[] = $filter;
         }
 

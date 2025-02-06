@@ -1,27 +1,36 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
+use App\Models\Tenant\Licence;
+use App\Observers\LicenceTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Contracts\IsTenant;
+use Spatie\Multitenancy\Models\Concerns\ImplementsTenant;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class LicenceType extends Model
+#[ObservedBy([LicenceTypeCategoryObserver::class])]
+class LandlordLicenceTypeCategory extends Model implements IsTenant
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
+    use ImplementsTenant;
 
-    protected $connection = 'tenant';
+    /*protected $connection = 'landlord';*/
     protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $fillable = ['name', 'slug', 'status'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -37,8 +46,17 @@ class LicenceType extends Model
         ];
     }
 
-    protected $fillable = ["licence_type_category_id", "licence_type_id", "name", "slug", "phone", "email", "address", "status"];
-
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => 'boolean'
+        ];
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -47,27 +65,18 @@ class LicenceType extends Model
     }
 
     /**
-     * Get the prices for the type post.
+     * Get the area's status
      */
-    public function licence_type_category(): BelongsTo
+    protected function status(): Attribute
     {
-        return $this->belongsTo(LicenceTypeCategory::class, 'licence_type_category_id');
+        return Attribute::make(
+            get: fn(string $value) => $value ? 1 : 0,
+        );
     }
 
-    /**
-     * Get the prices for the type post.
-     */
-    public function licence_type(): BelongsTo
-    {
-        return $this->belongsTo(LicenceType::class, 'licence_type_id');
-    }
-
-    /**
-     * Get the prices for the type post.
-     */
     public function licence_types(): HasMany
     {
-        return $this->hasMany(LicenceType::class);
+        return $this->hasMany(LandlordLicenceType::class)->orderBy('updated_at', 'desc');
     }
 
     public function licences(): BelongsToMany

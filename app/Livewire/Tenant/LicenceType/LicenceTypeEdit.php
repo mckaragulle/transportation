@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\LicenceType;
+namespace App\Livewire\Tenant\LicenceType;
 
-use App\Models\LicenceType;
+use App\Models\Tenant\LicenceType;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;

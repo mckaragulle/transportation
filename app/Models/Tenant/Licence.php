@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
+use App\Models\Tenant\LicenceType;
+use App\Models\Tenant\LicenceTypeCategory;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Licence extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
-
 
     public $incrementing = false;
     protected $keyType = 'string';

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\LicenceTypeCategory;
+namespace App\Livewire\Landlord\LicenceTypeCategory;
 
 use App\Services\LicenceTypeCategoryService;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +19,7 @@ class LicenceTypeCategories extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-categories');
+        return view('livewire.landlord.licence-type-category.licence-type-categories');
     }
 
     #[On('delete-licenceTypeCategory')]

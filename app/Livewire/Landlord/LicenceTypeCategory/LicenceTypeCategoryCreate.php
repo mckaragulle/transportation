@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\LicenceTypeCategory;
+namespace App\Livewire\Landlord\LicenceTypeCategory;
 
 use App\Services\LicenceTypeCategoryService;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +33,7 @@ class LicenceTypeCategoryCreate extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-category-create');
+        return view('livewire.landlord.licence-type-category.licence-type-category-create');
     }
 
     /**

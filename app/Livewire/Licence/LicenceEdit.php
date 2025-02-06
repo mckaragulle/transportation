@@ -2,20 +2,20 @@
 
 namespace App\Livewire\Licence;
 
-use App\Models\Licence;
-use App\Models\LicenceType;
-use App\Models\LicenceTypeCategory;
-use App\Models\LicenceTypeCategoryLicenceTypeLicence;
+use App\Models\Tenant\LicenceTypeCategoryLicenceTypeLicence;
+use App\Models\Tenant\Licence;
+use App\Models\Tenant\LicenceType;
+use App\Models\Tenant\LicenceTypeCategory;
 use App\Services\LicenceService;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class LicenceEdit extends Component
 {
@@ -137,8 +137,8 @@ class LicenceEdit extends Component
                 // DB::insert('insert into licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$licence_type_category_id, $licence_type_id, $this->licence->id]);
 
                 $data = [
-                    'licence_type_category_id' => $licence_type_category_id, 
-                    'licence_type_id' => $licence_type_id, 
+                    'licence_type_category_id' => $licence_type_category_id,
+                    'licence_type_id' => $licence_type_id,
                     'licence_id' => $this->licence->id];
                 $l = LicenceTypeCategoryLicenceTypeLicence::query();
                 if(!$l->where($data)->exists()) {

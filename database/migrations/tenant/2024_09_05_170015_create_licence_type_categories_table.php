@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\HgsTypeCategory;
-use App\Models\Licence;
-use App\Models\LicenceType;
-use App\Models\LicenceTypeCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -26,7 +22,7 @@ return new class extends Migration
 
         Schema::create('licence_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('licence_type_category_id')->nullable()->constrained()->cascadeOnDelete(); 
+            $table->foreignUuid('licence_type_category_id')->nullable()->constrained()->cascadeOnDelete();
         });
 
         Schema::table('licence_types', function (Blueprint $table) {

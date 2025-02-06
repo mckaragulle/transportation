@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\LicenceTypeCategory;
+use App\Models\Tenant\LicenceTypeCategory;
 use Illuminate\Database\Eloquent\Model;
 
 /**

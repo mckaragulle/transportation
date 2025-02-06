@@ -76,10 +76,10 @@ use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
 
 use App\Livewire\HgsType\HgsTypes;
 use App\Livewire\HgsType\HgsTypeEdit;
-use App\Livewire\LicenceType\LicenceTypeEdit;
-use App\Livewire\LicenceType\LicenceTypes;
-use App\Livewire\LicenceTypeCategory\LicenceTypeCategories;
-use App\Livewire\LicenceTypeCategory\LicenceTypeCategoryEdit;
+use App\Livewire\Tenant\LicenceType\LicenceTypeEdit;
+use App\Livewire\Tenant\LicenceType\LicenceTypes;
+use App\Livewire\Tenant\LicenceTypeCategory\LicenceTypeCategories;
+use App\Livewire\Tenant\LicenceTypeCategory\LicenceTypeCategoryEdit;
 use App\Livewire\Locality\Localities;
 use App\Livewire\Locality\LocalityEdit;
 use App\Livewire\Neighborhood\NeighborhoodEdit;
@@ -124,11 +124,6 @@ Route::middleware(['tenant', 'auth:dealer,web'])
 
         Route::get('/cari-yonetimi/{id}', AccountManagement::class)->name('account_managements.edit')->middleware('can:read accounts');
 
-        Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
-        Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');
-
-        Route::get('/surucu-belgesi-tipleri', LicenceTypes::class)->name('licence_types.list')->middleware('can:read licence_types');
-        Route::get('/surucu-belgesi-tipi/{id}/duzenle', LicenceTypeEdit::class)->name('licence_types.edit')->middleware('can:update licence_types');
 
         Route::get('/surucu-belgeleri', Licences::class)->name('licences.list')->middleware('can:read licences');
         Route::get('/surucu-belgesi/{id}/duzenle', LicenceEdit::class)->name('licences.edit')->middleware('can:update licences');
@@ -142,6 +137,7 @@ Route::middleware(['tenant', 'auth:dealer,web'])
 
 Route::prefix('yonetim')->group(function () {
     Route::get('/', AdminSignin::class)->name('admin.login');
+
     Route::middleware('auth:admin')->group(function () {
         Route::get('/panel', Dashboard::class)->name('yonetim');
         Route::get('/yoneticiler', Admins::class)->name('admins.list')->middleware('can:read admins');
@@ -159,8 +155,9 @@ Route::prefix('yonetim')->group(function () {
         Route::get('/bayi-tipleri', DealerTypes::class)->name('dealer_types.list')->middleware('can:read dealer_types');
         Route::get('/bayi-tipi/{id}/duzenle', DealerTypeEdit::class)->name('dealer_types.edit')->middleware('can:update dealer_types');
 
-        // Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
-        // Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
+        Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
+        Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');
+        Route::get('/bayi-yonetimi/{id}', DealerManagement::class)->name('dealer_managements.edit')->middleware('can:read dealers');
 
         Route::get('/markalar', VehicleBrands::class)->name('vehicle_brands.list')->middleware('can:read vehicle_brands');
         Route::get('/marka/{id}/duzenle', VehicleBrandEdit::class)->name('vehicle_brands.edit')->middleware('can:update vehicle_brands');
@@ -201,13 +198,17 @@ Route::prefix('yonetim')->group(function () {
         Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
         Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
 
+        Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
+        Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');
+
+        Route::get('/surucu-belgesi-tipleri', LicenceTypes::class)->name('licence_types.list')->middleware('can:read licence_types');
+        Route::get('/surucu-belgesi-tipi/{id}/duzenle', LicenceTypeEdit::class)->name('licence_types.edit')->middleware('can:update licence_types');
+
         Route::get('/hgs-kategorileri', HgsTypeCategories::class)->name('hgs_type_categories.list')->middleware('can:read hgs_type_categories');
         Route::get('/hgs-kategorisi/{id}/duzenle', HgsTypeCategoryEdit::class)->name('hgs_type_categories.edit')->middleware('can:update hgs_type_categories');
 
         Route::get('/hgs-tipleri', HgsTypes::class)->name('hgs_types.list')->middleware('can:read hgs_types');
         Route::get('/hgs-tipi/{id}/duzenle', HgsTypeEdit::class)->name('hgs_types.edit')->middleware('can:update hgs_types');
-
-
 
         Route::get('/personel-kategorileri', StaffTypeCategories::class)->name('staff_type_categories.list')->middleware('can:read staff_type_categories');
         Route::get('/personel-kategorisi/{id}/duzenle', StaffTypeCategoryEdit::class)->name('staff_type_categories.edit')->middleware('can:update staff_type_categories');

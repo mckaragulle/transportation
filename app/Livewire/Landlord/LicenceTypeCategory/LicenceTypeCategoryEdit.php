@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Livewire\LicenceTypeCategory;
+namespace App\Livewire\Landlord\LicenceTypeCategory;
 
-use App\Models\LicenceTypeCategory;
+use App\Models\Tenant\LicenceTypeCategory;
 use App\Services\LicenceTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -56,7 +55,7 @@ class LicenceTypeCategoryEdit extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-category-edit');
+        return view('livewire.landlord.licence-type-category.licence-type-category-edit');
     }
 
     /**

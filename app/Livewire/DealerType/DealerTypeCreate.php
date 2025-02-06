@@ -28,8 +28,8 @@ class DealerTypeCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_type_category_id' => ['required', 'exists:dealer_type_categories,id'],
-        'dealer_type_id' => ['nullable', 'exists:dealer_types,id'],
+        'dealer_type_category_id' => ['required', 'exists:landlord.dealer_type_categories,id'],
+        'dealer_type_id' => ['nullable', 'exists:landlord.dealer_types,id'],
         'name' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];

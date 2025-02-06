@@ -40,7 +40,7 @@ class RoleCreate extends Component
     {
         $this->roles = $roleService->all();
         // $role = $roleService->findById(1);
-        $this->permissions = $permission->orderBy('id')->get();
+        $this->permissions = $permission->orderBy('uuid')->get();
     }
 
     public function render()

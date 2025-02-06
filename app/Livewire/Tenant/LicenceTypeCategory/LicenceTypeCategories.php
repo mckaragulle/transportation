@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Livewire\Licence;
+namespace App\Livewire\Tenant\LicenceTypeCategory;
 
-use App\Services\LicenceService;
+use App\Services\LicenceTypeCategoryService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Licences extends Component
+class LicenceTypeCategories extends Component
 {
     use LivewireAlert;
+
+    protected LicenceTypeCategoryService $licenceTypeCategoryService;
 
     public null|string $data_id;
 
 
     public function render()
     {
-        return view('livewire.licence.licences');
+        return view('livewire.licence-type-category.licence-type-categories');
     }
 
-    #[On('delete-licence')]
+    #[On('delete-licenceTypeCategory')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -38,10 +40,10 @@ class Licences extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(LicenceService $licenceService)
+    public function handleConfirmed(LicenceTypeCategoryService $licenceTypeCategoryService)
     {
         try {
-            $licenceService->delete($this->data_id);
+            $licenceTypeCategoryService->delete($this->data_id);
             $msg = 'Sürücü belgesi silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
@@ -51,7 +53,7 @@ class Licences extends Component
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-LicenceTable');
+            $this->dispatch('pg:eventRefresh-LicenceTypeCategoryTable');
         }
     }
 }

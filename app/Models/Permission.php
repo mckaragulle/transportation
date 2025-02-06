@@ -9,7 +9,6 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
 
 class Permission extends SpatiePermission
 {
-    // use UsesTenantConnection;
     use UsesLandlordConnection;
     use HasFactory;
     use HasUuids;

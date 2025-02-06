@@ -2,12 +2,9 @@
 
 namespace App\Livewire\Licence;
 
-use App\Models\LicenceType;
-use App\Models\LicenceTypeCategory;
-use App\Models\LicenceTypeCategoryLicenceTypeLicence;
+use App\Models\Tenant\LicenceTypeCategory;
+use App\Models\Tenant\LicenceTypeCategoryLicenceTypeLicence;
 use App\Services\LicenceService;
-use App\Services\LicenceTypeCategoryService;
-use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -55,7 +52,7 @@ class LicenceCreate extends Component
         'filename.image' => 'Müşteri için dosya seçiniz yazınız.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
         'filename.uploaded' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
-        
+
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -98,8 +95,8 @@ class LicenceCreate extends Component
             {
                 // DB::insert('insert into tenant.licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$k, $t, $licence->id]);
                 $data = [
-                    'licence_type_category_id' => $k, 
-                    'licence_type_id' => $t, 
+                    'licence_type_category_id' => $k,
+                    'licence_type_id' => $t,
                     'licence_id' => $licence->id];
                 $l = LicenceTypeCategoryLicenceTypeLicence::query();
                 if(!$l->where($data)->exists()) {
@@ -124,6 +121,6 @@ class LicenceCreate extends Component
 
     public function updated()
     {
-        $this->validate();    
+        $this->validate();
     }
 }

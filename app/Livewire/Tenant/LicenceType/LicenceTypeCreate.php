@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\LicenceType;
+namespace App\Livewire\Tenant\LicenceType;
 
-use App\Models\LicenceType;
-use App\Models\LicenceTypeCategory;
+use App\Models\Tenant\LicenceType;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;
@@ -28,8 +27,8 @@ class LicenceTypeCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'licence_type_category_id' => ['required', 'exists:tenant.licence_type_categories,id'],
-        'licence_type_id' => ['nullable', 'exists:licence_types,id'],
+        'licence_type_category_id' => ['required', 'exists:landlord.licence_type_categories,id'],
+        'licence_type_id' => ['nullable', 'exists:landlord.licence_types,id'],
         'name' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
@@ -50,7 +49,11 @@ class LicenceTypeCreate extends Component
     public function mount(LicenceTypeCategoryService $licenceTypeCategoryService)
     {
         $this->licenceTypeCategories = $licenceTypeCategoryService->all(['id', 'name']);
-        $this->licenceTypes = LicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
+        $this->licenceTypes = LicenceType::query()
+            ->where(['licence_type_category_id' => $this->licence_type_category_id])
+            ->with('licence_type')
+            ->orderBy('id')
+            ->get(['id', 'licence_type_category_id', 'licence_type_id', 'name']);
     }
 
     /**

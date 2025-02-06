@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\Licence;
+namespace App\Livewire\Tenant\LicenceType;
 
-use App\Services\LicenceService;
+use App\Services\LicenceTypeService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Licences extends Component
+class LicenceTypes extends Component
 {
     use LivewireAlert;
 
@@ -17,10 +17,10 @@ class Licences extends Component
 
     public function render()
     {
-        return view('livewire.licence.licences');
+        return view('livewire.licence-type.licence-types');
     }
 
-    #[On('delete-licence')]
+    #[On('delete-licenceType')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -38,20 +38,20 @@ class Licences extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(LicenceService $licenceService)
+    public function handleConfirmed(LicenceTypeService $licenceTypeService)
     {
         try {
-            $licenceService->delete($this->data_id);
-            $msg = 'Sürücü belgesi silindi.';
+            $licenceTypeService->delete($this->data_id);
+            $msg = 'Özellik silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Sürücü belgesi silinemedi. {$exception->getMessage()}";
+            $error = "Özellik silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-LicenceTable');
+            $this->dispatch('pg:eventRefresh-LicenceTypeTable');
         }
     }
 }

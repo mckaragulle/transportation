@@ -163,14 +163,8 @@ class TenantInstall extends Command
                     $p->guard_name = $guard_name;
                     $p->save();
 
-
-
-                    // $r = Role::query()->where($role_data)->first();
                     $per = $p->where($permission_data)->first();
-                    // $per->assignRole($r->name);
-                    // $this->line($r);
                     $r->givePermissionTo($per);
-                    // $r->setConnection('tenant')->givePermissionTo($per->name);
                 }
             }
         }
