@@ -92,7 +92,7 @@ class LicenceEdit extends Component
 
     public function render()
     {
-        return view('livewire.licence.licence-edit');
+        return view('livewire.tenant.licence.licence-edit');
     }
 
     /**

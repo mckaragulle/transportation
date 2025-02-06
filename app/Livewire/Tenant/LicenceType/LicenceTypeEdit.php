@@ -77,7 +77,7 @@ class LicenceTypeEdit extends Component
 
     public function render()
     {
-        return view('livewire.licence-type.licence-type-edit');
+        return view('livewire.tenant.licence-type.licence-type-edit');
     }
 
     /**

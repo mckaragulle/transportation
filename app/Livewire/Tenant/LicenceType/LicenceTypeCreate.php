@@ -43,7 +43,7 @@ class LicenceTypeCreate extends Component
 
     public function render()
     {
-        return view('livewire.licence-type.licence-type-create');
+        return view('livewire.tenant.licence-type.licence-type-create');
     }
 
     public function mount(LicenceTypeCategoryService $licenceTypeCategoryService)
@@ -53,7 +53,7 @@ class LicenceTypeCreate extends Component
             ->where(['licence_type_category_id' => $this->licence_type_category_id])
             ->with('licence_type')
             ->orderBy('id')
-            ->get(['id', 'licence_type_category_id', 'licence_type_id', 'name']);
+            ->get();
     }
 
     /**
@@ -88,8 +88,12 @@ class LicenceTypeCreate extends Component
         }
     }
 
-    public function updatedLicenceTypeCategoryId()
+    public function updatedLicenceTypeCategoryId(): void
     {
-        $this->licenceTypes = LicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
+        $this->licenceTypes = LicenceType::query()
+            ->where(['licence_type_category_id' => $this->licence_type_category_id])
+            ->with('licence_type')
+            ->orderBy('id')
+            ->get();
     }
 }

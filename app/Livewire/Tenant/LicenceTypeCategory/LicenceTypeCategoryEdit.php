@@ -55,7 +55,7 @@ class LicenceTypeCategoryEdit extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-category-edit');
+        return view('livewire.tenant.licence-type-category.licence-type-category-edit');
     }
 
     /**

@@ -33,7 +33,7 @@ class LicenceTypeCategoryCreate extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-category-create');
+        return view('livewire.tenant.licence-type-category.licence-type-category-create');
     }
 
     /**

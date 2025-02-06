@@ -20,7 +20,6 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 class LicenceType extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
     protected $connection = 'tenant';

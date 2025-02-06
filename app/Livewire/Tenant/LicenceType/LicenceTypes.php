@@ -17,7 +17,7 @@ class LicenceTypes extends Component
 
     public function render()
     {
-        return view('livewire.licence-type.licence-types');
+        return view('livewire.tenant.licence-type.licence-types');
     }
 
     #[On('delete-licenceType')]

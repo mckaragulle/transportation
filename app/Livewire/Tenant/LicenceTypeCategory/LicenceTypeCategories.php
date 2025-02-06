@@ -19,7 +19,7 @@ class LicenceTypeCategories extends Component
 
     public function render()
     {
-        return view('livewire.licence-type-category.licence-type-categories');
+        return view('livewire.tenant.licence-type-category.licence-type-categories');
     }
 
     #[On('delete-licenceTypeCategory')]
