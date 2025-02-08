@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\DealerType;
+namespace App\Livewire\Tenant\DealerType;
 
-use App\Models\DealerType;
-use App\Models\DealerTypeCategory;
+use App\Models\Tenant\DealerType;
 use App\Services\DealerTypeCategoryService;
 use App\Services\DealerTypeService;
 use Illuminate\Support\Collection;
@@ -44,7 +43,7 @@ class DealerTypeCreate extends Component
 
     public function render()
     {
-        return view('livewire.dealer-type.dealer-type-create');
+        return view('livewire.tenant.dealer-type.dealer-type-create');
     }
 
     public function mount(DealerTypeCategoryService $dealerTypeCategoryService)

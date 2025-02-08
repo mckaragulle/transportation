@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Livewire\DealerType;
+namespace App\Livewire\Tenant\DealerTypeCategory;
 
-use App\Services\DealerTypeService;
+use App\Services\DealerTypeCategoryService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class DealerTypes extends Component
+class DealerTypeCategories extends Component
 {
     use LivewireAlert;
+
+    protected DealerTypeCategoryService $dealerTypeCategoryService;
 
     public null|string $data_id;
 
 
     public function render()
     {
-        return view('livewire.dealer-type.dealer-types');
+        return view('livewire.tenant.dealer-type-category.dealer-type-categories');
     }
 
-    #[On('delete-dealerType')]
+    #[On('delete-dealerTypeCategory')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -38,20 +40,20 @@ class DealerTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(DealerTypeService $dealerTypeService)
+    public function handleConfirmed(DealerTypeCategoryService $dealerTypeCategoryService)
     {
         try {
-            $dealerTypeService->delete($this->data_id);
-            $msg = 'Özellik silindi.';
+            $dealerTypeCategoryService->delete($this->data_id);
+            $msg = 'Cari kategorisi silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Özellik silinemedi. {$exception->getMessage()}";
+            $error = "Cari kategorisi silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-DealerTypeTable');
+            $this->dispatch('pg:eventRefresh-DealerTypeCategoryTable');
         }
     }
 }

@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
 use App\Models\Scopes\StatusScope;
+use App\Models\Tenant\DealerTypeCategory;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class DealerType extends Model
+class LandlordDealerType extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
-    protected $connection = 'tenant';
+    protected $connection = 'landlord';
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -60,7 +61,7 @@ class DealerType extends Model
      */
     public function dealer_type(): BelongsTo
     {
-        return $this->belongsTo(DealerType::class);
+        return $this->belongsTo(Tenant\DealerType::class);
     }
 
     /**
@@ -68,6 +69,6 @@ class DealerType extends Model
      */
     public function dealer_types(): HasMany
     {
-        return $this->hasMany(DealerType::class);
+        return $this->hasMany(Tenant\DealerType::class);
     }
 }

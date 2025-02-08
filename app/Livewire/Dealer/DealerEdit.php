@@ -3,8 +3,8 @@
 namespace App\Livewire\Dealer;
 
 use App\Models\Dealer;
-use App\Models\DealerType;
-use App\Models\DealerTypeCategory;
+use App\Models\Tenant\DealerType;
+use App\Models\Tenant\DealerTypeCategory;
 use App\Services\DealerService;
 use App\Services\DealerTypeCategoryService;
 use App\Services\DealerTypeService;
@@ -16,14 +16,14 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
 class DealerEdit extends Component
-{ 
+{
     use LivewireAlert;
 
     public null|Collection $dealerTypeCategoryDatas;
     public null|Collection $officers;
     public null|Collection $addresses;
     public null|Collection $archives;
-    
+
     public null|Dealer $dealer;
     public bool $is_show = false;
 
@@ -50,7 +50,7 @@ class DealerEdit extends Component
 
     protected DealerTypeCategoryService $dealerTypeCategoryService;
     protected DealerTypeService $dealerTypeService;
-    
+
     /**
      * List of add/edit form rules
      */
@@ -141,7 +141,7 @@ class DealerEdit extends Component
             if(!is_null($this->password) && $this->password != "" && $this->password === $this->password_confirmation) {
                 $this->dealer->password = bcrypt($this->password);
             }
-            
+
             $this->dealer->shortname = $this->shortname;
             $this->dealer->phone = $this->phone;
             $this->dealer->detail = $this->detail;

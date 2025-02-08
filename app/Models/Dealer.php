@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\DealerType;
+use App\Models\Tenant\DealerTypeCategory;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -9,13 +11,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Permission\Traits\HasRoles;
 
 class Dealer extends Authenticatable
 {
@@ -141,6 +143,6 @@ class Dealer extends Authenticatable
     public function dealer_types(): BelongsToMany
     {
         return $this->belongsToMany(DealerType::class, DealerTypeCategoryDealerTypeDealer::class);
-        
+
     }
 }

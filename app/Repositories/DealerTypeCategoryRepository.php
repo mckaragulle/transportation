@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\DealerTypeCategory;
+use App\Models\Tenant\DealerTypeCategory;
 use Illuminate\Database\Eloquent\Model;
 
 /**

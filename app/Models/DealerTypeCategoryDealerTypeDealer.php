@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\DealerType;
+use App\Models\Tenant\DealerTypeCategory;
 use App\Traits\StrUuidTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -17,7 +18,7 @@ class DealerTypeCategoryDealerTypeDealer extends Pivot
     public $incrementing = false;
 
     protected $table = 'dealer_type_category_dealer_type_dealer';
-    
+
     protected $fillable = ['dealer_type_category_id', 'dealer_type_id', 'dealer_id'];
 
     public function dealer()

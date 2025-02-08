@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Livewire\DealerTypeCategory;
+namespace App\Livewire\Tenant\DealerTypeCategory;
 
-use App\Models\DealerTypeCategory;
+use App\Models\Tenant\DealerTypeCategory;
 use App\Services\DealerTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -70,7 +69,7 @@ class DealerTypeCategoryEdit extends Component
 
     public function render()
     {
-        return view('livewire.dealer-type-category.dealer-type-category-edit');
+        return view('livewire.tenant.dealer-type-category.dealer-type-category-edit');
     }
 
     /**

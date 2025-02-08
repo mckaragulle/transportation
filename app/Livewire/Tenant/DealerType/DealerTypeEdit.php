@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\DealerType;
+namespace App\Livewire\Tenant\DealerType;
 
-use App\Models\DealerType;
+use App\Models\Tenant\DealerType;
 use App\Services\DealerTypeCategoryService;
 use App\Services\DealerTypeService;
 use Illuminate\Support\Collection;
@@ -77,7 +77,7 @@ class DealerTypeEdit extends Component
 
     public function render()
     {
-        return view('livewire.dealer-type.dealer-type-edit');
+        return view('livewire.tenant.dealer-type.dealer-type-edit');
     }
 
     /**
