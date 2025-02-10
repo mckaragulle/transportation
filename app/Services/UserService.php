@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
-    public function __construct(protected readonly UserRepository $repository) {}
+    public function __construct(protected UserRepository $repository) {}
 
     /**
      * @return array|Collection

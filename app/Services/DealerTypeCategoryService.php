@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class DealerTypeCategoryService
 {
-    public function __construct(protected readonly DealerTypeCategoryRepository $repository) {}
+    public function __construct(protected DealerTypeCategoryRepository $repository) {}
 
     /**
      * @return array|Collection

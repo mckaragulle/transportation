@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\AccountTypeCategory;
+use App\Models\Tenant\AccountTypeCategory;
 use Illuminate\Database\Eloquent\Model;
 
 /**

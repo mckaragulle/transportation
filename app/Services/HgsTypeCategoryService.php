@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class HgsTypeCategoryService
 {
-    public function __construct(protected readonly HgsTypeCategoryRepository $repository) {}
+    public function __construct(protected HgsTypeCategoryRepository $repository) {}
 
     /**
      * @return array|Collection

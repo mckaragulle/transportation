@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CityService
 {
-    public function __construct(protected readonly CityRepository $repository) {}
+    public function __construct(protected CityRepository $repository) {}
 
     /**
-     * 
-     * 
+     *
+     *
      * @param mixed $column
      * @param mixed $sort
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model

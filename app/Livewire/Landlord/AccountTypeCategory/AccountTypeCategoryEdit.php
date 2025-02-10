@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\AccountTypeCategory;
+namespace App\Livewire\Landlord\AccountTypeCategory;
 
-use App\Models\AccountTypeCategory;
+use App\Models\Landlord\LandlordAccountType;
 use App\Services\AccountTypeCategoryService;
+use App\Services\Landlord\LandlordAccountTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -14,7 +14,7 @@ class AccountTypeCategoryEdit extends Component
 {
     use LivewireAlert;
 
-    public null|AccountTypeCategory $accountTypeCategory;
+    public null|LandlordAccountType $accountTypeCategory;
 
     public null|string $name;
 
@@ -22,7 +22,7 @@ class AccountTypeCategoryEdit extends Component
     public bool $is_multiple = false;
     public bool $status = true;
 
-    protected AccountTypeCategoryService $accountTypeCategoryService;
+    protected LandlordAccountTypeCategoryService $accountTypeCategoryService;
     /**
      * List of add/edit form rules
      */
@@ -54,7 +54,7 @@ class AccountTypeCategoryEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, AccountTypeCategoryService $accountTypeCategoryService)
+    public function mount($id = null, LandlordAccountTypeCategoryService $accountTypeCategoryService)
     {
         if (!is_null($id)) {
 
@@ -70,7 +70,7 @@ class AccountTypeCategoryEdit extends Component
 
     public function render()
     {
-        return view('livewire.account-type-category.account-type-category-edit');
+        return view('livewire.landlord.account-type-category.account-type-category-edit');
     }
 
     /**

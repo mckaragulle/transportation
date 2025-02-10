@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class VehicleModelService
 {
-    public function __construct(protected readonly VehicleModelRepository $repository) {}
+    public function __construct(protected VehicleModelRepository $repository) {}
 
     /**
      * @return array|Collection

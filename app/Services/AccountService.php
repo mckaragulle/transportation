@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class AccountService
 {
-    public function __construct(protected readonly AccountRepository $repository) {}
+    public function __construct(protected AccountRepository $repository) {}
 
     public function where(array $column): Builder
     {

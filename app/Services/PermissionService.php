@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class PermissionService
 {
-    public function __construct(protected readonly PermissionRepository $repository) {}
+    public function __construct(protected PermissionRepository $repository) {}
 
     /**
      * Yeni öğretim görevlisi ekler.

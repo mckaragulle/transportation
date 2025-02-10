@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\AccountType;
+use App\Models\Tenant\AccountTypeCategory;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +18,7 @@ class Account extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
-    
+
     protected $keyType = 'string';
     public $incrementing = false;
 
@@ -28,7 +30,7 @@ class Account extends Model
         return LogOptions::defaults()
             ->logAll();
     }
-    
+
     /**
      * Get the prices for the type post.
      */

@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class VehicleTicketService
 {
-    public function __construct(protected readonly VehicleTicketRepository $repository) {}
+    public function __construct(protected VehicleTicketRepository $repository) {}
 
     /**
      * @return array|Collection

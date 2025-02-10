@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminService
 {
-    public function __construct(protected readonly AdminRepository $repository) {}
+    public function __construct(protected AdminRepository $repository) {}
 
     /**
      * @return array|Collection
@@ -54,7 +54,7 @@ class AdminService
     {
         return $this->repository->delete($id);
     }
-    
+
 
     /**
      * Admin hesabına giriş yapar.

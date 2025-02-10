@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class {{ class }}
 {
-    public function __construct(protected readonly {{ model }}Repository $repository) {}
+    public function __construct(protected {{ model }}Repository $repository) {}
 
     public function where(array $column): Model|Builder
     {

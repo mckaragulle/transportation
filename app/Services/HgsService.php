@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class HgsService
 {
-    public function __construct(protected readonly HgsRepository $repository) {}
+    public function __construct(protected HgsRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

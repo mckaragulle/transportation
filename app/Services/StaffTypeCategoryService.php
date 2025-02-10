@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class StaffTypeCategoryService
 {
-    public function __construct(protected readonly StaffTypeCategoryRepository $repository) {}
+    public function __construct(protected StaffTypeCategoryRepository $repository) {}
 
     /**
      * @return array|Collection

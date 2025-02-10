@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class DealerLogoService
 {
-    public function __construct(protected readonly DealerLogoRepository $repository) {}
+    public function __construct(protected DealerLogoRepository $repository) {}
 
     public function orderBy($column, $sort): Model|Builder
     {

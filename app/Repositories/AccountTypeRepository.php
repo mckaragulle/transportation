@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\AccountType;
+use App\Models\Tenant\AccountType;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -1,6 +1,6 @@
 <div>
     @can('create account_type_categories')
-    <livewire:account-type-category.account-type-category-create />
+    <livewire:landlord.account-type-category.account-type-category-create />
     <hr>
     @endcan
     @can('read account_type_categories')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:account-type-category.account-type-category-table />
+                <livewire:landlord.account-type-category.account-type-category-table />
             </div>
         </div>
     </div>

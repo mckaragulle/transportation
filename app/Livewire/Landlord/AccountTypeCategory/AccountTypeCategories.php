@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountTypeCategory;
+namespace App\Livewire\Landlord\AccountTypeCategory;
 
-use App\Services\AccountTypeCategoryService;
+use App\Services\Landlord\LandlordAccountTypeCategoryService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,14 +12,14 @@ class AccountTypeCategories extends Component
 {
     use LivewireAlert;
 
-    protected AccountTypeCategoryService $accountTypeCategoryService;
+    protected LandlordAccountTypeCategoryService $accountTypeCategoryService;
 
     public null|string $data_id;
 
 
     public function render()
     {
-        return view('livewire.account-type-category.account-type-categories');
+        return view('livewire.landlord.account-type-category.account-type-categories');
     }
 
     #[On('delete-accountTypeCategory')]
@@ -40,7 +40,7 @@ class AccountTypeCategories extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccountTypeCategoryService $accountTypeCategoryService)
+    public function handleConfirmed(LandlordAccountTypeCategoryService $accountTypeCategoryService)
     {
         try {
             $accountTypeCategoryService->delete($this->data_id);

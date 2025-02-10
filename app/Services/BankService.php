@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class BankService
 {
-    public function __construct(protected readonly BankRepository $repository) {}
+    public function __construct(protected BankRepository $repository) {}
 
     /**
      * @return array|Collection

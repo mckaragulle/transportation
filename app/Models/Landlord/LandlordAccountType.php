@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
-use App\Models\Scopes\StatusScope;
+use App\Observers\Landlord\LandlordAccountTypeObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class AccountType extends Model
+#[ObservedBy([LandlordAccountTypeObserver::class])]
+class LandlordAccountType extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
-    protected $connection = 'pgsql_main';
+    protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'account_types';
     public $incrementing = false;
 
     /**
@@ -52,7 +54,7 @@ class AccountType extends Model
      */
     public function account_type_category(): BelongsTo
     {
-        return $this->belongsTo(AccountTypeCategory::class);
+        return $this->belongsTo(LandlordAccountTypeCategory::class, 'account_type_category_id');
     }
 
     /**
@@ -60,7 +62,7 @@ class AccountType extends Model
      */
     public function account_type(): BelongsTo
     {
-        return $this->belongsTo(AccountType::class);
+        return $this->belongsTo(LandlordAccountType::class, 'account_type_id');
     }
 
     /**
@@ -68,6 +70,6 @@ class AccountType extends Model
      */
     public function account_types(): HasMany
     {
-        return $this->hasMany(AccountType::class);
+        return $this->hasMany(LandlordAccountType::class, 'account_type_id');
     }
 }

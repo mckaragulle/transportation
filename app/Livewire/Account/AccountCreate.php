@@ -2,9 +2,8 @@
 
 namespace App\Livewire\Account;
 
-use App\Models\AccountTypeCategory;
+use App\Models\Tenant\AccountTypeCategory;
 use App\Services\AccountService;
-use App\Services\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

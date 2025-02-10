@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountTypeCategory;
+namespace App\Livewire\Landlord\AccountTypeCategory;
 
-use App\Services\AccountTypeCategoryService;
+use App\Services\Landlord\LandlordAccountTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -18,7 +18,7 @@ class AccountTypeCategoryCreate extends Component
     public bool $is_multiple = false;
     public bool $status = true;
 
-    protected AccountTypeCategoryService $accountTypeCategoryService;
+    protected LandlordAccountTypeCategoryService $accountTypeCategoryService;
 
     /**
      * List of add/edit form rules
@@ -39,7 +39,7 @@ class AccountTypeCategoryCreate extends Component
 
     public function render()
     {
-        return view('livewire.account-type-category.account-type-category-create');
+        return view('livewire.landlord.account-type-category.account-type-category-create');
     }
 
     /**
@@ -47,7 +47,7 @@ class AccountTypeCategoryCreate extends Component
      *
      * @return void
      */
-    public function store(AccountTypeCategoryService $accountTypeCategoryService)
+    public function store(LandlordAccountTypeCategoryService $accountTypeCategoryService)
     {
         $this->validate();
         $this->accountTypeCategoryService = $accountTypeCategoryService;

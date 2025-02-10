@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\AccountType;
+namespace App\Livewire\Landlord\AccountType;
 
-use App\Models\AccountType;
-use App\Services\AccountTypeCategoryService;
-use App\Services\AccountTypeService;
+use App\Models\Landlord\LandlordAccountType;
+use App\Services\Landlord\LandlordAccountTypeCategoryService;
+use App\Services\Landlord\LandlordAccountTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,15 +18,15 @@ class AccountTypeEdit extends Component
     public null|Collection $accountTypeCategories;
     public null|Collection $accountTypes;
 
-    public ?AccountType $accountType = null;
+    public ?LandlordAccountType $accountType = null;
 
     public null|int $account_type_category_id = null;
     public null|int $account_type_id = null;
     public null|string $name;
     public bool $status = true;
 
-    protected AccountTypeCategoryService $accountTypeCategoryService;
-    protected AccountTypeService $accountTypeService;
+    protected LandlordAccountTypeCategoryService $accountTypeCategoryService;
+    protected LandlordAccountTypeService $accountTypeService;
     /**
      * List of add/edit form rules
      */
@@ -59,7 +59,7 @@ class AccountTypeEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, AccountTypeCategoryService $accountTypeCategoryService, AccountTypeService $accountTypeService)
+    public function mount($id = null, LandlordAccountTypeCategoryService $accountTypeCategoryService, LandlordAccountTypeService $accountTypeService)
     {
         if (!is_null($id)) {
             $this->accountType = $accountTypeService->findById($id);
@@ -68,7 +68,7 @@ class AccountTypeEdit extends Component
             $this->name = $this->accountType->name??null;
             $this->status = $this->accountType->status;
             $this->accountTypeCategories = $accountTypeCategoryService->all();
-            $this->accountTypes = AccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
+            $this->accountTypes = LandlordAccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
 
         } else {
             return $this->redirect(route('accountTypes.list'));
@@ -77,7 +77,7 @@ class AccountTypeEdit extends Component
 
     public function render()
     {
-        return view('livewire.account-type.account-type-edit');
+        return view('livewire.landlord.account-type.account-type-edit');
     }
 
     /**
@@ -111,6 +111,6 @@ class AccountTypeEdit extends Component
 
     public function updatedAccountTypeCategoryId()
     {
-        $this->accountTypes = AccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
+        $this->accountTypes = LandlordAccountType::query()->where(['account_type_category_id' => $this->account_type_category_id])->with('account_type')->orderBy('id')->get(['id', 'account_type_id', 'name']);
     }
 }

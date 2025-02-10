@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class SectorService
 {
-    public function __construct(protected readonly SectorRepository $repository) {}
+    public function __construct(protected SectorRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

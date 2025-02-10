@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountType;
+namespace App\Livewire\Tenant\AccountType;
 
-use App\Models\AccountType;
-use App\Models\AccountTypeCategory;
+use App\Models\Tenant\AccountType;
 use App\Services\AccountTypeCategoryService;
 use App\Services\AccountTypeService;
 use Illuminate\Support\Collection;
@@ -44,7 +43,7 @@ class AccountTypeCreate extends Component
 
     public function render()
     {
-        return view('livewire.account-type.account-type-create');
+        return view('livewire.tenant.account-type.account-type-create');
     }
 
     public function mount(AccountTypeCategoryService $accountTypeCategoryService)

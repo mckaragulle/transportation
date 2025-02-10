@@ -3,18 +3,17 @@
 namespace App\Livewire\Account;
 
 use App\Models\Account;
-use App\Models\AccountTypeCategory;
+use App\Models\Tenant\AccountTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class AccountTable extends PowerGridComponent
@@ -58,7 +57,7 @@ final class AccountTable extends PowerGridComponent
         $account = Account::query()
             ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
             ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
-            
+
             // ->whereDealerId($this->dealer_id);
         return $account;
         // return Account::query()

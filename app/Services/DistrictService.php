@@ -10,11 +10,11 @@ use Illuminate\Support\Collection;
 
 class DistrictService
 {
-    public function __construct(protected readonly DistrictRepository $repository) {}
+    public function __construct(protected DistrictRepository $repository) {}
 
     /**
-     * 
-     * 
+     *
+     *
      * @param mixed $column
      * @param mixed $sort
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model

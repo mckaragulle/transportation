@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class StaffService
 {
-    public function __construct(protected readonly StaffRepository $repository) {}
+    public function __construct(protected StaffRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

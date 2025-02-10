@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class FinedService
 {
-    public function __construct(protected readonly FinedRepository $repository) {}
+    public function __construct(protected FinedRepository $repository) {}
 
     /**
      * @return array|Collection

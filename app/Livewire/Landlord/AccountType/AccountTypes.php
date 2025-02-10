@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountType;
+namespace App\Livewire\Landlord\AccountType;
 
-use App\Services\AccountTypeService;
+use App\Services\Landlord\LandlordAccountTypeService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -17,7 +17,7 @@ class AccountTypes extends Component
 
     public function render()
     {
-        return view('livewire.account-type.account-types');
+        return view('livewire.landlord.account-type.account-types');
     }
 
     #[On('delete-accountType')]
@@ -38,7 +38,7 @@ class AccountTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccountTypeService $accountTypeService)
+    public function handleConfirmed(LandlordAccountTypeService $accountTypeService)
     {
         try {
             $accountTypeService->delete($this->data_id);

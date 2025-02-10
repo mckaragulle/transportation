@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class VehiclePropertyService
 {
-    public function __construct(protected readonly VehiclePropertyRepository $repository) {}
+    public function __construct(protected VehiclePropertyRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

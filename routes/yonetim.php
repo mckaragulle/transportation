@@ -13,10 +13,10 @@ use App\Livewire\StaffType\StaffTypeEdit;
 use App\Livewire\StaffType\StaffTypes;
 use App\Livewire\StaffTypeCategory\StaffTypeCategories;
 use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
-use App\Livewire\AccountType\AccountTypeEdit;
-use App\Livewire\AccountType\AccountTypes;
-use App\Livewire\AccountTypeCategory\AccountTypeCategories;
-use App\Livewire\AccountTypeCategory\AccountTypeCategoryEdit;
+use App\Livewire\Landlord\AccountType\AccountTypeEdit;
+use App\Livewire\Landlord\AccountType\AccountTypes;
+use App\Livewire\Landlord\AccountTypeCategory\AccountTypeCategories;
+use App\Livewire\Landlord\AccountTypeCategory\AccountTypeCategoryEdit;
 
 use App\Livewire\Admin\Admins;
 use App\Livewire\Admin\AdminEdit;

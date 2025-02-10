@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class LicenceTypeCategoryService
 {
-    public function __construct(protected readonly LicenceTypeCategoryRepository $repository) {}
+    public function __construct(protected LicenceTypeCategoryRepository $repository) {}
 
     /**
      * @return array|Collection

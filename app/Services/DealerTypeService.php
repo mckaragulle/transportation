@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class DealerTypeService
 {
-    public function __construct(protected readonly DealerTypeRepository $repository) {}
+    public function __construct(protected DealerTypeRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

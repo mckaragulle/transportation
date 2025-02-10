@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class DealerBankService
 {
-    public function __construct(protected readonly DealerBankRepository $repository) {}
+    public function __construct(protected DealerBankRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

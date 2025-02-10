@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class VehicleBrandService
 {
-    public function __construct(protected readonly VehicleBrandRepository $repository) {}
+    public function __construct(protected VehicleBrandRepository $repository) {}
 
     /**
      * @return array|Collection

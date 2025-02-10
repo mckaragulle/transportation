@@ -24,7 +24,9 @@ class MakeFullPattern extends Command
         $this->generateStub('service', "app/Services/{$location}/{$name}Service.php", $name, $model, $location);
 
         // Observer oluştur
-        $this->generateStub('observer', "app/Observers/{$location}/{$name}Observer.php", $name, $model);
+        if($location == 'Landlord'){
+            $this->generateStub('observer', "app/Observers/{$location}/{$name}Observer.php", $name, $model);
+        }
 
         $this->info("Repository, Service, and Observer created for {$location}/{$name}. {$model}");
     }

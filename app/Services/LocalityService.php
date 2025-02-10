@@ -10,11 +10,11 @@ use Illuminate\Support\Collection;
 
 class LocalityService
 {
-    public function __construct(protected readonly LocalityRepository $repository) {}
+    public function __construct(protected LocalityRepository $repository) {}
 
     /**
-     * 
-     * 
+     *
+     *
      * @param mixed $column
      * @param mixed $sort
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model

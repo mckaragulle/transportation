@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class NeighborhoodService
 {
-    public function __construct(protected readonly NeighborhoodRepository $repository) {}
+    public function __construct(protected NeighborhoodRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

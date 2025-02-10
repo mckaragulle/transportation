@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class LicenceTypeService
 {
-    public function __construct(protected readonly LicenceTypeRepository $repository) {}
+    public function __construct(protected LicenceTypeRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

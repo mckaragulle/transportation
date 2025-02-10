@@ -3,19 +3,18 @@
 namespace App\Livewire\Account;
 
 use App\Models\Account;
-use App\Models\AccountType;
-use App\Models\AccountTypeCategory;
+use App\Models\Tenant\AccountType;
+use App\Models\Tenant\AccountTypeCategory;
 use App\Services\AccountService;
 use App\Services\AccountTypeCategoryService;
 use App\Services\AccountTypeService;
-use App\Services\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class AccountEdit extends Component
 {

@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class VehiclePropertyCategoryService
 {
-    public function __construct(protected readonly VehiclePropertyCategoryRepository $repository) {}
+    public function __construct(protected VehiclePropertyCategoryRepository $repository) {}
 
     /**
      * @return array|Collection
