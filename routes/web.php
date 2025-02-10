@@ -10,7 +10,6 @@ use App\Livewire\AccountOfficer\AccountOfficerEdit;
 use App\Livewire\LandLord\AdminSignin;
 use App\Livewire\City\Cities;
 use App\Livewire\City\CityEdit;
-use App\Livewire\DealerOfficer\DealerOfficerEdit;
 use App\Livewire\Hgs\HgsEdit;
 use App\Livewire\Hgs\Hgses;
 use Illuminate\Support\Facades\Route;
@@ -60,17 +59,12 @@ use App\Livewire\VehicleProperty\VehiclePropertyEdit;
 use App\Livewire\Bank\BankEdit;
 use App\Livewire\Bank\Banks;
 use App\Livewire\Dealer\DealerManagement;
-use App\Livewire\DealerAddress\DealerAddressEdit;
-use App\Livewire\DealerAddress\DealerAddresses;
-use App\Livewire\DealerBank\DealerBankEdit;
 use App\Livewire\Tenant\DealerType\DealerTypeEdit;
 use App\Livewire\Tenant\DealerType\DealerTypes;
 use App\Livewire\Tenant\DealerTypeCategory\DealerTypeCategories;
 use App\Livewire\Tenant\DealerTypeCategory\DealerTypeCategoryEdit;
 use App\Livewire\District\DistrictEdit;
 use App\Livewire\District\Districts;
-use App\Livewire\Group\GroupEdit;
-use App\Livewire\Group\Groups;
 use App\Livewire\HgsTypeCategory\HgsTypeCategories;
 use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
 
@@ -84,14 +78,13 @@ use App\Livewire\Locality\Localities;
 use App\Livewire\Locality\LocalityEdit;
 use App\Livewire\Neighborhood\NeighborhoodEdit;
 use App\Livewire\Neighborhood\Neighborhoods;
-use App\Livewire\Sector\SectorEdit;
-use App\Livewire\Sector\Sectors;
 
 Route::get('/', Signin::class)->name('login');
 Route::middleware(['tenant', 'auth:dealer,web'])
     ->prefix('panel')
     ->group(function () {
         Route::get('/', Dashboard::class)->name('dashboard');
+        
 
         Route::get('/bayiler', Dealers::class)->name('dealers.list')->middleware('can:read dealers');
         Route::get('/bayi/{id}/duzenle', DealerEdit::class)->name('dealers.edit')->middleware('can:update dealers');

@@ -2,6 +2,7 @@
 
 namespace App\Models\Landlord;
 
+use App\Observers\LandlordLicenceTypeObserver;
 use App\Observers\LicenceTypeObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -17,14 +18,14 @@ use Spatie\Multitenancy\Contracts\IsTenant;
 use Spatie\Multitenancy\Models\Concerns\ImplementsTenant;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([LicenceTypeObserver::class])]
+#[ObservedBy([LandlordLicenceTypeObserver::class])]
 class LandlordLicenceType extends Model implements IsTenant
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesLandlordConnection;
     use ImplementsTenant;
 
-    /*protected $connection = 'tenant';*/
+    protected $connection = 'landlord';
     protected $keyType = 'string';
     public $incrementing = false;
 

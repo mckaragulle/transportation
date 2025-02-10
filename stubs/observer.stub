@@ -1,0 +1,57 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ modelNamespace }};
+use App\Jobs\Tenant\TenantSyncDataJob;
+use Spatie\Multitenancy\Models\Tenant;
+
+class {{ class }}
+{
+    /**
+     * Handle the {{ model }} "created" event.
+     */
+    public function created({{ model }} $model): void
+    {
+        Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
+            $data = getTenantSyncDataJob($model);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+        });
+    }
+
+    /**
+     * Handle the {{ model }} "updated" event.
+     */
+    public function updated({{ model }} $model): void
+    {
+        Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
+            $data = getTenantSyncDataJob($model);
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+        });
+    }
+
+    /**
+     * Handle the {{ model }} "deleted" event.
+     */
+    public function deleted({{ model }} $model): void
+    {
+        //
+    }
+
+    /**
+     * Handle the {{ model }} "restored" event.
+     */
+    public function restored({{ model }} $model): void
+    {
+        //
+    }
+
+    /**
+     * Handle the {{ model }} "force deleted" event.
+     */
+    public function forceDeleted({{ model }} $model): void
+    {
+        //
+    }
+}
+

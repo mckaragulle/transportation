@@ -3,7 +3,7 @@
 namespace App\Models\Landlord;
 
 use App\Models\Tenant\Licence;
-use App\Observers\LicenceTypeCategoryObserver;
+use App\Observers\LandlordLicenceTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -15,18 +15,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Contracts\IsTenant;
-use Spatie\Multitenancy\Models\Concerns\ImplementsTenant;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([LicenceTypeCategoryObserver::class])]
-class LandlordLicenceTypeCategory extends Model implements IsTenant
+#[ObservedBy([LandlordLicenceTypeCategoryObserver::class])]
+class LandlordLicenceTypeCategory extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesLandlordConnection;
-    use ImplementsTenant;
 
-    /*protected $connection = 'landlord';*/
+    protected $connection = 'landlord';
     protected $keyType = 'string';
     public $incrementing = false;
 
