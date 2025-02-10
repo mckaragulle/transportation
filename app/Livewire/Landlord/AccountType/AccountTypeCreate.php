@@ -69,7 +69,7 @@ class AccountTypeCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $this->dispatch('pg:eventRefresh-LandlordAccountTypeTable');
+            $this->dispatch('pg:eventRefresh-AccountTypeTable');
             $msg = 'Cari oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

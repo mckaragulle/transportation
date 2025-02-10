@@ -3,7 +3,6 @@
 namespace App\Livewire\Landlord\AccountTypeCategory;
 
 use App\Models\Landlord\LandlordAccountTypeCategory;
-use App\Services\Landlord\LandlordAccountTypeCategoryService;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;

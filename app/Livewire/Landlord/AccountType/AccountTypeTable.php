@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Landlord\LandlordAccountType;
+namespace App\Livewire\Landlord\AccountType;
 
 use App\Models\Landlord\LandlordAccountType;
 use App\Models\Landlord\LandlordAccountTypeCategory;
@@ -33,7 +33,7 @@ final class AccountTypeTable extends PowerGridComponent
         );
 
         return [
-            PowerGrid::exportable(fileName: 'cariler')
+            PowerGrid::exportable(fileName: 'cari-secenekleri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
