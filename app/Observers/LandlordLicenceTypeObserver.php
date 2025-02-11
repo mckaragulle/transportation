@@ -26,7 +26,7 @@ class LandlordLicenceTypeObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($landlordLicenceType) {
             $data = getTenantSyncDataJob($landlordLicenceType);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'licence_type', 'Sürücü Belge Seçeneği Güncellenirken Hata Oluştu.');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'licence_types', 'Sürücü Belge Seçeneği Güncellenirken Hata Oluştu.');
         });
     }
 

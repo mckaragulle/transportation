@@ -2,8 +2,7 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Tenant\DealerType;
-use App\Observers\LandlordLicenceTypeObserver;
+use App\Observers\Landlord\LandlordDealerTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -16,7 +15,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([LandlordLicenceTypeObserver::class])]
+#[ObservedBy([LandlordDealerTypeCategoryObserver::class])]
 class LandlordDealerTypeCategory extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
@@ -25,6 +24,7 @@ class LandlordDealerTypeCategory extends Model
     protected $connection = 'landlord';
     protected $keyType = 'string';
     public $incrementing = false;
+    protected $table = 'dealer_type_categories';
 
     protected $fillable = ['name', 'slug', 'is_required', 'is_multiple', 'status'];
 
@@ -76,6 +76,6 @@ class LandlordDealerTypeCategory extends Model
 
     public function dealer_types(): HasMany
     {
-        return $this->hasMany(DealerType::class);
+        return $this->hasMany(LandlordDealerType::class, 'dealer_type_id');
     }
 }

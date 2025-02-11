@@ -2,8 +2,7 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Scopes\StatusScope;
-use App\Models\Tenant\DealerTypeCategory;
+use App\Observers\Landlord\LandlordDealerTypeObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -16,7 +15,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([LandlordDealerType::class])]
+#[ObservedBy([LandlordDealerTypeObserver::class])]
 class LandlordDealerType extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
@@ -25,6 +24,7 @@ class LandlordDealerType extends Model
     protected $connection = 'landlord';
     protected $keyType = 'string';
     public $incrementing = false;
+    protected $table = 'dealer_types';
 
     /**
      * Return the sluggable configuration array for this model.
@@ -54,7 +54,7 @@ class LandlordDealerType extends Model
      */
     public function dealer_type_category(): BelongsTo
     {
-        return $this->belongsTo(DealerTypeCategory::class);
+        return $this->belongsTo(LandlordDealerTypeCategory::class, 'dealer_type_category_id');
     }
 
     /**
@@ -62,7 +62,7 @@ class LandlordDealerType extends Model
      */
     public function dealer_type(): BelongsTo
     {
-        return $this->belongsTo(Tenant\DealerType::class);
+        return $this->belongsTo(LandlordDealerType::class, 'dealer_type_id');
     }
 
     /**
@@ -70,6 +70,6 @@ class LandlordDealerType extends Model
      */
     public function dealer_types(): HasMany
     {
-        return $this->hasMany(Tenant\DealerType::class);
+        return $this->hasMany(LandlordDealerType::class, 'dealer_type_id');
     }
 }
