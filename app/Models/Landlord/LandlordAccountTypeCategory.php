@@ -2,7 +2,6 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Tenant\AccountType;
 use App\Observers\Landlord\LandlordAccountTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;

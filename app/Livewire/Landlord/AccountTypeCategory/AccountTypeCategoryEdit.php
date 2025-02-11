@@ -2,8 +2,7 @@
 
 namespace App\Livewire\Landlord\AccountTypeCategory;
 
-use App\Models\Landlord\LandlordAccountType;
-use App\Services\AccountTypeCategoryService;
+use App\Models\Landlord\LandlordAccountTypeCategory;
 use App\Services\Landlord\LandlordAccountTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +13,7 @@ class AccountTypeCategoryEdit extends Component
 {
     use LivewireAlert;
 
-    public null|LandlordAccountType $accountTypeCategory;
+    public null|LandlordAccountTypeCategory $accountTypeCategory;
 
     public null|string $name;
 

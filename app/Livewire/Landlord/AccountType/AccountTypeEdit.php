@@ -20,8 +20,8 @@ class AccountTypeEdit extends Component
 
     public ?LandlordAccountType $accountType = null;
 
-    public null|int $account_type_category_id = null;
-    public null|int $account_type_id = null;
+    public null|string $account_type_category_id = null;
+    public null|string $account_type_id = null;
     public null|string $name;
     public bool $status = true;
 
@@ -96,12 +96,12 @@ class AccountTypeEdit extends Component
             $this->accountType->status = $this->status == false ? 0 : 1;
             $this->accountType->save();
 
-            $msg = 'Cari güncellendi.';
+            $msg = 'Cari seçeneği güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Cari güncellenemedi. {$exception->getMessage()}";
+            $error = "Cari seçeneği güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
