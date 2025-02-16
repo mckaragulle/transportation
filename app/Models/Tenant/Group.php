@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -8,20 +8,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class Sector extends Model
+class Group extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
-    protected $connection = 'pgsql_main';
     protected $keyType = 'string';
     public $incrementing = false;
-    
+
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -36,7 +35,7 @@ class Sector extends Model
         ];
     }
 
-    protected $fillable = ["sector_id", "name", "slug", "status"];
+    protected $fillable = ["account_id", "group_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -48,16 +47,17 @@ class Sector extends Model
     /**
      * Get the prices for the type post.
      */
-    public function sector(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Sector::class);
+        return $this->belongsTo(Group::class);
     }
+
 
     /**
      * Get the prices for the type post.
      */
-    public function sectors(): HasMany
+    public function groups(): HasMany
     {
-        return $this->hasMany(Sector::class);
+        return $this->hasMany(Group::class);
     }
 }

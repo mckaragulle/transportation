@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Sector;
 
-use App\Models\Sector;
+use App\Models\Tenant\Sector;
 use App\Services\SectorService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

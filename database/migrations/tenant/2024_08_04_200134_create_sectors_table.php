@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Sector;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,19 +13,20 @@ return new class extends Migration
     {
         Schema::create('sectors', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
-            
+
         });
-        Schema::table('sectors', function (Blueprint $table) {
+        Schema::create('sectors', function (Blueprint $table) {
             $table->foreignUuid('sector_id')
-            ->nullable()
-            ->constrained()
-            ->cascadeOnDelete();
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
+
     }
 
     /**

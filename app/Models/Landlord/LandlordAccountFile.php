@@ -2,7 +2,6 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Dealer;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,14 +33,6 @@ class LandlordAccountFile extends Model
     {
         return LogOptions::defaults()
             ->logAll();
-    }
-
-    /**
-     * Get the Dealer.
-     */
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
 
     /**

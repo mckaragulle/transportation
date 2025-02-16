@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
-use App\Models\Landlord\LandlordAccount;
+use App\Services\Landlord\LandlordAccountService;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ class LandlordAccountGroup extends Model
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
-    protected $table = 'account_groups';
+    protected $table = 'account_group';
 
     protected $fillable = [
         "account_id",
@@ -28,7 +28,7 @@ class LandlordAccountGroup extends Model
      */
     public function account(): BelongsTo
     {
-        return $this->belongsTo(LandlordAccount::class);
+        return $this->belongsTo(LandlordAccountService::class);
     }
 
     /**
@@ -36,6 +36,6 @@ class LandlordAccountGroup extends Model
      */
     public function group(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(LandlordGroup::class);
     }
 }

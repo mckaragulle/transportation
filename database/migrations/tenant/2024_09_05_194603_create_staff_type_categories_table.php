@@ -28,6 +28,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
         });
+
         Schema::table('staff_types', function (Blueprint $table) {
             $table->foreignUuid('staff_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');

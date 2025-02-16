@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
-use App\Models\Landlord\LandlordAccount;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +35,6 @@ class LandlordAccountSector extends Model
      */
     public function sector(): BelongsTo
     {
-        return $this->belongsTo(Sector::class);
+        return $this->belongsTo(LandlordSector::class);
     }
 }

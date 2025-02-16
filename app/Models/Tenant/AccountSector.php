@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
 use App\Models\Tenant\Account;
+use App\Models\Tenant\Sector;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,8 +14,6 @@ class AccountSector extends Model
 {
     use HasFactory, StrUuidTrait;
     use UsesTenantConnection;
-
-    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

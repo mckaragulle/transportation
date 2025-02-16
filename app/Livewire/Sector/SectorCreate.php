@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Sector;
 
-use App\Models\Sector;
+use App\Models\Tenant\Sector;
 use App\Services\SectorService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -67,15 +67,15 @@ class SectorCreate extends Component
             $msg = 'Cari sektörü oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
-            
+
             $this->sectors = Sector::query()
             ->whereNull('sector_id')
             ->orderBy('id')
             ->get(['id', 'sector_id', 'name']);
-            
+
             DB::commit();
             $this->reset(['name', 'sector_id']);
-            
+
         } catch (\Exception $exception) {
             $error = "Cari sektörü oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);

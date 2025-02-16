@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
 use App\Models\Tenant\Account;
 use App\Traits\StrUuidTrait;

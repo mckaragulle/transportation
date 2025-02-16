@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Group;
+use App\Models\Tenant\Group;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Group;
 
-use App\Models\Group;
+use App\Models\Tenant\Group;
 use App\Services\GroupService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -67,15 +67,15 @@ class GroupCreate extends Component
             $msg = 'Cari grubu oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
-            
+
             $this->groups = Group::query()
             ->whereNull('group_id')
             ->orderBy('id')
             ->get(['id', 'group_id', 'name']);
-            
+
             DB::commit();
             $this->reset(['name', 'group_id']);
-            
+
         } catch (\Exception $exception) {
             $error = "Cari grubu oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);

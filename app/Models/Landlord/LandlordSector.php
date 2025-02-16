@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -8,17 +8,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class Group extends Model
+class LandlordSector extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
+    protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'sectors';
     public $incrementing = false;
 
     /**
@@ -35,7 +38,7 @@ class Group extends Model
         ];
     }
 
-    protected $fillable = ["account_id", "group_id", "name", "slug", "status"];
+    protected $fillable = ["sector_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -47,17 +50,16 @@ class Group extends Model
     /**
      * Get the prices for the type post.
      */
-    public function group(): BelongsTo
+    public function sector(): BelongsTo
     {
-        return $this->belongsTo(Group::class);
+        return $this->belongsTo(LandlordSector::class);
     }
-
 
     /**
      * Get the prices for the type post.
      */
-    public function groups(): HasMany
+    public function sectors(): HasMany
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(LandlordSector::class);
     }
 }

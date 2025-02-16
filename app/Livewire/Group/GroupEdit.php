@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Group;
 
-use App\Models\Group;
+use App\Models\Tenant\Group;
 use App\Services\GroupService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

@@ -3,6 +3,7 @@
 namespace App\Repositories\Tenant;
 
 use App\Models\Tenant\AccountGroup;
+use App\Models\Tenant\AccountOfficer;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\BaseRepository;
 use App\Repositories\RepositoryInterface;

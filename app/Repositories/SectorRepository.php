@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Sector;
+use App\Models\Tenant\Sector;
 use Illuminate\Database\Eloquent\Model;
 
 /**
