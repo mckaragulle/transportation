@@ -1,6 +1,6 @@
 <div>
     @can('create localities')
-    <livewire:landlord.locality.locality-create />
+    <livewire:locality.locality-create />
     <hr>
     @endcan
     @can('read localities')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:landlord.locality.locality-table />
+                <livewire:locality.locality-table />
             </div>
         </div>
     </div>

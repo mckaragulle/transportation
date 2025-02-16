@@ -4,8 +4,8 @@ namespace App\Livewire\Landlord\AccountAddress;
 
 use App\Models\District;
 use App\Models\Landlord\AccountAddress;
-use App\Models\Locality;
-use App\Models\Neighborhood;
+use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Neighborhood;
 use App\Services\AccountAddressService;
 use App\Services\CityService;
 use App\Services\DealerService;
@@ -169,6 +169,6 @@ class AccountAddressEdit extends Component
 
     public function updatedNeighborhoodId()
     {
-        $this->localities = Locality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
+        $this->localities = LandlordLocality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }
 }

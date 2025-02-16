@@ -1,16 +1,16 @@
 <div>
-    @can('create localities')
-    <livewire:landlord.locality.locality-create />
+    @can('create neighborhoods')
+    <livewire:neighborhood.neighborhood-create />
     <hr>
     @endcan
-    @can('read localities')
+    @can('read neighborhoods')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Semtler</h4>
+            <h4 class="card-title mb-0">İlçeler</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:landlord.locality.locality-table />
+                <livewire:neighborhood.neighborhood-table />
             </div>
         </div>
     </div>

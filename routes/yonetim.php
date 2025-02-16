@@ -9,19 +9,17 @@ use App\Livewire\StaffType\{StaffTypeEdit, StaffTypes};
 use App\Livewire\StaffTypeCategory\{StaffTypeCategories, StaffTypeCategoryEdit};
 use App\Livewire\Landlord\AccountType\{AccountTypeEdit, AccountTypes};
 use App\Livewire\Landlord\AccountTypeCategory\{AccountTypeCategories, AccountTypeCategoryEdit};
+use App\Livewire\Landlord\Group\{Groups, GroupEdit};
+use App\Livewire\Landlord\Sector\{Sectors, SectorEdit};
 
 use App\Livewire\Admin\{Admins, AdminEdit};
 use App\Livewire\Role\{Roles, RoleEdit};
 use App\Livewire\Permission\{Permissions, PermissionEdit};
 
 use App\Livewire\Dealer\{Dealers, DealerEdit};
-
 use App\Livewire\VehicleBrand\{VehicleBrands, VehicleBrandEdit};
-
 use App\Livewire\VehicleTicket\{VehicleTickets, VehicleTicketEdit};
-
 use App\Livewire\VehicleModel\{VehicleModels, VehicleModelEdit};
-
 use App\Livewire\Landlord\VehiclePropertyCategory\{VehiclePropertyCategories, VehiclePropertyCategoryEdit};
 
 use App\Livewire\Landlord\VehicleProperty\{VehicleProperties, VehiclePropertyEdit};
@@ -35,8 +33,8 @@ use App\Livewire\HgsTypeCategory\{HgsTypeCategories, HgsTypeCategoryEdit};
 use App\Livewire\HgsType\{HgsTypes, HgsTypeEdit};
 use App\Livewire\Landlord\LicenceType\{LicenceTypeEdit, LicenceTypes};
 use App\Livewire\Landlord\LicenceTypeCategory\{LicenceTypeCategories, LicenceTypeCategoryEdit};
-use App\Livewire\Locality\{Localities, LocalityEdit};
-use App\Livewire\Neighborhood\{NeighborhoodEdit, Neighborhoods};
+use App\Livewire\Landlord\Locality\{Localities, LocalityEdit};
+use App\Livewire\Landlord\Neighborhood\{NeighborhoodEdit, Neighborhoods};
 
 Route::get('/', AdminSignin::class)->name('admin.login');
 
@@ -50,6 +48,12 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/izinler', Permissions::class)->name('permissions.list')->middleware('can:read permissions');
     Route::get('/izin/{id}/duzenle', PermissionEdit::class)->name('permissions.edit')->middleware('can:update permissions');
+
+    Route::get('/gruplar', Groups::class)->name('groups.list')->middleware('can:read groups');
+    Route::get('/grup/{id}/duzenle', GroupEdit::class)->name('groups.edit')->middleware('can:update groups');
+
+    Route::get('/sektorler', Sectors::class)->name('sectors.list')->middleware('can:read sectors');
+    Route::get('/sektor/{id}/duzenle', SectorEdit::class)->name('sectors.edit')->middleware('can:update sectors');
 
     Route::get('/bayi-kategorileri', DealerTypeCategories::class)->name('dealer_type_categories.list')->middleware('can:read dealer_type_categories');
     Route::get('/bayi-kategorisi/{id}/duzenle', DealerTypeCategoryEdit::class)->name('dealer_type_categories.edit')->middleware('can:update dealer_type_categories');

@@ -5,8 +5,7 @@ namespace App\Models\Landlord;
 use App\Models\City;
 use App\Models\Dealer;
 use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
+use App\Models\Tenant\Neighborhood;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -97,7 +96,7 @@ class LandlordAccountAddress extends Model
 
     public function locality(): BelongsTo
     {
-        return $this->belongsTo(Locality::class);
+        return $this->belongsTo(LandlordLocality::class);
     }
 
     protected static function booted(): void

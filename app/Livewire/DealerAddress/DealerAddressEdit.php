@@ -4,10 +4,8 @@ namespace App\Livewire\DealerAddress;
 
 use App\Models\DealerAddress;
 use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
-use App\Services\DealerAddressService;
 use App\Services\CityService;
+use App\Services\DealerAddressService;
 use App\Services\DistrictService;
 use App\Services\LocalityService;
 use App\Services\NeighborhoodService;
@@ -139,7 +137,7 @@ class DealerAddressEdit extends Component
             DB::rollBack();
         }
     }
-    
+
     public function updatedCityId(DistrictService $districtService)
     {
         $this->districts = $districtService->where(['city_id' => $this->city_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'name']);

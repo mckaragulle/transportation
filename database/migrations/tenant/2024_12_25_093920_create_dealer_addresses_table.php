@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\City;
-use App\Models\Dealer;
 use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

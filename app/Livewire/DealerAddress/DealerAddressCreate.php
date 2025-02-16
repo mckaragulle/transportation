@@ -2,12 +2,9 @@
 
 namespace App\Livewire\DealerAddress;
 
-use App\Models\DealerAddress;
 use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
-use App\Services\DealerAddressService;
 use App\Services\CityService;
+use App\Services\DealerAddressService;
 use App\Services\DistrictService;
 use App\Services\LocalityService;
 use App\Services\NeighborhoodService;
@@ -15,7 +12,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
-use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
 class DealerAddressCreate extends Component

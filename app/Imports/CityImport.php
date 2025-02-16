@@ -9,15 +9,15 @@ use App\Jobs\Tenant\TenantNeighborhoodJob;
 use App\Jobs\Tenant\TenantSyncDataJob;
 use App\Models\City;
 use App\Models\District;
-use App\Models\Locality;
-use App\Models\Neighborhood;
+use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Neighborhood;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Illuminate\Support\Str;
 use Spatie\Multitenancy\Jobs\NotTenantAware;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -26,7 +26,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
     public ?City $city = null;
     public ?District $district = null;
     public ?Neighborhood $neighborhood = null;
-    public ?Locality $locality = null;
+    public ?LandlordLocality $locality = null;
 
     /**
      * @param array $row
@@ -110,7 +110,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
                 'name' => $name
             ];
 
-            $locality = Locality::query();
+            $locality = LandlordLocality::query();
             if(!$locality->where($whereData)->exists()){
                 $this->locality = $locality->create($whereData);
                 Tenant::all()->eachCurrent(function(Tenant $tenant) {

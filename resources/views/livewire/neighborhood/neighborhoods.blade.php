@@ -1,6 +1,6 @@
 <div>
     @can('create neighborhoods')
-    <livewire:neighborhood.neighborhood-create />
+    <livewire:landlord.neighborhood.neighborhood-create />
     <hr>
     @endcan
     @can('read neighborhoods')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:neighborhood.neighborhood-table />
+                <livewire:landlord.neighborhood.neighborhood-table />
             </div>
         </div>
     </div>
