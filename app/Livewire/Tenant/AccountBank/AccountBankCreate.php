@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountBank;
+namespace App\Livewire\Tenant\AccountBank;
 
-use App\Services\AccountBankService;
+use App\Services\Tenant\AccountBankService;
 use App\Services\BankService;
 use App\Services\DealerService;
 use App\Services\Tenant\AccountService;
@@ -52,7 +52,7 @@ class AccountBankCreate extends Component
 
     public function render()
     {
-        return view('livewire.account-bank.account-bank-create');
+        return view('livewire.tenant.account-bank.account-bank-create');
     }
 
     public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
@@ -106,7 +106,7 @@ class AccountBankCreate extends Component
         }
     }
 
-    public function updatedDealerId(AccountService $accountService)
+    public function updatedDealerId(AccountService $accountService): void
     {
         $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
     }

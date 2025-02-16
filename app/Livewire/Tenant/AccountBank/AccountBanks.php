@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountBank;
+namespace App\Livewire\Tenant\AccountBank;
 
-use App\Services\AccountBankService;
+use App\Services\Tenant\AccountBankService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -25,7 +25,7 @@ class AccountBanks extends Component
 
     public function render()
     {
-        return view('livewire.account-bank.account-banks');
+        return view('livewire.tenant.account-bank.account-banks');
     }
 
     #[On('delete-account-bank')]

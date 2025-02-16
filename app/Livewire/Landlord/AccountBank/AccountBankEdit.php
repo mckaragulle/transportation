@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\AccountBank;
+namespace App\Livewire\Landlord\AccountBank;
 
-use App\Models\AccountBank;
-use App\Services\AccountBankService;
+use App\Services\Landlord\LandlordAccountBankService;
 use App\Services\BankService;
 use App\Services\DealerService;
 use App\Services\Tenant\AccountService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +17,7 @@ class AccountBankEdit extends Component
 {
     use LivewireAlert;
 
-    public ?AccountBank $accountBank = null;
+    public ?Model $accountBank = null;
 
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
@@ -52,7 +52,7 @@ class AccountBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
+    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, LandlordAccountBankService $accountBankService)
     {
         if (!is_null($id)) {
             $this->accountBank = $accountBankService->findById($id);
@@ -76,7 +76,7 @@ class AccountBankEdit extends Component
 
     public function render()
     {
-        return view('livewire.account-bank.account-bank-edit');
+        return view('livewire.landlord.account-bank.account-bank-edit');
     }
 
     /**

@@ -3,7 +3,7 @@
 use App\Livewire\Tenant\Account\{AccountEdit, AccountManagement, Accounts};
 use App\Livewire\Tenant\AccountAddress\{AccountAddresses, AccountAddressEdit};
 use App\Livewire\AccountOfficer\AccountOfficerEdit;
-use App\Livewire\AccountBank\AccountBankEdit;
+use App\Livewire\Tenant\AccountBank\AccountBankEdit;
 
 use App\Livewire\Hgs\{HgsEdit, Hgses};
 use Illuminate\Support\Facades\Route;

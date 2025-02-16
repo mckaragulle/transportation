@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Tenant;
 
-use App\Models\AccountBank;
+use App\Models\Tenant\AccountBank;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
 /**
  * @var AccountBank $model

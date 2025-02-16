@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Livewire\AccountBank;
+namespace App\Livewire\Landlord\AccountBank;
 
-use App\Models\Account;
-use App\Models\AccountBank;
+use App\Models\Landlord\LandlordAccount;
 use App\Models\Bank;
+use App\Models\Landlord\LandlordAccountBank;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class AccountBankTable extends PowerGridComponent
@@ -52,7 +51,7 @@ final class AccountBankTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountBank::query()->whereDealerId($this->dealer_id);
+        $account = LandlordAccountBank::query()->whereDealerId($this->dealer_id);
         return $account;
     }
 
@@ -132,7 +131,7 @@ final class AccountBankTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('account_id')
-                ->dataSource(Account::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordAccount::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('bank_id')
@@ -142,7 +141,7 @@ final class AccountBankTable extends PowerGridComponent
         ];
     }
 
-    public function actions(AccountBank $row): array
+    public function actions(LandlordAccountBank $row): array
     {
         return [
             Button::add('view')
@@ -171,14 +170,14 @@ final class AccountBankTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountBank::query()->find($id)->update([
+        LandlordAccountBank::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountBank::query()->find($id)->update([
+        LandlordAccountBank::query()->find($id)->update([
             $field => e($value),
         ]);
     }
