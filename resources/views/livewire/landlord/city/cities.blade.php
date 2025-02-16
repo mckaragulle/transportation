@@ -1,6 +1,6 @@
 <div>
     @can('create cities')
-    <livewire:city.city-create />
+    <livewire:landlord.city.city-create />
     <hr>
     @endcan
     @can('read cities')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:city.city-table />
+                <livewire:landlord.city.city-table />
             </div>
         </div>
     </div>

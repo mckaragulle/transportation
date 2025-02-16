@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Tenant;
 
-use App\Models\District;
+use App\Models\Tenant\District;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
 /**
  * @var District $model

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Bank;
 
-use App\Services\BankService;
+use App\Services\Landlord\LandlordBankService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,7 +46,7 @@ class BankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, BankService $bankService)
+    public function mount($id = null, LandlordBankService $bankService)
     {
         if (!is_null($id)) {
             $this->bank = $bankService->findById($id);

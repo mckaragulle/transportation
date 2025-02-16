@@ -29,7 +29,7 @@ use App\Livewire\Landlord\Bank\{BankEdit, Banks};
 use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\Landlord\DealerType\{DealerTypeEdit, DealerTypes};
 use App\Livewire\Landlord\DealerTypeCategory\{DealerTypeCategories, DealerTypeCategoryEdit};
-use App\Livewire\District\{DistrictEdit, Districts};
+use App\Livewire\Landlord\District\{DistrictEdit, Districts};
 use App\Livewire\HgsTypeCategory\{HgsTypeCategories, HgsTypeCategoryEdit};
 
 use App\Livewire\HgsType\{HgsTypes, HgsTypeEdit};

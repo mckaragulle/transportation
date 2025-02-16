@@ -1,26 +1,28 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
-use App\Observers\CityObserver;
+use App\Observers\Landlord\LandlordDistrictObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-#[ObservedBy([CityObserver::class])]
-class City extends Model
+#[ObservedBy([LandlordDistrictObserver::class])]
+class LandlordDistrict extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesLandlordConnection;
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'districts';
     public $incrementing = false;
 
     /**
@@ -29,8 +31,8 @@ class City extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'city_id',
         'name',
-        'plate',
         'slug',
         'status',
     ];
@@ -53,5 +55,10 @@ class City extends Model
     {
         return LogOptions::defaults()
             ->logAll();
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(LandlordCity::class);
     }
 }

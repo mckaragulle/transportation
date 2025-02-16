@@ -9,16 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Contracts\IsTenant;
-use Spatie\Multitenancy\Models\Concerns\ImplementsTenant;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class City extends Model implements IsTenant
+class City extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesLandlordConnection;
-    use ImplementsTenant;
+    use UsesTenantConnection;
 
     protected $connection = 'tenant';
     protected $keyType = 'string';

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Bank;
 
-use App\Services\BankService;
+use App\Services\Landlord\LandlordBankService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -38,7 +38,7 @@ class Banks extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(BankService $bankService)
+    public function handleConfirmed(LandlordBankService $bankService)
     {
         try {
             $bankService->delete($this->data_id);

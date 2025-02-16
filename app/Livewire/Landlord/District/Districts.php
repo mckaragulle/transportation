@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Livewire\Landlord\City;
+namespace App\Livewire\Landlord\District;
 
-use App\Services\Landlord\LandlordCityService;
+use App\Services\Landlord\LandlordDistrictService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class Cities extends Component
+class Districts extends Component
 {
     use LivewireAlert;
 
-    protected LandlordCityService $adminService;
-
     public null|string $data_id;
+
 
     public function render()
     {
-        return view('livewire.landlord.city.cities');
+        return view('livewire.landlord.district.districts');
     }
 
-    #[On('delete-city')]
+    #[On('delete-district')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -39,20 +38,20 @@ class Cities extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(LandlordCityService $service)
+    public function handleConfirmed(LandlordDistrictService $districtService)
     {
         try {
-            $service->delete($this->data_id);
-            $msg = 'Şehir silindi.';
+            $districtService->delete($this->data_id);
+            $msg = 'İlçe silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Şehir silinemedi. {$exception->getMessage()}";
+            $error = "İlçe silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-CityTable');
+            $this->dispatch('pg:eventRefresh-DistrictTable');
         }
     }
 }

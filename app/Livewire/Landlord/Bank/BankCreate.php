@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Bank;
 
-use App\Services\BankService;
+use App\Services\Landlord\LandlordBankService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -51,7 +51,7 @@ class BankCreate extends Component
      *
      * @return void
      */
-    public function store(BankService $bankService)
+    public function store(LandlordBankService $bankService)
     {
         $this->validate();
         DB::beginTransaction();

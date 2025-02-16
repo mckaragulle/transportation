@@ -4,15 +4,12 @@ namespace App\Livewire\Landlord\City;
 
 use App\Models\Landlord\LandlordCity;
 use App\Services\Landlord\LandlordCityService;
-use App\Services\RoleService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
 
 class CityEdit extends Component
 {

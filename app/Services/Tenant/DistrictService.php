@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tenant;
 
-use App\Repositories\DistrictRepository;
+use App\Repositories\Tenant\DistrictRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,18 +11,6 @@ use Illuminate\Support\Collection;
 class DistrictService
 {
     public function __construct(protected DistrictRepository $repository) {}
-
-    /**
-     *
-     *
-     * @param mixed $column
-     * @param mixed $sort
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
-     */
-    public function orderBy($column, $sort): Builder|Model
-    {
-        return $this->repository->orderBy($column, $sort = 'asc');
-    }
 
     public function where(array $column): Model|Builder
     {
