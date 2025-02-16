@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Landlord;
 
+use App\Models\Dealer;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
@@ -9,18 +10,19 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class AccountOfficer extends Model
+class LandlordAccountOfficer extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
+    protected $connection = 'landlord';
     protected $keyType = 'string';
-    public $incrementing = false;
+    protected $table = 'account_officers';
 
     /**
      * Return the sluggable configuration array for this model.
@@ -37,7 +39,7 @@ class AccountOfficer extends Model
     }
 
     protected $fillable = [
-        "dealer_id", 
+        "dealer_id",
         "account_id",
         "number",
         "name",
@@ -87,12 +89,12 @@ class AccountOfficer extends Model
     {
         return $this->belongsTo(Dealer::class);
     }
-    
+
     /**
      * Get the prices for the type post.
      */
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(LandlordAccount::class);
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tenant;
 
-use App\Repositories\AccountFileRepository;
+use App\Repositories\Tenant\AccountOfficerRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class AccountFileService
+class AccountOfficerService
 {
-    public function __construct(protected AccountFileRepository $repository) {}
+    public function __construct(protected AccountOfficerRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {

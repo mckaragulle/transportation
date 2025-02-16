@@ -2,25 +2,19 @@
 
 use App\Livewire\Tenant\Account\{AccountEdit, AccountManagement, Accounts};
 use App\Livewire\Tenant\AccountAddress\{AccountAddresses, AccountAddressEdit};
-use App\Livewire\AccountOfficer\AccountOfficerEdit;
+use App\Livewire\Tenant\AccountOfficer\AccountOfficerEdit;
 use App\Livewire\Tenant\AccountBank\AccountBankEdit;
 
 use App\Livewire\Hgs\{HgsEdit, Hgses};
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
-use App\Livewire\User\Users;
-use App\Livewire\User\UserEdit;
-use App\Livewire\Fined\FinedEdit;
-use App\Livewire\Fined\Fineds;
-use App\Livewire\Licence\LicenceEdit;
-use App\Livewire\Licence\Licences;
+use App\Livewire\User\{Users, UserEdit};
+use App\Livewire\Fined\{FinedEdit, Fineds};
+use App\Livewire\Licence\{LicenceEdit, Licences};
 use App\Livewire\Signin;
-use App\Livewire\Staff\StaffEdit;
-use App\Livewire\Staff\Staffs;
+use App\Livewire\Staff\{StaffEdit, Staffs};
 
-use App\Livewire\Dealer\Dealers;
-use App\Livewire\Dealer\DealerEdit;
-use App\Livewire\Dealer\DealerManagement;
+use App\Livewire\Dealer\{Dealers, DealerEdit, DealerManagement};
 
 Route::get('/', Signin::class)->name('login');
 Route::middleware(['tenant', 'auth:dealer,web'])

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\AccountFile;
+namespace App\Livewire\Landlord\AccountOfficer;
 
-use App\Services\AccountFileService;
+use App\Services\Landlord\LandlordAccountOfficerService;
 use App\Services\DealerService;
-use App\Services\Tenant\AccountService;
+use App\Services\Landlord\LandlordAccountService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +12,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class AccountFileCreate extends Component
+class AccountOfficerCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
@@ -20,8 +20,15 @@ class AccountFileCreate extends Component
     public null|Collection $accounts = null;
     public null|string $dealer_id = null;
     public null|string $account_id = null;
-    public $filename;
+    public null|string $number = null;
+    public null|string $name = null;
+    public null|string $surname = null;
     public null|string $title = null;
+    public null|string $phone1 = null;
+    public null|string $phone2 = null;
+    public null|string $email = null;
+    public null|string $detail = null;
+    public null|array $files = [];
 
     public bool $status = true;
     public bool $is_show = false;
@@ -32,8 +39,15 @@ class AccountFileCreate extends Component
     protected $rules = [
         'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
-        'filename' => ['nullable', 'max:4096'],
+        'number' => ['required'],
+        'name' => ['required'],
+        'surname' => ['required'],
         'title' => ['required'],
+        'phone1' => ['required'],
+        'phone2' => ['nullable'],
+        'email' => ['nullable', 'email'],
+        'detail' => ['nullable'],
+        'files' => ['nullable', 'array'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
@@ -42,18 +56,22 @@ class AccountFileCreate extends Component
         'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen cari seçiniz yazınız.',
         'account_id.exists' => 'Lütfen geçerli bir cari seçiniz yazınız.',
-        'title.required' => 'Lütfen dosya adını yazınız.',
-        'filename.required' => 'Lütfen 1 adet dosya seçiniz.',
-        'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
+        'number.required' => 'Lütfen yetkili no\'sunu yazınız.',
+        'name.required' => 'Lütfen yetkili adını yazınız.',
+        'surname.required' => 'Lütfen yetkili soyadını yazınız.',
+        'title.required' => 'Lütfen yetkili ünvanını yazınız.',
+        'phone1.required' => 'Lütfen yetkili telefonunu yazınız.',
+        'email.email' => 'Lütfen geçerli bir eposta adresi yazınız.',
+        'files.array' => 'Lütfen en az 1 tane dosya seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
     public function render()
     {
-        return view('livewire.account-file.account-file-create');
+        return view('livewire.landlord.account-officer.account-officer-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, LandlordAccountService $accountService)
     {
         if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
@@ -72,32 +90,43 @@ class AccountFileCreate extends Component
      *
      * @return void
      */
-    public function store(AccountFileService $accountFileService)
+    public function store(LandlordAccountOfficerService $accountOfficerService)
     {
         $this->validate();
         DB::beginTransaction();
         try {
 
-            if ($this->filename != null) {
-                $filename = $this->filename->store(path: 'public/photos');
+            $files = null;
+            if (!is_null($this->files) && is_array($this->files)) {
+                $files = [];
+                foreach ($this->files as $file) {
+                    $files[] = $file->store(path: 'public/photos');
+                }
             }
 
-            $account = $accountFileService->create([
+            $account = $accountOfficerService->create([
                 'dealer_id' => $this->dealer_id,
                 'account_id' => $this->account_id ?? null,
+                'number' => $this->number ?? null,
+                'name' => $this->name ?? null,
+                'surname' => $this->surname ?? null,
                 'title' => $this->title ?? null,
-                'filename' => $filename ?? null,
+                'phone1' => $this->phone1 ?? null,
+                'phone2' => $this->phone2 ?? null,
+                'email' => $this->email ?? null,
+                'detail' => $this->detail ?? null,
+                'files' => $files ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $this->dispatch('pg:eventRefresh-AccountFileTable');
-            $msg = 'Cari dosyası oluşturuldu.';
+            $this->dispatch('pg:eventRefresh-AccountOfficerTable');
+            $msg = 'Cari yetkilisi oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset();
         } catch (\Exception $exception) {
-            $error = "Cari dosyası oluşturulamadı. {$exception->getMessage()}";
+            $error = "Cari yetkilisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

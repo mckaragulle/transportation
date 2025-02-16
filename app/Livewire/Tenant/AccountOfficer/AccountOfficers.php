@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\AccountFile;
+namespace App\Livewire\Tenant\AccountOfficer;
 
-use App\Services\AccountFileService;
+use App\Services\Tenant\AccountOfficerService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -10,14 +10,13 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class AccountFiles extends Component
+class AccountOfficers extends Component
 {
     use LivewireAlert;
 
     public null|string $account_id = null;
     public null|string $data_id;
     public bool $is_show = false;
-
 
     public function mount($id = null, bool $is_show)
     {
@@ -27,10 +26,10 @@ class AccountFiles extends Component
 
     public function render()
     {
-        return view('livewire.account-file.account-files');
+        return view('livewire.tenant.account-officer.account-officers');
     }
 
-    #[On('delete-account-file')]
+    #[On('delete-account-officer')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -48,28 +47,32 @@ class AccountFiles extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccountFileService $accountFileService)
+    public function handleConfirmed(AccountOfficerService $accountOfficerService)
     {
         DB::beginTransaction();
-        $data = $accountFileService->findById($this->data_id);
+        $data = $accountOfficerService->findById($this->data_id);
         try {
-            $accountFileService->delete($this->data_id);
-            $msg = 'Cari dosyası silindi.';
+            $accountOfficerService->delete($this->data_id);
+            $msg = 'Cari yetkilisi silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
 
-            if (!is_null($data->filename) && Storage::exists($data->filename)) {
-                Storage::delete($data->filename);
+            if (!is_null($data->files) && count($data->files) > 0) {
+                foreach ($data->files as $file) {
+                    if (Storage::exists($file)) {
+                        Storage::delete($file);
+                    }
+                }
             }
         } catch (\Exception $exception) {
-            $error = "Cari dosyası silinemedi. {$exception->getMessage()}";
+            $error = "Cari yetkilisi silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
         } finally {
-            $this->dispatch('pg:eventRefresh-AccountFileTable');
+            $this->dispatch('pg:eventRefresh-AccountOfficerTable');
         }
     }
 }

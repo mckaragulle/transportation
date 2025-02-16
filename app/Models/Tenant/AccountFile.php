@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
+use App\Models\Dealer;
 use App\Traits\StrUuidTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class AccountFile extends Model
@@ -22,7 +21,7 @@ class AccountFile extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        "dealer_id", 
+        "dealer_id",
         "account_id",
         "title",
         "filename",
@@ -43,7 +42,7 @@ class AccountFile extends Model
     {
         return $this->belongsTo(Dealer::class);
     }
-    
+
     /**
      * Get the prices for the type post.
      */

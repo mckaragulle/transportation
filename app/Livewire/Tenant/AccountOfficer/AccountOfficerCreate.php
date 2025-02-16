@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Livewire\AccountOfficer;
+namespace App\Livewire\Tenant\AccountOfficer;
 
-use App\Models\AccountOfficer;
-use App\Services\AccountOfficerService;
+use App\Services\Tenant\AccountOfficerService;
 use App\Services\DealerService;
 use App\Services\Tenant\AccountService;
-use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class AccountOfficerEdit extends Component
+class AccountOfficerCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public ?AccountOfficer $accountOfficer = null;
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|string $dealer_id = null;
@@ -33,9 +29,9 @@ class AccountOfficerEdit extends Component
     public null|string $email = null;
     public null|string $detail = null;
     public null|array $files = [];
-    public null|array|ArrayObject $oldfiles = null;
 
     public bool $status = true;
+    public bool $is_show = false;
 
     /**
      * List of add/edit form rules
@@ -70,88 +66,67 @@ class AccountOfficerEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, AccountOfficerService $accountOfficerService)
-    {
-        if (!is_null($id)) {
-            $this->accountOfficer = $accountOfficerService->findById($id);
-            $this->dealers = $dealerService->all(['id', 'name']);
-            $this->accounts = $accountService->all(['id', 'name']);
-            if (auth()->getDefaultDriver() == 'dealer') {
-                $this->dealer_id = auth()->user()->id;
-            } else if (auth()->getDefaultDriver() == 'users') {
-                $this->dealer_id = auth()->user()->dealer()->id;
-            }
-
-            $this->account_id = $this->accountOfficer->account_id;
-            $this->number = $this->accountOfficer->number;
-            $this->name = $this->accountOfficer->name;
-            $this->surname = $this->accountOfficer->surname;
-            $this->title = $this->accountOfficer->title;
-            $this->phone1 = $this->accountOfficer->phone1;
-            $this->phone2 = $this->accountOfficer->phone2;
-            $this->email = $this->accountOfficer->email;
-            $this->detail = $this->accountOfficer->detail;
-            $this->status = $this->accountOfficer->status;
-
-            if (isset($this->accountOfficer?->files) && is_array($this->accountOfficer?->files)) {
-                foreach ($this->accountOfficer?->files as $file) {
-                    if (Storage::exists($file)) {
-                        $this->oldfiles[] = $file;
-                    }
-                }
-            }
-        } else {
-            return $this->redirect(route('account_officers.list'));
-        }
-    }
-
     public function render()
     {
-        return view('livewire.account-officer.account-officer-edit');
+        return view('livewire.tenant.account-officer.account-officer-create');
+    }
+
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService)
+    {
+        if (auth()->getDefaultDriver() == 'dealer') {
+            $this->dealer_id = auth()->user()->id;
+        } else if (auth()->getDefaultDriver() == 'users') {
+            $this->dealer_id = auth()->user()->dealer()->id;
+        }
+        $this->account_id = $id > 0 ? $id : null;
+        $this->is_show = $is_show;
+
+        $this->dealers = $dealerService->all(['id', 'name']);
+        $this->accounts = $accountService->all(['id', 'name']);
     }
 
     /**
-     * update the exam data
+     * store the user inputted student data in the students table
      *
      * @return void
      */
-    public function update()
+    public function store(AccountOfficerService $accountOfficerService)
     {
         $this->validate();
         DB::beginTransaction();
         try {
 
-            $this->accountOfficer->dealer_id = $this->dealer_id;
-            $this->accountOfficer->account_id = $this->account_id;
-            $this->accountOfficer->number = $this->number;
-            $this->accountOfficer->name = $this->name;
-            $this->accountOfficer->surname = $this->surname;
-            $this->accountOfficer->title = $this->title;
-            $this->accountOfficer->phone1 = $this->phone1;
-            $this->accountOfficer->phone2 = $this->phone2;
-            $this->accountOfficer->email = $this->email ?? null;
-            $this->accountOfficer->detail = $this->detail ?? null;
-
             $files = null;
-
             if (!is_null($this->files) && is_array($this->files)) {
                 $files = [];
                 foreach ($this->files as $file) {
                     $files[] = $file->store(path: 'public/photos');
                 }
-                $this->accountOfficer->files = $files;
             }
 
+            $account = $accountOfficerService->create([
+                'dealer_id' => $this->dealer_id,
+                'account_id' => $this->account_id ?? null,
+                'number' => $this->number ?? null,
+                'name' => $this->name ?? null,
+                'surname' => $this->surname ?? null,
+                'title' => $this->title ?? null,
+                'phone1' => $this->phone1 ?? null,
+                'phone2' => $this->phone2 ?? null,
+                'email' => $this->email ?? null,
+                'detail' => $this->detail ?? null,
+                'files' => $files ?? null,
+                'status' => $this->status == false ? 0 : 1,
+            ]);
 
-            $this->accountOfficer->status = $this->status == false ? 0 : 1;
-            $this->accountOfficer->save();
-
-            $msg = 'Cari yetkilisi güncellendi.';
+            $this->dispatch('pg:eventRefresh-AccountOfficerTable');
+            $msg = 'Cari yetkilisi oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
+            $this->reset();
         } catch (\Exception $exception) {
-            $error = "Cari yetkilisi güncellenemedi. {$exception->getMessage()}";
+            $error = "Cari yetkilisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

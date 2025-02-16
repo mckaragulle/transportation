@@ -1,16 +1,16 @@
 <div>
-    @can('create account_files')
-    <livewire:account-file.account-file-create id="{{$account_id}}" is_show="{{$is_show}}"/>
+    @can('create account_officers')
+    <livewire:landlord.account-officer.account-officer-create id="{{$account_id}}" is_show="{{$is_show}}"/>
     <hr>
     @endcan
-    @can('read account_files')
+    @can('read account_officers')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">CARİ DOSYALARI</h4>
+            <h4 class="card-title mb-0">CARİ YETKİLİLERİ</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:account-file.account-file-table />
+                <livewire:landlord.account-officer.account-officer-table />
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible alert-alt solid fade show">

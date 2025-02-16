@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Livewire\AccountOfficer;
+namespace App\Livewire\Landlord\AccountOfficer;
 
-use App\Models\Account;
-use App\Models\AccountOfficer;
+use App\Models\Landlord\LandlordAccount;
+use App\Models\Landlord\LandlordAccountOfficer;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
+use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class AccountOfficerTable extends PowerGridComponent
@@ -51,7 +50,7 @@ final class AccountOfficerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountOfficer::query()
+        $account = LandlordAccountOfficer::query()
             ->whereDealerId($this->dealer_id);
         return $account;
     }
@@ -170,13 +169,13 @@ final class AccountOfficerTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('account_id')
-                ->dataSource(Account::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordAccount::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];
     }
 
-    public function actions(AccountOfficer $row): array
+    public function actions(LandlordAccountOfficer $row): array
     {
         return [
             Button::add('view')
@@ -205,14 +204,14 @@ final class AccountOfficerTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountOfficer::query()->find($id)->update([
+        LandlordAccountOfficer::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountOfficer::query()->find($id)->update([
+        LandlordAccountOfficer::query()->find($id)->update([
             $field => e($value),
         ]);
     }

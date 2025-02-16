@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Tenant;
 
-use App\Models\AccountFile;
+use App\Models\Tenant\AccountFile;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
 /**
- * @var AccountOfficer $model
+ * @var AccountFile $model
  */
 class AccountFileRepository extends BaseRepository implements RepositoryInterface
 {
