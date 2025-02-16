@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\City;
+namespace App\Livewire\Landlord\City;
 
-use App\Models\City;
+use App\Models\Landlord\LandlordCity;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -45,7 +45,7 @@ final class CityTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return City::query();
+        return LandlordCity::query();
     }
 
     public function relationSearch(): array
@@ -102,7 +102,7 @@ final class CityTable extends PowerGridComponent
         ];
     }
 
-    public function actions(City $row): array
+    public function actions(LandlordCity $row): array
     {
         return [
             Button::add('view')
@@ -131,7 +131,7 @@ final class CityTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        City::query()->find($id)->update([
+        LandlordCity::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
         $this->skipRender();
@@ -157,7 +157,7 @@ final class CityTable extends PowerGridComponent
     protected function messages()
     {
         return [
-            'name.required'     => 'Lütfen il adını yazınız.',
+            'name.required'   => 'Lütfen il adını yazınız.',
             'name.unique'     => ':value , Bu il adı zaten kullanılmaktadır.',
         ];
     }
@@ -170,7 +170,7 @@ final class CityTable extends PowerGridComponent
             }
         })->validate();
 
-        City::query()->find($id)->update([
+        LandlordCity::query()->find($id)->update([
             $field => e($value),
         ]);
     }

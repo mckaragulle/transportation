@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\LandLord\AdminSignin;
-use App\Livewire\City\{Cities, CityEdit};
+use App\Livewire\LandLord\City\{Cities, CityEdit};
 use App\Livewire\Dashboard;
 
 use App\Livewire\StaffType\{StaffTypeEdit, StaffTypes};

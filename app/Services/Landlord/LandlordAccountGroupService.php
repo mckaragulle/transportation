@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Landlord;
 
-use App\Repositories\AccountTypeCategoryRepository;
+use App\Repositories\Landlord\LandlordAccountGroupRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class AccountTypeCategoryService
+class LandlordAccountGroupService
 {
-    public function __construct(protected AccountTypeCategoryRepository $repository) {}
+    public function __construct(protected LandlordAccountGroupRepository $repository) {}
+
+    public function where(array $column): Model|Builder
+    {
+        return $this->repository->where($column);
+    }
 
     /**
      * @return array|Collection

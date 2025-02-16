@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Livewire\City;
+namespace App\Livewire\Landlord\City;
 
-use App\Models\City;
-use App\Services\CityService;
+use App\Models\Landlord\LandlordCity;
+use App\Services\Landlord\LandlordCityService;
 use App\Services\RoleService;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -17,14 +18,14 @@ class CityEdit extends Component
 {
     use LivewireAlert;
 
-    public null|City $city;
+    public null|Model $city;
 
     public null|string $name;
     public null|int $plate;
 
     public bool $status = true;
 
-    protected CityService $cityService;
+    protected LandlordCityService $cityService;
 
     /**
      * List of add/edit form rules
@@ -49,7 +50,7 @@ class CityEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, City $city)
+    public function mount($id = null, LandlordCity $city)
     {
         if(!is_null($id)) {
             $this->city = $city->whereId($id)->first();
@@ -63,7 +64,7 @@ class CityEdit extends Component
 
     public function render()
     {
-        return view('livewire.city.city-edit');
+        return view('livewire.landlord.city.city-edit');
     }
 
     /**

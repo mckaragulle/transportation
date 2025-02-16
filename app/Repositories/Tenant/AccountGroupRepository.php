@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Tenant;
 
-use App\Models\AccountGroup;
-use App\Models\Tenant\AccountOfficer;
+use App\Models\Tenant\AccountGroup;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
 /**
- * @var AccountOfficer $model
+ * @var AccountGroup $model
  */
 class AccountGroupRepository extends BaseRepository implements RepositoryInterface
 {

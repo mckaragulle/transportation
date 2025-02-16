@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\City;
+namespace App\Livewire\Landlord\City;
 
-use App\Services\CityService;
+use App\Services\Landlord\LandlordCityService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -13,13 +13,13 @@ class Cities extends Component
 {
     use LivewireAlert;
 
-    protected CityService $adminService;
+    protected LandlordCityService $adminService;
 
     public null|string $data_id;
 
     public function render()
     {
-        return view('livewire.city.cities');
+        return view('livewire.landlord.city.cities');
     }
 
     #[On('delete-city')]
@@ -40,10 +40,10 @@ class Cities extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(CityService $adminService)
+    public function handleConfirmed(LandlordCityService $service)
     {
         try {
-            $adminService->delete($this->data_id);
+            $service->delete($this->data_id);
             $msg = 'Şehir silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);

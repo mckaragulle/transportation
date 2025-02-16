@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\City;
+namespace App\Livewire\Landlord\City;
+;
 
-use App\Services\CityService;
+use App\Services\Landlord\LandlordCityService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +22,7 @@ class CityCreate extends Component
 
     public bool $status = true;
 
-    protected CityService $cityService;
+    protected LandlordCityService $cityService;
 
     /**
      * List of add/edit form rules
@@ -42,7 +43,7 @@ class CityCreate extends Component
 
     public function render()
     {
-        return view('livewire.city.city-create');
+        return view('livewire.landlord.city.city-create');
     }
 
     /**
@@ -50,7 +51,7 @@ class CityCreate extends Component
      *
      * @return void
      */
-    public function store(CityService $cityService)
+    public function store(LandlordCityService $cityService)
     {
         $this->validate();
         $this->cityService = $cityService;
