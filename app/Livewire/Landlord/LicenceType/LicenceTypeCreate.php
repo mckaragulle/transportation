@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\LicenceType;
 
-use App\Models\Tenant\LicenceType;
-use App\Services\LicenceTypeCategoryService;
-use App\Services\LicenceTypeService;
+use App\Models\Landlord\LandlordLicenceType;
+use App\Services\Landlord\LandlordLicenceTypeCategoryService;
+use App\Services\Landlord\LandlordLicenceTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,10 +46,10 @@ class LicenceTypeCreate extends Component
         return view('livewire.landlord.licence-type.licence-type-create');
     }
 
-    public function mount(LicenceTypeCategoryService $licenceTypeCategoryService)
+    public function mount(LandlordLicenceTypeCategoryService $licenceTypeCategoryService)
     {
         $this->licenceTypeCategories = $licenceTypeCategoryService->all(['id', 'name']);
-        $this->licenceTypes = LicenceType::query()
+        $this->licenceTypes = LandlordLicenceType::query()
             ->where(['licence_type_category_id' => $this->licence_type_category_id])
             ->with('licence_type')
             ->orderBy('id')
@@ -61,7 +61,7 @@ class LicenceTypeCreate extends Component
      *
      * @return void
      */
-    public function store(LicenceTypeService $licenceTypeService)
+    public function store(LandlordLicenceTypeService $licenceTypeService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -74,13 +74,13 @@ class LicenceTypeCreate extends Component
             ]);
 
             $this->dispatch('pg:eventRefresh-LicenceTypeTable');
-            $msg = 'Sürücü Belgesi oluşturuldu.';
+            $msg = 'Sürücü belgesi seçeneği oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset(['name']);
         } catch (\Exception $exception) {
-            $error = "Sürücü Belgesi oluşturulamadı. {$exception->getMessage()}";
+            $error = "Sürücü belgesi seçeneği oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
@@ -90,6 +90,6 @@ class LicenceTypeCreate extends Component
 
     public function updatedLicenceTypeCategoryId()
     {
-        $this->licenceTypes = LicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
+        $this->licenceTypes = LandlordLicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
     }
 }

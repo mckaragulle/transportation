@@ -3,8 +3,8 @@
 namespace App\Livewire\AccountFile;
 
 use App\Services\AccountFileService;
-use App\Services\AccountService;
 use App\Services\DealerService;
+use App\Services\Tenant\AccountService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

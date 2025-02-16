@@ -2,11 +2,10 @@
 
 namespace App\Livewire\AccountAddress;
 
-use App\Services\AccountService;
+use App\Services\Tenant\AccountService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
 class AccountAddresses extends Component

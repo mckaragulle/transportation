@@ -2,16 +2,16 @@
 
 namespace App\Observers\Landlord;
 
-use App\Models\Landlord\DealerType;
+use App\Models\Landlord\LandlordDealerType;
 use App\Jobs\Tenant\TenantSyncDataJob;
 use Spatie\Multitenancy\Models\Tenant;
 
-class DealerTypeObserver
+class LandlordDealerTypeObserver
 {
     /**
      * Handle the DealerType "created" event.
      */
-    public function created(DealerType $model): void
+    public function created(LandlordDealerType $model): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
@@ -22,7 +22,7 @@ class DealerTypeObserver
     /**
      * Handle the DealerType "updated" event.
      */
-    public function updated(DealerType $model): void
+    public function updated(LandlordDealerType $model): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
@@ -33,7 +33,7 @@ class DealerTypeObserver
     /**
      * Handle the DealerType "deleted" event.
      */
-    public function deleted(DealerType $model): void
+    public function deleted(LandlordDealerType $model): void
     {
         //
     }
@@ -41,7 +41,7 @@ class DealerTypeObserver
     /**
      * Handle the DealerType "restored" event.
      */
-    public function restored(DealerType $model): void
+    public function restored(LandlordDealerType $model): void
     {
         //
     }
@@ -49,7 +49,7 @@ class DealerTypeObserver
     /**
      * Handle the DealerType "force deleted" event.
      */
-    public function forceDeleted(DealerType $model): void
+    public function forceDeleted(LandlordDealerType $model): void
     {
         //
     }

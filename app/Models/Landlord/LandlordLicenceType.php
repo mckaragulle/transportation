@@ -27,6 +27,7 @@ class LandlordLicenceType extends Model implements IsTenant
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'licence_types';
     public $incrementing = false;
 
     /**
@@ -57,7 +58,7 @@ class LandlordLicenceType extends Model implements IsTenant
      */
     public function licence_type_category(): BelongsTo
     {
-        return $this->belongsTo(LicenceTypeCategory::class, 'licence_type_category_id');
+        return $this->belongsTo(LandlordLicenceTypeCategory::class, 'licence_type_category_id');
     }
 
     /**
@@ -73,6 +74,6 @@ class LandlordLicenceType extends Model implements IsTenant
      */
     public function licence_types(): HasMany
     {
-        return $this->hasMany(LandlordLicenceType::class);
+        return $this->hasMany(LandlordLicenceType::class, 'licence_type_id');
     }
 }

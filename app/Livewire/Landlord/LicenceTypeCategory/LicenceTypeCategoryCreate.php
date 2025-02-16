@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\LicenceTypeCategory;
 
-use App\Services\LicenceTypeCategoryService;
+use App\Services\Landlord\LandlordLicenceTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -16,7 +16,7 @@ class LicenceTypeCategoryCreate extends Component
 
     public bool $status = true;
 
-    protected LicenceTypeCategoryService $licenceTypeCategoryService;
+    protected LandlordLicenceTypeCategoryService $licenceTypeCategoryService;
 
     /**
      * List of add/edit form rules
@@ -41,7 +41,7 @@ class LicenceTypeCategoryCreate extends Component
      *
      * @return void
      */
-    public function store(LicenceTypeCategoryService $licenceTypeCategoryService)
+    public function store(LandlordLicenceTypeCategoryService $licenceTypeCategoryService)
     {
         $this->validate();
         $this->licenceTypeCategoryService = $licenceTypeCategoryService;

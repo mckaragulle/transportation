@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Landlord\LicenceType;
 
+use App\Models\Landlord\LandlordLicenceType;
 use App\Models\Tenant\LicenceType;
 use App\Models\Tenant\LicenceTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,7 +48,7 @@ final class LicenceTypeTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return LicenceType::query();
+        return LandlordLicenceType::query();
     }
 
     public function relationSearch(): array
@@ -106,7 +107,7 @@ final class LicenceTypeTable extends PowerGridComponent
     public function filters(): array
     {
         $id = $this->filters['select']['licence_type_category_id'] ?? null;
-        $query = LicenceType::query();
+        $query = LandlordLicenceType::query();
         if ($id > 0) {
             $query->where('licence_type_category_id', $id)->whereNull('licence_type_id')->orderBy('licence_type_category_id', 'asc');
         }
@@ -124,7 +125,7 @@ final class LicenceTypeTable extends PowerGridComponent
         ];
     }
 
-    public function actions(LicenceType $row): array
+    public function actions(LandlordLicenceType $row): array
     {
         return [
             Button::add('view')
@@ -135,7 +136,7 @@ final class LicenceTypeTable extends PowerGridComponent
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-licenceTypeCategory', ['id' => $row->id]),
+                ->dispatch('delete-licenceType', ['id' => $row->id]),
         ];
     }
 
@@ -153,14 +154,14 @@ final class LicenceTypeTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        LicenceType::query()->find($id)->update([
+        LandlordLicenceType::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        LicenceType::query()->find($id)->update([
+        LandlordLicenceType::query()->find($id)->update([
             $field => e($value),
         ]);
     }

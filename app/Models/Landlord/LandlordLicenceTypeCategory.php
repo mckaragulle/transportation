@@ -25,6 +25,7 @@ class LandlordLicenceTypeCategory extends Model
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'licence_type_categories';
     public $incrementing = false;
 
     protected $fillable = ['name', 'slug', 'status'];

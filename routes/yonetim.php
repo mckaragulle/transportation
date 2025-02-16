@@ -1,69 +1,42 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Account\AccountEdit;
-
-use App\Livewire\Account\Accounts;
 use App\Livewire\LandLord\AdminSignin;
-use App\Livewire\City\Cities;
-use App\Livewire\City\CityEdit;
+use App\Livewire\City\{Cities, CityEdit};
 use App\Livewire\Dashboard;
 
-use App\Livewire\StaffType\StaffTypeEdit;
-use App\Livewire\StaffType\StaffTypes;
-use App\Livewire\StaffTypeCategory\StaffTypeCategories;
-use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
-use App\Livewire\Landlord\AccountType\AccountTypeEdit;
-use App\Livewire\Landlord\AccountType\AccountTypes;
-use App\Livewire\Landlord\AccountTypeCategory\AccountTypeCategories;
-use App\Livewire\Landlord\AccountTypeCategory\AccountTypeCategoryEdit;
+use App\Livewire\StaffType\{StaffTypeEdit, StaffTypes};
+use App\Livewire\StaffTypeCategory\{StaffTypeCategories, StaffTypeCategoryEdit};
+use App\Livewire\Landlord\AccountType\{AccountTypeEdit, AccountTypes};
+use App\Livewire\Landlord\AccountTypeCategory\{AccountTypeCategories, AccountTypeCategoryEdit};
 
-use App\Livewire\Admin\Admins;
-use App\Livewire\Admin\AdminEdit;
-use App\Livewire\Role\Roles;
-use App\Livewire\Role\RoleEdit;
-use App\Livewire\Permission\Permissions;
-use App\Livewire\Permission\PermissionEdit;
+use App\Livewire\Admin\{Admins, AdminEdit};
+use App\Livewire\Role\{Roles, RoleEdit};
+use App\Livewire\Permission\{Permissions, PermissionEdit};
 
-use App\Livewire\Dealer\Dealers;
-use App\Livewire\Dealer\DealerEdit;
+use App\Livewire\Dealer\{Dealers, DealerEdit};
 
-use App\Livewire\VehicleBrand\VehicleBrands;
-use App\Livewire\VehicleBrand\VehicleBrandEdit;
+use App\Livewire\VehicleBrand\{VehicleBrands, VehicleBrandEdit};
 
-use App\Livewire\VehicleTicket\VehicleTickets;
-use App\Livewire\VehicleTicket\VehicleTicketEdit;
+use App\Livewire\VehicleTicket\{VehicleTickets, VehicleTicketEdit};
 
-use App\Livewire\VehicleModel\VehicleModels;
-use App\Livewire\VehicleModel\VehicleModelEdit;
+use App\Livewire\VehicleModel\{VehicleModels, VehicleModelEdit};
 
-use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategories;
-use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategoryEdit;
+use App\Livewire\Landlord\VehiclePropertyCategory\{VehiclePropertyCategories, VehiclePropertyCategoryEdit};
 
-use App\Livewire\VehicleProperty\VehicleProperties;
-use App\Livewire\VehicleProperty\VehiclePropertyEdit;
-use App\Livewire\Bank\BankEdit;
-use App\Livewire\Bank\Banks;
+use App\Livewire\Landlord\VehicleProperty\{VehicleProperties, VehiclePropertyEdit};
+use App\Livewire\Bank\{BankEdit, Banks};
 use App\Livewire\Dealer\DealerManagement;
-use App\Livewire\Landlord\DealerType\DealerTypeEdit;
-use App\Livewire\Landlord\DealerType\DealerTypes;
-use App\Livewire\Landlord\DealerTypeCategory\DealerTypeCategories;
-use App\Livewire\Landlord\DealerTypeCategory\DealerTypeCategoryEdit;
-use App\Livewire\District\DistrictEdit;
-use App\Livewire\District\Districts;
-use App\Livewire\HgsTypeCategory\HgsTypeCategories;
-use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
+use App\Livewire\Landlord\DealerType\{DealerTypeEdit, DealerTypes};
+use App\Livewire\Landlord\DealerTypeCategory\{DealerTypeCategories, DealerTypeCategoryEdit};
+use App\Livewire\District\{DistrictEdit, Districts};
+use App\Livewire\HgsTypeCategory\{HgsTypeCategories, HgsTypeCategoryEdit};
 
-use App\Livewire\HgsType\HgsTypes;
-use App\Livewire\HgsType\HgsTypeEdit;
-use App\Livewire\Landlord\LicenceType\LicenceTypeEdit;
-use App\Livewire\Landlord\LicenceType\LicenceTypes;
-use App\Livewire\Landlord\LicenceTypeCategory\LicenceTypeCategories;
-use App\Livewire\Landlord\LicenceTypeCategory\LicenceTypeCategoryEdit;
-use App\Livewire\Locality\Localities;
-use App\Livewire\Locality\LocalityEdit;
-use App\Livewire\Neighborhood\NeighborhoodEdit;
-use App\Livewire\Neighborhood\Neighborhoods;
+use App\Livewire\HgsType\{HgsTypes, HgsTypeEdit};
+use App\Livewire\Landlord\LicenceType\{LicenceTypeEdit, LicenceTypes};
+use App\Livewire\Landlord\LicenceTypeCategory\{LicenceTypeCategories, LicenceTypeCategoryEdit};
+use App\Livewire\Locality\{Localities, LocalityEdit};
+use App\Livewire\Neighborhood\{NeighborhoodEdit, Neighborhoods};
 
 Route::get('/', AdminSignin::class)->name('admin.login');
 
@@ -124,8 +97,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/cari-tipleri', AccountTypes::class)->name('account_types.list')->middleware('can:read account_types');
     Route::get('/cari-tipi/{id}/duzenle', AccountTypeEdit::class)->name('account_types.edit')->middleware('can:update account_types');
 
-    Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
-    Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
+    Route::get('/cariler', \App\Livewire\Landlord\Account\Accounts::class)->name('accounts.list')->middleware('can:read accounts');
+    Route::get('/cari/{id}/duzenle', \App\Livewire\Landlord\Account\AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
 
     Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
     Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');

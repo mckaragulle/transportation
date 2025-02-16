@@ -1,6 +1,6 @@
 <div>
     @can('create licence_type_categories')
-    <livewire:tenant.licence-type-category.licence-type-category-create />
+    <livewire:landlord.licence-type-category.licence-type-category-create />
     <hr>
     @endcan
     @can('read licence_type_categories')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:tenant.licence-type-category.licence-type-category-table />
+                <livewire:landlord.licence-type-category.licence-type-category-table />
             </div>
         </div>
     </div>

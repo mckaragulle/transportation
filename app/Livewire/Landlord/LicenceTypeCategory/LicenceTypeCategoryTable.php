@@ -101,7 +101,7 @@ final class LicenceTypeCategoryTable extends PowerGridComponent
         ];
     }
 
-    public function actions(LicenceTypeCategory $row): array
+    public function actions(LandlordLicenceTypeCategory $row): array
     {
         return [
             Button::add('view')
@@ -130,14 +130,14 @@ final class LicenceTypeCategoryTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        LicenceTypeCategory::query()->find($id)->update([
+        LandlordLicenceTypeCategory::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        LicenceTypeCategory::query()->find($id)->update([
+        LandlordLicenceTypeCategory::query()->find($id)->update([
             $field => e($value),
         ]);
     }

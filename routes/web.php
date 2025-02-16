@@ -1,17 +1,11 @@
 <?php
 
-use App\Livewire\Account\AccountEdit;
-use App\Livewire\Account\AccountManagement;
-use App\Livewire\Account\Accounts;
-use App\Livewire\AccountAddress\AccountAddresses;
-use App\Livewire\AccountAddress\AccountAddressEdit;
-use App\Livewire\AccountBank\AccountBankEdit;
+use App\Livewire\Tenant\Account\{AccountEdit, AccountManagement, Accounts};
+use App\Livewire\AccountAddress\{AccountAddresses, AccountAddressEdit};
 use App\Livewire\AccountOfficer\AccountOfficerEdit;
-use App\Livewire\LandLord\AdminSignin;
-use App\Livewire\City\Cities;
-use App\Livewire\City\CityEdit;
-use App\Livewire\Hgs\HgsEdit;
-use App\Livewire\Hgs\Hgses;
+use App\Livewire\AccountBank\AccountBankEdit;
+
+use App\Livewire\Hgs\{HgsEdit, Hgses};
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
 use App\Livewire\User\Users;
@@ -23,61 +17,10 @@ use App\Livewire\Licence\Licences;
 use App\Livewire\Signin;
 use App\Livewire\Staff\StaffEdit;
 use App\Livewire\Staff\Staffs;
-use App\Livewire\StaffType\StaffTypeEdit;
-use App\Livewire\StaffType\StaffTypes;
-use App\Livewire\StaffTypeCategory\StaffTypeCategories;
-use App\Livewire\StaffTypeCategory\StaffTypeCategoryEdit;
-use App\Livewire\Tenant\AccountType\AccountTypeEdit;
-use App\Livewire\Tenant\AccountType\AccountTypes;
-use App\Livewire\Tenant\AccountTypeCategory\AccountTypeCategories;
-use App\Livewire\Tenant\AccountTypeCategory\AccountTypeCategoryEdit;
-
-use App\Livewire\Admin\Admins;
-use App\Livewire\Admin\AdminEdit;
-use App\Livewire\Role\Roles;
-use App\Livewire\Role\RoleEdit;
-use App\Livewire\Permission\Permissions;
-use App\Livewire\Permission\PermissionEdit;
 
 use App\Livewire\Dealer\Dealers;
 use App\Livewire\Dealer\DealerEdit;
-
-use App\Livewire\VehicleBrand\VehicleBrands;
-use App\Livewire\VehicleBrand\VehicleBrandEdit;
-
-use App\Livewire\VehicleTicket\VehicleTickets;
-use App\Livewire\VehicleTicket\VehicleTicketEdit;
-
-use App\Livewire\VehicleModel\VehicleModels;
-use App\Livewire\VehicleModel\VehicleModelEdit;
-
-use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategories;
-use App\Livewire\VehiclePropertyCategory\VehiclePropertyCategoryEdit;
-
-use App\Livewire\VehicleProperty\VehicleProperties;
-use App\Livewire\VehicleProperty\VehiclePropertyEdit;
-use App\Livewire\Bank\BankEdit;
-use App\Livewire\Bank\Banks;
 use App\Livewire\Dealer\DealerManagement;
-use App\Livewire\Tenant\DealerType\DealerTypeEdit;
-use App\Livewire\Tenant\DealerType\DealerTypes;
-use App\Livewire\Tenant\DealerTypeCategory\DealerTypeCategories;
-use App\Livewire\Tenant\DealerTypeCategory\DealerTypeCategoryEdit;
-use App\Livewire\District\DistrictEdit;
-use App\Livewire\District\Districts;
-use App\Livewire\HgsTypeCategory\HgsTypeCategories;
-use App\Livewire\HgsTypeCategory\HgsTypeCategoryEdit;
-
-use App\Livewire\HgsType\HgsTypes;
-use App\Livewire\HgsType\HgsTypeEdit;
-use App\Livewire\Tenant\LicenceType\LicenceTypeEdit;
-use App\Livewire\Tenant\LicenceType\LicenceTypes;
-use App\Livewire\Tenant\LicenceTypeCategory\LicenceTypeCategories;
-use App\Livewire\Tenant\LicenceTypeCategory\LicenceTypeCategoryEdit;
-use App\Livewire\Locality\Localities;
-use App\Livewire\Locality\LocalityEdit;
-use App\Livewire\Neighborhood\NeighborhoodEdit;
-use App\Livewire\Neighborhood\Neighborhoods;
 
 Route::get('/', Signin::class)->name('login');
 Route::middleware(['tenant', 'auth:dealer,web'])

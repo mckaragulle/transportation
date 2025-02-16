@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Landlord\LicenceTypeCategory;
 
-use App\Models\Tenant\LicenceTypeCategory;
-use App\Services\LicenceTypeCategoryService;
+
+use App\Models\Landlord\LandlordLicenceTypeCategory;
+use App\Services\Landlord\LandlordLicenceTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,7 +14,7 @@ class LicenceTypeCategoryEdit extends Component
 {
     use LivewireAlert;
 
-    public null|LicenceTypeCategory $licenceTypeCategory;
+    public null|LandlordLicenceTypeCategory $licenceTypeCategory;
 
     public null|string $name;
 
@@ -41,7 +42,7 @@ class LicenceTypeCategoryEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, LicenceTypeCategoryService $licenceTypeCategoryService)
+    public function mount($id = null, LandlordLicenceTypeCategoryService $licenceTypeCategoryService)
     {
         if (!is_null($id)) {
 

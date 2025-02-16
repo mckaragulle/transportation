@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Landlord\LicenceType;
 
+use App\Services\Landlord\LandlordLicenceTypeService;
 use App\Services\LicenceTypeService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -38,7 +39,7 @@ class LicenceTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(LicenceTypeService $licenceTypeService)
+    public function handleConfirmed(LandlordLicenceTypeService $licenceTypeService)
     {
         try {
             $licenceTypeService->delete($this->data_id);

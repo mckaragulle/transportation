@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Landlord\LicenceType;
 
+use App\Models\Landlord\LandlordLicenceType;
 use App\Models\Tenant\LicenceType;
+use App\Services\Landlord\LandlordLicenceTypeCategoryService;
+use App\Services\Landlord\LandlordLicenceTypeService;
 use App\Services\LicenceTypeCategoryService;
 use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;
@@ -25,8 +28,8 @@ class LicenceTypeEdit extends Component
     public null|string $name;
     public bool $status = true;
 
-    protected LicenceTypeCategoryService $licenceTypeCategoryService;
-    protected LicenceTypeService $licenceTypeService;
+    protected LandlordLicenceTypeCategoryService $licenceTypeCategoryService;
+    protected LandlordLicenceTypeService $licenceTypeService;
     /**
      * List of add/edit form rules
      */
@@ -59,7 +62,7 @@ class LicenceTypeEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, LicenceTypeCategoryService $licenceTypeCategoryService, LicenceTypeService $licenceTypeService)
+    public function mount($id = null, LandlordLicenceTypeCategoryService $licenceTypeCategoryService, LandlordLicenceTypeService $licenceTypeService)
     {
         if (!is_null($id)) {
             $this->licenceType = $licenceTypeService->findById($id);
@@ -111,6 +114,6 @@ class LicenceTypeEdit extends Component
 
     public function updatedLicenceTypeCategoryId()
     {
-        $this->licenceTypes = LicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
+        $this->licenceTypes = LandlordLicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
     }
 }

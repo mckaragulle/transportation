@@ -4,8 +4,8 @@ namespace App\Livewire\AccountOfficer;
 
 use App\Models\AccountOfficer;
 use App\Services\AccountOfficerService;
-use App\Services\AccountService;
 use App\Services\DealerService;
+use App\Services\Tenant\AccountService;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

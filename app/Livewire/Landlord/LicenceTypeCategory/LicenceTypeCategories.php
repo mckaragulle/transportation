@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\LicenceTypeCategory;
 
-use App\Services\LicenceTypeCategoryService;
+use App\Services\Landlord\LandlordLicenceTypeCategoryService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,7 +12,7 @@ class LicenceTypeCategories extends Component
 {
     use LivewireAlert;
 
-    protected LicenceTypeCategoryService $licenceTypeCategoryService;
+    protected LandlordLicenceTypeCategoryService $licenceTypeCategoryService;
 
     public null|string $data_id;
 
@@ -40,15 +40,15 @@ class LicenceTypeCategories extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(LicenceTypeCategoryService $licenceTypeCategoryService)
+    public function handleConfirmed(LandlordLicenceTypeCategoryService $licenceTypeCategoryService)
     {
         try {
             $licenceTypeCategoryService->delete($this->data_id);
-            $msg = 'Sürücü belgesi silindi.';
+            $msg = 'Sürücü belgesi seçeneği silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Sürücü belgesi silinemedi. {$exception->getMessage()}";
+            $error = "Sürücü belgesi seçeneği silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

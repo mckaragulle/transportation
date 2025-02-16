@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\VehiclePropertyCategory;
+use App\Models\Tenant\VehiclePropertyCategory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
