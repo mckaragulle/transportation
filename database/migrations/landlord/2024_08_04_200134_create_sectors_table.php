@@ -12,11 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('sectors', function (Blueprint $table) {
+            $table->uuid('id')->unique()->primary();
+            
+        });
         Schema::table('sectors', function (Blueprint $table) {
             $table->foreignUuid('sector_id')
             ->nullable()
             ->constrained()
             ->cascadeOnDelete();
+            $table->string('name');
+            $table->string('slug')->nullable();
+            $table->boolean('status')->default(true);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        Schema::dropIfExists('sectors');
     }
 };

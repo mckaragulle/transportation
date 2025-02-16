@@ -1,15 +1,21 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Landlord;
 
-use App\Repositories\BankRepository;
+use App\Repositories\Landlord\LandlordBankRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class BankService
+class LandlordBankService
 {
-    public function __construct(protected BankRepository $repository) {}
+    public function __construct(protected LandlordBankRepository $repository) {}
+
+    public function where(array $column): Model|Builder
+    {
+        return $this->repository->where($column);
+    }
 
     /**
      * @return array|Collection
@@ -25,7 +31,7 @@ class BankService
     }
 
     /**
-     * Yeni Alan ekler.
+     * Yeni bayi ekler.
      */
     public function create(array $data): Model
     {
@@ -38,7 +44,7 @@ class BankService
     }
 
     /**
-     * Alan günceller.
+     * Bayiyi günceller.
      */
     public function update(array $data, int $id): Model
     {
@@ -46,7 +52,7 @@ class BankService
     }
 
     /**
-     * Alan siler.
+     * Bayiyi siler.
      */
     public function delete(int|string $id): bool
     {

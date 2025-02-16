@@ -2,8 +2,8 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\Account;
 use App\Models\Dealer;
+use App\Models\Tenant\Account;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
@@ -21,6 +21,7 @@ class AccountOfficer extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

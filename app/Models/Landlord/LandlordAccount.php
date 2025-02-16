@@ -2,6 +2,7 @@
 
 namespace App\Models\Landlord;
 
+use App\Models\Dealer;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,13 +23,21 @@ class LandlordAccount extends Model
     protected $table = 'accounts';
     public $incrementing = false;
 
-    protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
+    protected $fillable = ["dealer_id","number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logAll();
+    }
+
+    /**
+     * Get the prices for the type post.
+     */
+    public function dealer(): BelongsTo
+    {
+        return $this->belongsTo(Dealer::class);
     }
 
     /**

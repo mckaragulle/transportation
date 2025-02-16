@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Bank;
+namespace App\Livewire\Landlord\Bank;
 
 use App\Services\BankService;
 use Illuminate\Support\Collection;
@@ -65,7 +65,7 @@ class BankEdit extends Component
 
     public function render()
     {
-        return view('livewire.bank.bank-edit');
+        return view('livewire.landlord.bank.bank-edit');
     }
 
     /**

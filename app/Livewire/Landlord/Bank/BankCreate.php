@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Bank;
+namespace App\Livewire\Landlord\Bank;
 
 use App\Services\BankService;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +43,7 @@ class BankCreate extends Component
 
     public function render()
     {
-        return view('livewire.bank.bank-create');
+        return view('livewire.landlord.bank.bank-create');
     }
 
     /**

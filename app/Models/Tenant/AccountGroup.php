@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\Account;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,8 @@ class AccountGroup extends Model
 {
     use HasFactory, StrUuidTrait;
     use UsesTenantConnection;
+    
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

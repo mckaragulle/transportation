@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Brand;
 
 return new class extends Migration
 {
@@ -12,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brand_types', function (Blueprint $table) {
+        Schema::create('account_sector', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('brand_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->unique()->nullable();
-            $table->boolean('status')->default(true);
+            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->uuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brand_types');
+        Schema::dropIfExists('account_sector');
     }
 };

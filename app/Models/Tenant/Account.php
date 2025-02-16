@@ -17,6 +17,7 @@ class Account extends Model
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

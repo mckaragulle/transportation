@@ -22,6 +22,8 @@ class AccountAddress extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
+    
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

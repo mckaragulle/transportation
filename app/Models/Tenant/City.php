@@ -20,7 +20,7 @@ class City extends Model implements IsTenant
     use UsesLandlordConnection;
     use ImplementsTenant;
 
-    /*protected $connection = 'tenant';*/
+    protected $connection = 'tenant';
     protected $keyType = 'string';
     public $incrementing = false;
 

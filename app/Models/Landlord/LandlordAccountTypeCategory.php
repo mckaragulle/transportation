@@ -23,8 +23,8 @@ class LandlordAccountTypeCategory extends Model
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $table = 'account_type_categories';
+    public $incrementing = false;
     protected $fillable = ['name', 'slug', 'is_required', 'is_multiple', 'status'];
 
     /**

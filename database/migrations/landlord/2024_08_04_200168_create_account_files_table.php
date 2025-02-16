@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('account_types', function (Blueprint $table) {
+        Schema::create('account_files', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('account_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-        });
-        Schema::table('account_types', function(Blueprint $table){
-            $table->foreignUuid('account_type_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->nullable();
+            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
             $table->boolean('status')->default(true);
+            $table->string('filename');
+            $table->string('title');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('account_types');
+        Schema::dropIfExists('account_files');
     }
 };

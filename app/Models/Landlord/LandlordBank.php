@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\LandlordBank;
 
-use App\Observers\BankObserver;
+use App\Observers\Landlord\LandlordBankObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -12,16 +12,16 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-#[ObservedBy([BankObserver::class])]
-class Bank extends Model
+#[ObservedBy([LandlordBankObserver::class])]
+class LandlordBank extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesLandlordConnection;
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'banks';
     public $incrementing = false;
     /**
      * The attributes that are mass assignable.

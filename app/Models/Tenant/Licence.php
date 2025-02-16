@@ -19,9 +19,9 @@ class Licence extends Model
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
     protected $connection = 'tenant';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = ["number", "filename", "detail", "status", "started_at", "finished_at"];
 

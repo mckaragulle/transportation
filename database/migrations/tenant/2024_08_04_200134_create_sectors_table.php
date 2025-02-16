@@ -14,7 +14,13 @@ return new class extends Migration
     {
         Schema::create('sectors', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
-            // $table->foreignUuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
+            
+        });
+        Schema::table('sectors', function (Blueprint $table) {
+            $table->foreignUuid('sector_id')
+            ->nullable()
+            ->constrained()
+            ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);

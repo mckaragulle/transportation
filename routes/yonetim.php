@@ -25,7 +25,7 @@ use App\Livewire\VehicleModel\{VehicleModels, VehicleModelEdit};
 use App\Livewire\Landlord\VehiclePropertyCategory\{VehiclePropertyCategories, VehiclePropertyCategoryEdit};
 
 use App\Livewire\Landlord\VehicleProperty\{VehicleProperties, VehiclePropertyEdit};
-use App\Livewire\Bank\{BankEdit, Banks};
+use App\Livewire\Landlord\Bank\{BankEdit, Banks};
 use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\Landlord\DealerType\{DealerTypeEdit, DealerTypes};
 use App\Livewire\Landlord\DealerTypeCategory\{DealerTypeCategories, DealerTypeCategoryEdit};

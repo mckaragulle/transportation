@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('account_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('account_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+        });
+        Schema::table('account_types', function (Blueprint $table) {
             $table->foreignUuid('account_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable();

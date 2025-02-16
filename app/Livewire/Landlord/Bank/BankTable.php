@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Livewire\BrandType;
+namespace App\Livewire\Landlord\Bank;
 
-use App\Models\BrandType;
+use App\Models\Bank;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -17,11 +16,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class BrandTypeTable extends PowerGridComponent
+final class BankTable extends PowerGridComponent
 {
     use WithExport;
 
-    public string $tableName = 'BrandTypeTable';
+    public string $tableName = 'BankTable';
+
+    public bool $showFilters = true;
 
     public function setUp(): array
     {
@@ -32,7 +33,7 @@ final class BrandTypeTable extends PowerGridComponent
         );
 
         return [
-            PowerGrid::exportable(fileName: 'marka-tipleri')
+            PowerGrid::exportable('arac-cezalari')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -46,7 +47,7 @@ final class BrandTypeTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return BrandType::query();
+        return Bank::query();
     }
 
     public function relationSearch(): array
@@ -58,11 +59,13 @@ final class BrandTypeTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('brand_id', function ($role) {
-                return $role->brand->name ?? null;
-            })
             ->add('name')
-            ->add('slug')
+            ->add('phone')
+            ->add('fax')
+            ->add('email')
+            ->add('website')
+            ->add('eft')
+            ->add('swift')
             ->add('status')
             ->add('created_at');
     }
@@ -74,19 +77,59 @@ final class BrandTypeTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Marka Adı', 'brand_id'),
-
-            Column::make('Marka Tipi', 'name')
+            Column::make('BANKA ADI', 'name')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update brandTypes'),
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('TELEFON NUMARASI', 'phone')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('FAKS NUMARASI', 'fax')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('EPOSTA ADRESİ', 'email')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('WEBSİTE', 'website')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('EFT', 'eft')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
+                    fallback: '- empty -'
+                ),
+            Column::make('SWIFT', 'swift')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update banks'),
                     fallback: '- empty -'
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    auth()->user()->can('update brandTypes'),
+                    auth()->user()->can('update banks'),
                     'Aktif',
                     'Pasif',
                 ),
@@ -107,43 +150,31 @@ final class BrandTypeTable extends PowerGridComponent
         ];
     }
 
-    public function actions(BrandType $row): array
+    public function actions(Bank $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('brandTypes.edit', ['id' => $row->id])
+                ->route('banks.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-brandType', ['id' => $row->id]),
-        ];
-    }
-
-    public function actionRules($row): array
-    {
-        return [
-            Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update brandTypes') != 1)
-                ->hide(),
-            Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete brandTypes') != 1)
-                ->hide(),
+                ->dispatch('delete-bank', ['id' => $row->id]),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        BrandType::query()->find($id)->update([
+        Bank::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        BrandType::query()->find($id)->update([
+        Bank::query()->find($id)->update([
             $field => e($value),
         ]);
     }

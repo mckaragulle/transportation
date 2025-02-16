@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
+use App\Models\Landlord\LandlordAccount;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class AccountSector extends Model
+class LandlordAccountGroup extends Model
 {
     use HasFactory, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
+    protected $connection = 'landlord';
     protected $keyType = 'string';
-    public $incrementing = false;
+    protected $table = 'account_groups';
 
     protected $fillable = [
         "account_id",
-        "sector_id",
+        "group_id",
     ];
 
     /**
@@ -26,14 +28,14 @@ class AccountSector extends Model
      */
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(LandlordAccount::class);
     }
 
     /**
      * Get the prices for the type post.
      */
-    public function sector(): BelongsTo
+    public function group(): BelongsTo
     {
-        return $this->belongsTo(Sector::class);
+        return $this->belongsTo(Group::class);
     }
 }

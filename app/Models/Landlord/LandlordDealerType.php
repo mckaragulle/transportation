@@ -23,8 +23,8 @@ class LandlordDealerType extends Model
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $table = 'dealer_types';
+    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.

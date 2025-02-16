@@ -1,6 +1,6 @@
 <div>
     @can('create banks')
-    <livewire:bank.bank-create />
+    <livewire:landlord.bank.bank-create />
     <hr>
     @endcan
     @can('read banks')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:bank.bank-table />
+                <livewire:landlord.bank.bank-table />
             </div>
         </div>
     </div>

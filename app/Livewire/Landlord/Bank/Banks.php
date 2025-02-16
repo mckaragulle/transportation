@@ -1,28 +1,26 @@
 <?php
 
-namespace App\Livewire\BrandType;
+namespace App\Livewire\Landlord\Bank;
 
-use App\Services\BrandTypeService;
+use App\Services\BankService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class BrandTypes extends Component
+class Banks extends Component
 {
     use LivewireAlert;
-
-    protected BrandTypeService $brandTypeService;
 
     public null|string $data_id;
 
 
     public function render()
     {
-        return view('livewire.brand-type.brand-types');
+        return view('livewire.landlord.bank.banks');
     }
 
-    #[On('delete-brandType')]
+    #[On('delete-bank')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -40,20 +38,20 @@ class BrandTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(BrandTypeService $brandTypeService)
+    public function handleConfirmed(BankService $bankService)
     {
         try {
-            $brandTypeService->delete($this->data_id);
-            $msg = 'Marka Tipi silindi.';
+            $bankService->delete($this->data_id);
+            $msg = 'Banka silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Marka Tipi silinemedi. {$exception->getMessage()}";
+            $error = "Banka silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-BrandTypeTable');
+            $this->dispatch('pg:eventRefresh-BankTable');
         }
     }
 }

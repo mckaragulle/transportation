@@ -13,8 +13,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('groups', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
+        });
         Schema::table('groups', function (Blueprint $table) {
             $table->foreignUuid('group_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('slug')->nullable();
+            $table->boolean('status')->default(true);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -23,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+        Schema::dropIfExists('groups');
     }
 };
