@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\AccountAddress;
+namespace App\Livewire\Landlord\AccountAddress;
 
 use App\Models\District;
 use App\Models\Locality;
@@ -80,7 +80,7 @@ class AccountAddressCreate extends Component
 
     public function render()
     {
-        return view('livewire.account-address.account-address-create');
+        return view('livewire.landlord.account-address.account-address-create');
     }
 
     public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, CityService $cityService)

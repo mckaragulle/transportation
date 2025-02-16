@@ -1,7 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
+use App\Models\City;
+use App\Models\Dealer;
+use App\Models\District;
+use App\Models\Locality;
+use App\Models\Neighborhood;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +40,7 @@ class AccountAddress extends Model
     }
 
     protected $fillable = [
-        "dealer_id", 
+        "dealer_id",
         "account_id",
         "city_id",
         "district_id",
@@ -66,7 +71,7 @@ class AccountAddress extends Model
     {
         return $this->belongsTo(Dealer::class);
     }
-    
+
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);

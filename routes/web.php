@@ -1,7 +1,7 @@
 <?php
 
 use App\Livewire\Tenant\Account\{AccountEdit, AccountManagement, Accounts};
-use App\Livewire\AccountAddress\{AccountAddresses, AccountAddressEdit};
+use App\Livewire\Tenant\AccountAddress\{AccountAddresses, AccountAddressEdit};
 use App\Livewire\AccountOfficer\AccountOfficerEdit;
 use App\Livewire\AccountBank\AccountBankEdit;
 

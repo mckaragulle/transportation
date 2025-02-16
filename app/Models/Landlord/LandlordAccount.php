@@ -10,14 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class LandlordAccount extends Model
 {
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
+    protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'accounts';
     public $incrementing = false;
 
     protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];

@@ -1,6 +1,6 @@
 <div>
     @can('create account_addresses')
-    <livewire:account-address.account-address-create id="{{$account_id}}" is_show="{{$is_show}}" />
+    <livewire:landlord.account-address.account-address-create id="{{$account_id}}" is_show="{{$is_show}}" />
     <hr>
     @endcan
     @can('read account_addresses')
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:account-address.account-address-table />
+                <livewire:landlord.account-address.account-address-table />
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible alert-alt solid fade show">

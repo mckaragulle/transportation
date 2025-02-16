@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\AccountAddress;
+namespace App\Livewire\Tenant\AccountAddress;
 
 use App\Services\Tenant\AccountService;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +25,7 @@ class AccountAddresses extends Component
 
     public function render()
     {
-        return view('livewire.account-address.account-addresses');
+        return view('livewire.tenant.account-address.account-addresses');
     }
 
     #[On('delete-account-address')]

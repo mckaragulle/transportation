@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Tenant;
 
-use App\Models\AccountAddress;
+use App\Models\Tenant\AccountAddress;
 use Illuminate\Database\Eloquent\Model;
+use App\Repositories\BaseRepository;
+use App\Repositories\RepositoryInterface;
 
 /**
  * @var AccountAddress $model

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Livewire\AccountAddress;
+namespace App\Livewire\Tenant\AccountAddress;
 
-use App\Models\AccountAddress;
 use App\Models\District;
+use App\Models\Landlord\AccountAddress;
 use App\Models\Locality;
 use App\Models\Neighborhood;
 use App\Services\AccountAddressService;
@@ -113,7 +113,7 @@ class AccountAddressEdit extends Component
 
     public function render()
     {
-        return view('livewire.account-address.account-address-edit');
+        return view('livewire.tenant.account-address.account-address-edit');
     }
 
     /**

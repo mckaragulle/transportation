@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tenant;
 
-use App\Repositories\AccountAddressRepository;
+use App\Repositories\Tenant\AccountAddressRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;

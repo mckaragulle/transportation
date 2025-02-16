@@ -2,16 +2,16 @@
 
 namespace App\Observers\Landlord;
 
-use App\Models\Landlord\LandlordDealerType;
+use App\Models\Landlord\LandlordAccountAddress;
 use App\Jobs\Tenant\TenantSyncDataJob;
 use Spatie\Multitenancy\Models\Tenant;
 
-class LandlordDealerTypeObserver
+class LandlordAccountAddressObserver
 {
     /**
-     * Handle the DealerType "created" event.
+     * Handle the LandlordAccountAddress "created" event.
      */
-    public function created(LandlordDealerType $model): void
+    public function created(LandlordAccountAddress $model): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
@@ -20,9 +20,9 @@ class LandlordDealerTypeObserver
     }
 
     /**
-     * Handle the DealerType "updated" event.
+     * Handle the LandlordAccountAddress "updated" event.
      */
-    public function updated(LandlordDealerType $model): void
+    public function updated(LandlordAccountAddress $model): void
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
@@ -31,25 +31,25 @@ class LandlordDealerTypeObserver
     }
 
     /**
-     * Handle the DealerType "deleted" event.
+     * Handle the LandlordAccountAddress "deleted" event.
      */
-    public function deleted(LandlordDealerType $model): void
+    public function deleted(LandlordAccountAddress $model): void
     {
         //
     }
 
     /**
-     * Handle the DealerType "restored" event.
+     * Handle the LandlordAccountAddress "restored" event.
      */
-    public function restored(LandlordDealerType $model): void
+    public function restored(LandlordAccountAddress $model): void
     {
         //
     }
 
     /**
-     * Handle the DealerType "force deleted" event.
+     * Handle the LandlordAccountAddress "force deleted" event.
      */
-    public function forceDeleted(LandlordDealerType $model): void
+    public function forceDeleted(LandlordAccountAddress $model): void
     {
         //
     }
