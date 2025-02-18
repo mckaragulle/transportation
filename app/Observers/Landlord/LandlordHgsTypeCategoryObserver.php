@@ -15,7 +15,7 @@ class LandlordHgsTypeCategoryObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'hgs_type_categories', 'Hgs Kategorisi Eklenirken Hata Oluştu.');
         });
     }
 
@@ -26,7 +26,7 @@ class LandlordHgsTypeCategoryObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'hgs_type_categories', 'Hgs Kategorisi Güncellenirken Hata Oluştu.');
         });
     }
 

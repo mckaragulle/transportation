@@ -15,7 +15,7 @@ class LandlordNeighborhoodObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Mahalle Eklenirken Hata Oluştu.');
         });
     }
 
@@ -26,7 +26,7 @@ class LandlordNeighborhoodObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'neighborhoods', 'Mahalle Güncellenirken Hata Oluştu.');
         });
     }
 

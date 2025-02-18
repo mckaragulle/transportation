@@ -8,11 +8,11 @@ use App\Livewire\Tenant\AccountBank\AccountBankEdit;
 use App\Livewire\Tenant\Hgs\{HgsEdit, Hgses};
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
-use App\Livewire\User\{Users, UserEdit};
+use App\Livewire\Tenant\User\{Users, UserEdit};
 use App\Livewire\Tenant\Fined\{FinedEdit, Fineds};
 use App\Livewire\Tenant\Licence\{LicenceEdit, Licences};
 use App\Livewire\Signin;
-use App\Livewire\Staff\{StaffEdit, Staffs};
+use App\Livewire\Tenant\Staff\{StaffEdit, Staffs};
 
 use App\Livewire\Dealer\{Dealers, DealerEdit, DealerManagement};
 

@@ -2,7 +2,6 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Tenant\StaffTypeCategory;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

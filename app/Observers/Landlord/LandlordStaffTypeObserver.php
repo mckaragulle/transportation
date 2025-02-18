@@ -15,7 +15,7 @@ class LandlordStaffTypeObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'staff_types', 'Personel Kategorisinin Seçeneği Eklenirken Hata Oluştu.');
         });
     }
 
@@ -26,7 +26,7 @@ class LandlordStaffTypeObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'staff_types', 'Personel Kategorisinin Seçeneği Güncellenirken Hata Oluştu.');
         });
     }
 

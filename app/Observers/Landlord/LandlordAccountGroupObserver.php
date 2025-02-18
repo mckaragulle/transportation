@@ -15,7 +15,7 @@ class LandlordAccountGroupObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'account_group', 'Cari Grubu Eklenirken Hata Oluştu.');
         });
     }
 
@@ -26,7 +26,7 @@ class LandlordAccountGroupObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'table', 'mesaj');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'account_group', 'Cari Grubu Güncellenirken Hata Oluştu.');
         });
     }
 

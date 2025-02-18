@@ -17,9 +17,9 @@ use App\Livewire\Role\{Roles, RoleEdit};
 use App\Livewire\Permission\{Permissions, PermissionEdit};
 
 use App\Livewire\Dealer\{Dealers, DealerEdit};
-use App\Livewire\VehicleBrand\{VehicleBrands, VehicleBrandEdit};
-use App\Livewire\VehicleTicket\{VehicleTickets, VehicleTicketEdit};
-use App\Livewire\VehicleModel\{VehicleModels, VehicleModelEdit};
+use App\Livewire\Landlord\VehicleBrand\{VehicleBrands, VehicleBrandEdit};
+use App\Livewire\Landlord\VehicleTicket\{VehicleTickets, VehicleTicketEdit};
+use App\Livewire\Landlord\VehicleModel\{VehicleModels, VehicleModelEdit};
 use App\Livewire\Landlord\VehiclePropertyCategory\{VehiclePropertyCategories, VehiclePropertyCategoryEdit};
 
 use App\Livewire\Landlord\VehicleProperty\{VehicleProperties, VehiclePropertyEdit};
