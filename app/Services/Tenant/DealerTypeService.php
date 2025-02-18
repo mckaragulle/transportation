@@ -1,30 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tenant;
 
-use App\Repositories\DealerLogoRepository;
+use App\Repositories\Tenant\DealerTypeRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class DealerLogoService
+class DealerTypeService
 {
-    public function __construct(protected DealerLogoRepository $repository) {}
-
-    public function orderBy($column, $sort): Model|Builder
-    {
-        return $this->repository->orderBy($column, $sort);
-    }
+    public function __construct(protected DealerTypeRepository $repository) {}
 
     public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
-    }
-
-    public function first(): Model
-    {
-        return $this->repository->first();
     }
 
     /**

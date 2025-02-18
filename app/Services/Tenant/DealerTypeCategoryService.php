@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Tenant;
 
-use App\Repositories\DealerTypeCategoryRepository;
+use App\Repositories\Tenant\DealerTypeCategoryRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -10,6 +11,11 @@ use Illuminate\Support\Collection;
 class DealerTypeCategoryService
 {
     public function __construct(protected DealerTypeCategoryRepository $repository) {}
+
+    public function where(array $column): Model|Builder
+    {
+        return $this->repository->where($column);
+    }
 
     /**
      * @return array|Collection
