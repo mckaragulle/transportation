@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\StaffType;
+use App\Models\Tenant\StaffTypeCategory;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Staff extends Model
@@ -20,7 +22,7 @@ class Staff extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
-    
+
     /**
      * Return the sluggable configuration array for this model.
      *

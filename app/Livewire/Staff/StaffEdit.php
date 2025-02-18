@@ -3,18 +3,18 @@
 namespace App\Livewire\Staff;
 
 use App\Models\Staff;
-use App\Models\StaffType;
-use App\Models\StaffTypeCategory;
+use App\Models\Tenant\StaffType;
+use App\Models\Tenant\StaffTypeCategory;
 use App\Services\StaffService;
 use App\Services\StaffTypeCategoryService;
 use App\Services\StaffTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class StaffEdit extends Component
 {

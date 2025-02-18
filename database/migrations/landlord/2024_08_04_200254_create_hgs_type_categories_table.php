@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Hgs;
-use App\Models\HgsType;
-use App\Models\HgsTypeCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

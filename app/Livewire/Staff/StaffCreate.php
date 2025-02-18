@@ -2,11 +2,8 @@
 
 namespace App\Livewire\Staff;
 
-use App\Models\StaffType;
-use App\Models\StaffTypeCategory;
+use App\Models\Tenant\StaffTypeCategory;
 use App\Services\StaffService;
-use App\Services\StaffTypeCategoryService;
-use App\Services\StaffTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

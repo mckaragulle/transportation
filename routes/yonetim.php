@@ -5,8 +5,8 @@ use App\Livewire\LandLord\AdminSignin;
 use App\Livewire\LandLord\City\{Cities, CityEdit};
 use App\Livewire\Dashboard;
 
-use App\Livewire\StaffType\{StaffTypeEdit, StaffTypes};
-use App\Livewire\StaffTypeCategory\{StaffTypeCategories, StaffTypeCategoryEdit};
+use App\Livewire\Landlord\StaffType\{StaffTypeEdit, StaffTypes};
+use App\Livewire\Landlord\StaffTypeCategory\{StaffTypeCategories, StaffTypeCategoryEdit};
 use App\Livewire\Landlord\AccountType\{AccountTypeEdit, AccountTypes};
 use App\Livewire\Landlord\AccountTypeCategory\{AccountTypeCategories, AccountTypeCategoryEdit};
 use App\Livewire\Landlord\Group\{Groups, GroupEdit};
@@ -28,9 +28,9 @@ use App\Livewire\Dealer\DealerManagement;
 use App\Livewire\Landlord\DealerType\{DealerTypeEdit, DealerTypes};
 use App\Livewire\Landlord\DealerTypeCategory\{DealerTypeCategories, DealerTypeCategoryEdit};
 use App\Livewire\Landlord\District\{DistrictEdit, Districts};
-use App\Livewire\HgsTypeCategory\{HgsTypeCategories, HgsTypeCategoryEdit};
+use App\Livewire\Landlord\HgsTypeCategory\{HgsTypeCategories, HgsTypeCategoryEdit};
 
-use App\Livewire\HgsType\{HgsTypes, HgsTypeEdit};
+use App\Livewire\Landlord\HgsType\{HgsTypes, HgsTypeEdit};
 use App\Livewire\Landlord\LicenceType\{LicenceTypeEdit, LicenceTypes};
 use App\Livewire\Landlord\LicenceTypeCategory\{LicenceTypeCategories, LicenceTypeCategoryEdit};
 use App\Livewire\Landlord\Locality\{Localities, LocalityEdit};
