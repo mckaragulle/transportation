@@ -17,7 +17,7 @@ use App\Livewire\Landlord\Admin\{Admins, AdminEdit};
 use App\Livewire\Role\{Roles, RoleEdit};
 use App\Livewire\Permission\{Permissions, PermissionEdit};
 
-use App\Livewire\Tenant\Dealer\{Dealers, DealerEdit, DealerManagement};
+use App\Livewire\Landlord\Dealer\{Dealers, DealerEdit, DealerManagement};
 use App\Livewire\Landlord\VehicleBrand\{VehicleBrands, VehicleBrandEdit};
 use App\Livewire\Landlord\VehicleTicket\{VehicleTickets, VehicleTicketEdit};
 use App\Livewire\Landlord\VehicleModel\{VehicleModels, VehicleModelEdit};

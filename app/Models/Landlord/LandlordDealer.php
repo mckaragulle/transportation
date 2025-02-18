@@ -30,7 +30,6 @@ class LandlordDealer extends Authenticatable
     protected $keyType = 'string';
     protected $table = 'dealers';
 
-
     /**
      * Return the sluggable configuration array for this model.
      *

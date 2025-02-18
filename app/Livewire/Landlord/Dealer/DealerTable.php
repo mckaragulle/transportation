@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\Dealer;
 
-use App\Models\Tenant\Dealer;
-use App\Models\Tenant\DealerTypeCategory;
+use App\Models\Landlord\LandlordDealer;
+use App\Models\Landlord\LandlordDealerTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -34,7 +34,7 @@ final class DealerTable extends PowerGridComponent
             prefix: auth()->user()->id
         );
 
-        $this->dealerCategories = DealerTypeCategory::query()->with(['dealer_types'])->get(['id', 'name']);
+        $this->dealerCategories = LandlordDealerTypeCategory::query()->with(['dealer_types'])->get(['id', 'name']);
 
         return [
             PowerGrid::exportable(fileName: 'bayiler')
@@ -51,7 +51,7 @@ final class DealerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = Dealer::query()
+        $dealer = LandlordDealer::query()
             ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
             ->with(['dealer_type_categories:id,name', 'dealer_types:id,dealer_type_category_id,dealer_type_id,name']);
         return $dealer;
@@ -175,7 +175,7 @@ final class DealerTable extends PowerGridComponent
         return $filters;
     }
 
-    public function actions(Dealer $row): array
+    public function actions(LandlordDealer $row): array
     {
         return [
             Button::add('manage')
@@ -212,14 +212,14 @@ final class DealerTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        Dealer::query()->find($id)->update([
+        LandlordDealer::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        Dealer::query()->find($id)->update([
+        LandlordDealer::query()->find($id)->update([
             $field => e($value),
         ]);
     }

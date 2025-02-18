@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Landlord\Dealer;
 
-use App\Models\Tenant\Dealer;
-use App\Models\Tenant\DealerType;
-use App\Models\Tenant\DealerTypeCategory;
-use App\Services\DealerTypeCategoryService;
-use App\Services\DealerTypeService;
-use App\Services\Tenant\DealerService;
+use App\Models\Landlord\LandlordDealer;
+use App\Models\Landlord\LandlordDealerType;
+use App\Models\Landlord\LandlordDealerTypeCategory;
+use App\Services\Landlord\LandlordDealerService;
+use App\Services\Landlord\LandlordDealerTypeCategoryService;
+use App\Services\Landlord\LandlordDealerTypeService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +25,7 @@ class DealerEdit extends Component
     public null|Collection $addresses;
     public null|Collection $archives;
 
-    public null|Dealer $dealer;
+    public null|LandlordDealer|Model $dealer;
     public bool $is_show = false;
 
     public null|array $dealer_type_categories = [];
@@ -46,10 +47,10 @@ class DealerEdit extends Component
 
     public bool $status = true;
 
-    protected DealerService $dealerService;
+    protected LandlordDealerService $dealerService;
 
-    protected DealerTypeCategoryService $dealerTypeCategoryService;
-    protected DealerTypeService $dealerTypeService;
+    protected LandlordDealerTypeCategoryService $dealerTypeCategoryService;
+    protected LandlordDealerTypeService $dealerTypeService;
 
     /**
      * List of add/edit form rules
@@ -91,7 +92,7 @@ class DealerEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerTypeCategory $dealerTypeCategory, DealerService $dealerService, bool $is_show = true)
+    public function mount($id = null, LandlordDealerTypeCategory $dealerTypeCategory, LandlordDealerService $dealerService, bool $is_show = true)
     {
         if(!is_null($id)) {
             $this->is_show = $is_show;
@@ -188,7 +189,7 @@ class DealerEdit extends Component
     }
     public function updatedDealerTypeCategoryId()
     {
-        $this->dealer_types = DealerType::query()
+        $this->dealer_types = LandlordDealerType::query()
             ->where(['dealer_type_category_id' => $this->dealer_type_category_id])
             ->with('dealer_type')
             ->orderBy('id')

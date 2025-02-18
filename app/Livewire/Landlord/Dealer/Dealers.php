@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Dealer;
 
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,7 +12,7 @@ class Dealers extends Component
 {
     use LivewireAlert;
 
-    protected DealerService $dealerService;
+    protected LandlordDealerService $dealerService;
 
     public null|string $data_id;
 
@@ -40,7 +40,7 @@ class Dealers extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(DealerService $dealerService)
+    public function handleConfirmed(LandlordDealerService $dealerService)
     {
         try {
             $dealerService->delete($this->data_id);
@@ -56,12 +56,4 @@ class Dealers extends Component
             $this->dispatch('pg:eventRefresh-DealerTable');
         }
     }
-
-
-    // #[On('login-dealer')]
-    // public function login($id)
-    // {
-    //     Auth::guard('dealer')->loginUsingId($id);
-    //     return redirect()->route('dashboard');
-    // }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Dealer;
 
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -75,7 +75,7 @@ class DealerCreate extends Component
      *
      * @return void
      */
-    public function store(DealerService $dealerService)
+    public function store(LandlordDealerService $dealerService)
     {
         $this->validate();
         $this->dealerService = $dealerService;
