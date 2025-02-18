@@ -15,9 +15,10 @@ class LicenceTypeCategoryLicenceTypeLicence extends Model
     use StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     protected $table = 'licence_type_category_licence_type_licence';
 

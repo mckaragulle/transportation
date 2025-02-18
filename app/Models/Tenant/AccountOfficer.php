@@ -2,8 +2,6 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\Dealer;
-use App\Models\Tenant\Account;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Casts\AsArrayObject;
@@ -12,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -21,9 +20,10 @@ class AccountOfficer extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -97,5 +97,18 @@ class AccountOfficer extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (AccountOfficer $dish) => self::clearCache());
+        static::updated(fn (AccountOfficer $dish) => self::clearCache());
+        static::deleted(fn (AccountOfficer $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-account_officers-AccountOfficerTable'])->flush();
     }
 }

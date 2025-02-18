@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Tenant\User;
 
-use App\Models\Dealer;
+use App\Models\Tenant\Dealer;
 use App\Models\Tenant\User;
-use App\Services\DealerService;
+use App\Services\Tenant\DealerService;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;

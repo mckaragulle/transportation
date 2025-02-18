@@ -72,7 +72,7 @@ class LandlordLocality extends Model
 
     public function neighborhood(): BelongsTo
     {
-        return $this->belongsTo(Neighborhood::class);
+        return $this->belongsTo(LandlordNeighborhood::class);
     }
 
     protected static function booted(): void

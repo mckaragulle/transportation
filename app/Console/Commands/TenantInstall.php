@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Dealer;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Services\DealerService;
+use App\Models\Tenant\Dealer;
+use App\Services\Tenant\DealerService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

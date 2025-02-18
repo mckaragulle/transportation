@@ -9,16 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class LandlordGroup extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
+    protected $connection = 'landlord';
     protected $keyType = 'string';
+    protected $table = 'groups';
     public $incrementing = false;
 
     /**
@@ -59,5 +62,18 @@ class LandlordGroup extends Model
     public function groups(): HasMany
     {
         return $this->hasMany(LandlordGroup::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordGroup $dish) => self::clearCache());
+        static::updated(fn (LandlordGroup $dish) => self::clearCache());
+        static::deleted(fn (LandlordGroup $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-group-GroupTable'])->flush();
     }
 }

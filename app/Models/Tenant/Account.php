@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -17,10 +18,10 @@ class Account extends Model
     use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
-    protected $connection = 'tenant';
-    protected $keyType = 'string';
     public $incrementing = false;
 
+    protected $connection = 'tenant';
+    protected $keyType = 'string';
     protected $fillable = ["number", "name", "shortname", "phone", "email", "detail", "tax", "taxoffice", "status"];
 
 
@@ -54,5 +55,18 @@ class Account extends Model
     public function account_types(): BelongsToMany
     {
         return $this->belongsToMany(AccountType::class, 'account_type_category_account_type_account');
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (Account $dish) => self::clearCache());
+        static::updated(fn (Account $dish) => self::clearCache());
+        static::deleted(fn (Account $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-account-AccountTable'])->flush();
     }
 }

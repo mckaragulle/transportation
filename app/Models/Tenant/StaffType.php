@@ -18,8 +18,10 @@ class StaffType extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
-    protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $connection = 'tenant';
+    protected $keyType = 'string';
 
     /**
      * Return the sluggable configuration array for this model.

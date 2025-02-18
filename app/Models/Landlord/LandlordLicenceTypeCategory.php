@@ -2,17 +2,16 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Tenant\Licence;
-use App\Observers\LandlordLicenceTypeCategoryObserver;
+use App\Observers\Landlord\LandlordLicenceTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -77,11 +76,16 @@ class LandlordLicenceTypeCategory extends Model
         return $this->hasMany(LandlordLicenceType::class)->orderBy('updated_at', 'desc');
     }
 
-    public function licences(): BelongsToMany
+    protected static function booted(): void
     {
-        return $this->belongsToMany(
-            Licence::class,
-            'licence_type_category_licence_type_licence',
-        );
+        static::created(fn (LandlordLicenceTypeCategory $dish) => self::clearCache());
+        static::updated(fn (LandlordLicenceTypeCategory $dish) => self::clearCache());
+        static::deleted(fn (LandlordLicenceTypeCategory $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-licence_type_categories-LicenceTypeCategoryTable'])->flush();
     }
 }

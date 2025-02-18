@@ -2,9 +2,6 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\City;
-use App\Models\Dealer;
-use App\Models\District;
 use App\Models\Landlord\LandlordLocality;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -22,9 +19,10 @@ class AccountAddress extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.
@@ -108,6 +106,6 @@ class AccountAddress extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-account_addresses-AccountAddressTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-account_addresses-AccountAddressTable'])->flush();
     }
 }

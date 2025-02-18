@@ -2,7 +2,6 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\Scopes\StatusScope;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,9 +18,10 @@ class DealerType extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     /**
      * Return the sluggable configuration array for this model.

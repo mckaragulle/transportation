@@ -2,13 +2,13 @@
 
 namespace App\Repositories\Landlord;
 
-use App\Models\Landlord\LandlordAccountOfficerService;
+use App\Models\Landlord\LandlordAccountOfficer;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\BaseRepository;
 use App\Repositories\RepositoryInterface;
 
 /**
- * @var LandlordAccountOfficerService $model
+ * @var LandlordAccountOfficer $model
  */
 class LandlordAccountOfficerRepository extends BaseRepository implements RepositoryInterface
 {
@@ -16,6 +16,6 @@ class LandlordAccountOfficerRepository extends BaseRepository implements Reposit
 
     protected function model(): string|Model
     {
-        return LandlordAccountOfficerService::class;
+        return LandlordAccountOfficer::class;
     }
 }

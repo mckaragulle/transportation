@@ -8,6 +8,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,10 +20,11 @@ class LandlordCity extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesLandlordConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'landlord';
     protected $keyType = 'string';
     protected $table = 'cities';
-    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -54,5 +56,18 @@ class LandlordCity extends Model
     {
         return LogOptions::defaults()
             ->logAll();
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordCity $dish) => self::clearCache());
+        static::updated(fn (LandlordCity $dish) => self::clearCache());
+        static::deleted(fn (LandlordCity $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-city-CityTable'])->flush();
     }
 }

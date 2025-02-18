@@ -2,13 +2,14 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\Dealer;
+use App\Models\Tenant\Dealer;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -64,5 +65,18 @@ class LandlordAccount extends Model
     public function account_types(): BelongsToMany
     {
         return $this->belongsToMany(LandlordAccountType::class, 'account_type_category_account_type_account');
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordAccount $dish) => self::clearCache());
+        static::updated(fn (LandlordAccount $dish) => self::clearCache());
+        static::deleted(fn (LandlordAccount $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-account-AccountTable'])->flush();
     }
 }

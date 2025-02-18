@@ -14,8 +14,11 @@ class AccountSector extends Model
 {
     use HasFactory, StrUuidTrait;
     use UsesTenantConnection;
-    protected $keyType = 'string';
+
     public $incrementing = false;
+
+    protected $connection = 'tenant';
+    protected $keyType = 'string';
 
     protected $fillable = [
         "account_id",

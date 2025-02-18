@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Admin;
+use App\Models\Landlord\Admin;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Services\AdminService;
+use App\Services\Landlord\AdminService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -118,7 +118,7 @@ class LandlordInstall extends Command
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
             ],
             'dealer' => [
-                
+
                 'read roles',
                 'read permissions',
 
@@ -183,7 +183,7 @@ class LandlordInstall extends Command
 
             $role = new Role();
             $role->setConnection('landlord');
-            
+
             $r = $role->where($role_data)->exists() ? $role->where($role_data)->first() : $role->create($role_data);
             $this->info($r->name);
 

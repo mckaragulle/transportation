@@ -2,7 +2,7 @@
 
 namespace App\Models\Landlord;
 
-use App\Observers\LandlordLicenceTypeObserver;
+use App\Observers\Landlord\LandlordLicenceTypeObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -71,5 +72,18 @@ class LandlordLicenceType extends Model
     public function licence_types(): HasMany
     {
         return $this->hasMany(LandlordLicenceType::class, 'licence_type_id');
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordLicenceType $dish) => self::clearCache());
+        static::updated(fn (LandlordLicenceType $dish) => self::clearCache());
+        static::deleted(fn (LandlordLicenceType $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-licence_types-LicenceTypeTable'])->flush();
     }
 }

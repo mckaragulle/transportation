@@ -2,17 +2,22 @@
 
 namespace App\Models\Landlord;
 
+use App\Observers\Landlord\LandlordLicenceTypeObserver;
+use App\Observers\Landlord\LandlordStaffTypeObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
+#[ObservedBy([LandlordStaffTypeObserver::class])]
 class LandlordStaffType extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
@@ -68,5 +73,18 @@ class LandlordStaffType extends Model
     public function staff_types(): HasMany
     {
         return $this->hasMany(LandlordStaffType::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordStaffType $dish) => self::clearCache());
+        static::updated(fn (LandlordStaffType $dish) => self::clearCache());
+        static::deleted(fn (LandlordStaffType $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-staff_types-StaffTypeTable'])->flush();
     }
 }

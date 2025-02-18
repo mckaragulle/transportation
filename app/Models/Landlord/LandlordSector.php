@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class LandlordSector extends Model
 {
@@ -61,5 +61,18 @@ class LandlordSector extends Model
     public function sectors(): HasMany
     {
         return $this->hasMany(LandlordSector::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordSector $dish) => self::clearCache());
+        static::updated(fn (LandlordSector $dish) => self::clearCache());
+        static::deleted(fn (LandlordSector $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-sectors-SectorTable'])->flush();
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->unique()->primary();
 
         });
-        Schema::create('sectors', function (Blueprint $table) {
+        Schema::table('sectors', function (Blueprint $table) {
             $table->foreignUuid('sector_id')
                 ->nullable()
                 ->constrained()

@@ -3,8 +3,8 @@
 namespace App\Livewire\Tenant\AccountOfficer;
 
 use App\Services\Tenant\AccountOfficerService;
-use App\Services\DealerService;
 use App\Services\Tenant\AccountService;
+use App\Services\Tenant\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

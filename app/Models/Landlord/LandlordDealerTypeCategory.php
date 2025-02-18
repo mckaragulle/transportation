@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -25,7 +26,7 @@ class LandlordDealerTypeCategory extends Model
     protected $keyType = 'string';
     protected $table = 'dealer_type_categories';
     public $incrementing = false;
-    
+
     protected $fillable = ['name', 'slug', 'is_required', 'is_multiple', 'status'];
 
     /**
@@ -77,5 +78,18 @@ class LandlordDealerTypeCategory extends Model
     public function dealer_types(): HasMany
     {
         return $this->hasMany(LandlordDealerType::class, 'dealer_type_id');
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordDealerTypeCategory $dish) => self::clearCache());
+        static::updated(fn (LandlordDealerTypeCategory $dish) => self::clearCache());
+        static::deleted(fn (LandlordDealerTypeCategory $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-dealer_type_category-DealerTypeCategoryTable'])->flush();
     }
 }

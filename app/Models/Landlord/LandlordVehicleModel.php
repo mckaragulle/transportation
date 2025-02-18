@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -64,5 +65,18 @@ class LandlordVehicleModel extends Model
     public function vehicle_ticket(): BelongsTo
     {
         return $this->belongsTo(LandlordVehicleTicket::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordVehicleModel $dish) => self::clearCache());
+        static::updated(fn (LandlordVehicleModel $dish) => self::clearCache());
+        static::deleted(fn (LandlordVehicleModel $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-vehicle_models-VehicleModelTable'])->flush();
     }
 }

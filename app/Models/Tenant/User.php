@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -21,9 +22,10 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles, Sluggable, LogsActivity, SoftDeletes, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     protected $guard_name = ['web', 'satis', 'muhasebe', 'depo'];
 
@@ -100,5 +102,18 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn(string $value) => $value ? 1 : 0,
         );
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (User $dish) => self::clearCache());
+        static::updated(fn (User $dish) => self::clearCache());
+        static::deleted(fn (User $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-users-UserTable'])->flush();
     }
 }

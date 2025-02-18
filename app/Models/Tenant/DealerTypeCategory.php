@@ -18,9 +18,10 @@ class DealerTypeCategory extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     protected $fillable = ['name', 'slug', 'is_required', 'is_multiple', 'status'];
 

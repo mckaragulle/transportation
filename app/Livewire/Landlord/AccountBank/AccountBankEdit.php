@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Landlord\AccountBank;
 
-use App\Services\Landlord\LandlordAccountBankService;
 use App\Services\BankService;
-use App\Services\DealerService;
+use App\Services\Landlord\LandlordAccountBankService;
 use App\Services\Tenant\AccountService;
+use App\Services\Tenant\DealerService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

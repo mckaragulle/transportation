@@ -13,10 +13,11 @@ class AccountGroup extends Model
 {
     use HasFactory, StrUuidTrait;
     use UsesTenantConnection;
-    
+
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     protected $fillable = [
         "account_id",

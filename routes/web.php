@@ -14,7 +14,7 @@ use App\Livewire\Tenant\Licence\{LicenceEdit, Licences};
 use App\Livewire\Signin;
 use App\Livewire\Tenant\Staff\{StaffEdit, Staffs};
 
-use App\Livewire\Dealer\{Dealers, DealerEdit, DealerManagement};
+use App\Livewire\Tenant\Dealer\{Dealers, DealerEdit, DealerManagement};
 
 Route::get('/', Signin::class)->name('login');
 Route::middleware(['tenant', 'auth:dealer,web'])

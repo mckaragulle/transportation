@@ -3,8 +3,8 @@
 namespace App\Models\Landlord;
 
 use App\Models\City;
-use App\Models\Dealer;
 use App\Models\District;
+use App\Models\Tenant\Dealer;
 use App\Models\Tenant\Neighborhood;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -81,17 +81,17 @@ class LandlordAccountAddress extends Model
 
     public function city(): BelongsTo
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(LandlordCity::class);
     }
 
     public function district(): BelongsTo
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(LandlordDistrict::class);
     }
 
     public function neighborhood(): BelongsTo
     {
-        return $this->belongsTo(Neighborhood::class);
+        return $this->belongsTo(LandlordNeighborhood::class);
     }
 
     public function locality(): BelongsTo

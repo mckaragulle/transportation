@@ -2,18 +2,21 @@
 
 namespace App\Models\Landlord;
 
-
+use App\Observers\Landlord\LandlordHgsTypeCategoryObserver;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
+#[ObservedBy([LandlordHgsTypeCategoryObserver::class])]
 class LandlordHgsTypeCategory extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
@@ -72,5 +75,18 @@ class LandlordHgsTypeCategory extends Model
     public function hgs_types(): HasMany
     {
         return $this->hasMany(LandlordHgsType::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordHgsTypeCategory $dish) => self::clearCache());
+        static::updated(fn (LandlordHgsTypeCategory $dish) => self::clearCache());
+        static::deleted(fn (LandlordHgsTypeCategory $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-hgs_type_categories-HgsTypeCategoryTable'])->flush();
     }
 }

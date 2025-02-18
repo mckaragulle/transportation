@@ -17,9 +17,10 @@ class VehicleModel extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     protected $fillable = ["vehicle_brand_id", "vehicle_ticket_id", "name", "slug", "insurance_number", "status"];
 

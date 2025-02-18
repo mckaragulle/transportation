@@ -2,11 +2,9 @@
 
 namespace App\Livewire\Landlord\AccountOfficer;
 
-use App\Models\Landlord\LandlordAccountOfficer;
 use App\Services\Landlord\LandlordAccountOfficerService;
-use App\Services\DealerService;
 use App\Services\Landlord\LandlordAccountService;
-use App\Services\Tenant\AccountService;
+use App\Services\Tenant\DealerService;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

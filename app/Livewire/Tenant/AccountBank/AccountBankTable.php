@@ -3,8 +3,8 @@
 namespace App\Livewire\Tenant\AccountBank;
 
 use App\Models\Tenant\Account;
-use App\Models\Bank;
 use App\Models\Tenant\AccountBank;
+use App\Models\Tenant\Bank;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;

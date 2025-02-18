@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -67,5 +68,18 @@ class LandlordNeighborhood extends Model
     public function district(): BelongsTo
     {
         return $this->belongsTo(LandlordDistrict::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(fn (LandlordNeighborhood $dish) => self::clearCache());
+        static::updated(fn (LandlordNeighborhood $dish) => self::clearCache());
+        static::deleted(fn (LandlordNeighborhood $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-neighborhoods-NeighborhoodTable'])->flush();
     }
 }

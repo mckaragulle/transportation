@@ -3,8 +3,8 @@
 namespace App\Livewire\Landlord\AccountBank;
 
 use App\Models\Landlord\LandlordAccount;
-use App\Models\Bank;
 use App\Models\Landlord\LandlordAccountBank;
+use App\Models\Tenant\Bank;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
