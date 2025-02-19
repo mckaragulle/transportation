@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\DealerLogo;
 
-use App\Models\Tenant\DealerLogo;
+use App\Models\Landlord\LandlordDealerLogo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -50,7 +50,7 @@ final class DealerLogoTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerLogo::query()
+        $dealer = LandlordDealerLogo::query()
             ->whereDealerId($this->dealer_id)
             ->orderBy('created_at', 'desc');
         return $dealer;
@@ -110,7 +110,7 @@ final class DealerLogoTable extends PowerGridComponent
         ];
     }
 
-    public function actions(DealerLogo $row): array
+    public function actions(LandlordDealerLogo $row): array
     {
         return [
             Button::add('delete')
@@ -132,14 +132,14 @@ final class DealerLogoTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerLogo::query()->find($id)->update([
+        LandlordDealerLogo::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerLogo::query()->find($id)->update([
+        LandlordDealerLogo::query()->find($id)->update([
             $field => e($value),
         ]);
     }

@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Landlord\VehicleModel;
 
-use App\Models\Tenant\VehicleTicket;
-use App\Services\VehicleBrandService;
-use App\Services\VehicleModelService;
-use App\Services\VehicleTicketService;
+use App\Models\Landlord\LandlordVehicleTicket;
+use App\Services\Landlord\LandlordVehicleBrandService;
+use App\Services\Landlord\LandlordVehicleModelService;
+use App\Services\Landlord\LandlordVehicleTicketService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -49,7 +49,7 @@ class VehicleModelCreate extends Component
         return view('livewire.landlord.vehicle-model.vehicle-model-create');
     }
 
-    public function mount(VehicleBrandService $vehicleBrandService)
+    public function mount(LandlordVehicleBrandService $vehicleBrandService)
     {
         $this->vehicleBrands = $vehicleBrandService->all();
     }
@@ -59,7 +59,7 @@ class VehicleModelCreate extends Component
      *
      * @return void
      */
-    public function store(VehicleModelService $vehicleModelService)
+    public function store(LandlordVehicleModelService $vehicleModelService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -93,8 +93,8 @@ class VehicleModelCreate extends Component
         $this->getVehicleTickets();
     }
 
-    public function getVehicleTickets(VehicleTicketService $vehicleTicketService = null)
+    public function getVehicleTickets(LandlordVehicleTicketService $vehicleTicketService = null)
     {
-        $this->vehicleTickets = VehicleTicket::query()->select('id', 'name')->whereVehicleBrandId($this->vehicle_brand_id)->get();
+        $this->vehicleTickets = LandlordVehicleTicket::query()->select('id', 'name')->whereVehicleBrandId($this->vehicle_brand_id)->get();
     }
 }

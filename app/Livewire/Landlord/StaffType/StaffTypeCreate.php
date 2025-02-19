@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\StaffType;
 
-use App\Models\Tenant\StaffType;
-use App\Services\StaffTypeCategoryService;
-use App\Services\StaffTypeService;
+use App\Models\Landlord\LandlordStaffType;
+use App\Services\Landlord\LandlordStaffTypeCategoryService;
+use App\Services\Landlord\LandlordStaffTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,15 +46,16 @@ class StaffTypeCreate extends Component
         return view('livewire.landlord.staff-type.staff-type-create');
     }
 
-    public function mount(StaffTypeCategoryService $staffTypeCategoryService)
+    public function mount(LandlordStaffTypeCategoryService $staffTypeCategoryService)
     {
         $this->staffTypeCategories = $staffTypeCategoryService->all(['id', 'name']);
-        $this->staffTypes = StaffType::query()
+        $this->staffTypes = LandlordStaffType::query()
             ->where(['staff_type_category_id' => $this->staff_type_category_id])
             ->whereDoesntHave('staff_types')
             ->with('staff_type')
             ->orderBy('id')
-            ->get(['id', 'staff_type_id', 'name']);
+            ->get();
+        /*['id', 'staff_type_id', 'name']*/
     }
 
     /**
@@ -62,7 +63,7 @@ class StaffTypeCreate extends Component
      *
      * @return void
      */
-    public function store(StaffTypeService $staffTypeService)
+    public function store(LandlordStaffTypeService $staffTypeService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -78,7 +79,7 @@ class StaffTypeCreate extends Component
             $msg = 'Personel seçeneği oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
-            $this->staffTypes = StaffType::query()
+            $this->staffTypes = LandlordStaffType::query()
                 ->where(['staff_type_category_id' => $this->staff_type_category_id])
                 ->whereDoesntHave('staff_types')
                 ->with('staff_type')
@@ -98,6 +99,6 @@ class StaffTypeCreate extends Component
 
     public function updatedStaffTypeCategoryId()
     {
-        $this->staffTypes = StaffType::query()->where(['staff_type_category_id' => $this->staff_type_category_id])->with('staff_type')->orderBy('id')->get(['id', 'staff_type_id', 'name']);
+        $this->staffTypes = LandlordStaffType::query()->where(['staff_type_category_id' => $this->staff_type_category_id])->with('staff_type')->orderBy('id')->get();
     }
 }

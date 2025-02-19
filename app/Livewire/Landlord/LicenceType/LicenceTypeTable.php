@@ -3,8 +3,7 @@
 namespace App\Livewire\Landlord\LicenceType;
 
 use App\Models\Landlord\LandlordLicenceType;
-use App\Models\Tenant\LicenceType;
-use App\Models\Tenant\LicenceTypeCategory;
+use App\Models\Landlord\LandlordLicenceTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -114,7 +113,7 @@ final class LicenceTypeTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('licence_type_category_id')
-                ->dataSource(LicenceTypeCategory::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordLicenceTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('licence_type_id')

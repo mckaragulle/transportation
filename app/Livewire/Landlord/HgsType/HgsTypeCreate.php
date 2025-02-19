@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\HgsType;
 
-use App\Models\Tenant\HgsType;
-use App\Services\HgsTypeCategoryService;
-use App\Services\HgsTypeService;
+use App\Models\Landlord\LandlordHgsType;
+use App\Services\Landlord\LandlordHgsTypeCategoryService;
+use App\Services\Landlord\LandlordHgsTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,10 +46,10 @@ class HgsTypeCreate extends Component
         return view('livewire.landlord.hgs-type.hgs-type-create');
     }
 
-    public function mount(HgsTypeCategoryService $hgsTypeCategoryService)
+    public function mount(LandlordHgsTypeCategoryService $hgsTypeCategoryService)
     {
         $this->hgsTypeCategories = $hgsTypeCategoryService->all(['id', 'name']);
-        $this->hgsTypes = HgsType::query()
+        $this->hgsTypes = LandlordHgsType::query()
             ->where(['hgs_type_category_id' => $this->hgs_type_category_id])
             ->whereDoesntHave('hgs_types')
             ->with('hgs_type')
@@ -62,7 +62,7 @@ class HgsTypeCreate extends Component
      *
      * @return void
      */
-    public function store(HgsTypeService $hgsTypeService)
+    public function store(LandlordHgsTypeService $hgsTypeService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -78,7 +78,7 @@ class HgsTypeCreate extends Component
             $msg = 'Hgs oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
-            $this->hgsTypes = HgsType::query()
+            $this->hgsTypes = LandlordHgsType::query()
                 ->where(['hgs_type_category_id' => $this->hgs_type_category_id])
                 ->whereDoesntHave('hgs_types')
                 ->with('hgs_type')
@@ -98,6 +98,6 @@ class HgsTypeCreate extends Component
 
     public function updatedHgsTypeCategoryId()
     {
-        $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+        $this->hgsTypes = LandlordHgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
     }
 }

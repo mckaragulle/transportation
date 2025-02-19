@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Landlord\VehicleModel;
 
-use App\Models\Tenant\VehicleTicket;
-use App\Services\VehicleBrandService;
-use App\Services\VehicleModelService;
-use App\Services\VehicleTicketService;
+use App\Models\Landlord\LandlordVehicleTicket;
+use App\Services\Landlord\LandlordVehicleBrandService;
+use App\Services\Landlord\LandlordVehicleModelService;
+use App\Services\Landlord\LandlordVehicleTicketService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -27,8 +27,9 @@ class VehicleModelEdit extends Component
     public null|string $insurance_number;
     public bool $status = true;
 
-    protected VehicleBrandService $vehicleBrandService;
-    protected VehicleTicketService $vehicleTicketService;
+    protected LandlordVehicleBrandService $vehicleBrandService;
+    protected LandlordVehicleTicketService $vehicleTicketService;
+
     /**
      * List of add/edit form rules
      */
@@ -52,7 +53,10 @@ class VehicleModelEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, VehicleBrandService $vehicleBrandService, VehicleModelService $vehicleModelService)
+    public function mount($id = null,
+                          LandlordVehicleBrandService $vehicleBrandService,
+                          LandlordVehicleModelService $vehicleModelService
+    )
     {
         if (!is_null($id)) {
             $this->vehicleModel = $vehicleModelService->findById($id);
@@ -112,8 +116,8 @@ class VehicleModelEdit extends Component
         }
     }
 
-    public function getVehicleTickets(VehicleTicketService $vehicleTicketService = null)
+    public function getVehicleTickets(LandlordVehicleTicketService $vehicleTicketService = null)
     {
-        $this->vehicleTickets = VehicleTicket::query()->select('id', 'name')->whereVehicleBrandId($this->vehicle_brand_id)->get();
+        $this->vehicleTickets = LandlordVehicleTicket::query()->select('id', 'name')->whereVehicleBrandId($this->vehicle_brand_id)->get();
     }
 }

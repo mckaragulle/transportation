@@ -2,17 +2,17 @@
 
 namespace App\Livewire\Landlord\AccountAddress;
 
-use App\Models\District;
-use App\Models\Landlord\AccountAddress;
+use App\Models\Landlord\LandlordAccountAddress;
+use App\Models\Landlord\LandlordDistrict;
 use App\Models\Landlord\LandlordLocality;
-use App\Models\Tenant\Neighborhood;
-use App\Services\AccountAddressService;
-use App\Services\CityService;
-use App\Services\DistrictService;
-use App\Services\LocalityService;
-use App\Services\NeighborhoodService;
-use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Models\Landlord\LandlordNeighborhood;
+use App\Services\Landlord\LandlordAccountAddressService;
+use App\Services\Landlord\LandlordAccountService;
+use App\Services\Landlord\LandlordCityService;
+use App\Services\Landlord\LandlordDealerService;
+use App\Services\Landlord\LandlordDistrictService;
+use App\Services\Landlord\LandlordLocalityService;
+use App\Services\Landlord\LandlordNeighborhoodService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +23,7 @@ class AccountAddressEdit extends Component
 {
     use LivewireAlert;
 
-    public ?AccountAddress $accountAddress = null;
+    public ?LandlordAccountAddress $accountAddress = null;
     public null|Collection $accounts = null;
     public null|Collection $cities = null;
     public null|Collection $districts = null;
@@ -82,7 +82,14 @@ class AccountAddressEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, CityService $cityService, DistrictService $districtService, NeighborhoodService $neighborhoodService, LocalityService $localityService, AccountAddressService $accountAddressService)
+    public function mount($id = null,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService,
+                          LandlordCityService $cityService,
+                          LandlordDistrictService $districtService,
+                          LandlordNeighborhoodService $neighborhoodService,
+                          LandlordLocalityService $localityService,
+                          LandlordAccountAddressService $accountAddressService)
     {
         //TODO: Burada bayi ve cari seçimi yapılacak.
         if (!is_null($id)) {
@@ -158,13 +165,13 @@ class AccountAddressEdit extends Component
 
     public function updatedCityId()
     {
-        $this->districts = District::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
+        $this->districts = LandlordDistrict::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
         $this->neighborhoods = null;
     }
 
     public function updatedDistrictId()
     {
-        $this->neighborhoods = Neighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->neighborhoods = LandlordNeighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
     }
 
     public function updatedNeighborhoodId()

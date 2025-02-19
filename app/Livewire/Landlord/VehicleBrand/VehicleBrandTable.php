@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\VehicleBrand;
 
-use App\Models\Tenant\VehicleBrand;
+use App\Models\Landlord\LandlordVehicleBrand;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -45,7 +45,7 @@ final class VehicleBrandTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleBrand::query();
+        return LandlordVehicleBrand::query();
     }
 
     public function relationSearch(): array
@@ -101,7 +101,7 @@ final class VehicleBrandTable extends PowerGridComponent
         ];
     }
 
-    public function actions(VehicleBrand $row): array
+    public function actions(LandlordVehicleBrand $row): array
     {
         return [
             Button::add('view')
@@ -130,14 +130,14 @@ final class VehicleBrandTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        VehicleBrand::query()->find($id)->update([
+        LandlordVehicleBrand::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        VehicleBrand::query()->find($id)->update([
+        LandlordVehicleBrand::query()->find($id)->update([
             $field => e($value),
         ]);
     }

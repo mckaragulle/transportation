@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\DealerAddress;
 
-use App\Models\City;
-use App\Models\District;
-use App\Models\Tenant\DealerAddress;
+use App\Models\Landlord\LandlordCity;
+use App\Models\Landlord\LandlordDealerAddress;
+use App\Models\Landlord\LandlordDistrict;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -53,7 +53,7 @@ final class DealerAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerAddress::query()
+        $dealer = LandlordDealerAddress::query()
             ->whereDealerId($this->dealer_id);
         return $dealer;
     }
@@ -146,7 +146,7 @@ final class DealerAddressTable extends PowerGridComponent
     public function filters(): array
     {
         $city_id = $this->filters['select']['city_id'] ?? null;
-        $query = DealerAddress::query();
+        $query = LandlordDealerAddress::query();
         if ($city_id > 0) {
             $query->where('city_id', $city_id)->orderBy('city_id', 'asc');
         }
@@ -157,13 +157,13 @@ final class DealerAddressTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('city_id')
-                ->dataSource(City::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordCity::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('district_id')
                 ->depends(['city_id'])
                 ->dataSource(
-                    fn($depends) => District::query()
+                    fn($depends) => LandlordDistrict::query()
                         ->when(
                             isset($depends['city_id']),
                             fn(Builder $query) => $query->whereRelation(
@@ -179,7 +179,7 @@ final class DealerAddressTable extends PowerGridComponent
         ];
     }
 
-    public function actions(DealerAddress $row): array
+    public function actions(LandlordDealerAddress $row): array
     {
         return [
             Button::add('view')
@@ -208,14 +208,14 @@ final class DealerAddressTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerAddress::query()->find($id)->update([
+        LandlordDealerAddress::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerAddress::query()->find($id)->update([
+        LandlordDealerAddress::query()->find($id)->update([
             $field => e($value),
         ]);
     }

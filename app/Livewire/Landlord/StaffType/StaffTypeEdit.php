@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\StaffType;
 
-use App\Models\Tenant\StaffType;
-use App\Services\StaffTypeCategoryService;
-use App\Services\StaffTypeService;
+use App\Models\Landlord\LandlordStaffType;
+use App\Services\Landlord\LandlordStaffTypeCategoryService;
+use App\Services\Landlord\LandlordStaffTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,15 +18,15 @@ class StaffTypeEdit extends Component
     public null|Collection $staffTypeCategories;
     public null|Collection $staffTypes;
 
-    public ?StaffType $staffType = null;
+    public ?LandlordStaffType $staffType = null;
 
     public null|int $staff_type_category_id = null;
     public null|int $staff_type_id = null;
     public null|string $name;
     public bool $status = true;
 
-    protected StaffTypeCategoryService $staffTypeCategoryService;
-    protected StaffTypeService $staffTypeService;
+    protected LandlordStaffTypeCategoryService $staffTypeCategoryService;
+    protected LandlordStaffTypeService $staffTypeService;
     /**
      * List of add/edit form rules
      */
@@ -59,7 +59,7 @@ class StaffTypeEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, StaffTypeCategoryService $staffTypeCategoryService, StaffTypeService $staffTypeService)
+    public function mount($id = null, LandlordStaffTypeCategoryService $staffTypeCategoryService, LandlordStaffTypeService $staffTypeService)
     {
         if (!is_null($id)) {
             $this->staffType = $staffTypeService->findById($id);
@@ -68,7 +68,7 @@ class StaffTypeEdit extends Component
             $this->name = $this->staffType->name??null;
             $this->status = $this->staffType->status;
             $this->staffTypeCategories = $staffTypeCategoryService->all();
-            $this->staffTypes = StaffType::query()
+            $this->staffTypes = LandlordStaffType::query()
                 ->where(['staff_type_category_id' => $this->staff_type_category_id])
                 ->with('staff_type')
                 ->orderBy('id')
@@ -115,6 +115,6 @@ class StaffTypeEdit extends Component
 
     public function updatedStaffTypeCategoryId()
     {
-        $this->staffTypes = StaffType::query()->where(['staff_type_category_id' => $this->staff_type_category_id])->with('staff_type')->orderBy('id')->get(['id', 'staff_type_id', 'name']);
+        $this->staffTypes = LandlordStaffType::query()->where(['staff_type_category_id' => $this->staff_type_category_id])->with('staff_type')->orderBy('id')->get(['id', 'staff_type_id', 'name']);
     }
 }

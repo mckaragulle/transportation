@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\AccountBank;
 
 use App\Models\Landlord\LandlordAccount;
 use App\Models\Landlord\LandlordAccountBank;
-use App\Models\Tenant\Bank;
+use App\Models\Landlord\LandlordBank;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -135,7 +135,7 @@ final class AccountBankTable extends PowerGridComponent
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('bank_id')
-                ->dataSource(Bank::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordBank::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];

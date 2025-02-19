@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\StaffTypeCategory;
 
-use App\Services\StaffTypeCategoryService;
+use App\Services\Landlord\LandlordStaffTypeCategoryService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,7 +12,7 @@ class StaffTypeCategories extends Component
 {
     use LivewireAlert;
 
-    protected StaffTypeCategoryService $staffTypeCategoryService;
+    protected LandlordStaffTypeCategoryService $staffTypeCategoryService;
 
     public null|string $data_id;
 
@@ -40,7 +40,7 @@ class StaffTypeCategories extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(StaffTypeCategoryService $staffTypeCategoryService)
+    public function handleConfirmed(LandlordStaffTypeCategoryService $staffTypeCategoryService)
     {
         try {
             $staffTypeCategoryService->delete($this->data_id);

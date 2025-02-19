@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\StaffTypeCategory;
 
-use App\Models\Tenant\StaffTypeCategory;
+use App\Models\Landlord\LandlordStaffTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -45,7 +45,7 @@ final class StaffTypeCategoryTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return StaffTypeCategory::query();
+        return LandlordStaffTypeCategory::query()->orderBy('target');
     }
 
     public function relationSearch(): array
@@ -58,6 +58,30 @@ final class StaffTypeCategoryTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('name')
+            ->add('target', function($row){
+                switch ($row->target)
+                {
+                    case 'all':
+                        $target = 'HEPSİ';
+                        break;
+                    case 'staff':
+                        $target = 'PERSONEL';
+                        break;
+                    case 'competence':
+                        $target = 'YETKİNLİK';
+                        break;
+                    case 'address':
+                        $target = 'ADRES';
+                        break;
+                    case 'bank':
+                        $target = 'BANKA';
+                        break;
+                    case 'file':
+                        $target = 'DOSYA';
+                        break;
+                }
+                return $target;
+            })
             ->add('slug')
             ->add('status')
             ->add('created_at');
@@ -69,6 +93,13 @@ final class StaffTypeCategoryTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
+            Column::make('Konum', 'target')
+                ->sortable()
+                ->searchable()
+                ->editOnClick(
+                    hasPermission: auth()->user()->can('update staff_type_categories'),
+                    fallback: '- empty -'
+                ),
 
             Column::make('Adı', 'name')
                 ->sortable()
@@ -101,7 +132,7 @@ final class StaffTypeCategoryTable extends PowerGridComponent
         ];
     }
 
-    public function actions(StaffTypeCategory $row): array
+    public function actions(LandlordStaffTypeCategory $row): array
     {
         return [
             Button::add('view')
@@ -130,14 +161,14 @@ final class StaffTypeCategoryTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        StaffTypeCategory::query()->find($id)->update([
+        LandlordStaffTypeCategory::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        StaffTypeCategory::query()->find($id)->update([
+        LandlordStaffTypeCategory::query()->find($id)->update([
             $field => e($value),
         ]);
     }

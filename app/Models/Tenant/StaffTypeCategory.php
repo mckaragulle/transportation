@@ -23,7 +23,7 @@ class StaffTypeCategory extends Model
     protected $connection = 'tenant';
     protected $keyType = 'string';
 
-    protected $fillable = ['name', 'slug', 'status'];
+    protected $fillable = ['name', 'slug', 'target', 'status'];
 
     /**
      * Return the sluggable configuration array for this model.

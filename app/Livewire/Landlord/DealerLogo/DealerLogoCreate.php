@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\DealerLogo;
 
-use App\Services\DealerLogoService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerLogoService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -45,7 +45,7 @@ class DealerLogoCreate extends Component
         return view('livewire.landlord.dealer-logo.dealer-logo-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService)
+    public function mount(null|string $id = null, bool $is_show, LandlordDealerService $dealerService)
     {
         $this->dealer_id = $id;
         $this->is_show = $is_show;
@@ -56,7 +56,7 @@ class DealerLogoCreate extends Component
      *
      * @return void
      */
-    public function store(DealerLogoService $dealerLogoService)
+    public function store(LandlordDealerLogoService $dealerLogoService)
     {
         $this->validate();
         DB::beginTransaction();

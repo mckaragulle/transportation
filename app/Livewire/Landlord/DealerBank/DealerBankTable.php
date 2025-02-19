@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\DealerBank;
 
-use App\Models\Tenant\Bank;
-use App\Models\Tenant\Dealer;
-use App\Models\Tenant\DealerBank;
+use App\Models\Landlord\LandlordBank;
+use App\Models\Landlord\LandlordDealer;
+use App\Models\Landlord\LandlordDealerBank;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -51,7 +51,7 @@ final class DealerBankTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerBank::query()
+        $dealer = LandlordDealerBank::query()
             ->whereDealerId($this->dealer_id);
         return $dealer;
     }
@@ -132,17 +132,17 @@ final class DealerBankTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('dealer_id')
-                ->dataSource(Dealer::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordDealer::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('bank_id')
-                ->dataSource(Bank::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordBank::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];
     }
 
-    public function actions(DealerBank $row): array
+    public function actions(LandlordDealerBank $row): array
     {
         return [
             Button::add('view')
@@ -171,14 +171,14 @@ final class DealerBankTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerBank::query()->find($id)->update([
+        LandlordÏDealerBank::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerBank::query()->find($id)->update([
+        LandlordÏDealerBank::query()->find($id)->update([
             $field => e($value),
         ]);
     }

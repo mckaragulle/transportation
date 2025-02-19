@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\StaffType;
 
-use App\Services\StaffTypeService;
+use App\Services\Landlord\LandlordStaffTypeService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -38,7 +38,7 @@ class StaffTypes extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(StaffTypeService $staffTypeService)
+    public function handleConfirmed(LandlordStaffTypeService $staffTypeService)
     {
         try {
             $staffTypeService->delete($this->data_id);

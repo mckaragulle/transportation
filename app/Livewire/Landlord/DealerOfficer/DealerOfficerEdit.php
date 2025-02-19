@@ -2,8 +2,7 @@
 
 namespace App\Livewire\Landlord\DealerOfficer;
 
-use App\Models\Tenant\DealerOfficer;
-use App\Services\DealerOfficerService;
+use App\Services\Landlord\LandlordDealerOfficerService;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -61,7 +60,7 @@ class DealerOfficerEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerOfficerService $dealerOfficerService)
+    public function mount($id = null, LandlordDealerOfficerService $dealerOfficerService)
     {
         if (!is_null($id)) {
             $this->dealerOfficer = $dealerOfficerService->findById($id);

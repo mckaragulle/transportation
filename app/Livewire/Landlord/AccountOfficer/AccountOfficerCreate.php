@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\AccountOfficer;
 
 use App\Services\Landlord\LandlordAccountOfficerService;
 use App\Services\Landlord\LandlordAccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -71,7 +71,11 @@ class AccountOfficerCreate extends Component
         return view('livewire.landlord.account-officer.account-officer-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, LandlordAccountService $accountService)
+    public function mount(null|string $id = null,
+                          bool $is_show,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService
+    )
     {
         if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;

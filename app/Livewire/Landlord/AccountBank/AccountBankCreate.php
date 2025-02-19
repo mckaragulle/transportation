@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Landlord\AccountBank;
 
-use App\Services\BankService;
 use App\Services\Landlord\LandlordAccountBankService;
 use App\Services\Landlord\LandlordAccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordBankService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -55,7 +55,12 @@ class AccountBankCreate extends Component
         return view('livewire.landlord.account-bank.account-bank-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, LandlordAccountService $accountService, BankService $bankService)
+    public function mount(null|string $id = null,
+                          bool $is_show,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService,
+                          LandlordBankService $bankService
+    )
     {
         if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;

@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\VehicleBrand;
 
-use App\Models\Tenant\VehicleBrand;
-use App\Services\VehicleBrandService;
+use App\Models\Landlord\LandlordVehicleBrand;
+use App\Services\Landlord\LandlordVehicleBrandService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,13 +13,14 @@ class VehicleBrandEdit extends Component
 {
     use LivewireAlert;
 
-    public null|VehicleBrand $vehicleBrand;
+    public null|LandlordVehicleBrand $vehicleBrand;
 
     public null|string $name;
 
     public bool $status = true;
 
-    protected VehicleBrandService $vehicleBrandService;
+    protected LandlordVehicleBrandService $vehicleBrandService;
+
     /**
      * List of add/edit form rules
      */
@@ -41,7 +42,7 @@ class VehicleBrandEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, VehicleBrandService $vehicleBrandService)
+    public function mount($id = null, LandlordVehicleBrandService $vehicleBrandService)
     {
         if (!is_null($id)) {
 

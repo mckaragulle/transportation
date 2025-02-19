@@ -151,7 +151,6 @@ class Dealer extends Authenticatable
 
     private static function clearCache(): void
     {
-        //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-dealer-DealerTable'])->flush();
+        /*Cache::tags([auth()->user()->id .'-powergrid-tenant-dealer-DealerTable'])->flush();*/
     }
 }

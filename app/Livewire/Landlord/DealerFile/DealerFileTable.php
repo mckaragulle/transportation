@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\DealerFile;
 
-use App\Models\Tenant\DealerFile;
+use App\Models\Landlord\LandlordDealerFile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -50,7 +50,7 @@ final class DealerFileTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerFile::query()
+        $dealer = LandlordDealerFile::query()
             ->whereDealerId($this->dealer_id);
         return $dealer;
     }
@@ -109,7 +109,7 @@ final class DealerFileTable extends PowerGridComponent
         ];
     }
 
-    public function actions(DealerFile $row): array
+    public function actions(LandlordDealerFile $row): array
     {
         return [
             Button::add('delete')
@@ -131,14 +131,14 @@ final class DealerFileTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerFile::query()->find($id)->update([
+        LandlordDealerFile::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerFile::query()->find($id)->update([
+        LandlordDealerFile::query()->find($id)->update([
             $field => e($value),
         ]);
     }

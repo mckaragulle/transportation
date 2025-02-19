@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Landlord\DealerBank;
 
-use App\Models\Tenant\DealerBank;
-use App\Services\BankService;
-use App\Services\DealerBankService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordBankService;
+use App\Services\Landlord\LandlordDealerBankService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -47,7 +46,11 @@ class DealerBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, BankService $bankService, DealerBankService $dealerBankService)
+    public function mount($id = null,
+                          LandlordDealerService $dealerService,
+                          LandlordBankService $bankService,
+                          LandlordDealerBankService $dealerBankService
+    )
     {
         if (!is_null($id)) {
             $this->dealerBank = $dealerBankService->findById($id);

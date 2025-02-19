@@ -3,11 +3,8 @@
 namespace App\Livewire\Landlord\LicenceType;
 
 use App\Models\Landlord\LandlordLicenceType;
-use App\Models\Tenant\LicenceType;
 use App\Services\Landlord\LandlordLicenceTypeCategoryService;
 use App\Services\Landlord\LandlordLicenceTypeService;
-use App\Services\LicenceTypeCategoryService;
-use App\Services\LicenceTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +18,7 @@ class LicenceTypeEdit extends Component
     public null|Collection $licenceTypeCategories;
     public null|Collection $licenceTypes;
 
-    public ?LicenceType $licenceType = null;
+    public ?LandlordLicenceType $licenceType = null;
 
     public null|string $licence_type_category_id = null;
     public null|string $licence_type_id = null;
@@ -71,7 +68,7 @@ class LicenceTypeEdit extends Component
             $this->name = $this->licenceType->name??null;
             $this->status = $this->licenceType->status;
             $this->licenceTypeCategories = $licenceTypeCategoryService->all();
-            $this->licenceTypes = LicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
+            $this->licenceTypes = LandlordLicenceType::query()->where(['licence_type_category_id' => $this->licence_type_category_id])->with('licence_type')->orderBy('id')->get(['id', 'licence_type_id', 'name']);
 
         } else {
             return $this->redirect(route('licenceTypes.list'));

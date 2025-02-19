@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Landlord\AccountAddress;
 
-use App\Services\Tenant\AccountService;
+use App\Models\Landlord\LandlordLicenceType;
+use App\Services\Landlord\LandlordAccountService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -46,7 +47,7 @@ class AccountAddresses extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccountService $accountAddressService)
+    public function handleConfirmed(LandlordAccountService $accountAddressService)
     {
         try {
             $accountAddressService->delete($this->data_id);

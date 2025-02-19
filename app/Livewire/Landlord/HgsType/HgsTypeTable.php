@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\HgsType;
 
+use App\Models\Landlord\LandlordHgsType;
 use App\Models\Landlord\LandlordHgsTypeCategory;
-use App\Models\Tenant\HgsType;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -47,7 +47,7 @@ final class HgsTypeTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return HgsType::query();
+        return LandlordHgsType::query();
     }
 
     public function relationSearch(): array
@@ -106,7 +106,7 @@ final class HgsTypeTable extends PowerGridComponent
     public function filters(): array
     {
         $id = $this->filters['select']['hgs_type_category_id'] ?? null;
-        $query = HgsType::query();
+        $query = LandlordHgsType::query();
         if ($id > 0) {
             $query->where('hgs_type_category_id', $id)->whereNull('hgs_type_id')->orderBy('hgs_type_category_id', 'asc');
         }
@@ -124,7 +124,7 @@ final class HgsTypeTable extends PowerGridComponent
         ];
     }
 
-    public function actions(HgsType $row): array
+    public function actions(LandlordHgsType $row): array
     {
         return [
             Button::add('view')
@@ -153,14 +153,14 @@ final class HgsTypeTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        HgsType::query()->find($id)->update([
+        LandlordHgsType::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        HgsType::query()->find($id)->update([
+        LandlordHgsType::query()->find($id)->update([
             $field => e($value),
         ]);
     }

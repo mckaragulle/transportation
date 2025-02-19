@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\StaffType;
 
-use App\Models\Tenant\StaffType;
-use App\Models\Tenant\StaffTypeCategory;
+use App\Models\Landlord\LandlordStaffType;
+use App\Models\Landlord\LandlordStaffTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -47,7 +47,7 @@ final class StaffTypeTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return StaffType::query();
+        return LandlordStaffType::query();
     }
 
     public function relationSearch(): array
@@ -106,14 +106,14 @@ final class StaffTypeTable extends PowerGridComponent
     public function filters(): array
     {
         $id = $this->filters['select']['staff_type_category_id'] ?? null;
-        $query = StaffType::query();
+        $query = LandlordStaffType::query();
         if ($id > 0) {
             $query->where('staff_type_category_id', $id)->whereNull('staff_type_id')->orderBy('staff_type_category_id', 'asc');
         }
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('staff_type_category_id')
-                ->dataSource(StaffTypeCategory::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordStaffTypeCategory::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('staff_type_id')
@@ -124,7 +124,7 @@ final class StaffTypeTable extends PowerGridComponent
         ];
     }
 
-    public function actions(StaffType $row): array
+    public function actions(LandlordStaffType $row): array
     {
         return [
             Button::add('view')
@@ -153,14 +153,14 @@ final class StaffTypeTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        StaffType::query()->find($id)->update([
+        LandlordStaffType::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        StaffType::query()->find($id)->update([
+        LandlordStaffType::query()->find($id)->update([
             $field => e($value),
         ]);
     }

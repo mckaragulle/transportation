@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Landlord\AccountAddress;
 
-use App\Models\District;
+use App\Models\Landlord\LandlordDistrict;
 use App\Models\Landlord\LandlordLocality;
-use App\Models\Tenant\Neighborhood;
-use App\Services\AccountAddressService;
-use App\Services\CityService;
-use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Models\Landlord\LandlordNeighborhood;
+use App\Services\Landlord\LandlordAccountAddressService;
+use App\Services\Landlord\LandlordAccountService;
+use App\Services\Landlord\LandlordCityService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -83,7 +83,12 @@ class AccountAddressCreate extends Component
         return view('livewire.landlord.account-address.account-address-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, CityService $cityService)
+    public function mount(null|string $id = null,
+                          bool $is_show,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService,
+                          LandlordCityService $cityService
+    )
     {
         if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;
@@ -102,7 +107,7 @@ class AccountAddressCreate extends Component
      *
      * @return void
      */
-    public function store(AccountAddressService $accountAddressService)
+    public function store(LandlordAccountAddressService $accountAddressService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -141,13 +146,13 @@ class AccountAddressCreate extends Component
 
     public function updatedCityId()
     {
-        $this->districts = District::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
+        $this->districts = LandlordDistrict::query()->where(['city_id' => $this->city_id])->orderBy('id')->get(['id', 'city_id', 'name']);
         $this->neighborhoods = null;
     }
 
     public function updatedDistrictId()
     {
-        $this->neighborhoods = Neighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
+        $this->neighborhoods = LandlordNeighborhood::query()->where(['district_id' => $this->district_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'name']);
     }
 
     public function updatedNeighborhoodId()

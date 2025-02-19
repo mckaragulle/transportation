@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Landlord\AccountBank;
 
-use App\Services\BankService;
 use App\Services\Landlord\LandlordAccountBankService;
-use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordAccountService;
+use App\Services\Landlord\LandlordBankService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +52,12 @@ class AccountBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, LandlordAccountBankService $accountBankService)
+    public function mount($id = null,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService,
+                          LandlordBankService $bankService,
+                          LandlordAccountBankService $accountBankService
+    )
     {
         if (!is_null($id)) {
             $this->accountBank = $accountBankService->findById($id);

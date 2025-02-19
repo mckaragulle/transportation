@@ -7,14 +7,13 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class Staff extends Model
+class StaffCompetence extends Model
 {
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
@@ -33,21 +32,25 @@ class Staff extends Model
     {
         return [
             'slug' => [
-                'source' => ['name', 'surname']
+                'source' => 'name'
             ]
         ];
     }
 
     protected $fillable = [
-        "id_number",
+        "dealer_id",
+        "city_id",
+        "district_id",
+        "neighborhood_id",
+        "locality_id",
         "name",
         "slug",
-        "surname",
+        "address1",
+        "address2",
         "phone1",
         "phone2",
-        "archive_number",
+        "email",
         "detail",
-        "filename",
         "status",
     ];
 
@@ -59,41 +62,43 @@ class Staff extends Model
     }
 
     /**
-     * Get the prices for the type post.
+     * @return BelongsTo
      */
-    public function staff_type_category(): BelongsTo
+    public function staff(): BelongsTo
     {
-        return $this->belongsTo(StaffTypeCategory::class, 'staff_type_category_id');
+        return $this->belongsTo(Staff::class);
     }
 
-    /**
-     * Get the prices for the type post.
-     */
-    public function staff_type(): BelongsTo
+    public function city(): BelongsTo
     {
-        return $this->belongsTo(StaffType::class, 'staff_type_category_id');
+        return $this->belongsTo(City::class);
     }
 
-    public function staff_type_categories(): BelongsToMany
+    public function district(): BelongsTo
     {
-        return $this->belongsToMany(StaffTypeCategory::class, 'staff_type_category_staff_type_staff');
+        return $this->belongsTo(District::class);
     }
 
-    public function staff_types(): BelongsToMany
+    public function neighborhood(): BelongsTo
     {
-        return $this->belongsToMany(StaffType::class, 'staff_type_category_staff_type_staff');
+        return $this->belongsTo(Neighborhood::class);
+    }
+
+    public function locality(): BelongsTo
+    {
+        return $this->belongsTo(Locality::class);
     }
 
     protected static function booted(): void
     {
-        static::created(fn (Staff $dish) => self::clearCache());
-        static::updated(fn (Staff $dish) => self::clearCache());
-        static::deleted(fn (Staff $dish) => self::clearCache());
+        static::created(fn (StaffCompetence $dish) => self::clearCache());
+        static::updated(fn (StaffCompetence $dish) => self::clearCache());
+        static::deleted(fn (StaffCompetence $dish) => self::clearCache());
     }
 
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-staffs-StaffTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-dealer_addresses-DealerAddressTable'])->flush();
     }
 }

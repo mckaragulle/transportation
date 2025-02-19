@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Landlord\VehicleTicket;
 
-use App\Models\Tenant\VehicleBrand;
-use App\Models\Tenant\VehicleTicket;
+use App\Models\Landlord\LandlordVehicleBrand;
+use App\Models\Landlord\LandlordVehicleTicket;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -47,7 +47,7 @@ final class VehicleTicketTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleTicket::query();
+        return LandlordVehicleTicket::query();
     }
 
     public function relationSearch(): array
@@ -103,7 +103,7 @@ final class VehicleTicketTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('vehicle_brand_id', 'vehicle_brand_id')
-                ->dataSource(VehicleBrand::all())
+                ->dataSource(LandlordVehicleBrand::all())
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];
@@ -126,14 +126,14 @@ final class VehicleTicketTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        VehicleTicket::query()->find($id)->update([
+        LandlordVehicleTicket::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        VehicleTicket::query()->find($id)->update([
+        LandlordVehicleTicket::query()->find($id)->update([
             $field => e($value),
         ]);
     }

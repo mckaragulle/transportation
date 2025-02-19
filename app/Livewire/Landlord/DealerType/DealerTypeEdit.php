@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Landlord\DealerType;
 
-use App\Models\Tenant\DealerType;
-use App\Services\DealerTypeCategoryService;
-use App\Services\DealerTypeService;
+use App\Models\Landlord\LandlordDealerType;
+use App\Models\Landlord\LandlordLicenceType;
+use App\Services\Landlord\LandlordDealerTypeCategoryService;
+use App\Services\Landlord\LandlordDealerTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,15 +19,16 @@ class DealerTypeEdit extends Component
     public null|Collection $dealerTypeCategories;
     public null|Collection $dealerTypes;
 
-    public ?DealerType $dealerType = null;
+    public ?LandlordDealerType $dealerType = null;
 
     public null|int $dealer_type_category_id = null;
     public null|int $dealer_type_id = null;
     public null|string $name;
     public bool $status = true;
 
-    protected DealerTypeCategoryService $dealerTypeCategoryService;
-    protected DealerTypeService $dealerTypeService;
+    protected LandlordDealerTypeCategoryService $dealerTypeCategoryService;
+    protected LandlordDealerTypeService $dealerTypeService;
+
     /**
      * List of add/edit form rules
      */
@@ -59,7 +61,7 @@ class DealerTypeEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerTypeCategoryService $dealerTypeCategoryService, DealerTypeService $dealerTypeService)
+    public function mount($id = null, LandlordDealerTypeCategoryService $dealerTypeCategoryService, LandlordDealerTypeService $dealerTypeService)
     {
         if (!is_null($id)) {
             $this->dealerType = $dealerTypeService->findById($id);
@@ -68,7 +70,7 @@ class DealerTypeEdit extends Component
             $this->name = $this->dealerType->name??null;
             $this->status = $this->dealerType->status;
             $this->dealerTypeCategories = $dealerTypeCategoryService->all();
-            $this->dealerTypes = DealerType::query()->where(['dealer_type_category_id' => $this->dealer_type_category_id])->with('dealer_type')->orderBy('id')->get(['id', 'dealer_type_id', 'name']);
+            $this->dealerTypes = LandlordDealerType::query()->where(['dealer_type_category_id' => $this->dealer_type_category_id])->with('dealer_type')->orderBy('id')->get(['id', 'dealer_type_id', 'name']);
 
         } else {
             return $this->redirect(route('dealerTypes.list'));
@@ -111,6 +113,6 @@ class DealerTypeEdit extends Component
 
     public function updatedDealerTypeCategoryId()
     {
-        $this->dealerTypes = DealerType::query()->where(['dealer_type_category_id' => $this->dealer_type_category_id])->with('dealer_type')->orderBy('id')->get(['id', 'dealer_type_id', 'name']);
+        $this->dealerTypes = LandlordDealerType::query()->where(['dealer_type_category_id' => $this->dealer_type_category_id])->with('dealer_type')->orderBy('id')->get(['id', 'dealer_type_id', 'name']);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\HgsType;
 
-use App\Models\Tenant\HgsType;
-use App\Services\HgsTypeCategoryService;
-use App\Services\HgsTypeService;
+use App\Models\Landlord\LandlordHgsType;
+use App\Services\Landlord\LandlordHgsTypeCategoryService;
+use App\Services\Landlord\LandlordHgsTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,15 +18,16 @@ class HgsTypeEdit extends Component
     public null|Collection $hgsTypeCategories;
     public null|Collection $hgsTypes;
 
-    public ?HgsType $hgsType = null;
+    public ?LandlordHgsType $hgsType = null;
 
     public null|int $hgs_type_category_id = null;
     public null|int $hgs_type_id = null;
     public null|string $name;
     public bool $status = true;
 
-    protected HgsTypeCategoryService $hgsTypeCategoryService;
-    protected HgsTypeService $hgsTypeService;
+    protected LandlordHgsTypeCategoryService $hgsTypeCategoryService;
+    protected LandlordHgsTypeService $hgsTypeService;
+
     /**
      * List of add/edit form rules
      */
@@ -59,7 +60,10 @@ class HgsTypeEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, HgsTypeCategoryService $hgsTypeCategoryService, HgsTypeService $hgsTypeService)
+    public function mount($id = null,
+                          LandlordHgsTypeCategoryService $hgsTypeCategoryService,
+                          LandlordHgsTypeService $hgsTypeService
+    )
     {
         if (!is_null($id)) {
             $this->hgsType = $hgsTypeService->findById($id);
@@ -68,7 +72,7 @@ class HgsTypeEdit extends Component
             $this->name = $this->hgsType->name??null;
             $this->status = $this->hgsType->status;
             $this->hgsTypeCategories = $hgsTypeCategoryService->all();
-            $this->hgsTypes = HgsType::query()
+            $this->hgsTypes = LandlordHgsType::query()
                 ->where(['hgs_type_category_id' => $this->hgs_type_category_id])
                 ->with('hgs_type')
                 ->orderBy('id')
@@ -115,6 +119,6 @@ class HgsTypeEdit extends Component
 
     public function updatedHgsTypeCategoryId()
     {
-        $this->hgsTypes = HgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
+        $this->hgsTypes = LandlordHgsType::query()->where(['hgs_type_category_id' => $this->hgs_type_category_id])->with('hgs_type')->orderBy('id')->get(['id', 'hgs_type_id', 'name']);
     }
 }

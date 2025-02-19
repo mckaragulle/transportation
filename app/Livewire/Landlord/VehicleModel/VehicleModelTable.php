@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Landlord\VehicleModel;
 
-use App\Models\Tenant\VehicleBrand;
-use App\Models\Tenant\VehicleModel;
-use App\Models\Tenant\VehicleTicket;
+use App\Models\Landlord\LandlordVehicleBrand;
+use App\Models\Landlord\LandlordVehicleModel;
+use App\Models\Landlord\LandlordVehicleTicket;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -48,7 +48,7 @@ final class VehicleModelTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return VehicleModel::query()->with(['vehicle_brand', 'vehicle_ticket']);
+        return LandlordVehicleModel::query()->with(['vehicle_brand', 'vehicle_ticket']);
     }
 
     public function relationSearch(): array
@@ -123,14 +123,14 @@ final class VehicleModelTable extends PowerGridComponent
     public function filters(): array
     {
         $id = $this->filters['select']['vehicle_brand_id'] ?? null;
-        $query = VehicleTicket::query();
+        $query = LandlordVehicleTicket::query();
         if ($id > 0) {
             $query->where('vehicle_brand_id', $id);
         }
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('vehicle_brand_id')
-                ->dataSource(VehicleBrand::all())
+                ->dataSource(LandlordVehicleBrand::all())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('vehicle_ticket_id')
@@ -140,7 +140,7 @@ final class VehicleModelTable extends PowerGridComponent
         ];
     }
 
-    public function actions(VehicleModel $row): array
+    public function actions(LandlordVehicleModel $row): array
     {
         return [
             Button::add('view')
@@ -157,14 +157,14 @@ final class VehicleModelTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        VehicleModel::query()->find($id)->update([
+        LandlordVehicleModel::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        VehicleModel::query()->find($id)->update([
+        LandlordVehicleModel::query()->find($id)->update([
             $field => e($value),
         ]);
     }

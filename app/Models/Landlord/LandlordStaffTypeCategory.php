@@ -26,7 +26,7 @@ class LandlordStaffTypeCategory extends Model
     protected $table = 'staff_type_categories';
     public $incrementing = false;
 
-    protected $fillable = ['name', 'slug', 'status'];
+    protected $fillable = ['name', 'slug', 'target', 'status'];
 
     /**
      * Return the sluggable configuration array for this model.

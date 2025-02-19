@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('slug')->nullable();
+            $table->string('target')->default('all');
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();

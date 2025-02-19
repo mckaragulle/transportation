@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\DealerOfficer;
 
-use App\Models\Tenant\DealerOfficer;
+use App\Models\Landlord\LandlordDealerOfficer;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -52,7 +52,7 @@ final class DealerOfficerTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $dealer = DealerOfficer::query()
+        $dealer = LandlordDealerOfficer::query()
             ->whereDealerId($this->dealer_id);
         return $dealer;
     }
@@ -167,7 +167,7 @@ final class DealerOfficerTable extends PowerGridComponent
         ];
     }
 
-    public function actions(DealerOfficer $row): array
+    public function actions(LandlordDealerOfficer $row): array
     {
         return [
             Button::add('view')
@@ -196,14 +196,14 @@ final class DealerOfficerTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        DealerOfficer::query()->find($id)->update([
+        LandlordDealerOfficer::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        DealerOfficer::query()->find($id)->update([
+        LandlordDealerOfficer::query()->find($id)->update([
             $field => e($value),
         ]);
     }

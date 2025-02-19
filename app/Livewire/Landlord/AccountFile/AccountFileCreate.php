@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\AccountFile;
 
 use App\Services\Landlord\LandlordAccountFileService;
 use App\Services\Landlord\LandlordAccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,7 +53,11 @@ class AccountFileCreate extends Component
         return view('livewire.landlord.account-file.account-file-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, LandlordAccountService $accountService)
+    public function mount(null|string $id = null,
+                          bool $is_show,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService
+    )
     {
         if (auth()->getDefaultDriver() == 'dealer') {
             $this->dealer_id = auth()->user()->id;

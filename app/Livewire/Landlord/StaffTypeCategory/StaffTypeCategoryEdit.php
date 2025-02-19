@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Landlord\StaffTypeCategory;
 
-use App\Models\Tenant\StaffTypeCategory;
-use App\Services\StaffTypeCategoryService;
+
+use App\Models\Landlord\LandlordStaffTypeCategory;
+use App\Services\Landlord\LandlordStaffTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,13 +14,14 @@ class StaffTypeCategoryEdit extends Component
 {
     use LivewireAlert;
 
-    public null|StaffTypeCategory $staffTypeCategory;
+    public null|LandlordStaffTypeCategory $staffTypeCategory;
 
     public null|string $name;
+    public null|string $target;
 
     public bool $status = true;
 
-    protected StaffTypeCategoryService $staffTypeCategoryService;
+    protected LandlordStaffTypeCategoryService $staffTypeCategoryService;
     /**
      * List of add/edit form rules
      */
@@ -41,7 +43,7 @@ class StaffTypeCategoryEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, StaffTypeCategoryService $staffTypeCategoryService)
+    public function mount($id = null, LandlordStaffTypeCategoryService $staffTypeCategoryService)
     {
         if (!is_null($id)) {
 
@@ -69,6 +71,7 @@ class StaffTypeCategoryEdit extends Component
         DB::beginTransaction();
         try {
             $this->staffTypeCategory->name = $this->name;
+            $this->staffTypeCategory->target = $this->target;
             $this->staffTypeCategory->status = ($this->status == false ? 0 : 1);
             $this->staffTypeCategory->save();
 

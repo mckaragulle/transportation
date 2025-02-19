@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\AccountOfficer;
 
 use App\Services\Landlord\LandlordAccountOfficerService;
 use App\Services\Landlord\LandlordAccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Landlord\LandlordDealerService;
 use Illuminate\Database\Eloquent\Casts\ArrayObject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -70,7 +70,11 @@ class AccountOfficerEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, LandlordAccountService $accountService, LandlordAccountOfficerService $accountOfficerService)
+    public function mount($id = null,
+                          LandlordDealerService $dealerService,
+                          LandlordAccountService $accountService,
+                          LandlordAccountOfficerService $accountOfficerService
+    )
     {
         if (!is_null($id)) {
             $this->accountOfficer = $accountOfficerService->findById($id);

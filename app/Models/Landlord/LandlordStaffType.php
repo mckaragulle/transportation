@@ -56,7 +56,7 @@ class LandlordStaffType extends Model
      */
     public function staff_type_category(): BelongsTo
     {
-        return $this->belongsTo(LandlordStaffTypeCategory::class);
+        return $this->belongsTo(LandlordStaffTypeCategory::class, 'staff_type_category_id');
     }
 
     /**
@@ -64,7 +64,7 @@ class LandlordStaffType extends Model
      */
     public function staff_type(): BelongsTo
     {
-        return $this->belongsTo(LandlordStaffType::class);
+        return $this->belongsTo(LandlordStaffType::class, 'staff_type_id');
     }
 
     /**
@@ -72,7 +72,7 @@ class LandlordStaffType extends Model
      */
     public function staff_types(): HasMany
     {
-        return $this->hasMany(LandlordStaffType::class);
+        return $this->hasMany(LandlordStaffType::class, 'staff_type_id');
     }
 
     protected static function booted(): void

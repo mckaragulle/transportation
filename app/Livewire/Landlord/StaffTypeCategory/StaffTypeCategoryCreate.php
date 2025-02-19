@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\StaffTypeCategory;
 
-use App\Services\StaffTypeCategoryService;
+use App\Services\Landlord\LandlordStaffTypeCategoryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -13,10 +13,11 @@ class StaffTypeCategoryCreate extends Component
     use LivewireAlert;
 
     public null|string $name;
+    public null|string $target;
 
     public bool $status = true;
 
-    protected StaffTypeCategoryService $staffTypeCategoryService;
+    protected LandlordStaffTypeCategoryService $staffTypeCategoryService;
 
     /**
      * List of add/edit form rules
@@ -41,7 +42,7 @@ class StaffTypeCategoryCreate extends Component
      *
      * @return void
      */
-    public function store(StaffTypeCategoryService $staffTypeCategoryService)
+    public function store(LandlordStaffTypeCategoryService $staffTypeCategoryService)
     {
         $this->validate();
         $this->staffTypeCategoryService = $staffTypeCategoryService;
@@ -49,6 +50,7 @@ class StaffTypeCategoryCreate extends Component
         try {
             $staffTypeCategory = $this->staffTypeCategoryService->create([
                 'name' => $this->name,
+                'target' => $this->target,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
