@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-3 col-sm-3">
                 <label class="col-form-label">Adres Seçiniz :</label>
-                <select wire:model.lazy="dealer_address_id" id="dealer_address_id"
+                <select wire:model="dealer_address_id" id="dealer_address_id"
                     class="form-select form-select-lg">
                     <option value="">Adres Seçiniz</option>
                     @if(is_iterable($addresses))
@@ -23,7 +23,7 @@
 
             <div class="col-lg-3 col-sm-3">
                 <label class="col-form-label">Yetkili Seçiniz :</label>
-                <select wire:model.lazy="dealer_officer_id" id="dealer_officer_id"
+                <select wire:model="dealer_officer_id" id="dealer_officer_id"
                     class="form-select form-select-lg">
                     <option value="">Yetkili Seçiniz</option>
                     @if(is_iterable($officers))

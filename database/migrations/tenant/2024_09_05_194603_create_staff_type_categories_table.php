@@ -43,10 +43,12 @@ return new class extends Migration
             $table->string('slug');
             $table->string('phone1')->nullable();
             $table->string('phone2')->nullable();
+            $table->string('email')->nullable();
             $table->string('archive_number')->nullable();
             $table->text('detail')->nullable();
             $table->string('filename')->nullable();
             $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -57,6 +59,7 @@ return new class extends Migration
             $table->foreignUuid('staff_id')->nullable()
                 ->references('id')->on('staffs')
                 ->constrained()->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

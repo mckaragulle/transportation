@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Hgs Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="hgs_type_category_id" id="hgs_type_category_id"
+                                    <select wire:model="hgs_type_category_id" id="hgs_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Hgs Kategorisi Seçiniz</option>
                                         @if(is_iterable($hgsTypeCategories))
@@ -57,7 +57,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Hgs Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="hgs_type_id" id="hgs_type_id"
+                                    <select wire:model="hgs_type_id" id="hgs_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Hgs Grubu Seçiniz</option>
                                         @if(is_iterable($hgsTypes))

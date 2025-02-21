@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Sürücü Belgeleri Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="licence_type_category_id" id="licence_type_category_id"
+                                    <select wire:model="licence_type_category_id" id="licence_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Sürücü Belgeleri Kategorisi</option>
                                         @if(is_iterable($licenceTypeCategories))
@@ -58,18 +58,18 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="licence_type_id" id="licence_type_id"
+                                    <select wire:model="licence_type_id" id="licence_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($licenceTypes))
-                                        @forelse($licenceTypes as $d)    
-                                        @if($d->id != $licenceType->id && $d->id != $licenceType->licence_type?->id)                                    
+                                        @forelse($licenceTypes as $d)
+                                        @if($d->id != $licenceType->id && $d->id != $licenceType->licence_type?->id)
                                         <option value="{{$d->id}}">{{($d->licence_type?->name ? $d->licence_type?->name . " -> " : '') . $d->name}}</option>
                                         @endif
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('licence_type_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

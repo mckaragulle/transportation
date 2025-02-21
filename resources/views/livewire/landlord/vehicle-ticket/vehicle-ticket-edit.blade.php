@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Marka Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_brand_id" id="vehicle_brand_id"
+                                    <select wire:model="vehicle_brand_id" id="vehicle_brand_id"
                                         class="select2 form-select form-select-lg">
                                         <option>Marka Seçiniz</option>
                                         @if(is_iterable($vehicleBrands))

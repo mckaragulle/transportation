@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Tenant\Staff;
 
-use App\Services\StaffService;
+use App\Services\Tenant\StaffService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;

@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Cari Üst Grubunu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="group_id" id="group_id"
+                                    <select wire:model="group_id" id="group_id"
                                         class="form-select form-select-lg">
                                         <option value="">Cari Üst Grubunu Seçiniz</option>
                                         @if(is_iterable($groups))

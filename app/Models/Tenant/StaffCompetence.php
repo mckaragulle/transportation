@@ -3,10 +3,10 @@
 namespace App\Models\Tenant;
 
 use App\Traits\StrUuidTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
@@ -15,27 +15,13 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class StaffCompetence extends Model
 {
-    use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
+    use SoftDeletes, HasFactory, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
     public $incrementing = false;
 
     protected $connection = 'tenant';
     protected $keyType = 'string';
-
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
 
     protected $fillable = [
         'staff_type_category_id',
@@ -56,7 +42,7 @@ class StaffCompetence extends Model
      */
     public function staff_type_category(): BelongsTo
     {
-        return $this->belongsTo(StaffTypeCategory::class);
+        return $this->belongsTo(StaffTypeCategory::class, 'staff_type_category_id');
     }
 
     /**
@@ -64,15 +50,16 @@ class StaffCompetence extends Model
      */
     public function staff_type(): BelongsTo
     {
-        return $this->belongsTo(StaffType::class);
+        return $this->belongsTo(StaffType::class, 'staff_type_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function staff(): BelongsTo
+    public function staff_types(): BelongsToMany
     {
-        return $this->belongsTo(Staff::class);
+        return $this->belongsToMany(StaffType::class, 'staff_competences', 'id');
+    }
+    public function staff_type_categories(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffTypeCategory::class, 'staff_competences', 'id');
     }
 
     protected static function booted(): void
@@ -85,6 +72,6 @@ class StaffCompetence extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-staff_addresses-StaffCompetenceTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-staffs-StaffTable'])->flush();
     }
 }

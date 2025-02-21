@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Hgs Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="hgs_type_category_id" id="hgs_type_category_id"
+                                    <select wire:model="hgs_type_category_id" id="hgs_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Hgs Kategorisi</option>
                                         @if(is_iterable($hgsTypeCategories))
@@ -58,18 +58,18 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="hgs_type_id" id="hgs_type_id"
+                                    <select wire:model="hgs_type_id" id="hgs_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($hgsTypes))
-                                        @forelse($hgsTypes as $d)    
-                                        @if($d->id != $hgsType->id && $d->id != $hgsType->hgs_type?->id)                                    
+                                        @forelse($hgsTypes as $d)
+                                        @if($d->id != $hgsType->id && $d->id != $hgsType->hgs_type?->id)
                                         <option value="{{$d->id}}" {{$hgs_type_id == $d->id ? 'selected' : ''}}>{{($d->hgs_type?->name ? $d->hgs_type?->name . " -> " : '') . $d->name}}</option>
                                         @endif
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('hgs_type_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

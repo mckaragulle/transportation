@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Cari Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="account_type_category_id" id="account_type_category_id"
+                                    <select wire:model="account_type_category_id" id="account_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Cari Kategorisi</option>
                                         @if(is_iterable($accountTypeCategories))
@@ -58,18 +58,18 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="account_type_id" id="account_type_id"
+                                    <select wire:model="account_type_id" id="account_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($accountTypes))
-                                        @forelse($accountTypes as $d)    
-                                        @if($d->id != $accountType->id && $d->id != $accountType->account_type?->id)                                    
+                                        @forelse($accountTypes as $d)
+                                        @if($d->id != $accountType->id && $d->id != $accountType->account_type?->id)
                                         <option value="{{$d->id}}">{{($d->account_type?->name ? $d->account_type?->name . " -> " : '') . $d->name}}</option>
                                         @endif
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('account_type_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

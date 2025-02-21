@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Personel Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="staff_type_category_id" id="staff_type_category_id"
+                                    <select wire:model="staff_type_category_id" id="staff_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Personel Kategorisi Seçiniz</option>
                                         @if(is_iterable($staffTypeCategories))
@@ -57,7 +57,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Personel Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="staff_type_id" id="staff_type_id"
+                                    <select wire:model="staff_type_id" id="staff_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Personel Grubu Seçiniz</option>
                                         @if(is_iterable($staffTypes))

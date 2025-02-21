@@ -31,13 +31,13 @@
                                     @enderror
                                 </div>
                             </div>
-                            @if (auth()->user()->can('update staff_type_categories'))
+                            @if (auth()->user()->can('read staff_type_categories') && $staffTypeCategoryDatas !== null)
                                 <div class="mb-3 row">
                                     @foreach ($staffTypeCategoryDatas as $staffTypeCategory)
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $staffTypeCategory->name }} SEÇİNİZ
                                                 :</label>
-                                            <select wire:model.lazy="staff_type_categories.{{ $staffTypeCategory->id }}"
+                                            <select wire:model="staff_type_categories.{{ $staffTypeCategory->id }}"
                                                 id="staff_type_category_id{{ $staffTypeCategory->id }}"
                                                 class="form-select form-select-lg">
                                                 <option value="">{{ $staffTypeCategory->name }} SEÇİNİZ</option>

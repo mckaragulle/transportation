@@ -4,7 +4,7 @@ namespace App\Livewire\Tenant\Licence;
 
 use App\Models\Tenant\LicenceTypeCategory;
 use App\Models\Tenant\LicenceTypeCategoryLicenceTypeLicence;
-use App\Services\LicenceService;
+use App\Services\Tenant\LicenceService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -93,7 +93,7 @@ class LicenceCreate extends Component
 
             foreach($this->licence_type_categories as $k => $t)
             {
-                // DB::insert('insert into tenant.licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$k, $t, $licence->id]);
+
                 $data = [
                     'licence_type_category_id' => $k,
                     'licence_type_id' => $t,

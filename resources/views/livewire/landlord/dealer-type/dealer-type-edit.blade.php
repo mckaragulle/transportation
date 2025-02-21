@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Bayi Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="dealer_type_category_id" id="dealer_type_category_id"
+                                    <select wire:model="dealer_type_category_id" id="dealer_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Bayi Kategorisi</option>
                                         @if(is_iterable($dealerTypeCategories))
@@ -58,18 +58,18 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="dealer_type_id" id="dealer_type_id"
+                                    <select wire:model="dealer_type_id" id="dealer_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($dealerTypes))
-                                        @forelse($dealerTypes as $d)    
-                                        @if($d->id != $dealerType->id && $d->id != $dealerType->dealer_type?->id)                                    
+                                        @forelse($dealerTypes as $d)
+                                        @if($d->id != $dealerType->id && $d->id != $dealerType->dealer_type?->id)
                                         <option value="{{$d->id}}">{{($d->dealer_type?->name ? $d->dealer_type?->name . " -> " : '') . $d->name}}</option>
                                         @endif
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('dealer_type_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

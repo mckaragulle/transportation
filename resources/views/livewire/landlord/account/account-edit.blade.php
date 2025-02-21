@@ -1,5 +1,5 @@
 <div class="col-xl-12">
-    @if($is_show) 
+    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('accounts.list') }}">Cariler</a></li>
@@ -42,8 +42,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $accountTypeCategory->name }} SEÇİNİZ
                                                 :</label>
-                                            <select
-                                                wire:model.defer="account_type_categories.{{ $accountTypeCategory->id }}"
+                                            <select wire:model="account_type_categories.{{ $accountTypeCategory->id }}"
                                                 id="account_type_category_id{{ $accountTypeCategory->id }}"
                                                 class="form-select form-select-lg"
                                                 {{ $accountTypeCategory->is_required ? 'required' : '' }}

@@ -12,14 +12,14 @@ class StaffCompetences extends Component
 {
     use LivewireAlert;
 
-    public null|string $staff_competence_id = null;
+    public null|string $staff_id = null;
     public null|string $data_id;
 
     public bool $is_show = false;
 
     public function mount($id = null, bool $is_show)
     {
-        $this->staff_competence_id = $id;
+        $this->staff_id = $id;
         $this->is_show = $is_show;
     }
 
@@ -60,6 +60,7 @@ class StaffCompetences extends Component
             Log::error($error);
         } finally {
             $this->dispatch('pg:eventRefresh-StaffCompetenceTable');
+            $this->dispatch('refresh-checkStaffCompetences');
         }
     }
 }

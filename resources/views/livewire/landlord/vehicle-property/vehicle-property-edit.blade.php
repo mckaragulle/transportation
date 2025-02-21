@@ -35,7 +35,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Araba Özellik Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_property_category_id" id="vehicle_property_category_id"
+                                    <select wire:model="vehicle_property_category_id" id="vehicle_property_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Araba Özellik Kategorisi</option>
                                         @if(is_iterable($vehiclePropertyCategories))
@@ -58,18 +58,18 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Özellik Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="vehicle_property_id" id="vehicle_property_id"
+                                    <select wire:model="vehicle_property_id" id="vehicle_property_id"
                                         class="form-select form-select-lg">
                                         <option value="">Özellik Grubu Seçiniz</option>
                                         @if(is_iterable($vehicleProperties))
-                                        @forelse($vehicleProperties as $d)    
-                                                                   
+                                        @forelse($vehicleProperties as $d)
+
                                         <option value="{{$d->id}}">{{($d->vehicle_property?->name ? $d->vehicle_property?->name . " -> " : '') . $d->name}}</option>
-                                      
+
                                         @empty
                                         @endforelse
                                         @endif
-                                    </select>                                  
+                                    </select>
                                     @error('vehicle_property_id')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"

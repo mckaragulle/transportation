@@ -3,7 +3,8 @@
 namespace App\Livewire\Tenant\Staff;
 
 use App\Models\Tenant\StaffTypeCategory;
-use App\Services\StaffService;
+use App\Models\Tenant\StaffTypeCategoryStaffTypeStaff;
+use App\Services\Tenant\StaffService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,13 +19,13 @@ class StaffCreate extends Component
     public null|array $staff_type_categories = [];
     public null|Collection $staffTypeCategoryDatas;
     public null|Collection $staffs;
-    public null|int $id_number;
-    public null|string $name;
-    public null|string $surname;
-    public null|string $phone1;
-    public null|string $phone2;
-    public null|string $email;
-    public null|string $detail;
+    public null|int $id_number = null;
+    public null|string $name = null;
+    public null|string $surname = null;
+    public null|string $phone1 = null;
+    public null|string $phone2 = null;
+    public null|string $email = null;
+    public null|string $detail = null;
     public $filename;
 
 
@@ -69,6 +70,7 @@ class StaffCreate extends Component
     public function mount(StaffTypeCategory $staffTypeCategory)
     {
         $this->staffTypeCategoryDatas = $staffTypeCategory->query()
+            ->where('target', 'staff')
             ->with(['staff_types:id,staff_type_category_id,staff_type_id,name', 'staff_types.staff_types:id,staff_type_category_id,staff_type_id,name'])
             ->get(['id', 'name']);
     }
@@ -100,7 +102,14 @@ class StaffCreate extends Component
             ]);
 
             foreach ($this->staff_type_categories as $k => $t) {
-                DB::insert('insert into staff_type_category_staff_type_staff (staff_type_category_id, staff_type_id, staff_id) values (?, ?, ?)', [$k, $t, $staff->id]);
+                $data = [
+                    'staff_type_category_id' => $k,
+                    'staff_type_id' => $t,
+                    'staff_id' => $staff->id];
+                $l = StaffTypeCategoryStaffTypeStaff::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
+                }
             }
 
 
@@ -109,7 +118,15 @@ class StaffCreate extends Component
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
-            $this->reset();
+            $this->reset([
+                'id_number',
+                'name',
+                'surname',
+                'phone1',
+                'phone2',
+                'email',
+                'detail'
+            ]);
         } catch (\Exception $exception) {
             $error = "Personel oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);

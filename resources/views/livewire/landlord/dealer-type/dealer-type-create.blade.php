@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Bayi Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="dealer_type_category_id" id="dealer_type_category_id"
+                                    <select wire:model="dealer_type_category_id" id="dealer_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Bayi Kategorisi Seçiniz</option>
                                         @if(is_iterable($dealerTypeCategories))
@@ -57,7 +57,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Bayi Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="dealer_type_id" id="dealer_type_id"
+                                    <select wire:model="dealer_type_id" id="dealer_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Bayi Grubu Seçiniz</option>
                                         @if(is_iterable($dealerTypes))

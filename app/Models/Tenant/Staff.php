@@ -23,6 +23,7 @@ class Staff extends Model
 
     protected $connection = 'tenant';
     protected $keyType = 'string';
+    protected $table = 'staffs';
 
     /**
      * Return the sluggable configuration array for this model.
@@ -45,6 +46,7 @@ class Staff extends Model
         "surname",
         "phone1",
         "phone2",
+        "email",
         "archive_number",
         "detail",
         "filename",
@@ -58,9 +60,6 @@ class Staff extends Model
             ->logAll();
     }
 
-    /**
-     * Get the prices for the type post.
-     */
     public function staff_type_category(): BelongsTo
     {
         return $this->belongsTo(StaffTypeCategory::class, 'staff_type_category_id');
@@ -71,17 +70,16 @@ class Staff extends Model
      */
     public function staff_type(): BelongsTo
     {
-        return $this->belongsTo(StaffType::class, 'staff_type_category_id');
-    }
-
-    public function staff_type_categories(): BelongsToMany
-    {
-        return $this->belongsToMany(StaffTypeCategory::class, 'staff_type_category_staff_type_staff');
+        return $this->belongsTo(StaffType::class, 'staff_type_id');
     }
 
     public function staff_types(): BelongsToMany
     {
         return $this->belongsToMany(StaffType::class, 'staff_type_category_staff_type_staff');
+    }
+    public function staff_type_categories(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffTypeCategory::class, 'staff_type_category_staff_type_staff');
     }
 
     protected static function booted(): void

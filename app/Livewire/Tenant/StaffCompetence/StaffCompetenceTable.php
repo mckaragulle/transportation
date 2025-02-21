@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Tenant\StaffCompetence;
 
-use App\Models\Tenant\Staff;
 use App\Models\Tenant\StaffCompetence;
-use App\Models\Tenant\Bank;
+use App\Models\Tenant\StaffType;
 use App\Models\Tenant\StaffTypeCategory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Components\SetUp\Exportable;
@@ -23,13 +24,20 @@ final class StaffCompetenceTable extends PowerGridComponent
 {
     use WithExport;
 
+    public ?Collection $staffTypeCategories;
+
     public bool $multiSort = true;
-    public string $staff_id;
+    public null|string $staff_id = null;
 
     public string $tableName = 'StaffCompetenceTable';
 
     public function setUp(): array
     {
+
+        $this->staffTypeCategories = StaffTypeCategory::query()
+        ->with(['staff_types:id,staff_type_category_id,staff_type_id,name'])
+        ->whereIn('target', ['all', 'competence'])
+        ->get(['id', 'name']);
         $id = $this->staff_id;
         $this->showCheckBox();
         $this->persist(
@@ -52,26 +60,46 @@ final class StaffCompetenceTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $staff = StaffCompetence::query()->whereStaffId($this->staff_id);
+        $staff = StaffCompetence::query()->whereStaffId($this->staff_id)
+        ->with(['staff_type_category:id,name', 'staff_type:id,staff_type_category_id,staff_type_id,name']);
         return $staff;
     }
 
     public function relationSearch(): array
     {
         return [
-            
+            'staff_type_category' => [
+                'name',
+            ],
+            'staff_type' => [
+                'name',
+            ]
         ];
     }
 
     public function fields(): PowerGridFields
     {
         $fields = PowerGrid::fields()
-            ->add('id')
-            ->add('staff_type_category_id', function ($role) {
-                return $role->staff_type_category->name ?? "---";
-            })
-            ->add('expiry_date_at', function ($dish) {
-                return Carbon::parse($dish->expiry_date_at)->format('d/m/Y'); //20/01/2024 10:05
+            ->add('id');
+
+            foreach ($this->staffTypeCategories as $c) {
+                
+                $fields->add($c->id, function ($row) use ($c) {
+                    $staff_type = $row->staff_types->where('staff_type_category_id', $c->id)->first();
+    
+                    $name = '';
+                    
+                    if (isset($staff_type->staff_type) && $staff_type->staff_type !== null) {
+                        $name = $staff_type?->staff_type?->name . ' -> ';
+                    }
+                    
+                    return ($name . $staff_type?->name ?? '') ?? '---';
+                });
+            }
+            
+            
+            $fields->add('expiry_date_at', function ($dish) {
+                return $dish->expiry_date_at === null ? 'SÜRESİZ':Carbon::parse($dish->expiry_date_at)->format('d/m/Y'); 
             })
             ->add('status')
             ->add('created_at');
@@ -81,13 +109,20 @@ final class StaffCompetenceTable extends PowerGridComponent
 
     public function columns(): array
     {
-        return [
+
+        $column = [
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-            Column::make('Yetkinlik Türü', 'staff_type_category_id')
-                ->sortable()
-                ->searchable(),
+        ];
+        foreach ($this->staffTypeCategories as $c) {
+            array_push($column, Column::make($c->name, $c->id, "staff_type.name")
+            ->sortable()
+            ->searchable()
+        );
+        }
+        $column2 = [
+            
             Column::make('Geçerlilik Tarihi', 'expiry_date_at')
                 ->sortable()
                 ->searchable()
@@ -110,17 +145,27 @@ final class StaffCompetenceTable extends PowerGridComponent
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
+        return array_merge($column, $column2);
     }
 
     public function filters(): array
     {
-        return [
-            Filter::select('staff_type_category_id')
-                ->dataSource(StaffTypeCategory::orderBy('id', 'asc')->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
+        
+        $filters = [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
+        foreach ($this->staffTypeCategories as $c) { 
+            //TODO: BURASI HEM İNPUT HEMDE SEÇENEK OLARAK ÇALIŞIYOR.
+            // $filter =  Filter::inputText($c->id, $c->id)->filterRelation('staff_type', 'name');
+            $filter = Filter::select($c->id, 'staff_type_id')
+            ->dataSource($c->staff_types->sortBy('name', SORT_NATURAL))
+            ->optionLabel('name')
+            ->optionValue('id');
+            $filters[] = $filter;
+        }
+
+        return $filters;
+
     }
 
     public function actions(StaffCompetence $row): array

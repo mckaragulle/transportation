@@ -6,9 +6,10 @@ use App\Models\Tenant\LicenceTypeCategoryLicenceTypeLicence;
 use App\Models\Tenant\Licence;
 use App\Models\Tenant\LicenceType;
 use App\Models\Tenant\LicenceTypeCategory;
-use App\Services\LicenceService;
-use App\Services\LicenceTypeCategoryService;
-use App\Services\LicenceTypeService;
+use App\Services\Tenant\LicenceService;
+use App\Services\Tenant\LicenceTypeCategoryService;
+use App\Services\Tenant\LicenceTypeService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +25,7 @@ class LicenceEdit extends Component
     public null|Collection $licenceTypeCategoryDatas;
     public null|Collection $licences;
 
-    public ?Licence $licence = null;
+    public null|Model $licence = null;
 
     public null|array $licence_type_categories = [];
     public null|array $licence_types = [];
@@ -126,16 +127,8 @@ class LicenceEdit extends Component
             foreach ($this->licence_type_categories as $licence_type_category_id => $licence_type_id) {
                 $where = ['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id];
                 LicenceTypeCategoryLicenceTypeLicence::query()->where($where)->delete();
-                // DB::table('tenant.licence_type_category_licence_type_licence')
-                //     ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
-                //     ->delete();
             }
             foreach ($this->licence_type_categories as $licence_type_category_id => $licence_type_id) {
-                // $data = DB::table('tenant.licence_type_category_licence_type_licence')
-                //     ->where(['licence_type_category_id' => $licence_type_category_id, 'licence_id' => $this->licence->id])
-                //     ->first();
-                // DB::insert('insert into licence_type_category_licence_type_licence (licence_type_category_id, licence_type_id, licence_id) values (?, ?, ?)', [$licence_type_category_id, $licence_type_id, $this->licence->id]);
-
                 $data = [
                     'licence_type_category_id' => $licence_type_category_id,
                     'licence_type_id' => $licence_type_id,

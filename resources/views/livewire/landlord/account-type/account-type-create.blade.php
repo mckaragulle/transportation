@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Cari Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="account_type_category_id" id="account_type_category_id"
+                                    <select wire:model="account_type_category_id" id="account_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Cari Kategorisi Seçiniz</option>
                                         @if(is_iterable($accountTypeCategories))
@@ -57,7 +57,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Cari Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="account_type_id" id="account_type_id"
+                                    <select wire:model="account_type_id" id="account_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Cari Grubu Seçiniz</option>
                                         @if(is_iterable($accountTypes))

@@ -37,8 +37,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $licenceTypeCategory->name }} SEÇİNİZ
                                                 :</label>
-                                            <select
-                                                wire:model.defer="licence_type_categories.{{ $licenceTypeCategory->id }}"
+                                            <select wire:model="licence_type_categories.{{ $licenceTypeCategory->id }}"
                                                 id="licence_type_category_id{{ $licenceTypeCategory->id }}"
                                                 class="form-select form-select-lg">
                                                 <option value="">{{ $licenceTypeCategory->name }} SEÇİNİZ</option>

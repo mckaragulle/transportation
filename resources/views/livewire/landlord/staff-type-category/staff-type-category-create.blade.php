@@ -33,7 +33,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Hangi Modülde Kullanılsın? :</label>
                                 <div class="col-sm-9">
-                                    <select wire:model.lazy="target" id="target" class="form-select form-select-lg">
+                                    <select wire:model="target" id="target" class="form-select form-select-lg">
                                         <option value="">Hangi Modülde Kullanılsın?</option>
                                         <option value="all">HEPSİ</option>
                                         <option value="staff">PERSONEL</option>

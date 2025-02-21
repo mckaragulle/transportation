@@ -40,7 +40,7 @@ final class StaffTable extends PowerGridComponent
             prefix: auth()->user()->id
         );
 
-        $this->staffCategories = StaffTypeCategory::query()->with(['staff_types'])->get(['id', 'name']);
+        $this->staffCategories = StaffTypeCategory::query()->with(['staff_types:id,staff_type_category_id,staff_type_id,name'])->get(['id', 'name']);
 
         return [
             PowerGrid::exportable(fileName: 'personeller')
@@ -84,7 +84,6 @@ final class StaffTable extends PowerGridComponent
                 if (isset($staff_type->staff_type->name)) {
                     $name = $staff_type->staff_type->name . ' -> ';
                 }
-                Log::info($staff_type);
                 return ($name . $staff_type->name ?? '') ?? '---';
             });
         }

@@ -36,7 +36,7 @@
                                     @foreach ($hgsTypeCategoryDatas as $hgsTypeCategory)
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $hgsTypeCategory->name }} SEÇİNİZ :</label>
-                                            <select wire:model.lazy="hgs_type_categories.{{ $hgsTypeCategory->id }}"
+                                            <select wire:model="hgs_type_categories.{{ $hgsTypeCategory->id }}"
                                                 id="hgs_type_category_id{{ $hgsTypeCategory->id }}"
                                                 class="form-select form-select-lg">
                                                 <option value="">{{ $hgsTypeCategory->name }} SEÇİNİZ</option>

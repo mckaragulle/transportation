@@ -15,6 +15,7 @@ use App\Livewire\Signin;
 use App\Livewire\Tenant\Staff\{StaffEdit, Staffs};
 
 use App\Livewire\Tenant\Dealer\{Dealers, DealerEdit, DealerManagement};
+use App\Livewire\Tenant\StaffCompetence\StaffCompetenceEdit;
 
 Route::get('/', Signin::class)->name('login');
 Route::middleware(['tenant', 'auth:dealer,web'])
@@ -60,6 +61,9 @@ Route::middleware(['tenant', 'auth:dealer,web'])
 
         Route::get('/personeller', Staffs::class)->name('staffs.list')->middleware('can:read staffs');
         Route::get('/personel/{id}/duzenle', StaffEdit::class)->name('staffs.edit')->middleware('can:update staffs');
+
+        Route::get('/personel-yetkinlikleri/{id?}/{is_show?}', \App\Livewire\Tenant\StaffCompetence\StaffCompetences::class)->name('staff_competences.list')->middleware('can:read staff_competences');
+        Route::get('/personel-yetkinliği/{id}/duzenle', StaffCompetenceEdit::class)->name('staff_competences.edit')->middleware('can:update staff_competences');
 
         Route::get('/arac-cezalari', Fineds::class)->name('fineds.list')->middleware('can:read fineds');
         Route::get('/arac-cezasi/{id}/duzenle', FinedEdit::class)->name('fineds.edit')->middleware('can:update fineds');

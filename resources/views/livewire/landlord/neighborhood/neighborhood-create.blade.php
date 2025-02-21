@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">İl Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="city_id" id="city_id"
+                                    <select wire:model="city_id" id="city_id"
                                         class="form-select form-select-lg">
                                         <option value="">İl Seçiniz</option>
                                         @if(is_iterable($cities))
@@ -53,12 +53,12 @@
                                 </div>
                             </div>
                             @endif
-                            
+
                             @if(auth()->user()->can('read districts'))
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">İlçe Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="district_id" id="district_id"
+                                    <select wire:model="district_id" id="district_id"
                                         class="form-select form-select-lg">
                                         <option value="">İlçe Seçiniz</option>
                                         @if(is_iterable($districts))

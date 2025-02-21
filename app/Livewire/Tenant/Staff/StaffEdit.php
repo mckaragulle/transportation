@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Tenant\Staff;
 
-use App\Models\Tenant\Staff;
 use App\Models\Tenant\StaffType;
 use App\Models\Tenant\StaffTypeCategory;
-use App\Services\StaffService;
-use App\Services\StaffTypeCategoryService;
-use App\Services\StaffTypeService;
+use App\Models\Tenant\StaffTypeCategoryStaffTypeStaff;
+use App\Services\Tenant\StaffService;
+use App\Services\Tenant\StaffTypeCategoryService;
+use App\Services\Tenant\StaffTypeService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,19 +24,19 @@ class StaffEdit extends Component
     public null|Collection $staffTypeCategoryDatas;
     public null|Collection $staffs;
 
-    public ?Staff $staff = null;
+    public ?Model $staff = null;
 
     public null|array $staff_type_categories = [];
     public null|array $staff_types = [];
     public $oldfilename;
     public $filename;
-    public null|int $id_number;
-    public null|string $name;
-    public null|string $surname;
-    public null|string $phone1;
-    public null|string $phone2;
-    public null|string $email;
-    public null|string $detail;
+    public null|int $id_number = null;
+    public null|string $name = null;
+    public null|string $surname = null;
+    public null|string $phone1 = null;
+    public null|string $phone2 = null;
+    public null|string $email = null;
+    public null|string $detail = null;
 
     public bool $status = true;
 
@@ -82,7 +83,7 @@ class StaffEdit extends Component
             $this->surname = $this->staff->surname;
             $this->phone1 = $this->staff->phone1;
             $this->phone2 = $this->staff->phone2;
-            $this->email = $this->staff->email;
+            $this->email = $this->staff->email ?? null;
             $this->detail = $this->staff->detail;
             if (isset($this->staff?->filename) && Storage::exists($this->staff?->filename)) {
                 $this->oldfilename = $this->staff->filename;
@@ -134,15 +135,18 @@ class StaffEdit extends Component
             }
 
             foreach ($this->staff_type_categories as $staff_type_category_id => $staff_type_id) {
-                DB::table('staff_type_category_staff_type_staff')
-                    ->where(['staff_type_category_id' => $staff_type_category_id, 'staff_id' => $this->staff->id])
-                    ->delete();
+                $where = ['staff_type_category_id' => $staff_type_category_id, 'staff_id' => $this->staff->id];
+                StaffTypeCategoryStaffTypeStaff::query()->where($where)->delete();
             }
             foreach ($this->staff_type_categories as $staff_type_category_id => $staff_type_id) {
-                $data = DB::table('staff_type_category_staff_type_staff')
-                    ->where(['staff_type_category_id' => $staff_type_category_id, 'staff_id' => $this->staff->id])
-                    ->first();
-                DB::insert('insert into staff_type_category_staff_type_staff (staff_type_category_id, staff_type_id, staff_id) values (?, ?, ?)', [$staff_type_category_id, $staff_type_id, $this->staff->id]);
+                $data = [
+                    'staff_type_category_id' => $staff_type_category_id,
+                    'staff_type_id' => $staff_type_id,
+                    'staff_id' => $this->staff->id];
+                $l = StaffTypeCategoryStaffTypeStaff::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
+                }
             }
 
             $msg = 'Personel güncellendi.';

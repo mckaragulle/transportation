@@ -1,16 +1,16 @@
 <div>
-    @can('create account_banks')
-    <livewire:tenant.account-bank.account-bank-create id="{{$account_id}}" is_show="{{$is_show}}" />
+    @can('create staff_competences')
+    <livewire:tenant.staff-competence.staff-competence-create id="{{$staff_id}}" is_show="{{$is_show}}" />
     <hr>
     @endcan
-    @can('read account_banks')
+    @can('read staff_competences')
     <div class="card overflow-hidden">
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">CARİ BANKA BİLGİLERİ</h4>
+            <h4 class="card-title mb-0">PERSONEL YETKİNLİK BİLGİLERİ</h4>
         </div>
         <div class="card-body">
             <div class="basic-form">
-                <livewire:tenant.account-bank.account-bank-table />
+                <livewire:tenant.staff-competence.staff-competence-table staff_id="{{$staff_id}}"/>
             </div>
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible alert-alt solid fade show">

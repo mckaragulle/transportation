@@ -8,7 +8,7 @@
     </div>
     @endif
     <div class="card overflow-hidden">
-        @if($is_show) 
+        @if($is_show)
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Bayi Adresi Oluştur</h4>
         </div>
@@ -34,13 +34,13 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>        
+                            </div>
                             <hr />
 
                             <div class="mb-3 row">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">İl Seçiniz :</label>
-                                    <select wire:model.lazy="city_id" id="city_id"
+                                    <select wire:model="city_id" id="city_id"
                                         class="form-select form-select-lg">
                                         <option value="">İl Seçiniz</option>
                                         @if(is_iterable($cities))
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-form-label">İlçe Seçiniz :</label>
-                                    <select wire:model.lazy="district_id" id="district_id"
+                                    <select wire:model="district_id" id="district_id"
                                         class="form-select form-select-lg">
                                         <option value="">İlçe Seçiniz</option>
                                         @if(is_iterable($districts))
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Mahalle Seçiniz :</label>
-                                    <select wire:model.lazy="neighborhood_id" id="neighborhood_id"
+                                    <select wire:model="neighborhood_id" id="neighborhood_id"
                                         class="form-select form-select-lg">
                                         <option value="">Mahalle Seçiniz</option>
                                         @if(is_iterable($neighborhoods))
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Semt Seçiniz :</label>
-                                    <select wire:model.lazy="locality_id" id="locality_id"
+                                    <select wire:model="locality_id" id="locality_id"
                                         class="form-select form-select-lg">
                                         <option value="">Semt Seçiniz</option>
                                         @if(is_iterable($localities))

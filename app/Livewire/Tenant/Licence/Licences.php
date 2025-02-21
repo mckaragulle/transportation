@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Tenant\Licence;
 
-use App\Services\LicenceService;
+use App\Services\Tenant\LicenceService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;

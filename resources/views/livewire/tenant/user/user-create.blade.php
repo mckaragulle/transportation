@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Bayi Seçiniz :</label>
                                 <div class="col-sm-9">
-                                    <select wire:model.lazy="dealer_id" id="dealer_id" class="form-select form-select-lg">
+                                    <select wire:model="dealer_id" id="dealer_id" class="form-select form-select-lg">
                                         <option>Bayi Seçiniz</option>
                                         @if(is_iterable($dealers))
                                             @forelse($dealers as $d)

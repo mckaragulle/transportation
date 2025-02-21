@@ -38,8 +38,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $dealerTypeCategory->name }} SEÇİNİZ
                                                 :</label>
-                                            <select
-                                                wire:model.defer="dealer_type_categories.{{ $dealerTypeCategory->id }}"
+                                            <select wire:model="dealer_type_categories.{{ $dealerTypeCategory->id }}"
                                                 id="dealer_type_category_id{{ $dealerTypeCategory->id }}"
                                                 class="form-select form-select-lg" {{$dealerTypeCategory->is_required?'required':''}} {{$dealerTypeCategory->is_multiple?'multiple':''}}>
                                                 <option value="">{{ $dealerTypeCategory->name }} SEÇİNİZ</option>
@@ -181,7 +180,7 @@
                                             </button>{{$message}}
                                         </div>@enderror
                                     </div>
-                                    
+
 
                                 </div>
                             </div>

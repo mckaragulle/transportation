@@ -38,8 +38,7 @@
                                         <div class="col-lg-2 col-sm-12">
                                             <label class="col-form-label">{{ $accountTypeCategory->name }} SEÇİNİZ
                                                 :</label>
-                                            <select
-                                                wire:model.defer="account_type_categories.{{ $accountTypeCategory->id }}"
+                                            <select wire:model="account_type_categories.{{ $accountTypeCategory->id }}"
                                                 id="account_type_category_id{{ $accountTypeCategory->id }}"
                                                 class="form-select form-select-lg" {{$accountTypeCategory->is_required?'required':''}} {{$accountTypeCategory->is_multiple?'multiple':''}}>
                                                 <option value="">{{ $accountTypeCategory->name }} SEÇİNİZ</option>

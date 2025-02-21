@@ -34,7 +34,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Sürücü Belgeleri Kategorisini Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="licence_type_category_id" id="licence_type_category_id"
+                                    <select wire:model="licence_type_category_id" id="licence_type_category_id"
                                         class="form-select form-select-lg">
                                         <option value="">Sürücü Belgeleri Kategorisi Seçiniz</option>
                                         @if(is_iterable($licenceTypeCategories))
@@ -57,7 +57,7 @@
                             <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Sürücü Belgeleri Grubu Seçiniz :</label>
                                 <div class="col-sm-3">
-                                    <select wire:model.lazy="licence_type_id" id="licence_type_id"
+                                    <select wire:model="licence_type_id" id="licence_type_id"
                                         class="form-select form-select-lg">
                                         <option value="">Sürücü Belgeleri Grubu Seçiniz</option>
                                         @if(is_iterable($licenceTypes))

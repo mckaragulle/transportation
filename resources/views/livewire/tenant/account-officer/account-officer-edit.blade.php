@@ -30,12 +30,12 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>        
+                            </div>
                             <hr />
                             <div class="mb-3 row">
                                 <div class="col-sm-3">
                                     <label class="col-form-label">Cari Seçiniz :</label>
-                                    <select wire:model.lazy="account_id" id="account_id"
+                                    <select wire:model="account_id" id="account_id"
                                         class="form-select form-select-lg">
                                         <option value="">Cari Seçiniz</option>
                                         @if(is_iterable($accounts))
