@@ -3,8 +3,8 @@
 namespace App\Livewire\Tenant\DealerBank;
 
 use App\Models\Tenant\DealerBank;
-use App\Services\BankService;
-use App\Services\DealerBankService;
+use App\Services\Tenant\BankService;
+use App\Services\Tenant\DealerBankService;
 use App\Services\Tenant\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;

@@ -38,19 +38,10 @@ class StaffCompetence extends Model
     }
 
     protected $fillable = [
-        "dealer_id",
-        "city_id",
-        "district_id",
-        "neighborhood_id",
-        "locality_id",
-        "name",
-        "slug",
-        "address1",
-        "address2",
-        "phone1",
-        "phone2",
-        "email",
-        "detail",
+        'staff_type_category_id',
+        'staff_type_id',
+        "staff_id",
+        "expiry_date_at",
         "status",
     ];
 
@@ -69,26 +60,6 @@ class StaffCompetence extends Model
         return $this->belongsTo(Staff::class);
     }
 
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
-
-    public function district(): BelongsTo
-    {
-        return $this->belongsTo(District::class);
-    }
-
-    public function neighborhood(): BelongsTo
-    {
-        return $this->belongsTo(Neighborhood::class);
-    }
-
-    public function locality(): BelongsTo
-    {
-        return $this->belongsTo(Locality::class);
-    }
-
     protected static function booted(): void
     {
         static::created(fn (StaffCompetence $dish) => self::clearCache());
@@ -99,6 +70,6 @@ class StaffCompetence extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-dealer_addresses-DealerAddressTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-staff_addresses-StaffCompetenceTable'])->flush();
     }
 }

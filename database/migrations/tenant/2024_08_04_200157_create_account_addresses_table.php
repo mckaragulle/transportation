@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('account_addresses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('city_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('district_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('neighborhood_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('locality_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('city_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('district_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('neighborhood_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('locality_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name')->unique()->index();
             $table->string('slug')->nullable()->unique()->index();
             $table->string('phone1')->nullable()->index();

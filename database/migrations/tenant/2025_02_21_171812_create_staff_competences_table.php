@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dealer_banks', function (Blueprint $table) {
+        Schema::create('staff_competences', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignUuid('bank_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('iban')->unique()->index();
+            $table->foreignUuid('staff_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('staff_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('staff_id')->nullable()->constrained()->cascadeOnDelete()->on('staffs');
+            $table->timestamp('expiry_date_at')->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dealer_banks');
+        //
     }
 };

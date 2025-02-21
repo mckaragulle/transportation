@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tenant\AccountBank;
+namespace App\Livewire\Tenant\StaffCompetence;
 
 use App\Services\Tenant\BankService;
 use App\Services\Tenant\AccountBankService;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccountBankEdit extends Component
+class StaffCompetenceEdit extends Component
 {
     use LivewireAlert;
 
@@ -76,7 +76,7 @@ class AccountBankEdit extends Component
 
     public function render()
     {
-        return view('livewire.tenant.account-bank.account-bank-edit');
+        return view('livewire.tenant.staff-competence.staff-competence-edit');
     }
 
     /**

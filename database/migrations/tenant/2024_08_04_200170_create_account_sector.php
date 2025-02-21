@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('account_sector', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('sector_id')->nullable()->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

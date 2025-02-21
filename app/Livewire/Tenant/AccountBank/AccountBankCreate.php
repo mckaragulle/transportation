@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Tenant\AccountBank;
 
-use App\Services\BankService;
+use App\Services\Tenant\BankService;
 use App\Services\Tenant\AccountBankService;
 use App\Services\Tenant\AccountService;
 use App\Services\Tenant\DealerService;

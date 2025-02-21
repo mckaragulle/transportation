@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Tenant\DealerBank;
 
-use App\Services\DealerBankService;
-use App\Services\BankService;
+use App\Services\Tenant\BankService;
+use App\Services\Tenant\DealerBankService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

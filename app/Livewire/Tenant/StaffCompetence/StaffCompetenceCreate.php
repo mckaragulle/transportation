@@ -1,39 +1,37 @@
 <?php
 
-namespace App\Livewire\Tenant\AccountBank;
+namespace App\Livewire\Tenant\StaffCompetence;
 
 use App\Services\Tenant\BankService;
 use App\Services\Tenant\AccountBankService;
 use App\Services\Tenant\AccountService;
 use App\Services\Tenant\DealerService;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccountBankEdit extends Component
+class StaffCompetenceCreate extends Component
 {
     use LivewireAlert;
-
-    public ?Model $accountBank = null;
 
     public null|Collection $dealers = null;
     public null|Collection $accounts = null;
     public null|Collection $banks = null;
-
     public null|string $dealer_id = null;
     public null|string $account_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
     public bool $status = true;
+    public bool $is_show = false;
 
     /**
      * List of add/edit form rules
      */
     protected $rules = [
+        'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
         'bank_id' => ['required', 'exists:banks,id'],
         'iban' => ['required', 'unique:account_banks'],
@@ -52,62 +50,64 @@ class AccountBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
-    {
-        if (!is_null($id)) {
-            $this->accountBank = $accountBankService->findById($id);
-            $this->dealers = $dealerService->all(['id', 'name']);
-            $this->accounts = $accountService->all(['id', 'name']);
-            $this->banks = $bankService->all(['id', 'name']);
-
-            if (auth()->getDefaultDriver() == 'dealer') {
-                $this->dealer_id = auth()->user()->id;
-            } else if (auth()->getDefaultDriver() == 'users') {
-                $this->dealer_id = auth()->user()->dealer()->id;
-            }
-            $this->account_id = $this->accountBank->account_id;
-            $this->bank_id = $this->accountBank->bank_id;
-            $this->iban = $this->accountBank->iban;
-            $this->status = $this->accountBank->status;
-        } else {
-            return $this->redirect(route('account_banks.list'));
-        }
-    }
-
     public function render()
     {
-        return view('livewire.tenant.account-bank.account-bank-edit');
+        return view('livewire.tenant.staff-competence.staff-competence-create');
+    }
+
+    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
+    {
+        if (auth()->getDefaultDriver() == 'dealer') {
+            $this->dealer_id = auth()->user()->id;
+        } else if (auth()->getDefaultDriver() == 'users') {
+            $this->dealer_id = auth()->user()->dealer()->id;
+        } else {
+            $this->dealers = $dealerService->all(['id', 'name']);
+            $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
+        }
+        $this->account_id = $id > 0 ? $id : null;
+        $this->is_show = $is_show;
+        $this->dealers = $dealerService->all(['id', 'name']);
+        $this->accounts = $accountService->all(['id', 'name', 'shortname']);
+        $this->banks = $bankService->all(['id', 'name']);
     }
 
     /**
-     * update the exam data
+     * store the user inputted student data in the students table
      *
      * @return void
      */
-    public function update()
+    public function store(AccountBankService $accountBankService)
     {
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->accountBank->dealer_id = $this->dealer_id;
-            $this->accountBank->account_id = $this->account_id;
-            $this->accountBank->bank_id = $this->bank_id;
+            $account = $accountBankService->create([
+                'dealer_id' => $this->dealer_id,
+                'account_id' => $this->account_id ?? null,
+                'bank_id' => $this->bank_id ?? null,
+                'iban' => $this->iban ?? null,
+                'status' => $this->status == false ? 0 : 1,
+            ]);
 
-            $this->accountBank->iban = $this->iban ?? null;
 
-            $this->accountBank->status = $this->status == false ? 0 : 1;
-            $this->accountBank->save();
-
-            $msg = 'Cari banka bilgisi güncellendi.';
+            $this->dispatch('pg:eventRefresh-AccountBankTable');
+            $msg = 'Cari banka bilgisi oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
+            $this->reset();
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi güncellenemedi. {$exception->getMessage()}";
+            $error = "Cari banka bilgisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
         }
+    }
+
+    public function updatedDealerId(AccountService $accountService): void
+    {
+        $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
     }
 }

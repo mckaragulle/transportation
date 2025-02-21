@@ -23,8 +23,8 @@ return new class extends Migration
         });
 
         Schema::create('hgs_type_category_hgs_type_hgs', function (Blueprint $table) {
-            $table->uuid('hgs_type_category_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->uuid('hgs_type_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('hgs_type_category_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('hgs_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('hgs_id')->nullable()->constrained()->cascadeOnDelete();
         });
 
