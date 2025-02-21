@@ -121,31 +121,31 @@
             </div>
         </div>
     </div>
-        @push('styles')
-            <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-        @endpush
-        @push('scripts')
-            <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-            <script>
-            var Today = new Date();
-            var trDate = {
-                previousMonth: 'Önceki Ay',
-                nextMonth: 'Sonraki Ay',
-                months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim',
-                    'Kasım', 'Aralık'
-                ],
-                weekdays: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
-                weekdaysShort: ['Pts', 'Sl', 'Çrş', 'Prş', 'Cm', 'Cts', 'Pzr']
-            };
-            var expiry_date_at = new Pikaday({
-                field: document.getElementById('expiry_date_at'),
-                format: 'YYYY-MM-DD',
-                i18n: trDate,
-                onSelect: function() {
-                    var data = this.getDate();
-                    @this.set('expiry_date_at', data);
-                }
-            });
-            </script>
-        @endpush
+    @push('styles')
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    @endpush
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+        <script>
+        var Today = new Date();
+        var trDate = {
+            previousMonth: 'Önceki Ay',
+            nextMonth: 'Sonraki Ay',
+            months: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim',
+                'Kasım', 'Aralık'
+            ],
+            weekdays: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+            weekdaysShort: ['Pts', 'Sl', 'Çrş', 'Prş', 'Cm', 'Cts', 'Pzr']
+        };
+        var expiry_date_at = new Pikaday({
+            field: document.getElementById('expiry_date_at'),
+            format: 'YYYY-MM-DD',
+            i18n: trDate,
+            onSelect: function() {
+                var data = this.getDate();
+                @this.set('expiry_date_at', data);
+            }
+        });
+        </script>
+    @endpush
 </div>

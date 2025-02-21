@@ -50,7 +50,7 @@ final class StaffCompetenceTable extends PowerGridComponent
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
-                ->showSearchInput()
+                // ->showSearchInput()
                 ->showToggleColumns(),
             PowerGrid::footer()
                 ->showPerPage(perPage: 50)
@@ -154,15 +154,15 @@ final class StaffCompetenceTable extends PowerGridComponent
         $filters = [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
-        foreach ($this->staffTypeCategories as $c) { 
-            //TODO: BURASI HEM İNPUT HEMDE SEÇENEK OLARAK ÇALIŞIYOR.
-            // $filter =  Filter::inputText($c->id, $c->id)->filterRelation('staff_type', 'name');
-            $filter = Filter::select($c->id, 'staff_type_id')
-            ->dataSource($c->staff_types->sortBy('name', SORT_NATURAL))
-            ->optionLabel('name')
-            ->optionValue('id');
-            $filters[] = $filter;
-        }
+        // foreach ($this->staffTypeCategories as $c) { 
+        //     //TODO: BURASI HEM İNPUT HEMDE SEÇENEK OLARAK ÇALIŞIYOR.
+        //     // $filter =  Filter::inputText($c->id, $c->id)->filterRelation('staff_type', 'name');
+        //     $filter = Filter::select($c->id, 'staff_type_id')
+        //     ->dataSource($c->staff_types->sortBy('name', SORT_NATURAL))
+        //     ->optionLabel('name')
+        //     ->optionValue('id');
+        //     $filters[] = $filter;
+        // }
 
         return $filters;
 
