@@ -70,15 +70,15 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', \App\Models\Tenant\User::class),
         ],
         'dealers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Dealer::class),
+            'model' => env('AUTH_MODEL', \App\Models\Tenant\Dealer::class),
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Admin::class),
+            'model' => env('AUTH_MODEL', \App\Models\Landlord\Admin::class),
         ],
     ],
 

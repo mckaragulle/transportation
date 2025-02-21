@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Jobs\Tenant\TenantSyncDataJob;
-use App\Models\Bank;
+use App\Models\Tenant\Bank;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

@@ -8,13 +8,9 @@ use App\Imports\VehicleBrandsImport;
 use App\Jobs\LandlordBankJob;
 use App\Jobs\LandlordCityJob;
 use App\Jobs\LandlordExcelImportJob;
-use App\Models\Bank;
+use Illuminate\Support\Facades\Storage;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Spatie\Multitenancy\Models\Tenant;
 
 class Dashboard extends Component
 {
@@ -27,7 +23,7 @@ class Dashboard extends Component
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
     }
-    
+
     public function importCity(){
         $className = CityImport::class;
         $filePath = Storage::path('public/city.xlsx');
@@ -35,10 +31,10 @@ class Dashboard extends Component
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);
     }
-    
+
     public function importBank(){
         $className = BankImport::class;
-        $filePath = Storage::path('public/bank.xlsx');        
+        $filePath = Storage::path('public/bank.xlsx');
         LandlordExcelImportJob::dispatch($className, $filePath);
         $msg = "İçeri Aktarma Başladı.";
         $this->alert('success', $msg, ['position' => 'center']);

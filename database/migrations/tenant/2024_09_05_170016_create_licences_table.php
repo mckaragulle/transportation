@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        
+
         Schema::create('licence_type_category_licence_type_licence', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('licence_type_category_id')->nullable()->constrained()->cascadeOnDelete();
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('licence_types');
-        Schema::dropIfExists('licence_type_categories');
+        Schema::dropIfExists('licence_type_category_licence_type_licence');
+        Schema::dropIfExists('licences');
     }
 };

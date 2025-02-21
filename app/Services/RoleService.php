@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class RoleService
 {
-    public function __construct(protected readonly RoleRepository $repository) {}
+    public function __construct(protected RoleRepository $repository) {}
 
     /**
      * @return array|Collection

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class City extends Model
@@ -17,9 +16,10 @@ class City extends Model
     use SoftDeletes, HasFactory, Sluggable, LogsActivity, StrUuidTrait;
     use UsesTenantConnection;
 
+    public $incrementing = false;
+
     protected $connection = 'tenant';
     protected $keyType = 'string';
-    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.

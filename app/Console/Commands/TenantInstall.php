@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Dealer;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Services\DealerService;
+use App\Models\Tenant\Dealer;
+use App\Services\Tenant\DealerService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -119,6 +119,11 @@ class TenantInstall extends Command
                 'read staff_type_categories',
                 'read staff_types',
                 'create staffs', 'read staffs', 'update staffs', 'delete staffs',
+                'create staff_competences', 'read staff_competences', 'update staff_competences', 'delete staff_competences',
+                'create staff_addresses', 'read staff_addresses', 'update staff_addresses', 'delete staff_addresses',
+                'create staff_banks', 'read staff_banks', 'update staff_banks', 'delete staff_banks',
+                'create staff_files', 'read staff_files', 'update staff_files', 'delete staff_files',
+
                 'create fineds', 'read fineds', 'update fineds', 'delete fineds',
             ],
 
@@ -163,14 +168,8 @@ class TenantInstall extends Command
                     $p->guard_name = $guard_name;
                     $p->save();
 
-
-
-                    // $r = Role::query()->where($role_data)->first();
                     $per = $p->where($permission_data)->first();
-                    // $per->assignRole($r->name);
-                    // $this->line($r);
                     $r->givePermissionTo($per);
-                    // $r->setConnection('tenant')->givePermissionTo($per->name);
                 }
             }
         }

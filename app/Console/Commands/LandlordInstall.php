@@ -2,15 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Admin;
+use App\Models\Landlord\Admin;
 use App\Models\Permission;
 use App\Models\Role;
-use App\Models\User;
-use App\Services\AdminService;
+use App\Services\Landlord\AdminService;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Spatie\Multitenancy\Models\Tenant;
 
 class LandlordInstall extends Command
 {
@@ -57,7 +55,7 @@ class LandlordInstall extends Command
 
         $this->admin = $admin->first();
 
-        $this->info($this->admin);
+        $this->info($this->admin->name);
 
         $guards = [
             'admin' => [
@@ -110,18 +108,73 @@ class LandlordInstall extends Command
                 'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
                 'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
 
-
                 'create hgs_type_categories', 'read hgs_type_categories', 'update hgs_type_categories', 'delete hgs_type_categories',
                 'create hgs_types', 'read hgs_types', 'update hgs_types', 'delete hgs_types',
-
 
                 'create licence_type_categories', 'read licence_type_categories', 'update licence_type_categories', 'delete licence_type_categories',
                 'create licence_types', 'read licence_types', 'update licence_types', 'delete licence_types',
 
-
                 'create staff_type_categories', 'read staff_type_categories', 'update staff_type_categories', 'delete staff_type_categories',
                 'create staff_types', 'read staff_types', 'update staff_types', 'delete staff_types',
+            ],
+            'dealer' => [
 
+                'read roles',
+                'read permissions',
+
+                'read cities',
+                'read districts',
+                'read neighborhoods',
+                'read localities',
+
+                'read dealer_type_categories',
+                'read dealer_types',
+
+                'create dealers', 'read dealers', 'update dealers', 'delete dealers',
+                'create dealer_addresses', 'read dealer_addresses', 'update dealer_addresses', 'delete dealer_addresses',
+                'create dealer_banks', 'read dealer_banks', 'update dealer_banks', 'delete dealer_banks',
+                'create dealer_officers', 'read dealer_officers', 'update dealer_officers', 'delete dealer_officers',
+                'create dealer_files', 'read dealer_files', 'update dealer_files', 'delete dealer_files',
+                'create dealer_logos', 'read dealer_logos', 'update dealer_logos', 'delete dealer_logos',
+                'create dealer_groups', 'read dealer_groups', 'update dealer_groups', 'delete dealer_groups',
+                'create dealer_sectors', 'read dealer_sectors', 'update dealer_sectors', 'delete dealer_sectors',
+
+                'create users', 'read users', 'update users', 'delete users',
+                'create customers', 'read customers', 'update customers', 'delete customers',
+
+                'read years',
+
+                'read vehicle_brands',
+                'read vehicle_tickets',
+                'read vehicle_models',
+
+                'read vehicle_property_categories',
+                'read vehicle_properties',
+                'create vehicles', 'read vehicles', 'update vehicles', 'delete vehicles',
+
+                'read banks',
+                'read groups',
+                'read sectors',
+
+                'read account_type_categories',
+                'read account_types',
+
+                'create accounts', 'read accounts', 'update accounts', 'delete accounts',
+                'create account_addresses', 'read account_addresses', 'update account_addresses', 'delete account_addresses',
+                'create account_banks', 'read account_banks', 'update account_banks', 'delete account_banks',
+                'create account_officers', 'read account_officers', 'update account_officers', 'delete account_officers',
+                'create account_files', 'read account_files', 'update account_files', 'delete account_files',
+                'create account_groups', 'read account_groups', 'update account_groups', 'delete account_groups',
+                'create account_sectors', 'read account_sectors', 'update account_sectors', 'delete account_sectors',
+
+                'read hgs_type_categories',
+                'read hgs_types',
+
+                'read licence_type_categories',
+                'read licence_types',
+
+                'read staff_type_categories',
+                'read staff_types',
             ],
         ];
 
@@ -132,18 +185,16 @@ class LandlordInstall extends Command
             $role->setConnection('landlord');
 
             $r = $role->where($role_data)->exists() ? $role->where($role_data)->first() : $role->create($role_data);
-            $this->info($r);
+            $this->info($r->name);
 
             foreach ($permissions as $permission) {
                 $permission_data = ['name' => $permission, 'guard_name' => $guard_name];
 
                 $p = new Permission();
                 $p->setConnection('landlord');
-
                 $per = $p->where($permission_data)->exists() ? $p->where($permission_data)->first() : $p->create($permission_data);
-
-                $this->info($per);
                 $r->givePermissionTo($per->name);
+                $this->line($per->name);
             }
         }
         $this->admin->assignRole('admin');
