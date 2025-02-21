@@ -92,7 +92,7 @@ class AccountAddressCreate extends Component
         }
 
         $this->is_show = $is_show;
-        $this->account_id = $id > 0 ? $id : null;
+        $this->account_id = $id;
 
         $this->cities = $cityService->all(['id', 'name']);
     }

@@ -2,7 +2,7 @@
     @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('account_addresses.list') }}">Cari Bankaları</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('staff_competences.list') }}">Cari Bankaları</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
@@ -10,7 +10,7 @@
     <div class="card overflow-hidden">
         @if($is_show)
         <div class="card-header border-bottom border-warning warning">
-            <h4 class="card-title mb-0">Cari Banka Oluştur</h4>
+            <h4 class="card-title mb-0">Personel Yetkinliği Oluştur</h4>
         </div>
         @endif
         <div class="card-body {{$is_show ? '':'p-0'}}">
@@ -57,9 +57,9 @@
                                     </div>@enderror
                                 </div>
                                 <div class="col-sm-2">
-                                    <label class="col-form-label">İban adresini yazınız:</label>
+                                    <label class="col-form-label">Geçerlilik tarihi yazınız:</label>
                                     <input class="form-control" type="text" required wire:model.lazy="iban"
-                                        placeholder="İban adresini yazınız.">
+                                        placeholder="Geçerlilik tarihi yazınız.">
                                     @error('iban')
                                         <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"

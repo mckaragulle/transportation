@@ -70,7 +70,7 @@ class AccountBankCreate extends Component
             $this->dealers = $dealerService->all(['id', 'name']);
             $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
         }
-        $this->account_id = $id > 0 ? $id : null;
+        $this->account_id = $id;
         $this->is_show = $is_show;
         $this->dealers = $dealerService->all(['id', 'name']);
         $this->accounts = $accountService->all(['id', 'name', 'shortname']);

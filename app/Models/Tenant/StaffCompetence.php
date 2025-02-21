@@ -51,6 +51,21 @@ class StaffCompetence extends Model
         return LogOptions::defaults()
             ->logAll();
     }
+    /**
+     * Get the prices for the type post.
+     */
+    public function staff_type_category(): BelongsTo
+    {
+        return $this->belongsTo(StaffTypeCategory::class);
+    }
+
+    /**
+     * Get the prices for the type post.
+     */
+    public function staff_type(): BelongsTo
+    {
+        return $this->belongsTo(StaffType::class);
+    }
 
     /**
      * @return BelongsTo

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Tenant\StaffCompetence;
 
-use App\Services\Tenant\AccountBankService;
+use App\Services\Tenant\StaffCompetenceService;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
@@ -12,14 +12,14 @@ class StaffCompetences extends Component
 {
     use LivewireAlert;
 
-    public null|string $account_id = null;
+    public null|string $staff_competence_id = null;
     public null|string $data_id;
 
     public bool $is_show = false;
 
     public function mount($id = null, bool $is_show)
     {
-        $this->account_id = $id;
+        $this->staff_competence_id = $id;
         $this->is_show = $is_show;
     }
 
@@ -28,7 +28,7 @@ class StaffCompetences extends Component
         return view('livewire.tenant.staff-competence.staff-competences');
     }
 
-    #[On('delete-account-bank')]
+    #[On('delete-staff_competence')]
     function delete($id)
     {
         $this->data_id = $id;
@@ -46,20 +46,20 @@ class StaffCompetences extends Component
     }
 
     #[On('handleConfirmed')]
-    public function handleConfirmed(AccountBankService $accountBankService)
+    public function handleConfirmed(StaffCompetenceService $StaffCompetenceService)
     {
         try {
-            $accountBankService->delete($this->data_id);
-            $msg = 'Cari banka bilgisi silindi.';
+            $StaffCompetenceService->delete($this->data_id);
+            $msg = 'Personel yetkinlik bilgisi silindi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi silinemedi. {$exception->getMessage()}";
+            $error = "Personel yetkinlik bilgisi silinemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
         } finally {
-            $this->dispatch('pg:eventRefresh-AccountBankTable');
+            $this->dispatch('pg:eventRefresh-StaffCompetenceTable');
         }
     }
 }

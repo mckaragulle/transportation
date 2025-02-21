@@ -78,7 +78,7 @@ class AccountOfficerCreate extends Component
         } else if (auth()->getDefaultDriver() == 'users') {
             $this->dealer_id = auth()->user()->dealer()->id;
         }
-        $this->account_id = $id > 0 ? $id : null;
+        $this->account_id = $id;
         $this->is_show = $is_show;
 
         $this->dealers = $dealerService->all(['id', 'name']);

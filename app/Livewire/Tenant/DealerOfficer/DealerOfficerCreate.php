@@ -64,7 +64,7 @@ class DealerOfficerCreate extends Component
 
     public function mount(null|string $id = null, bool $is_show)
     {
-        $this->dealer_id = $id > 0 ? $id : null;
+        $this->dealer_id = $id;
         $this->is_show = $is_show;
     }
 

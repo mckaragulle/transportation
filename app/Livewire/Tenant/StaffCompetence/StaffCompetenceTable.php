@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Tenant\StaffCompetence;
 
-use App\Models\Tenant\Account;
-use App\Models\Tenant\AccountBank;
+use App\Models\Tenant\Staff;
+use App\Models\Tenant\StaffCompetence;
 use App\Models\Tenant\Bank;
+use App\Models\Tenant\StaffTypeCategory;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -23,21 +24,21 @@ final class StaffCompetenceTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public string $staff_id;
 
-    public string $tableName = 'AccountBankTable';
+    public string $tableName = 'StaffCompetenceTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->staff_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: "account_bank_{$id}"
+            prefix: "staff_competence_{$id}"
         );
 
         return [
-            PowerGrid::exportable(fileName: 'Cari Banka Bilgileri')
+            PowerGrid::exportable(fileName: 'Personel Yetkinlik Bilgileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -51,27 +52,14 @@ final class StaffCompetenceTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountBank::query()->whereDealerId($this->dealer_id);
-        return $account;
+        $staff = StaffCompetence::query()->whereStaffId($this->staff_id);
+        return $staff;
     }
 
     public function relationSearch(): array
     {
         return [
-            'accounts' => [
-                "number",
-                "name",
-                "shortname",
-                "phone",
-                "email"
-            ],
-            'banks' => [
-                "name",
-                "eft",
-                "swift",
-                "email",
-                "phone"
-            ],
+            
         ];
     }
 
@@ -79,13 +67,12 @@ final class StaffCompetenceTable extends PowerGridComponent
     {
         $fields = PowerGrid::fields()
             ->add('id')
-            ->add('account_id', function ($role) {
-                return $role->account->name ?? "---";
+            ->add('staff_type_category_id', function ($role) {
+                return $role->staff_type_category->name ?? "---";
             })
-            ->add('bank_id', function ($role) {
-                return $role->bank->name ?? "---";
+            ->add('expiry_date_at', function ($dish) {
+                return Carbon::parse($dish->expiry_date_at)->format('d/m/Y'); //20/01/2024 10:05
             })
-            ->add('iban')
             ->add('status')
             ->add('created_at');
 
@@ -98,21 +85,20 @@ final class StaffCompetenceTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-            Column::make('Cari Adı', 'account_id')
+            Column::make('Yetkinlik Türü', 'staff_type_category_id')
                 ->sortable()
                 ->searchable(),
-            Column::make('Banka Adı', 'bank_id'),
-            Column::make('Adres Başlığı', 'iban')
+            Column::make('Geçerlilik Tarihi', 'expiry_date_at')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update account_banks'),
+                    hasPermission: auth()->user()->can('update staff_competences'),
                     fallback: '- empty -'
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    hasPermission: auth()->user()->can('update account_banks'),
+                    hasPermission: auth()->user()->can('update staff_competences'),
                     trueLabel: 'Aktif',
                     falseLabel: 'Pasif',
                 ),
@@ -129,30 +115,26 @@ final class StaffCompetenceTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::select('staff_type_category_id')
+                ->dataSource(StaffTypeCategory::orderBy('id', 'asc')->get())
+                ->optionLabel('name')
+                ->optionValue('id'),
             Filter::boolean('status')->label('Aktif', 'Pasif'),
-            Filter::select('account_id')
-                ->dataSource(Account::orderBy('id', 'asc')->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
-            Filter::select('bank_id')
-                ->dataSource(Bank::orderBy('id', 'asc')->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
         ];
     }
 
-    public function actions(AccountBank $row): array
+    public function actions(StaffCompetence $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_banks.edit', ['id' => $row->id])
+                ->route('staff_competences.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-account-bank', ['id' => $row->id]),
+                ->dispatch('delete-staff_competence', ['id' => $row->id]),
         ];
     }
 
@@ -160,24 +142,24 @@ final class StaffCompetenceTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update account_banks') != 1)
+                ->when(fn($row) => auth()->user()->can('update staff_competences') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete account_banks') != 1)
+                ->when(fn($row) => auth()->user()->can('delete staff_competences') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountBank::query()->find($id)->update([
+        StaffCompetence::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountBank::query()->find($id)->update([
+        StaffCompetence::query()->find($id)->update([
             $field => e($value),
         ]);
     }

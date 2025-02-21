@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Tenant\StaffCompetence;
 
-use App\Services\Tenant\BankService;
-use App\Services\Tenant\AccountBankService;
-use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Models\Tenant\Staff;
+use App\Services\Tenant\StaffCompetenceService;
+use App\Services\Tenant\StaffService;
+use App\Services\Tenant\StaffTypeCategoryService;
+use App\Services\Tenant\StaffTypeService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,13 +17,13 @@ class StaffCompetenceCreate extends Component
 {
     use LivewireAlert;
 
-    public null|Collection $dealers = null;
-    public null|Collection $accounts = null;
-    public null|Collection $banks = null;
-    public null|string $dealer_id = null;
-    public null|string $account_id = null;
-    public null|int $bank_id = null;
-    public null|string $iban = null;
+    public null|Collection $staffTypeCategories = null;
+    public null|Collection $StaffTypes = null;
+    public null|Staff $staff = null;
+    public null|string $staff_type_category_id = null;
+    public null|string $staff_type_id = null;
+    public null|string $staff_id = null;
+    public null|string $expiry_date_at = null;
 
     public bool $status = true;
     public bool $is_show = false;
@@ -31,22 +32,21 @@ class StaffCompetenceCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
-        'account_id' => ['required', 'exists:accounts,id'],
-        'bank_id' => ['required', 'exists:banks,id'],
-        'iban' => ['required', 'unique:account_banks'],
+        'staff_type_category_id' => ['required', 'exists:staff_type_categories,id'],
+        'staff_type_id' => ['required', 'exists:staff_types,id'],
+        'staff_id' => ['required', 'exists:staffs,id'],
+        'expiry_date_at' => ['nullable', 'datetime'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
-        'account_id.required' => 'Lütfen müşteri seçiniz.',
-        'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
-        'bank_id.required' => 'Lütfen banka seçiniz.',
-        'bank_id.exists' => 'Lütfen geçerli bir banka seçiniz.',
-        'iban.required' => 'Lütfen iban adresini yazınız.',
-        'iban.unique' => 'Bu iban adresi zaten kullanılmaktadır.',
+        'staff_type_category_id.required' => 'Lütfen bir yetkinlik kategorisi seçiniz.',
+        'staff_type_category_id.exists' => 'Lütfen geçerli bir yetkinlik kategorisi seçiniz.',
+        'staff_type_id.required' => 'Lütfen yetkinlik seçeneği seçiniz.',
+        'staff_type_id.exists' => 'Lütfen geçerli bir yetkinlik seçeneği seçiniz.',
+        'staff_id.required' => 'Lütfen bir personel seçiniz.',
+        'staff_id.exists' => 'Lütfen geçerli bir personel seçiniz.',
+        'expiry_date_at.datetime' => 'Lütfen geçerli bir geçerlilik tarihi seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -55,21 +55,13 @@ class StaffCompetenceCreate extends Component
         return view('livewire.tenant.staff-competence.staff-competence-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, BankService $bankService)
+    public function mount(null|string $id = null, bool $is_show, StaffTypeCategoryService $staffTypeCategoryService, StaffTypeService $staffTypeService, StaffService $staffService)
     {
-        if (auth()->getDefaultDriver() == 'dealer') {
-            $this->dealer_id = auth()->user()->id;
-        } else if (auth()->getDefaultDriver() == 'users') {
-            $this->dealer_id = auth()->user()->dealer()->id;
-        } else {
-            $this->dealers = $dealerService->all(['id', 'name']);
-            $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
-        }
-        $this->account_id = $id > 0 ? $id : null;
         $this->is_show = $is_show;
-        $this->dealers = $dealerService->all(['id', 'name']);
-        $this->accounts = $accountService->all(['id', 'name', 'shortname']);
-        $this->banks = $bankService->all(['id', 'name']);
+        $this->staff = $staffService->findById($id);
+        $this->staffTypeCategories = $staffTypeCategoryService->all(['id', 'name']);
+        $this->StaffTypes = $staffTypeService->all(['id', 'name']);
+        $this->staff_id = $this->staff->id;
     }
 
     /**
@@ -77,37 +69,32 @@ class StaffCompetenceCreate extends Component
      *
      * @return void
      */
-    public function store(AccountBankService $accountBankService)
+    public function store(StaffCompetenceService $staffTypeCategoryService)
     {
         $this->validate();
         DB::beginTransaction();
         try {
-            $account = $accountBankService->create([
-                'dealer_id' => $this->dealer_id,
-                'account_id' => $this->account_id ?? null,
-                'bank_id' => $this->bank_id ?? null,
-                'iban' => $this->iban ?? null,
+            $staffTypeCategoryService->create([
+                'staff_type_category_id' => $this->staff_type_category_id,
+                'staff_type_id' => $this->staff_type_id,
+                'staff_id' => $this->staff_id,
+                'expiry_date_at' => $this->expiry_date_at ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
 
             $this->dispatch('pg:eventRefresh-AccountBankTable');
-            $msg = 'Cari banka bilgisi oluşturuldu.';
+            $msg = 'Personel yetkinlik oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset();
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi oluşturulamadı. {$exception->getMessage()}";
+            $error = "Personel yetkinlik bilgisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
         }
-    }
-
-    public function updatedDealerId(AccountService $accountService): void
-    {
-        $this->accounts = $accountService->where(['dealer_id' => $this->dealer_id])->get(['id', 'name', 'shortname']);
     }
 }

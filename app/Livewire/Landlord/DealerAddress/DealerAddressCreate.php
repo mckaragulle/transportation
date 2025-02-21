@@ -74,7 +74,7 @@ class DealerAddressCreate extends Component
     public function mount(null|string $id = null, bool $is_show, CityService $cityService)
     {
         $this->is_show = $is_show;
-        $this->dealer_id = $id > 0 ? $id : null;
+        $this->dealer_id = $id;
         $this->is_show = $is_show;
         $this->cities = $cityService->orderBy('plate', 'asc')->get(['id', 'name']);
     }

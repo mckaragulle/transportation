@@ -2,10 +2,11 @@
 
 namespace App\Livewire\Tenant\StaffCompetence;
 
-use App\Services\Tenant\BankService;
-use App\Services\Tenant\AccountBankService;
-use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Models\Tenant\Staff;
+use App\Services\Tenant\StaffCompetenceService;
+use App\Services\Tenant\StaffService;
+use App\Services\Tenant\StaffTypeCategoryService;
+use App\Services\Tenant\StaffTypeService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -17,60 +18,52 @@ class StaffCompetenceEdit extends Component
 {
     use LivewireAlert;
 
-    public ?Model $accountBank = null;
+    public null|Model $staffCompetence = null;
 
-    public null|Collection $dealers = null;
-    public null|Collection $accounts = null;
-    public null|Collection $banks = null;
-
-    public null|string $dealer_id = null;
-    public null|string $account_id = null;
-    public null|int $bank_id = null;
-    public null|string $iban = null;
+    public null|Collection $staffTypeCategories = null;
+    public null|Collection $StaffTypes = null;
+    public null|Staff $staff = null;
+    public null|string $staff_type_category_id = null;
+    public null|string $staff_type_id = null;
+    public null|string $staff_id = null;
+    public null|string $expiry_date_at = null;
 
     public bool $status = true;
-
     /**
      * List of add/edit form rules
      */
     protected $rules = [
-        'account_id' => ['required', 'exists:accounts,id'],
-        'bank_id' => ['required', 'exists:banks,id'],
-        'iban' => ['required', 'unique:account_banks'],
+        'staff_type_category_id' => ['required', 'exists:staff_type_categories,id'],
+        'staff_type_id' => ['required', 'exists:staff_types,id'],
+        'staff_id' => ['required', 'exists:staffs,id'],
+        'expiry_date_at' => ['nullable', 'datetime'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
-        'account_id.required' => 'Lütfen müşteri seçiniz.',
-        'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
-        'bank_id.required' => 'Lütfen banka seçiniz.',
-        'bank_id.exists' => 'Lütfen geçerli bir banka seçiniz.',
-        'iban.required' => 'Lütfen iban adresini yazınız.',
-        'iban.unique' => 'Bu iban adresi zaten kullanılmaktadır.',
+        'staff_type_category_id.required' => 'Lütfen bir yetkinlik kategorisi seçiniz.',
+        'staff_type_category_id.exists' => 'Lütfen geçerli bir yetkinlik kategorisi seçiniz.',
+        'staff_type_id.required' => 'Lütfen yetkinlik seçeneği seçiniz.',
+        'staff_type_id.exists' => 'Lütfen geçerli bir yetkinlik seçeneği seçiniz.',
+        'staff_id.required' => 'Lütfen bir personel seçiniz.',
+        'staff_id.exists' => 'Lütfen geçerli bir personel seçiniz.',
+        'expiry_date_at.datetime' => 'Lütfen geçerli bir geçerlilik tarihi seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
+    public function mount($id = null, StaffCompetenceService $staffCompetenceService, StaffTypeCategoryService $staffTypeCategoryService, StaffTypeService $staffTypeService, StaffService $staffService)
     {
         if (!is_null($id)) {
-            $this->accountBank = $accountBankService->findById($id);
-            $this->dealers = $dealerService->all(['id', 'name']);
-            $this->accounts = $accountService->all(['id', 'name']);
-            $this->banks = $bankService->all(['id', 'name']);
+            $this->staffCompetence = $staffCompetenceService->findById($id);
+            $this->staffTypeCategories = $staffTypeCategoryService->all(['id', 'name']);
+            $this->StaffTypes = $staffTypeService->all(['id', 'name']);
 
-            if (auth()->getDefaultDriver() == 'dealer') {
-                $this->dealer_id = auth()->user()->id;
-            } else if (auth()->getDefaultDriver() == 'users') {
-                $this->dealer_id = auth()->user()->dealer()->id;
-            }
-            $this->account_id = $this->accountBank->account_id;
-            $this->bank_id = $this->accountBank->bank_id;
-            $this->iban = $this->accountBank->iban;
-            $this->status = $this->accountBank->status;
+            $this->staff_type_category_id = $this->staffCompetence->staff_type_category_id;
+            $this->staff_type_id = $this->staffCompetence->staff_type_id;
+            $this->expiry_date_at = $this->staffCompetence->expiry_date_at;
+            $this->status = $this->staffCompetence->status;
         } else {
-            return $this->redirect(route('account_banks.list'));
+            return $this->redirect(route('staff_competences.list'));
         }
     }
 
@@ -89,21 +82,18 @@ class StaffCompetenceEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->accountBank->dealer_id = $this->dealer_id;
-            $this->accountBank->account_id = $this->account_id;
-            $this->accountBank->bank_id = $this->bank_id;
+            $this->staffCompetence->staff_type_id = $this->staff_type_id;
+            $this->staffCompetence->expiry_date_at = $this->expiry_date_at ?? null;
 
-            $this->accountBank->iban = $this->iban ?? null;
+            $this->staffCompetence->status = $this->status == false ? 0 : 1;
+            $this->staffCompetence->save();
 
-            $this->accountBank->status = $this->status == false ? 0 : 1;
-            $this->accountBank->save();
-
-            $msg = 'Cari banka bilgisi güncellendi.';
+            $msg = 'Personel yetkinlik bilgisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi güncellenemedi. {$exception->getMessage()}";
+            $error = "Personel yetkinlik bilgisi güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);
