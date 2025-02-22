@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Tenant\DealerAddress;
 
-use App\Models\City;
-use App\Models\District;
+use App\Models\Tenant\City;
+use App\Models\Tenant\District;
 use App\Models\Tenant\DealerAddress;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;

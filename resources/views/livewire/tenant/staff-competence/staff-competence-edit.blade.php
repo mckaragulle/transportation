@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('staff_competences.list', ['id' => $staffCompetence->staff_id, 'is_show' => 1]) }}">Personel Yetkinlikleri</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('tenant.staff_competences.list', ['id' => $staffCompetence->staff_id, 'is_show' => 1]) }}">Personel Yetkinlikleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
             <li class="breadcrumb-item"><a href="javascript:void(0)">{{$staffCompetence->staff_type_category->name}}</a></li>
         </ol>
@@ -19,7 +19,7 @@
 
                             </div>
                             @if (auth()->user()->can('read staff_type_categories'))
-                            
+
                             <div class="mb-3 row">
                                 <div class="col-lg-1 col-sm-12">
                                     <label class="col-form-label">Durum :</label>
@@ -68,7 +68,7 @@
                                         <input wire:model.defer="expiry_date_at" class="form-control" name="expiry_date_at"
                                             id="expiry_date_at" />
                                     </div>
-                                    
+
                                     @error('expiry_date_at')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"
@@ -78,14 +78,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             @endif
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3 d-grid gap-2 d-md-flex justify-content-md-end">
-                                
+
                                 <button type="submit" class="btn btn-rounded btn-success"><span
                                         class="btn-icon-start text-success"><i
                                             class="fa fa-floppy-disk color-info"></i></span> KAYDET

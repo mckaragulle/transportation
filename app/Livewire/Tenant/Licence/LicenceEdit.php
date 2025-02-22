@@ -87,7 +87,7 @@ class LicenceEdit extends Component
                 ->with(['licence_types:id,licence_type_category_id,licence_type_id,name', 'licence_types.licence_types:id,licence_type_category_id,licence_type_id,name'])
                 ->get(['id', 'name']);
         } else {
-            return $this->redirect(route('licences.list'));
+            return $this->redirect(route('tenant.licences.list'));
         }
     }
 

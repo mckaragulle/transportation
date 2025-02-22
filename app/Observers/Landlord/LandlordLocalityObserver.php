@@ -2,7 +2,7 @@
 
 namespace App\Observers\Landlord;
 
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Locality;
 use App\Jobs\Tenant\TenantSyncDataJob;
 use Spatie\Multitenancy\Models\Tenant;
 

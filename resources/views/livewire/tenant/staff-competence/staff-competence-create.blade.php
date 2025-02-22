@@ -2,7 +2,7 @@
     @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('staff_competences.list') }}">Personel Yetkinlikleri</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('tenant.staff_competences.list') }}">Personel Yetkinlikleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>
@@ -22,7 +22,7 @@
 
                             </div>
                             @if (auth()->user()->can('read staff_type_categories') && isset($staffTypeCategories) && count($staffTypeCategories) > 0)
-                            
+
                             <div class="mb-3 row">
                                 <div class="col-lg-1 col-sm-12">
                                     <label class="col-form-label">Durum :</label>
@@ -63,8 +63,7 @@
                                 </div>
 
                                 <div class="col-lg-2 col-sm-12">
-                                    <label class="col-form-label">SEÇİNİZ
-                                        :</label>
+                                    <label class="col-form-label">SEÇİNİZ :</label>
                                     <select wire:model="staff_type_id"
                                         id="staff_type_id"
                                         class="form-select form-select-lg">
@@ -103,7 +102,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             @endif
                         </div>
                     </div>

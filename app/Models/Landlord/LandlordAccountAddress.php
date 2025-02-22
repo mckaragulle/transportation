@@ -2,10 +2,6 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\City;
-use App\Models\District;
-use App\Models\Tenant\Dealer;
-use App\Models\Tenant\Neighborhood;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,7 +67,7 @@ class LandlordAccountAddress extends Model
      */
     public function dealer(): BelongsTo
     {
-        return $this->belongsTo(Dealer::class);
+        return $this->belongsTo(LandlordDealer::class);
     }
 
     public function account(): BelongsTo

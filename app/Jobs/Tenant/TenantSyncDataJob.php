@@ -2,7 +2,6 @@
 
 namespace App\Jobs\Tenant;
 
-use App\Models\City;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Collection;

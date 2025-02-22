@@ -40,7 +40,6 @@ class AccountOfficer extends Model
     }
 
     protected $fillable = [
-        "dealer_id",
         "account_id",
         "number",
         "name",
@@ -81,14 +80,6 @@ class AccountOfficer extends Model
     {
         return LogOptions::defaults()
             ->logAll();
-    }
-
-    /**
-     * Get the Dealer.
-     */
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
 
     /**

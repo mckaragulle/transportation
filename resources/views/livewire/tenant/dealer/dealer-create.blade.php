@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('dealers.list')}}">Bayiler</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tenant.dealers.list')}}">Bayiler</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>

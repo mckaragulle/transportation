@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Tenant\AccountAddress;
 
-use App\Models\District;
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\District;
+use App\Models\Tenant\Locality;
 use App\Models\Tenant\Neighborhood;
-use App\Services\AccountAddressService;
-use App\Services\CityService;
+use App\Services\Tenant\AccountAddressService;
 use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use App\Services\Tenant\CityService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +23,6 @@ class AccountAddressCreate extends Component
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|string $dealer_id = null;
     public null|string $account_id = null;
     public null|string $city_id = null;
     public null|string $district_id = null;
@@ -45,7 +43,6 @@ class AccountAddressCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
         'city_id' => ['required', 'exists:cities,id'],
         'district_id' => ['required', 'exists:districts,id'],
@@ -61,8 +58,6 @@ class AccountAddressCreate extends Component
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen cari seçiniz yazınız.',
         'account_id.exists' => 'Lütfen geçerli bir cari seçiniz yazınız.',
         'city_id.required' => 'Lütfen şehir seçiniz yazınız.',
@@ -83,14 +78,8 @@ class AccountAddressCreate extends Component
         return view('livewire.tenant.account-address.account-address-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService, AccountService $accountService, CityService $cityService)
+    public function mount(null|string $id = null, bool $is_show, AccountService $accountService, CityService $cityService)
     {
-        if (auth()->getDefaultDriver() == 'dealer') {
-            $this->dealer_id = auth()->user()->id;
-        } else if (auth()->getDefaultDriver() == 'users') {
-            $this->dealer_id = auth()->user()->dealer()->id;
-        }
-
         $this->is_show = $is_show;
         $this->account_id = $id;
 
@@ -108,7 +97,6 @@ class AccountAddressCreate extends Component
         DB::beginTransaction();
         try {
             $account = $accountAddressService->create([
-                'dealer_id' => $this->dealer_id,
                 'account_id' => $this->account_id ?? null,
                 'city_id' => $this->city_id ?? null,
                 'district_id' => $this->district_id ?? null,
@@ -152,6 +140,6 @@ class AccountAddressCreate extends Component
 
     public function updatedNeighborhoodId()
     {
-        $this->localities = LandlordLocality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
+        $this->localities = Locality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }
 }

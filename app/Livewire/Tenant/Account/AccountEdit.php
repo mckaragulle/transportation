@@ -8,6 +8,7 @@ use App\Models\Tenant\AccountTypeCategory;
 use App\Services\Tenant\AccountTypeCategoryService;
 use App\Services\Tenant\AccountTypeService;
 use App\Services\Tenant\AccountService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,12 +24,11 @@ class AccountEdit extends Component
     public null|Collection $accountTypeCategoryDatas;
     public null|Collection $accounts;
 
-    public ?Account $account = null;
+    public null|Model $account = null;
     public bool $is_show = false;
 
     public null|array $account_type_categories = [];
     public null|array $account_types = [];
-    public null|string $dealer_id = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $shortname = null;
@@ -43,6 +43,7 @@ class AccountEdit extends Component
 
     protected AccountTypeCategoryService $accountTypeCategoryService;
     protected AccountTypeService $accountTypeService;
+
     /**
      * List of add/edit form rules
      */
@@ -51,7 +52,6 @@ class AccountEdit extends Component
         return [
             'account_type_categories' => ['nullable', 'array'],
             'account_type_categories.*' => ['nullable'],
-            'dealer_id' => ['required', 'exists:dealers,id'],
             'number' => ['required'],
             'name' => ['required'],
             'shortname' => ['required'],
@@ -68,8 +68,6 @@ class AccountEdit extends Component
     protected $messages = [
         'account_type_categories.required' => 'Lütfen cari kategorisini seçiniz.',
         'account_type_categories.array' => 'Lütfen geçerli bir cari kategorisi seçiniz.',
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'number.required' => 'Müşteri cari numarasını yazınız.',
         'name.required' => 'Müşteri adını yazınız.',
         'shortname.required' => 'Müşteri kısa adını yazınız.',
@@ -84,14 +82,8 @@ class AccountEdit extends Component
     public function mount($id = null, AccountTypeCategory $accountTypeCategory, AccountService $accountService, bool $is_show = true)
     {
         if (!is_null($id)) {
-            if (auth()->getDefaultDriver() == 'dealer') {
-                $this->dealer_id = auth()->user()->id;
-            } else if (auth()->getDefaultDriver() == 'users') {
-                $this->dealer_id = auth()->user()->dealer()->id;
-            }
             $this->is_show = $is_show;
             $this->account = $accountService->findById($id);
-            $this->dealer_id = $this->account->dealer_id;
             $this->status = $this->account->status;
             $this->number = $this->account->number;
             $this->name = $this->account->name;
@@ -130,7 +122,6 @@ class AccountEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->account->dealer_id = $this->dealer_id;
             $this->account->number = $this->number;
             $this->account->name = $this->name;
             $this->account->shortname = $this->shortname;

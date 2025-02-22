@@ -2,7 +2,7 @@
     @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('account_addresses.list') }}">Cari Bankaları</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tenant.account_addresses.list') }}">Cari Bankaları</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Oluştur</a></li>
         </ol>
     </div>

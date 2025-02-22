@@ -83,23 +83,23 @@ final class StaffCompetenceTable extends PowerGridComponent
             ->add('id');
 
             foreach ($this->staffTypeCategories as $c) {
-                
+
                 $fields->add($c->id, function ($row) use ($c) {
                     $staff_type = $row->staff_types->where('staff_type_category_id', $c->id)->first();
-    
+
                     $name = '';
-                    
+
                     if (isset($staff_type->staff_type) && $staff_type->staff_type !== null) {
                         $name = $staff_type?->staff_type?->name . ' -> ';
                     }
-                    
+
                     return ($name . $staff_type?->name ?? '') ?? '---';
                 });
             }
-            
-            
+
+
             $fields->add('expiry_date_at', function ($dish) {
-                return $dish->expiry_date_at === null ? 'SÜRESİZ':Carbon::parse($dish->expiry_date_at)->format('d/m/Y'); 
+                return $dish->expiry_date_at === null ? 'SÜRESİZ':Carbon::parse($dish->expiry_date_at)->format('d/m/Y');
             })
             ->add('status')
             ->add('created_at');
@@ -122,7 +122,7 @@ final class StaffCompetenceTable extends PowerGridComponent
         );
         }
         $column2 = [
-            
+
             Column::make('Geçerlilik Tarihi', 'expiry_date_at')
                 ->sortable()
                 ->searchable()
@@ -150,11 +150,11 @@ final class StaffCompetenceTable extends PowerGridComponent
 
     public function filters(): array
     {
-        
+
         $filters = [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
         ];
-        // foreach ($this->staffTypeCategories as $c) { 
+        // foreach ($this->staffTypeCategories as $c) {
         //     //TODO: BURASI HEM İNPUT HEMDE SEÇENEK OLARAK ÇALIŞIYOR.
         //     // $filter =  Filter::inputText($c->id, $c->id)->filterRelation('staff_type', 'name');
         //     $filter = Filter::select($c->id, 'staff_type_id')
@@ -173,7 +173,7 @@ final class StaffCompetenceTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('staff_competences.edit', ['id' => $row->id])
+                ->route('tenant.staff_competences.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

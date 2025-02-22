@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dealer_officers.list') }}">Bayi Yetkilileri</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('tenant.dealer_officers.list') }}">Bayi Yetkilileri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
@@ -30,7 +30,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                            </div>        
+                            </div>
                             <hr />
                             <div class="mb-3 row">
                                 <div class="col-sm-2">

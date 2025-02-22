@@ -1,7 +1,7 @@
 <div class="col-xl-12">
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dealer_managements.edit', ['id' => $dealer_id]) }}">Bayi Adresleri</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('tenant.dealer_managements.edit', ['id' => $dealer_id]) }}">Bayi Adresleri</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>

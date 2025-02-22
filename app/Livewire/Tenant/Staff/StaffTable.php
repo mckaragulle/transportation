@@ -81,10 +81,10 @@ final class StaffTable extends PowerGridComponent
             $fields->add("staff_type_category_{$c->id}", function ($row) use ($c) {
                 $staff_type = $row->staff_types->where('staff_type_category_id', $c->id)->first();
                 $name = '';
-                if (isset($staff_type->staff_type->name)) {
-                    $name = $staff_type->staff_type->name . ' -> ';
+                if (isset($staff_type?->staff_type?->name)) {
+                    $name = $staff_type?->staff_type?->name . ' -> ';
                 }
-                return ($name . $staff_type->name ?? '') ?? '---';
+                return ($name . $staff_type?->name ?? '') ?? '---';
             });
         }
         $fields->add('number')
@@ -209,9 +209,13 @@ final class StaffTable extends PowerGridComponent
     public function actions(Staff $row): array
     {
         return [
+            Button::add('manage')
+                ->slot('<i class="fa fa-person"></i>')
+                ->route('tenant.staff_managements.edit', ['id' => $row->id])
+                ->class('badge badge-primary'),
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('staffs.edit', ['id' => $row->id])
+                ->route('tenant.staffs.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
@@ -224,6 +228,9 @@ final class StaffTable extends PowerGridComponent
     public function actionRules($row): array
     {
         return [
+            Rule::button('manage')
+                ->when(fn($row) => auth()->user()->can('update staffs') != 1)
+                ->hide(),
             Rule::button('view')
                 ->when(fn($row) => auth()->user()->can('update staffs') != 1)
                 ->hide(),

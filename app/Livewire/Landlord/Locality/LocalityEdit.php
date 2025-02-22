@@ -3,7 +3,7 @@
 namespace App\Livewire\Landlord\Locality;
 
 use App\Models\Landlord\LandlordDistrict;
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Locality;
 use App\Models\Landlord\LandlordNeighborhood;
 use App\Services\Landlord\LandlordCityService;
 use App\Services\Landlord\LandlordDistrictService;

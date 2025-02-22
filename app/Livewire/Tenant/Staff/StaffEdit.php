@@ -25,6 +25,7 @@ class StaffEdit extends Component
     public null|Collection $staffs;
 
     public ?Model $staff = null;
+    public bool $is_show = false;
 
     public null|array $staff_type_categories = [];
     public null|array $staff_types = [];
@@ -73,9 +74,10 @@ class StaffEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, StaffTypeCategory $staffTypeCategory, StaffService $staffService)
+    public function mount($id = null, StaffTypeCategory $staffTypeCategory, StaffService $staffService, bool $is_show = true)
     {
         if (!is_null($id)) {
+            $this->is_show = $is_show;
             $this->staff = $staffService->findById($id);
             $this->status = $this->staff->status;
             $this->id_number = $this->staff->id_number;
@@ -94,7 +96,7 @@ class StaffEdit extends Component
                 ->with(['staff_types:id,staff_type_category_id,staff_type_id,name', 'staff_types.staff_types:id,staff_type_category_id,staff_type_id,name'])
                 ->get(['id', 'name']);
         } else {
-            return $this->redirect(route('staffs.list'));
+            return $this->redirect(route('tenant.staffs.list'));
         }
     }
 

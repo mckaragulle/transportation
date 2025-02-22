@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Landlord\AccountAddress;
 
-use App\Models\City;
-use App\Models\District;
-use App\Models\Landlord\AccountAddress;
+use App\Models\Landlord\LandlordAccountAddress;
+use App\Models\Landlord\LandlordCity;
+use App\Models\Landlord\LandlordDealer;
+use App\Models\Landlord\LandlordDistrict;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -52,7 +53,7 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountAddress::query()->whereDealerId($this->dealer_id);
+        $account = LandlordAccountAddress::query()->whereDealerId($this->dealer_id);
         return $account;
     }
 
@@ -175,7 +176,7 @@ final class AccountAddressTable extends PowerGridComponent
     public function filters(): array
     {
         $city_id = $this->filters['select']['city_id'] ?? null;
-        $query = AccountAddress::query();
+        $query = LandlordAccountAddress::query();
         if ($city_id > 0) {
             $query->where('city_id', $city_id)->orderBy('city_id', 'asc');
         }
@@ -186,13 +187,13 @@ final class AccountAddressTable extends PowerGridComponent
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
             Filter::select('city_id')
-                ->dataSource(City::orderBy('id', 'asc')->get())
+                ->dataSource(LandlordCity::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('district_id')
                 ->depends(['city_id'])
                 ->dataSource(
-                    fn($depends) => District::query()
+                    fn($depends) => LandlordDistrict::query()
                         ->when(
                             isset($depends['city_id']),
                             fn(Builder $query) => $query->whereRelation(
@@ -208,7 +209,7 @@ final class AccountAddressTable extends PowerGridComponent
         ];
     }
 
-    public function actions(AccountAddress $row): array
+    public function actions(LandlordAccountAddress $row): array
     {
         return [
             Button::add('view')
@@ -237,14 +238,14 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        AccountAddress::query()->find($id)->update([
+        LandlordAccountAddress::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        AccountAddress::query()->find($id)->update([
+        LandlordAccountAddress::query()->find($id)->update([
             $field => e($value),
         ]);
     }

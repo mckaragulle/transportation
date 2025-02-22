@@ -2,7 +2,7 @@
 
 namespace App\Services\Tenant;
 
-use App\Repositories\AccountRepository;
+use App\Repositories\Tenant\AccountRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;

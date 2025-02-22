@@ -84,7 +84,7 @@ class HgsEdit extends Component
                 ->with(['hgs_types:id,hgs_type_category_id,hgs_type_id,name', 'hgs_types.hgs_types:id,hgs_type_category_id,hgs_type_id,name'])
                 ->get(['id', 'name']);
         } else {
-            return $this->redirect(route('hgses.list'));
+            return $this->redirect(route('tenant.hgses.list'));
         }
     }
 

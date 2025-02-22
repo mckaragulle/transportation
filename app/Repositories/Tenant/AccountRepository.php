@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Tenant;
 
-use App\Models\Account;
+use App\Models\Tenant\Account;
 use App\Repositories\BaseRepository;
 use App\Repositories\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;

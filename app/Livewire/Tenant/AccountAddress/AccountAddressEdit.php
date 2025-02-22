@@ -2,17 +2,16 @@
 
 namespace App\Livewire\Tenant\AccountAddress;
 
-use App\Models\District;
-use App\Models\Landlord\AccountAddress;
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\District;
+use App\Models\Tenant\Locality;
 use App\Models\Tenant\Neighborhood;
-use App\Services\AccountAddressService;
-use App\Services\CityService;
-use App\Services\DistrictService;
-use App\Services\LocalityService;
-use App\Services\NeighborhoodService;
+use App\Services\Tenant\AccountAddressService;
+use App\Services\Tenant\CityService;
+use App\Services\Tenant\DistrictService;
+use App\Services\Tenant\LocalityService;
+use App\Services\Tenant\NeighborhoodService;
 use App\Services\Tenant\AccountService;
-use App\Services\Tenant\DealerService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -23,13 +22,12 @@ class AccountAddressEdit extends Component
 {
     use LivewireAlert;
 
-    public ?AccountAddress $accountAddress = null;
+    public null|Model $accountAddress = null;
     public null|Collection $accounts = null;
     public null|Collection $cities = null;
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;
     public null|Collection $localities = null;
-    public null|string $dealer_id = null;
     public null|string $account_id = null;
     public null|string $city_id = null;
     public null|string $district_id = null;
@@ -49,7 +47,6 @@ class AccountAddressEdit extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
         'account_id' => ['required', 'exists:accounts,id'],
         'city_id' => ['required', 'exists:cities,id'],
         'district_id' => ['required', 'exists:districts,id'],
@@ -65,8 +62,6 @@ class AccountAddressEdit extends Component
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'account_id.required' => 'Lütfen cari seçiniz yazınız.',
         'account_id.exists' => 'Lütfen geçerli bir cari seçiniz yazınız.',
         'city_id.required' => 'Lütfen şehir seçiniz yazınız.',
@@ -82,9 +77,8 @@ class AccountAddressEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, DealerService $dealerService, AccountService $accountService, CityService $cityService, DistrictService $districtService, NeighborhoodService $neighborhoodService, LocalityService $localityService, AccountAddressService $accountAddressService)
+    public function mount($id = null, AccountService $accountService, CityService $cityService, DistrictService $districtService, NeighborhoodService $neighborhoodService, LocalityService $localityService, AccountAddressService $accountAddressService)
     {
-        //TODO: Burada bayi ve cari seçimi yapılacak.
         if (!is_null($id)) {
             $this->accountAddress = $accountAddressService->findById($id);
             $this->accounts = $accountService->all(['id', 'name']);
@@ -92,7 +86,6 @@ class AccountAddressEdit extends Component
             $this->districts = $districtService->all(['id', 'name']);
             $this->neighborhoods = $neighborhoodService->all(['id', 'name']);
             $this->localities = $localityService->all(['id', 'name']);
-            $this->dealer_id = $this->accountAddress->dealer_id;
             $this->account_id = $this->accountAddress->account_id;
             $this->city_id = $this->accountAddress->city_id;
             $this->district_id = $this->accountAddress->district_id;
@@ -126,7 +119,6 @@ class AccountAddressEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->accountAddress->dealer_id = $this->dealer_id;
             $this->accountAddress->account_id = $this->account_id;
             $this->accountAddress->city_id = $this->city_id;
             $this->accountAddress->district_id = $this->district_id;
@@ -169,6 +161,6 @@ class AccountAddressEdit extends Component
 
     public function updatedNeighborhoodId()
     {
-        $this->localities = LandlordLocality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
+        $this->localities = Locality::query()->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('id')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }
 }

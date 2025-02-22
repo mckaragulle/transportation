@@ -22,13 +22,13 @@ final class AccountOfficerTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountOfficerTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -51,7 +51,7 @@ final class AccountOfficerTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = AccountOfficer::query()
-            ->whereDealerId($this->dealer_id);
+            ->whereaccountId($this->account_id);
         return $account;
     }
 
@@ -180,7 +180,7 @@ final class AccountOfficerTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_officers.edit', ['id' => $row->id])
+                ->route('tenant.account_officers.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

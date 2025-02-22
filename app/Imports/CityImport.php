@@ -2,14 +2,10 @@
 
 namespace App\Imports;
 
-use App\Jobs\Tenant\TenantCityJob;
-use App\Jobs\Tenant\TenantDistrictJob;
-use App\Jobs\Tenant\TenantLocalityJob;
-use App\Jobs\Tenant\TenantNeighborhoodJob;
 use App\Jobs\Tenant\TenantSyncDataJob;
-use App\Models\City;
-use App\Models\District;
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\City;
+use App\Models\Tenant\District;
+use App\Models\Tenant\Locality;
 use App\Models\Tenant\Neighborhood;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -26,7 +22,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
     public ?City $city = null;
     public ?District $district = null;
     public ?Neighborhood $neighborhood = null;
-    public ?LandlordLocality $locality = null;
+    public ?Locality $locality = null;
 
     /**
      * @param array $row
@@ -110,7 +106,7 @@ class CityImport implements NotTenantAware, ShouldQueue, ToModel, WithBatchInser
                 'name' => $name
             ];
 
-            $locality = LandlordLocality::query();
+            $locality = Locality::query();
             if(!$locality->where($whereData)->exists()){
                 $this->locality = $locality->create($whereData);
                 Tenant::all()->eachCurrent(function(Tenant $tenant) {

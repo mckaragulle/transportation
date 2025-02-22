@@ -24,17 +24,15 @@ final class AccountTable extends PowerGridComponent
     public ?int $accountTypeCategoryId = null;
 
     public bool $multiSort = true;
-    public null|string $dealer_id = null;
 
     public string $tableName = 'AccountTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: "account_{$id}"
+            prefix: "account_"
         );
 
         $this->accountCategories = AccountTypeCategory::query()->with(['account_types'])->get(['id', 'name']);
@@ -55,8 +53,8 @@ final class AccountTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = Account::query()
-            ->select(['id', 'dealer_id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
-            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name', 'dealer:id,name']);
+            ->select(['id', 'number', 'name', 'shortname', 'email', 'phone', 'tax', 'taxoffice', 'status'])
+            ->with(['account_type_categories:id,name', 'account_types:id,account_type_category_id,account_type_id,name']);
         return $account;
     }
 
@@ -90,9 +88,6 @@ final class AccountTable extends PowerGridComponent
             });
         }
         $fields
-            ->add('dealer_id', function ($role) {
-                return $role->dealer->name ?? "---";
-            })
             ->add('number')
             ->add('name')
             ->add('shortname')
@@ -110,9 +105,6 @@ final class AccountTable extends PowerGridComponent
     {
         $column = [
             Column::make('Id', 'id')
-                ->sortable()
-                ->searchable(),
-            Column::make('Bayi Adı', 'dealer_id')
                 ->sortable()
                 ->searchable(),
         ];
@@ -213,11 +205,11 @@ final class AccountTable extends PowerGridComponent
         return [
             Button::add('manage')
                 ->slot('<i class="fa fa-person"></i>')
-                ->route('account_managements.edit', ['id' => $row->id])
+                ->route('tenant.account_managements.edit', ['id' => $row->id])
                 ->class('badge badge-primary'),
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('accounts.edit', ['id' => $row->id])
+                ->route('tenant.accounts.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

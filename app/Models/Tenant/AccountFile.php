@@ -23,7 +23,6 @@ class AccountFile extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        "dealer_id",
         "account_id",
         "title",
         "filename",

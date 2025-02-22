@@ -98,7 +98,7 @@ class UserEdit extends Component
                 $this->dealer_id = auth()->user()->id;
                 $user = User::query()->where(['id' => $id, 'dealer_id' => $this->dealer_id]);
                 if (!$user->exists()) {
-                    return redirect()->route('users.list');
+                    return redirect()->route('tenant.users.list');
                 }
                 $this->user = $user->first();
             }
@@ -114,7 +114,7 @@ class UserEdit extends Component
             $this->phone = $this->user->phone;
         }
         else{
-            return $this->redirect(route('users.list'));
+            return $this->redirect(route('tenant.users.list'));
         }
     }
 

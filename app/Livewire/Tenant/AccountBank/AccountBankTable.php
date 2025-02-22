@@ -23,13 +23,13 @@ final class AccountBankTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountBankTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -51,7 +51,7 @@ final class AccountBankTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountBank::query()->whereDealerId($this->dealer_id);
+        $account = AccountBank::query()->whereaccountId($this->account_id);
         return $account;
     }
 
@@ -146,7 +146,7 @@ final class AccountBankTable extends PowerGridComponent
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_banks.edit', ['id' => $row->id])
+                ->route('tenant.account_banks.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')

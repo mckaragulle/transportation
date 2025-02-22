@@ -1,15 +1,19 @@
 <div class="col-xl-12">
+    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('staffs.list') }}">Personeller</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('tenant.staffs.list') }}">Personeller</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
+    @endif
     <div class="card overflow-hidden">
+        @if($is_show)
         <div class="card-header border-bottom border-warning warning">
             <h4 class="card-title mb-0">Personel Düzenle</h4>
         </div>
-        <div class="card-body">
+        @endif
+        <div class="card-body {{$is_show ? '':'p-0'}}">
             <div class="basic-form">
                 <form wire:submit.prevent="update">
                     <div class="row">

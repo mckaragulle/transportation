@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Tenant\DealerAddress;
 
-use App\Models\District;
+use App\Models\Tenant\District;
 use App\Models\Tenant\DealerAddress;
-use App\Services\CityService;
+use App\Services\Tenant\CityService;
 use App\Services\DealerAddressService;
-use App\Services\DistrictService;
-use App\Services\LocalityService;
-use App\Services\NeighborhoodService;
+use App\Services\Tenant\DistrictService;
+use App\Services\Tenant\LocalityService;
+use App\Services\Tenant\NeighborhoodService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

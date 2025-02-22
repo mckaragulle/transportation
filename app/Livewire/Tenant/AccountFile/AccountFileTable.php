@@ -23,13 +23,13 @@ final class AccountFileTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountFileTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -52,7 +52,7 @@ final class AccountFileTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = AccountFile::query()
-        ->whereDealerId($this->dealer_id);
+        ->whereaccountId($this->account_id);
         return $account;
     }
 

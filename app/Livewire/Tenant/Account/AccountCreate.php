@@ -37,7 +37,6 @@ class AccountCreate extends Component
     protected $rules = [
         'account_type_categories' => ['nullable', 'array'],
         'account_type_categories.*' => ['nullable'],
-        'dealer_id' => ['required', 'exists:dealers,id'],
         'number' => ['required'],
         'name' => ['required'],
         'shortname' => ['required'],
@@ -53,8 +52,6 @@ class AccountCreate extends Component
     protected $messages = [
         'account_type_categories.required' => 'Lütfen cari kategorisini seçiniz.',
         'account_type_categories.array' => 'Lütfen geçerli bir cari kategorisi seçiniz.',
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
         'number.required' => 'Müşteri cari numarasını yazınız.',
         'name.required' => 'Müşteri adını yazınız.',
         'shortname.required' => 'Müşteri kısa adını yazınız.',
@@ -73,12 +70,6 @@ class AccountCreate extends Component
 
     public function mount(AccountTypeCategory $accountTypeCategory)
     {
-        if (auth()->getDefaultDriver() == 'dealer') {
-            $this->dealer_id = auth()->user()->id;
-        } else if (auth()->getDefaultDriver() == 'users') {
-            $this->dealer_id = auth()->user()->dealer()->id;
-        }
-
         $this->accountTypeCategoryDatas = $accountTypeCategory->query()
             ->with(['account_types:id,account_type_category_id,account_type_id,name', 'account_types.account_types:id,account_type_category_id,account_type_id,name'])
             ->get(['id', 'name', 'is_required', 'is_multiple']);
@@ -99,7 +90,6 @@ class AccountCreate extends Component
                 $filename = $this->filename->store(path: 'public/photos');
             }
             $account = $accountService->create([
-                'dealer_id' => $this->dealer_id,
                 'name' => $this->name,
                 'number' => $this->number,
                 'shortname' => $this->shortname,

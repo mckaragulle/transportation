@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\Locality;
 
 use App\Models\Landlord\LandlordCity;
 use App\Models\Landlord\LandlordDistrict;
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Locality;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;

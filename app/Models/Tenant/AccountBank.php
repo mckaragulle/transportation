@@ -23,7 +23,6 @@ class AccountBank extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        "dealer_id",
         "account_id",
         "bank_id",
         "iban",
@@ -34,14 +33,6 @@ class AccountBank extends Model
     {
         return LogOptions::defaults()
             ->logAll();
-    }
-
-    /**
-     * Get the Dealer.
-     */
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
 
     public function account(): BelongsTo

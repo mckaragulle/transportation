@@ -2,7 +2,7 @@
 
 namespace App\Models\Tenant;
 
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Locality;
 use App\Traits\StrUuidTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -39,7 +39,6 @@ class AccountAddress extends Model
     }
 
     protected $fillable = [
-        "dealer_id",
         "account_id",
         "city_id",
         "district_id",
@@ -61,14 +60,6 @@ class AccountAddress extends Model
     {
         return LogOptions::defaults()
             ->logAll();
-    }
-
-    /**
-     * Get the Dealer.
-     */
-    public function dealer(): BelongsTo
-    {
-        return $this->belongsTo(Dealer::class);
     }
 
     public function account(): BelongsTo

@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Tenant\AccountAddress;
 
-use App\Models\City;
-use App\Models\District;
-use App\Models\Landlord\AccountAddress;
+use App\Models\Tenant\City;
+use App\Models\Tenant\District;
+use App\Models\Tenant\AccountAddress;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -21,13 +21,13 @@ final class AccountAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountAddressTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -52,7 +52,7 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = AccountAddress::query()->whereDealerId($this->dealer_id);
+        $account = AccountAddress::query()->whereAccountId($this->account_id);
         return $account;
     }
 

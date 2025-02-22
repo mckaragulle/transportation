@@ -1,8 +1,8 @@
 <div class="col-xl-12">
-    @if($is_show) 
+    @if($is_show)
     <div class="row page-titles">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route('dealers.list')}}">Bayiler</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tenant.dealers.list')}}">Bayiler</a></li>
             <li class="breadcrumb-item active"><a href="javascript:void(0)">Düzenle</a></li>
         </ol>
     </div>
@@ -155,7 +155,7 @@
                                             </button>{{$message}}
                                         </div>@enderror
                                     </div>
-                                    
+
 
                                 </div>
                             </div>

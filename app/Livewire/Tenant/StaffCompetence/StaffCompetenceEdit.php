@@ -56,7 +56,7 @@ class StaffCompetenceEdit extends Component
             $this->expiry_date_at = $this->staffCompetence->expiry_date_at ?? null;
             $this->status = $this->staffCompetence->status;
         } else {
-            return $this->redirect(route('staff_competences.list'));
+            return $this->redirect(route('tenant.staff_competences.list'));
         }
     }
 
@@ -72,7 +72,7 @@ class StaffCompetenceEdit extends Component
      */
     public function update()
     {
-        
+
         $this->validate();
         DB::beginTransaction();
         try {

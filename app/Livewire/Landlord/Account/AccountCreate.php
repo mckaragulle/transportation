@@ -37,7 +37,7 @@ class AccountCreate extends Component
     protected $rules = [
         'account_type_categories' => ['nullable', 'array'],
         'account_type_categories.*' => ['nullable'],
-        'dealer_id' => ['required', 'exists:dealers,id'],
+
         'number' => ['required'],
         'name' => ['required'],
         'shortname' => ['required'],

@@ -119,7 +119,7 @@
                                     <small
                                     class="text-end font-w400">{{ \Illuminate\Support\Str::ucfirst(auth()->user()->roles->first()->name ?? '') }}</small>
                                     @endif
-                                    
+
                                 </div>
                                 <i class="fas fa-chevron-down"></i>
                             </div>

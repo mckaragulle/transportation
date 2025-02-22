@@ -11,9 +11,7 @@ use Livewire\Component;
 class Accounts extends Component
 {
     use LivewireAlert;
-
     public null|string $data_id;
-
 
     public function render()
     {

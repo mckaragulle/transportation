@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Landlord;
 
-use App\Models\Landlord\LandlordLocality;
+use App\Models\Tenant\Locality;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\BaseRepository;
 use App\Repositories\RepositoryInterface;

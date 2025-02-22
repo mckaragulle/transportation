@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Tenant\Account;
 
-use App\Models\Tenant\Account;
 use App\Services\Tenant\AccountService;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class AccountManagement extends Component
 {
-    public null|Account $account = null;
+    public null|Model $account = null;
     public null|string $number = null;
     public null|string $name = null;
     public null|string $shortname = null;
