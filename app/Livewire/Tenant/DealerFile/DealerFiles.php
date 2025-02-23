@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Tenant\DealerFile;
 
-use App\Services\DealerFileService;
+use App\Services\Tenant\DealerFileService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;

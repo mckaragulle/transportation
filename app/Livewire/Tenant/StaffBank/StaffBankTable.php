@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\Landlord\AccountBank;
+namespace App\Livewire\Tenant\StaffBank;
 
-use App\Models\Landlord\LandlordAccount;
-use App\Models\Landlord\LandlordAccountBank;
-use App\Models\Landlord\LandlordBank;
+use App\Models\Tenant\Staff;
+use App\Models\Tenant\StaffBank;
+use App\Models\Tenant\Bank;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -18,26 +18,26 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AccountBankTable extends PowerGridComponent
+final class StaffBankTable extends PowerGridComponent
 {
     use WithExport;
 
     public bool $multiSort = true;
-    public null|string $account_id = null;
+    public null|string $staff_id = null;
 
-    public string $tableName = 'AccountBankTable';
+    public string $tableName = 'StaffBankTable';
 
     public function setUp(): array
     {
-        $id = $this->account_id;
+        $id = $this->staff_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: "account_bank_{$id}"
+            prefix: "staff_bank_{$id}"
         );
 
         return [
-            PowerGrid::exportable(fileName: 'Cari Banka Bilgileri')
+            PowerGrid::exportable(fileName: 'Personel Banka Bilgileri')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -51,20 +51,13 @@ final class AccountBankTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = LandlordAccountBank::query()->whereAccountId($this->account_id);
-        return $account;
+        $staff = StaffBank::query()->whereStaffId($this->staff_id);
+        return $staff;
     }
 
     public function relationSearch(): array
     {
         return [
-            'accounts' => [
-                "number",
-                "name",
-                "shortname",
-                "phone",
-                "email"
-            ],
             'banks' => [
                 "name",
                 "eft",
@@ -79,9 +72,6 @@ final class AccountBankTable extends PowerGridComponent
     {
         $fields = PowerGrid::fields()
             ->add('id')
-            ->add('account_id', function ($role) {
-                return $role->account->name ?? "---";
-            })
             ->add('bank_id', function ($role) {
                 return $role->bank->name ?? "---";
             })
@@ -98,21 +88,18 @@ final class AccountBankTable extends PowerGridComponent
             Column::make('Id', 'id')
                 ->sortable()
                 ->searchable(),
-            Column::make('Cari Adı', 'account_id')
-                ->sortable()
-                ->searchable(),
             Column::make('Banka Adı', 'bank_id'),
             Column::make('Adres Başlığı', 'iban')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update account_banks'),
+                    hasPermission: auth()->user()->can('update staff_banks'),
                     fallback: '- empty -'
                 ),
 
             Column::make('DURUM', 'status')
                 ->toggleable(
-                    hasPermission: auth()->user()->can('update account_banks'),
+                    hasPermission: auth()->user()->can('update staff_banks'),
                     trueLabel: 'Aktif',
                     falseLabel: 'Pasif',
                 ),
@@ -130,29 +117,29 @@ final class AccountBankTable extends PowerGridComponent
     {
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
-            Filter::select('account_id')
-                ->dataSource(LandlordAccount::orderBy('id', 'asc')->get())
+            Filter::select('staff_id')
+                ->dataSource(Staff::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
             Filter::select('bank_id')
-                ->dataSource(LandlordBank::orderBy('id', 'asc')->get())
+                ->dataSource(Bank::orderBy('id', 'asc')->get())
                 ->optionLabel('name')
                 ->optionValue('id'),
         ];
     }
 
-    public function actions(LandlordAccountBank $row): array
+    public function actions(StaffBank $row): array
     {
         return [
             Button::add('view')
                 ->slot('<i class="fa fa-pencil"></i>')
-                ->route('account_banks.edit', ['id' => $row->id])
+                ->route('tenant.staff_banks.edit', ['id' => $row->id])
                 ->class('badge badge-info'),
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-account-bank', ['id' => $row->id]),
+                ->dispatch('delete-staff-bank', ['id' => $row->id]),
         ];
     }
 
@@ -160,24 +147,24 @@ final class AccountBankTable extends PowerGridComponent
     {
         return [
             Rule::button('view')
-                ->when(fn($row) => auth()->user()->can('update account_banks') != 1)
+                ->when(fn($row) => auth()->user()->can('update staff_banks') != 1)
                 ->hide(),
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete account_banks') != 1)
+                ->when(fn($row) => auth()->user()->can('delete staff_banks') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        LandlordAccountBank::query()->find($id)->update([
+        StaffBank::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        LandlordAccountBank::query()->find($id)->update([
+        StaffBank::query()->find($id)->update([
             $field => e($value),
         ]);
     }

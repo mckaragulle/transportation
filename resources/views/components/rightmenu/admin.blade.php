@@ -99,7 +99,7 @@
             <span class="ms-2">HGS Seçenekleri</span></a>
     <hr class="my-1" />
     @endcan
-    
+
     @can('read dealer_type_categories')
         <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
             href="{{ route('dealer_type_categories.list') }}"><i class="fas fa-shop text-danger"></i>
@@ -115,13 +115,6 @@
             href="{{ route('dealers.list') }}"><i class="fas fa-shop text-danger"></i>
             <span class="ms-2">Bayiler</span></a>
     <hr class="my-1" />
-    @endcan
-
-    @can('read users')
-        <a class="dropdown-item ai-icon fs-6 py-1 btn-sm"
-            href="{{ route('users.list') }}"><i
-                class="fas fa-user-group text-danger"></i> <span
-                class="ms-2">Personeller</span></a>
     @endcan
     <livewire:logout />
 </div>

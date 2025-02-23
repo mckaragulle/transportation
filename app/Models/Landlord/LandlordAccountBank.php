@@ -2,7 +2,7 @@
 
 namespace App\Models\Landlord;
 
-use App\Models\LandlordBank\LandlordBank;
+use App\Models\Landlord\LandlordBank;
 use App\Traits\StrUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

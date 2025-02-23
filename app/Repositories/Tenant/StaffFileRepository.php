@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Repositories\Landlord;
+namespace App\Repositories\Tenant;
 
-use App\Models\Landlord\LandlordBank;
+use App\Models\Tenant\StaffFile;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\BaseRepository;
 use App\Repositories\RepositoryInterface;
 
 /**
- * @var LandlordBank $model
+ * @var StaffFile $model
  */
-class LandlordBankRepository extends BaseRepository implements RepositoryInterface
+class StaffFileRepository extends BaseRepository implements RepositoryInterface
 {
     const PAGE_SIZE = 20;
 
     protected function model(): string|Model
     {
-        return LandlordBank::class;
+        return StaffFile::class;
     }
 }

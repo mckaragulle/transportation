@@ -31,6 +31,7 @@ class StaffTypeCategoryEdit extends Component
             'name' => [
                 'required',
             ],
+            'target' => ['required'],
             'status' => [
                 'in:true,false,null,0,1,active,passive,',
                 'nullable',
@@ -40,6 +41,7 @@ class StaffTypeCategoryEdit extends Component
 
     protected $messages = [
         'name.required' => 'Personel kategorisi yazınız.',
+        'target.required' => 'Personel kategori konumunu seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
@@ -49,6 +51,7 @@ class StaffTypeCategoryEdit extends Component
 
             $this->staffTypeCategory = $staffTypeCategoryService->findById($id);
             $this->name = $this->staffTypeCategory->name;
+            $this->target = $this->staffTypeCategory->target;
             $this->status = $this->staffTypeCategory->status;
         } else {
             return $this->redirect(route('staff_type_categories.list'));

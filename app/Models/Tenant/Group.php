@@ -37,7 +37,7 @@ class Group extends Model
         ];
     }
 
-    protected $fillable = ["account_id", "group_id", "name", "slug", "status"];
+    protected $fillable = ["group_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

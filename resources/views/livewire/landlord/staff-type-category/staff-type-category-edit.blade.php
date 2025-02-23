@@ -31,6 +31,26 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">Hangi Modülde Kullanılsın? :</label>
+                                <div class="col-sm-9">
+                                    <select wire:model="target" id="target" class="form-select form-select-lg">
+                                        <option value="">Hangi Modülde Kullanılsın?</option>
+                                        <option value="all">HEPSİ</option>
+                                        <option value="staff">PERSONEL</option>
+                                        <option value="competence">YETKİNLİKLERİM</option>
+                                        {{-- <option value="address">ADRES</option>
+                                         <option value="bank">BANKA</option>
+                                         <option value="file">DOSYA</option>--}}
+                                    </select>
+                                    @error('target')
+                                    <div class="alert alert-danger alert-dismissible alert-alt solid fade show">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="btn-close">
+                                        </button>{{$message}}
+                                    </div>@enderror
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">Personel kategorisini yazınız :</label>
                                 <div class="col-sm-9">
                                     <input class="form-control border border-warning" type="text"

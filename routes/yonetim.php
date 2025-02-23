@@ -7,7 +7,7 @@ use App\Livewire\Dashboard;
 
 use App\Livewire\Landlord\StaffType\{StaffTypeEdit, StaffTypes};
 use App\Livewire\Landlord\StaffTypeCategory\{StaffTypeCategories, StaffTypeCategoryEdit};
-use App\Livewire\Landlord\Account\{AccountEdit, Accounts};
+use App\Livewire\Landlord\Account\{AccountEdit, Accounts, AccountManagement};
 use App\Livewire\Landlord\AccountType\{AccountTypeEdit, AccountTypes};
 use App\Livewire\Landlord\AccountTypeCategory\{AccountTypeCategories, AccountTypeCategoryEdit};
 use App\Livewire\Landlord\Group\{Groups, GroupEdit};
@@ -103,6 +103,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/cariler', Accounts::class)->name('accounts.list')->middleware('can:read accounts');
     Route::get('/cari/{id}/duzenle', AccountEdit::class)->name('accounts.edit')->middleware('can:update accounts');
+    Route::get('/cari-yonetimi/{id}', AccountManagement::class)->name('account_managements.edit')->middleware('can:read accounts');
 
     Route::get('/surucu-belgesi-kategorileri', LicenceTypeCategories::class)->name('licence_type_categories.list')->middleware('can:read licence_type_categories');
     Route::get('/surucu-belgesi-kategorisi/{id}/duzenle', LicenceTypeCategoryEdit::class)->name('licence_type_categories.edit')->middleware('can:update licence_type_categories');

@@ -38,9 +38,9 @@
                                         <option value="all">HEPSİ</option>
                                         <option value="staff">PERSONEL</option>
                                         <option value="competence">YETKİNLİKLERİM</option>
-                                        <option value="address">ADRES</option>
+                                       {{-- <option value="address">ADRES</option>
                                         <option value="bank">BANKA</option>
-                                        <option value="file">DOSYA</option>
+                                        <option value="file">DOSYA</option>--}}
                                     </select>
                                     @error('target')
                                     <div class="alert alert-danger alert-dismissible alert-alt solid fade show">

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\Landlord\AccountFile;
+namespace App\Livewire\Tenant\StaffFile;
 
-use App\Models\Landlord\LandlordAccount;
-use App\Models\Landlord\LandlordAccountFile;
+use App\Models\Tenant\StaffFile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -18,26 +17,27 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
-final class AccountFileTable extends PowerGridComponent
+final class StaffFileTable extends PowerGridComponent
 {
     use WithExport;
 
     public bool $multiSort = true;
-    public null|string $account_id = null;
+    public null|string $staff_id;
 
-    public string $tableName = 'AccountFileTable';
+    public string $tableName = 'StaffFileTable';
 
     public function setUp(): array
     {
-        $id = $this->account_id;
+
+        $id = $this->staff_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
-            prefix: "account_file_{$id}"
+            prefix: "staff_file_{$id}"
         );
 
         return [
-            PowerGrid::exportable(fileName: 'Cari Dosyaları')
+            PowerGrid::exportable(fileName: 'Personel Dosyaları')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             PowerGrid::header()->showSoftDeletes()
@@ -51,35 +51,25 @@ final class AccountFileTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = LandlordAccountFile::query()
-        ->whereAccountId($this->account_id);
-        return $account;
+        $staff = StaffFile::query()
+            ->whereStaffId($this->staff_id);
+        return $staff;
     }
 
     public function relationSearch(): array
     {
         return [
-            'accounts' => [
-                "number",
-                "name",
-                "shortname",
-                "phone",
-                "email"
-            ],
         ];
     }
 
     public function fields(): PowerGridFields
     {
         $fields = PowerGrid::fields()
-            ->add('id')
-            ->add('account_id', function ($role) {
-                return $role->account->name ?? "---";
-            })
             ->add('title')
             ->add('filename', function ($dish) {
                 return '<a href="' . Storage::url($dish->filename) . '" target="_blank">' . $dish->title . '</a>';
-            });;
+            })
+            ->add('status');
 
         return $fields;
     }
@@ -87,20 +77,20 @@ final class AccountFileTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id')
-                ->sortable()
-                ->searchable(),
-            Column::make('Cari Adı', 'account_id')
-                ->sortable()
-                ->searchable(),
             Column::make('Dosya Adı', 'title')
                 ->sortable()
                 ->searchable()
                 ->editOnClick(
-                    hasPermission: auth()->user()->can('update account_files'),
+                    hasPermission: auth()->user()->can('update staff_files'),
                     fallback: '- empty -'
                 ),
             Column::make('Dosya', 'filename'),
+            Column::make('DURUM', 'status')
+                ->toggleable(
+                    hasPermission: auth()->user()->can('update staff_files'),
+                    trueLabel: 'Aktif',
+                    falseLabel: 'Pasif',
+                ),
             Column::action('EYLEMLER')
                 ->visibleInExport(visible: false),
         ];
@@ -110,21 +100,17 @@ final class AccountFileTable extends PowerGridComponent
     {
         return [
             Filter::boolean('status')->label('Aktif', 'Pasif'),
-            Filter::select('account_id')
-                ->dataSource(LandlordAccount::orderBy('id', 'asc')->get())
-                ->optionLabel('name')
-                ->optionValue('id'),
         ];
     }
 
-    public function actions(LandlordAccountFile $row): array
+    public function actions(StaffFile $row): array
     {
         return [
             Button::add('delete')
                 ->slot('<i class="fa fa-trash"></i>')
                 ->id()
                 ->class('badge badge-danger')
-                ->dispatch('delete-account-file', ['id' => $row->id]),
+                ->dispatch('delete-staff-file', ['id' => $row->id]),
         ];
     }
 
@@ -132,21 +118,21 @@ final class AccountFileTable extends PowerGridComponent
     {
         return [
             Rule::button('delete')
-                ->when(fn($row) => auth()->user()->can('delete account_files') != 1)
+                ->when(fn($row) => auth()->user()->can('delete staff_files') != 1)
                 ->hide(),
         ];
     }
 
     public function onUpdatedToggleable(string|int $id, string $field, string $value): void
     {
-        LandlordAccountFile::query()->find($id)->update([
+        StaffFile::query()->find($id)->update([
             $field => e($value) ? 1 : 0,
         ]);
     }
 
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        LandlordAccountFile::query()->find($id)->update([
+        StaffFile::query()->find($id)->update([
             $field => e($value),
         ]);
     }

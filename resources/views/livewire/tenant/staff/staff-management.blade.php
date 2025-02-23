@@ -29,12 +29,12 @@
                             <livewire:tenant.staff.staff-edit id="{{$staff->id}}" is_show="0" />
                         </div>
                     </div>
-                    <div class="tab-pane fade show active" id="addresses">
+                    <div class="tab-pane fade" id="addresses">
                         <div class="pt-4">
                             <livewire:tenant.staff-address.staff-addresses id="{{$staff->id}}" is_show="0" />
                         </div>
                     </div>
-                    {{-- <div class="tab-pane fade" id="banks">
+                    <div class="tab-pane fade" id="banks">
                          <div class="pt-4">
                              <livewire:tenant.staff-bank.staff-banks id="{{$staff->id}}" is_show="0" />
                          </div>
@@ -43,7 +43,7 @@
                          <div class="pt-4">
                              <livewire:tenant.staff-file.staff-files id="{{$staff->id}}" is_show="0" />
                          </div>
-                     </div>--}}
+                     </div>
                     <div class="tab-pane fade" id="qrcode">
                         <div class="pt-4">
                             {{QrCode::size(250)->generate($staff->id)}}

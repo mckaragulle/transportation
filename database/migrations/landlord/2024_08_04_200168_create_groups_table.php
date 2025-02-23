@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid('group_id')->nullable()->constrained()->cascadeOnDelete();
         });
         Schema::table('groups', function (Blueprint $table) {
             $table->foreignUuid('group_id')->nullable()->constrained()->cascadeOnDelete();

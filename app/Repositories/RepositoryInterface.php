@@ -34,6 +34,8 @@ interface RepositoryInterface
 
     public function insertMany(array $data): bool;
 
+    public function create(array $data): Model;
+
     public function update(int $id, array $data): Model;
 
     public function delete(int|string $id): bool;

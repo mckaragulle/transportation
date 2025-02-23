@@ -28,7 +28,7 @@ class DealerCreate extends Component
 
     public bool $status = true;
 
-    protected DealerService $dealerService;
+    protected LandlordDealerService $dealerService;
 
     /**
      * List of add/edit form rules

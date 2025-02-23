@@ -22,13 +22,13 @@ final class AccountOfficerTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountOfficerTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -51,7 +51,7 @@ final class AccountOfficerTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $account = LandlordAccountOfficer::query()
-            ->whereDealerId($this->dealer_id);
+            ->whereAccountId($this->account_id);
         return $account;
     }
 

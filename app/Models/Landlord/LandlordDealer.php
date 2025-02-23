@@ -120,7 +120,8 @@ class LandlordDealer extends Authenticatable
      */
     public function dealer_type_category(): BelongsTo
     {
-        return $this->belongsTo(LandlordDealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer');
+        return $this->belongsTo(LandlordDealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer',
+         'dealer_type_category_id', 'id');
     }
 
     /**
@@ -128,17 +129,20 @@ class LandlordDealer extends Authenticatable
      */
     public function dealer_type(): BelongsTo
     {
-        return $this->belongsTo(LandlordDealerType::class, 'dealer_type_category_dealer_type_dealer');
+        return $this->belongsTo(LandlordDealerType::class, 'dealer_type_category_dealer_type_dealer',
+            'dealer_type', 'id');
     }
 
     public function dealer_type_categories(): BelongsToMany
     {
-        return $this->belongsToMany(LandlordDealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer');
+        return $this->belongsToMany(LandlordDealerTypeCategory::class, 'dealer_type_category_dealer_type_dealer',
+            'dealer_type_category_id', 'id');
     }
 
     public function dealer_types(): BelongsToMany
     {
-        return $this->belongsToMany(LandlordDealerType::class, LandlordDealerTypeCategoryDealerTypeDealer::class);
+        return $this->belongsToMany(LandlordDealerType::class, LandlordDealerTypeCategoryDealerTypeDealer::class,
+            'dealer_type_id', 'id');
 
     }
 }

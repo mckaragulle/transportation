@@ -37,7 +37,7 @@ class StaffFile extends Model
     }
 
     /**
-     * Get the prices for the type post.
+     * Get the Staff.
      */
     public function staff(): BelongsTo
     {
@@ -54,6 +54,6 @@ class StaffFile extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-staff_files-StaffFilesTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-staff_files-StaffFileTable'])->flush();
     }
 }

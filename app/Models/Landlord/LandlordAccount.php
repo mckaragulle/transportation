@@ -46,7 +46,10 @@ class LandlordAccount extends Model
      */
     public function account_type_category(): BelongsTo
     {
-        return $this->belongsTo(LandlordAccountTypeCategory::class, 'account_type_category_account_type_account');
+        return $this->belongsTo(LandlordAccountTypeCategory::class,
+            'account_type_category_account_type_account',
+            'account_type_category_id',
+        );
     }
 
     /**
@@ -54,17 +57,27 @@ class LandlordAccount extends Model
      */
     public function account_type(): BelongsTo
     {
-        return $this->belongsTo(LandlordAccountType::class, 'account_type_category_account_type_account');
+        return $this->belongsTo(LandlordAccountType::class,
+            'account_type_category_account_type_account',
+        'account_type_id',
+            'id'
+        );
     }
 
     public function account_type_categories(): BelongsToMany
     {
-        return $this->belongsToMany(LandlordAccountTypeCategory::class, 'account_type_category_account_type_account');
+        return $this->belongsToMany(LandlordAccountTypeCategory::class,
+            'account_type_category_account_type_account',
+        'account_type_category_id',
+        'id');
     }
 
     public function account_types(): BelongsToMany
     {
-        return $this->belongsToMany(LandlordAccountType::class, 'account_type_category_account_type_account');
+        return $this->belongsToMany(LandlordAccountType::class,
+            'account_type_category_account_type_account',
+            'account_type_category_id',
+        'id');
     }
 
     protected static function booted(): void

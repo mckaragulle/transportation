@@ -93,6 +93,11 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->insert($data);
     }
 
+    public function create(array $data): Model
+    {
+        return $this->model->insert($data);
+    }
+
     public function update(int $id, array $data): Model
     {
         $model = $this->model->findOrFail($id);

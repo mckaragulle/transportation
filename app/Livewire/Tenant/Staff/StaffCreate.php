@@ -70,7 +70,7 @@ class StaffCreate extends Component
     public function mount(StaffTypeCategory $staffTypeCategory)
     {
         $this->staffTypeCategoryDatas = $staffTypeCategory->query()
-            ->where('target', 'staff')
+            ->whereIn('target', ['all', 'staff'])
             ->with(['staff_types:id,staff_type_category_id,staff_type_id,name', 'staff_types.staff_types:id,staff_type_category_id,staff_type_id,name'])
             ->get(['id', 'name']);
     }

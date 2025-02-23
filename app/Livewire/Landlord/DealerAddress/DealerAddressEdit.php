@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Landlord\DealerAddress;
 
+use App\Models\Landlord\LandlordDealerAddress;
 use App\Services\Landlord\LandlordCityService;
 use App\Services\Landlord\LandlordDealerAddressService;
 use App\Services\Landlord\LandlordDistrictService;
@@ -17,7 +18,7 @@ class DealerAddressEdit extends Component
 {
     use LivewireAlert;
 
-    public ?DealerAddress $dealerAddress = null;
+    public null|LandlordDealerAddress $dealerAddress = null;
     public null|Collection $cities = null;
     public null|Collection $districts = null;
     public null|Collection $neighborhoods = null;

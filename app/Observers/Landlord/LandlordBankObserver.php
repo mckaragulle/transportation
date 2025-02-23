@@ -3,7 +3,7 @@
 namespace App\Observers\Landlord;
 
 use App\Jobs\Tenant\TenantSyncDataJob;
-use App\Models\LandlordBank\LandlordBank;
+use App\Models\Landlord\LandlordBank;
 use Spatie\Multitenancy\Models\Tenant;
 
 class LandlordBankObserver

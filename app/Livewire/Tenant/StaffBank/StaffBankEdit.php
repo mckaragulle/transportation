@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire\Tenant\AccountBank;
+namespace App\Livewire\Tenant\StaffBank;
 
 use App\Services\Tenant\BankService;
-use App\Services\Tenant\AccountBankService;
-use App\Services\Tenant\AccountService;
+use App\Services\Tenant\StaffBankService;
+use App\Services\Tenant\StaffService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -12,16 +12,15 @@ use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccountBankEdit extends Component
+class StaffBankEdit extends Component
 {
     use LivewireAlert;
 
-    public ?Model $accountBank = null;
-
-    public null|Collection $accounts = null;
+    public ?Model $staffBank = null;
+    public null|Collection $staffs = null;
     public null|Collection $banks = null;
 
-    public null|string $account_id = null;
+    public null|string $staff_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
@@ -31,14 +30,15 @@ class AccountBankEdit extends Component
      * List of add/edit form rules
      */
     protected $rules = [
+        'staff_id' => ['required', 'exists:tenant.staffs,id'],
         'bank_id' => ['required', 'exists:tenant.banks,id'],
-        'iban' => ['required', 'unique:tenant.account_banks'],
+        'iban' => ['required', 'unique:tenant.staff_banks'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
-        'account_id.required' => 'Lütfen müşteri seçiniz.',
-        'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
+        'staff_id.required' => 'Lütfen personel seçiniz.',
+        'staff_id.exists' => 'Lütfen geçerli bir personel seçiniz.',
         'bank_id.required' => 'Lütfen banka seçiniz.',
         'bank_id.exists' => 'Lütfen geçerli bir banka seçiniz.',
         'iban.required' => 'Lütfen iban adresini yazınız.',
@@ -46,25 +46,25 @@ class AccountBankEdit extends Component
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
-    public function mount($id = null, AccountService $accountService, BankService $bankService, AccountBankService $accountBankService)
+    public function mount($id = null, StaffService $staffService, BankService $bankService, StaffBankService $staffBankService)
     {
         if (!is_null($id)) {
-            $this->accountBank = $accountBankService->findById($id);
-            $this->accounts = $accountService->all(['id', 'name']);
+            $this->staffBank = $staffBankService->findById($id);
+            $this->staffs = $staffService->all(['id', 'name']);
             $this->banks = $bankService->all(['id', 'name']);
 
-            $this->account_id = $this->accountBank->account_id;
-            $this->bank_id = $this->accountBank->bank_id;
-            $this->iban = $this->accountBank->iban;
-            $this->status = $this->accountBank->status;
+            $this->staff_id = $this->staffBank->staff_id;
+            $this->bank_id = $this->staffBank->bank_id;
+            $this->iban = $this->staffBank->iban;
+            $this->status = $this->staffBank->status;
         } else {
-            return $this->redirect(route('account_banks.list'));
+            return $this->redirect(route('staff_banks.list'));
         }
     }
 
     public function render()
     {
-        return view('livewire.tenant.account-bank.account-bank-edit');
+        return view('livewire.tenant.staff-bank.staff-bank-edit');
     }
 
     /**
@@ -77,20 +77,20 @@ class AccountBankEdit extends Component
         $this->validate();
         DB::beginTransaction();
         try {
-            $this->accountBank->account_id = $this->account_id;
-            $this->accountBank->bank_id = $this->bank_id;
+            $this->staffBank->staff_id = $this->staff_id;
+            $this->staffBank->bank_id = $this->bank_id;
 
-            $this->accountBank->iban = $this->iban ?? null;
+            $this->staffBank->iban = $this->iban ?? null;
 
-            $this->accountBank->status = $this->status == false ? 0 : 1;
-            $this->accountBank->save();
+            $this->staffBank->status = $this->status == false ? 0 : 1;
+            $this->staffBank->save();
 
-            $msg = 'Cari banka bilgisi güncellendi.';
+            $msg = 'Personel banka bilgisi güncellendi.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi güncellenemedi. {$exception->getMessage()}";
+            $error = "Personel banka bilgisi güncellenemedi. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

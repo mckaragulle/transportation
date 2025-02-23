@@ -2,6 +2,11 @@
 
 namespace App\Livewire\Landlord\DealerAddress;
 
+use App\Services\Landlord\LandlordCityService;
+use App\Services\Landlord\LandlordDealerAddressService;
+use App\Services\Landlord\LandlordDistrictService;
+use App\Services\Landlord\LandlordLocalityService;
+use App\Services\Landlord\LandlordNeighborhoodService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -71,7 +76,7 @@ class DealerAddressCreate extends Component
         return view('livewire.landlord.dealer-address.dealer-address-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, CityService $cityService)
+    public function mount(null|string $id = null, bool $is_show, LandlordCityService $cityService)
     {
         $this->is_show = $is_show;
         $this->dealer_id = $id;
@@ -84,7 +89,7 @@ class DealerAddressCreate extends Component
      *
      * @return void
      */
-    public function store(DealerAddressService $dealerAddressService)
+    public function store(LandlordDealerAddressService $dealerAddressService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -122,20 +127,20 @@ class DealerAddressCreate extends Component
         }
     }
 
-    public function updatedCityId(DistrictService $districtService)
+    public function updatedCityId(LandlordDistrictService $districtService)
     {
         $this->districts = $districtService->where(['city_id' => $this->city_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'name']);
         $this->neighborhoods = null;
         $this->localities = null;
     }
 
-    public function updatedDistrictId(NeighborhoodService $neighborhoodService)
+    public function updatedDistrictId(LandlordNeighborhoodService $neighborhoodService)
     {
         $this->neighborhoods = $neighborhoodService->where(['district_id' => $this->district_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'name']);
         $this->localities = null;
     }
 
-    public function updatedNeighborhoodId(LocalityService $localityService)
+    public function updatedNeighborhoodId(LandlordLocalityService $localityService)
     {
         $this->localities = $localityService->where(['neighborhood_id' => $this->neighborhood_id])->orderBy('name', 'asc')->get(['id', 'city_id', 'district_id', 'neighborhood_id', 'name']);
     }

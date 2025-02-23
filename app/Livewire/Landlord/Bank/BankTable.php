@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Landlord\Bank;
 
-use App\Models\LandlordBank\LandlordBank;
+use App\Models\Landlord\LandlordBank;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;

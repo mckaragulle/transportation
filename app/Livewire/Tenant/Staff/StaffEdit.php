@@ -93,6 +93,7 @@ class StaffEdit extends Component
             //staff_type_categories
             $this->staff_type_categories = $this->staff_types = $this->staff->staff_types->pluck('id', 'staff_type_category_id')->toArray();
             $this->staffTypeCategoryDatas = $staffTypeCategory->query()
+                ->whereIn('target', ['all', 'staff'])
                 ->with(['staff_types:id,staff_type_category_id,staff_type_id,name', 'staff_types.staff_types:id,staff_type_category_id,staff_type_id,name'])
                 ->get(['id', 'name']);
         } else {

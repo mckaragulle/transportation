@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Livewire\Tenant\AccountBank;
+namespace App\Livewire\Tenant\StaffBank;
 
 use App\Services\Tenant\BankService;
-use App\Services\Tenant\AccountBankService;
-use App\Services\Tenant\AccountService;
+use App\Services\Tenant\StaffBankService;
+use App\Services\Tenant\StaffService;
+use App\Services\Tenant\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
-class AccountBankCreate extends Component
+class StaffBankCreate extends Component
 {
     use LivewireAlert;
 
-    public null|Collection $accounts = null;
+    public null|Collection $staffs = null;
     public null|Collection $banks = null;
-
-    public null|string $account_id = null;
+    public null|string $staff_id = null;
     public null|int $bank_id = null;
     public null|string $iban = null;
 
@@ -29,15 +29,15 @@ class AccountBankCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'account_id' => ['required', 'exists:tenant.accounts,id'],
+        'staff_id' => ['required', 'exists:tenant.staffs,id'],
         'bank_id' => ['required', 'exists:tenant.banks,id'],
-        'iban' => ['required', 'unique:tenant.account_banks'],
+        'iban' => ['required', 'unique:tenant.staff_banks'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
-        'account_id.required' => 'Lütfen müşteri seçiniz.',
-        'account_id.exists' => 'Lütfen geçerli bir müşteri seçiniz.',
+        'staff_id.required' => 'Lütfen personel seçiniz.',
+        'staff_id.exists' => 'Lütfen geçerli bir personel seçiniz.',
         'bank_id.required' => 'Lütfen banka seçiniz.',
         'bank_id.exists' => 'Lütfen geçerli bir banka seçiniz.',
         'iban.required' => 'Lütfen iban adresini yazınız.',
@@ -47,14 +47,14 @@ class AccountBankCreate extends Component
 
     public function render()
     {
-        return view('livewire.tenant.account-bank.account-bank-create');
+        return view('livewire.tenant.staff-bank.staff-bank-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, AccountService $accountService, BankService $bankService)
+    public function mount(null|string $id = null, bool $is_show, StaffService $staffService, BankService $bankService)
     {
-        $this->account_id = $id;
+        $this->staff_id = $id;
         $this->is_show = $is_show;
-        $this->accounts = $accountService->all(['id', 'name', 'shortname']);
+        $this->staffs = $staffService->all(['id', 'name']);
         $this->banks = $bankService->all(['id', 'name']);
     }
 
@@ -63,27 +63,27 @@ class AccountBankCreate extends Component
      *
      * @return void
      */
-    public function store(AccountBankService $accountBankService)
+    public function store(StaffBankService $staffBankService)
     {
         $this->validate();
         DB::beginTransaction();
         try {
-            $account = $accountBankService->create([
-                'account_id' => $this->account_id ?? null,
+            $staff = $staffBankService->create([
+                'staff_id' => $this->staff_id ?? null,
                 'bank_id' => $this->bank_id ?? null,
                 'iban' => $this->iban ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
 
-            $this->dispatch('pg:eventRefresh-AccountBankTable');
-            $msg = 'Cari banka bilgisi oluşturuldu.';
+            $this->dispatch('pg:eventRefresh-StaffBankTable');
+            $msg = 'Personel banka bilgisi oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset();
         } catch (\Exception $exception) {
-            $error = "Cari banka bilgisi oluşturulamadı. {$exception->getMessage()}";
+            $error = "Personel banka bilgisi oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

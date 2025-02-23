@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Livewire\Tenant\DealerFile;
+namespace App\Livewire\Tenant\StaffFile;
 
-use App\Services\Tenant\DealerFileService;
+use App\Services\Tenant\StaffFileService;
+use App\Services\Tenant\StaffService;
 use App\Services\Tenant\DealerService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class DealerFileCreate extends Component
+class StaffFileCreate extends Component
 {
     use LivewireAlert, WithFileUploads;
 
-    public null|string $dealer_id = null;
+    public null|Collection $staffs = null;
+
+    public null|string $staff_id = null;
     public $filename;
     public null|string $title = null;
 
@@ -25,15 +29,15 @@ class DealerFileCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
+        'staff_id' => ['required', 'exists:tenant.staffs,id'],
         'filename' => ['nullable', 'max:4096'],
         'title' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
-        'dealer_id.required' => 'Lütfen bir bayi seçiniz.',
-        'dealer_id.exists' => 'Lütfen geçerli bir bayi seçiniz.',
+        'staff_id.required' => 'Lütfen personel seçiniz yazınız.',
+        'staff_id.exists' => 'Lütfen geçerli bir personel seçiniz yazınız.',
         'title.required' => 'Lütfen dosya adını yazınız.',
         'filename.required' => 'Lütfen 1 adet dosya seçiniz.',
         'filename.max' => 'Dosya boyutu en fazla 4 mb olmalıdır.',
@@ -42,13 +46,16 @@ class DealerFileCreate extends Component
 
     public function render()
     {
-        return view('livewire.tenant.dealer-file.dealer-file-create');
+        return view('livewire.tenant.staff-file.staff-file-create');
     }
 
-    public function mount(null|string $id = null, bool $is_show, DealerService $dealerService)
+    public function mount(null|string $id = null, bool $is_show, StaffService $staffService)
     {
-        $this->dealer_id = $id;
+
+        $this->staff_id = $id;
         $this->is_show = $is_show;
+
+        $this->staffs = $staffService->all(['id', 'name']);
     }
 
     /**
@@ -56,7 +63,7 @@ class DealerFileCreate extends Component
      *
      * @return void
      */
-    public function store(DealerFileService $dealerFileService)
+    public function store(StaffFileService $staffFileService)
     {
         $this->validate();
         DB::beginTransaction();
@@ -66,21 +73,21 @@ class DealerFileCreate extends Component
                 $filename = $this->filename->store(path: 'public/photos');
             }
 
-            $dealer = $dealerFileService->create([
-                'dealer_id' => $this->dealer_id,
+            $staff = $staffFileService->create([
+                'staff_id' => $this->staff_id ?? null,
                 'title' => $this->title ?? null,
                 'filename' => $filename ?? null,
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            $this->dispatch('pg:eventRefresh-DealerFileTable');
-            $msg = 'Bayi dosyası oluşturuldu.';
+            $this->dispatch('pg:eventRefresh-StaffFileTable');
+            $msg = 'Personel dosyası oluşturuldu.';
             session()->flash('message', $msg);
             $this->alert('success', $msg, ['position' => 'center']);
             DB::commit();
             $this->reset();
         } catch (\Exception $exception) {
-            $error = "Bayi dosyası oluşturulamadı. {$exception->getMessage()}";
+            $error = "Personel dosyası oluşturulamadı. {$exception->getMessage()}";
             session()->flash('error', $error);
             $this->alert('error', $error);
             Log::error($error);

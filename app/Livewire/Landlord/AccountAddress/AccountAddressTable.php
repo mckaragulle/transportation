@@ -4,7 +4,7 @@ namespace App\Livewire\Landlord\AccountAddress;
 
 use App\Models\Landlord\LandlordAccountAddress;
 use App\Models\Landlord\LandlordCity;
-use App\Models\Landlord\LandlordDealer;
+use App\Models\Landlord\LandlordAccount;
 use App\Models\Landlord\LandlordDistrict;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -22,13 +22,13 @@ final class AccountAddressTable extends PowerGridComponent
     use WithExport;
 
     public bool $multiSort = true;
-    public string $dealer_id;
+    public null|string $account_id = null;
 
     public string $tableName = 'AccountAddressTable';
 
     public function setUp(): array
     {
-        $id = $this->dealer_id;
+        $id = $this->account_id;
         $this->showCheckBox();
         $this->persist(
             tableItems: ['columns', 'filter', 'sort'],
@@ -53,7 +53,7 @@ final class AccountAddressTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        $account = LandlordAccountAddress::query()->whereDealerId($this->dealer_id);
+        $account = LandlordAccountAddress::query()->whereAccountId($this->account_id);
         return $account;
     }
 

@@ -37,8 +37,8 @@ class AccountOfficerCreate extends Component
      * List of add/edit form rules
      */
     protected $rules = [
-        'dealer_id' => ['required', 'exists:dealers,id'],
-        'account_id' => ['required', 'exists:accounts,id'],
+        'dealer_id' => ['required', 'exists:tenant.dealers,id'],
+        'account_id' => ['required', 'exists:tenant.accounts,id'],
         'number' => ['required'],
         'name' => ['required'],
         'surname' => ['required'],

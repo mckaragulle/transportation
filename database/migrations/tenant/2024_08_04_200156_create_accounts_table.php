@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            // $table->foreignUuid('dealer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('number');
             $table->string('name');
             $table->string('shortname');
@@ -28,6 +27,7 @@ return new class extends Migration
         });
 
         Schema::create('account_type_category_account_type_account', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('account_type_category_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('account_type_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();

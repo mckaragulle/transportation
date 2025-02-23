@@ -24,11 +24,13 @@ class StaffTypeCategoryCreate extends Component
      */
     protected $rules = [
         'name' => ['required'],
+        'target' => ['required'],
         'status' => ['nullable', 'in:true,false,null,0,1,active,passive,'],
     ];
 
     protected $messages = [
         'name.required' => 'Personel kategorisi yazınız.',
+        'target.required' => 'Personel kategori konumunu seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',
     ];
 
