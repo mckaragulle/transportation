@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('account_group', function (Blueprint $table) {
+        Schema::create('branch_selections', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('account_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignUuid('group_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->softDeletes();
+            $table->foreignUuid(column: 'branch_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid(column: 'branch_address_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignUuid(column: 'branch_officer_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('account_group');
+        Schema::dropIfExists('branch_selections');
     }
 };

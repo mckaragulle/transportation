@@ -41,7 +41,7 @@ class LandlordDealerType extends Model
         ];
     }
 
-    protected $fillable = ["dealer_type_category_id", "dealer_type_id", "name", "slug", "phone", "email", "address", "status"];
+    protected $fillable = ["dealer_type_category_id", "dealer_type_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions

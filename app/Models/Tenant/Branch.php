@@ -32,7 +32,6 @@ class Branch extends Model
         "status"
     ];
 
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -42,27 +41,27 @@ class Branch extends Model
     /**
      * Get the prices for the type post.
      */
-    public function account_type_category(): BelongsTo
+    public function branch_type_category(): BelongsTo
     {
-        return $this->belongsTo(AccountTypeCategory::class, 'account_type_category_account_type_account');
+        return $this->belongsTo(BranchTypeCategory::class, 'branch_type_category_branch_type_branch');
     }
 
     /**
      * Get the prices for the type post.
      */
-    public function account_type(): BelongsTo
+    public function branch_type(): BelongsTo
     {
-        return $this->belongsTo(AccountType::class, 'account_type_category_account_type_account');
+        return $this->belongsTo(BranchType::class, 'branch_type_category_branch_type_branch');
     }
 
-    public function account_type_categories(): BelongsToMany
+    public function branch_type_categories(): BelongsToMany
     {
-        return $this->belongsToMany(AccountTypeCategory::class, 'account_type_category_account_type_account');
+        return $this->belongsToMany(BranchTypeCategory::class, 'branch_type_category_branch_type_branch');
     }
 
-    public function account_types(): BelongsToMany
+    public function branch_types(): BelongsToMany
     {
-        return $this->belongsToMany(AccountType::class, 'account_type_category_account_type_account');
+        return $this->belongsToMany(BranchType::class, 'branch_type_category_branch_type_branch');
     }
 
     protected static function booted(): void
@@ -75,6 +74,6 @@ class Branch extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-tenant-account-AccountTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-branch-BranchTable'])->flush();
     }
 }
