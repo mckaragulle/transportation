@@ -27,6 +27,7 @@ class Branch extends Model
         "city_id",
         "district_id",
         "name",
+        "slug",
         "phone",
         "email",
         "status"

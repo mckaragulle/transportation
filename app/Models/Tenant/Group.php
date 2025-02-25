@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -61,5 +62,19 @@ class Group extends Model
     public function groups(): HasMany
     {
         return $this->hasMany(Group::class);
+    }
+
+
+    protected static function booted(): void
+    {
+        static::created(fn (Group $dish) => self::clearCache());
+        static::updated(fn (Group $dish) => self::clearCache());
+        static::deleted(fn (Group $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-branch_groups-GroupTable'])->flush();
     }
 }

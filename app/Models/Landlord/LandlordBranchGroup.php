@@ -21,7 +21,7 @@ class LandlordBranchGroup extends Model
 
     protected $connection = 'landlord';
     protected $keyType = 'string';
-    protected $table = 'branch_groups';
+    protected $table = 'groups';
     public $incrementing = false;
 
     /**
@@ -38,7 +38,7 @@ class LandlordBranchGroup extends Model
         ];
     }
 
-    protected $fillable = ["branch_group_id", "name", "slug", "status"];
+    protected $fillable = ["group_id", "name", "slug", "status"];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -74,6 +74,6 @@ class LandlordBranchGroup extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-landlord-branch_group-BranchGroupTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-branch_groups-GroupTable'])->flush();
     }
 }

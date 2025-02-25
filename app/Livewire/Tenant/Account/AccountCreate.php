@@ -3,6 +3,7 @@
 namespace App\Livewire\Tenant\Account;
 
 use App\Models\Tenant\AccountTypeCategory;
+use App\Models\Tenant\AccountTypeCategoryAccountTypeAccount;
 use App\Services\Tenant\AccountService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -102,15 +103,15 @@ class AccountCreate extends Component
                 'status' => $this->status == false ? 0 : 1,
             ]);
 
-            if (is_iterable($this->account_type_categories) && count($this->account_type_categories) > 0) {
-                foreach ($this->account_type_categories as $k => $t) {
-                    if (is_array($t)) {
-                        foreach ($t as $t2) {
-                            $this->attachAccountTypeCategoryId($k, $t2, $account->id);
-                        }
-                    } else {
-                        $this->attachAccountTypeCategoryId($k, $t, $account->id);
-                    }
+            foreach($this->account_type_categories as $k => $t)
+            {
+                $data = [
+                    'account_type_category_id' => $k,
+                    'account_type_id' => $t,
+                    'account_id' => $account->id];
+                $l = AccountTypeCategoryAccountTypeAccount::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
                 }
             }
 
@@ -126,13 +127,6 @@ class AccountCreate extends Component
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
-        }
-    }
-
-    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id)
-    {
-        if ($account_type_id > 0) {
-            DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
         }
     }
 }

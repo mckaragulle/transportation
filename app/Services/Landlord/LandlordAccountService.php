@@ -12,7 +12,7 @@ class LandlordAccountService
 {
     public function __construct(protected LandlordAccountRepository $repository) {}
 
-    public function where(array $column): Builder
+    public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
     }

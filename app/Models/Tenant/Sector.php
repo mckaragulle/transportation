@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -60,5 +61,19 @@ class Sector extends Model
     public function sectors(): HasMany
     {
         return $this->hasMany(Sector::class);
+    }
+
+
+    protected static function booted(): void
+    {
+        static::created(fn (Sector $dish) => self::clearCache());
+        static::updated(fn (Sector $dish) => self::clearCache());
+        static::deleted(fn (Sector $dish) => self::clearCache());
+    }
+
+    private static function clearCache(): void
+    {
+        //Clear the PowerGrid cache tag
+        Cache::tags([auth()->user()->id .'-powergrid-tenant-branch_sectors-SectorTable'])->flush();
     }
 }

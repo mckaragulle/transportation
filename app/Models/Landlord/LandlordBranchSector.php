@@ -50,7 +50,7 @@ class LandlordBranchSector extends Model
     /**
      * Get the prices for the type post.
      */
-    public function sector(): BelongsTo
+    public function branch_sector(): BelongsTo
     {
         return $this->belongsTo(LandlordBranchSector::class);
     }
@@ -58,7 +58,7 @@ class LandlordBranchSector extends Model
     /**
      * Get the prices for the type post.
      */
-    public function sectors(): HasMany
+    public function branch_sectors(): HasMany
     {
         return $this->hasMany(LandlordBranchSector::class);
     }
@@ -73,6 +73,6 @@ class LandlordBranchSector extends Model
     private static function clearCache(): void
     {
         //Clear the PowerGrid cache tag
-        Cache::tags([auth()->user()->id .'-powergrid-landlord-branch_sectors-BranchSectorTable'])->flush();
+        Cache::tags([auth()->user()->id .'-powergrid-landlord-branch_sectors-SectorTable'])->flush();
     }
 }

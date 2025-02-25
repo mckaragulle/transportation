@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Tenant\Dealer;
 
-use App\Models\Tenant\Dealer;
 use App\Models\Tenant\DealerType;
 use App\Models\Tenant\DealerTypeCategory;
-use App\Services\DealerTypeCategoryService;
-use App\Services\DealerTypeService;
+use App\Models\Tenant\DealerTypeCategoryDealerTypeDealer;
 use App\Services\Tenant\DealerService;
+use App\Services\Tenant\DealerTypeCategoryService;
+use App\Services\Tenant\DealerTypeService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -24,11 +25,11 @@ class DealerEdit extends Component
     public null|Collection $addresses;
     public null|Collection $archives;
 
-    public null|Dealer $dealer;
+    public null|Model $dealer;
     public bool $is_show = false;
 
     public null|array $dealer_type_categories = [];
-    public null|array $dealer_types = [];
+    public null|array|Collection $dealer_types = [];
 
     public null|string $name = null;
     public null|string $phone = null;
@@ -61,7 +62,7 @@ class DealerEdit extends Component
             'dealer_type_categories.*' => ['nullable'],
             'name' => ['required'],
             'phone' => ['nullable', ],
-            'email' => ['required', 'email', Rule::unique('dealers')->ignore($this->dealer),],
+            'email' => ['required', 'email', Rule::connection('tenant')->unique('dealers')->ignore($this->dealer),],
             'password' => ['nullable', 'confirmed', 'min:6'],
             'number' => ['required'],
             'shortname' => ['required'],
@@ -151,26 +152,17 @@ class DealerEdit extends Component
             $this->dealer->save();
 
             foreach ($this->dealer_type_categories as $dealer_type_category_id => $dealer_type_id) {
-                if (is_array($dealer_type_id)) {
-                    foreach ($dealer_type_id as $t2) {
-                        $this->detachDealerTypeCategoryId($dealer_type_category_id, $this->dealer->id);
-                    }
-                } else {
-                    $this->detachDealerTypeCategoryId($dealer_type_category_id, $this->dealer->id);
-                }
+                $where = ['dealer_type_category_id' => $dealer_type_category_id, 'dealer_id' => $this->dealer->id];
+                DealerTypeCategoryDealerTypeDealer::query()->where($where)->delete();
             }
-
             foreach ($this->dealer_type_categories as $dealer_type_category_id => $dealer_type_id) {
-                if (is_array($dealer_type_id)) {
-                    foreach ($dealer_type_id as $t2) {
-                        if ($t2 > 0) {
-                            $this->attachDealerTypeCategoryId($dealer_type_category_id, $t2, $this->dealer->id);
-                        }
-                    }
-                } else {
-                    if ($dealer_type_id > 0) {
-                        $this->attachDealerTypeCategoryId($dealer_type_category_id, $dealer_type_id, $this->dealer->id);
-                    }
+                $data = [
+                    'dealer_type_category_id' => $dealer_type_category_id,
+                    'dealer_type_id' => $dealer_type_id,
+                    'dealer_id' => $this->dealer->id];
+                $l = DealerTypeCategoryDealerTypeDealer::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
                 }
             }
 
@@ -186,24 +178,12 @@ class DealerEdit extends Component
             DB::rollBack();
         }
     }
-    public function updatedDealerTypeCategoryId()
+    public function updatedDealerTypeCategoryId(): void
     {
         $this->dealer_types = DealerType::query()
             ->where(['dealer_type_category_id' => $this->dealer_type_category_id])
             ->with('dealer_type')
             ->orderBy('id')
             ->get(['id', 'dealer_type_id', 'name']);
-    }
-
-    private function detachDealerTypeCategoryId($dealer_type_category_id, $dealer_id)
-    {
-        DB::table('dealer_type_category_dealer_type_dealer')
-            ->where(['dealer_type_category_id' => $dealer_type_category_id, 'dealer_id' => $dealer_id])
-            ->delete();
-    }
-
-    private function attachDealerTypeCategoryId($dealer_type_category_id, $dealer_type_id, $dealer_id)
-    {
-        DB::insert('insert into dealer_type_category_dealer_type_dealer (dealer_type_category_id, dealer_type_id, dealer_id) values (?, ?, ?)', [$dealer_type_category_id, $dealer_type_id, $dealer_id]);
     }
 }

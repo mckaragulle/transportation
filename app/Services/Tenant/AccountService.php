@@ -12,7 +12,7 @@ class AccountService
 {
     public function __construct(protected AccountRepository $repository) {}
 
-    public function where(array $column): Builder
+    public function where(array $column): Model|Builder
     {
         return $this->repository->where($column);
     }

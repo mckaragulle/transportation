@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Tenant\DealerAddress;
 
-use App\Models\Tenant\District;
 use App\Models\Tenant\DealerAddress;
 use App\Services\Tenant\CityService;
-use App\Services\DealerAddressService;
+use App\Services\Tenant\DealerAddressService;
 use App\Services\Tenant\DistrictService;
 use App\Services\Tenant\LocalityService;
 use App\Services\Tenant\NeighborhoodService;

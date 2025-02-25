@@ -12,7 +12,7 @@ class LandlordBranchTypeService
 {
     public function __construct(protected LandlordBranchTypeRepository $repository) {}
 
-    public function orderBy(string $column, string $sort): Builder
+    public function orderBy(string $column, string $sort): Model|Builder
     {
         return $this->repository->orderBy($column, $sort);
     }

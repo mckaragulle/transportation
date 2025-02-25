@@ -5,6 +5,7 @@ namespace App\Livewire\Tenant\Account;
 use App\Models\Tenant\Account;
 use App\Models\Tenant\AccountType;
 use App\Models\Tenant\AccountTypeCategory;
+use App\Models\Tenant\AccountTypeCategoryAccountTypeAccount;
 use App\Services\Tenant\AccountTypeCategoryService;
 use App\Services\Tenant\AccountTypeService;
 use App\Services\Tenant\AccountService;
@@ -145,26 +146,17 @@ class AccountEdit extends Component
             }
 
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                if (is_array($account_type_id)) {
-                    foreach ($account_type_id as $t2) {
-                        $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
-                    }
-                } else {
-                    $this->detachAccountTypeCategoryId($account_type_category_id, $this->account->id);
-                }
+                $where = ['account_type_category_id' => $account_type_category_id, 'account_id' => $this->account->id];
+                AccountTypeCategoryAccountTypeAccount::query()->where($where)->delete();
             }
-
             foreach ($this->account_type_categories as $account_type_category_id => $account_type_id) {
-                if (is_array($account_type_id)) {
-                    foreach ($account_type_id as $t2) {
-                        if ($t2 > 0) {
-                            $this->attachAccountTypeCategoryId($account_type_category_id, $t2, $this->account->id);
-                        }
-                    }
-                } else {
-                    if ($account_type_id > 0) {
-                        $this->attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $this->account->id);
-                    }
+                $data = [
+                    'account_type_category_id' => $account_type_category_id,
+                    'account_type_id' => $account_type_id,
+                    'account_id' => $this->account->id];
+                $l = AccountTypeCategoryAccountTypeAccount::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
                 }
             }
 
@@ -188,17 +180,5 @@ class AccountEdit extends Component
             ->with('account_type')
             ->orderBy('id')
             ->get(['id', 'account_type_id', 'name']);
-    }
-
-    private function detachAccountTypeCategoryId($account_type_category_id, $account_id): void
-    {
-        DB::table('account_type_category_account_type_account')
-            ->where(['account_type_category_id' => $account_type_category_id, 'account_id' => $account_id])
-            ->delete();
-    }
-
-    private function attachAccountTypeCategoryId($account_type_category_id, $account_type_id, $account_id): void
-    {
-        DB::insert('insert into account_type_category_account_type_account (account_type_category_id, account_type_id, account_id) values (?, ?, ?)', [$account_type_category_id, $account_type_id, $account_id]);
     }
 }

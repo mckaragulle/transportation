@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Tenant\Dealer;
 
+use App\Models\Tenant\DealerTypeCategoryDealerTypeDealer;
 use App\Services\Tenant\DealerService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +39,7 @@ class DealerCreate extends Component
         'dealer_type_categories.*' => ['nullable'],
         'name' => ['required'],
         'phone' => ['nullable', ],
-        'email' => ['required', 'email', 'unique:dealers,email'],
+        'email' => ['required', 'email', 'unique:tenant.dealers,email'],
         'password' => ['required', 'confirmed', 'min:6'],
         'shortname' => ['required'],
         'detail' => ['nullable'],
@@ -97,15 +98,15 @@ class DealerCreate extends Component
 
             $dealer->syncRoles('dealer');
 
-            if (is_iterable($this->dealer_type_categories) && count($this->dealer_type_categories) > 0) {
-                foreach ($this->dealer_type_categories as $k => $t) {
-                    if (is_array($t)) {
-                        foreach ($t as $t2) {
-                            $this->attachdealerTypeCategoryId($k, $t2, $dealer->id);
-                        }
-                    } else {
-                        $this->attachdealerTypeCategoryId($k, $t, $dealer->id);
-                    }
+            foreach($this->dealer_type_categories as $k => $t)
+            {
+                $data = [
+                    'dealer_type_category_id' => $k,
+                    'dealer_type_id' => $t,
+                    'dealer_id' => $dealer->id];
+                $l = DealerTypeCategoryDealerTypeDealer::query();
+                if(!$l->where($data)->exists()) {
+                    $l->create($data);
                 }
             }
 
@@ -121,13 +122,6 @@ class DealerCreate extends Component
             $this->alert('error', $error);
             Log::error($error);
             DB::rollBack();
-        }
-    }
-
-    private function attachdealerTypeCategoryId($dealer_type_category_id, $dealer_type_id, $dealer_id)
-    {
-        if ($dealer_type_id > 0) {
-            DB::insert('insert into dealer_type_category_dealer_type_dealer (dealer_type_category_id, dealer_type_id, dealer_id) values (?, ?, ?)', [$dealer_type_category_id, $dealer_type_id, $dealer_id]);
         }
     }
 }

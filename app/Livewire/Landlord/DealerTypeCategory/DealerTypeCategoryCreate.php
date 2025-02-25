@@ -31,7 +31,7 @@ class DealerTypeCategoryCreate extends Component
     ];
 
     protected $messages = [
-        'name.required' => 'Cari kategorisi yazınız.',
+        'name.required' => 'Bayi kategorisi yazınız.',
         'is_required.in' => 'Lütfen geçerli bir durum seçiniz.',
         'is_multiple.in' => 'Lütfen geçerli bir durum seçiniz.',
         'status.in' => 'Lütfen geçerli bir durum seçiniz.',

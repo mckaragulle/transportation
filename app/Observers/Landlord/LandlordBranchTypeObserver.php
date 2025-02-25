@@ -15,7 +15,7 @@ class LandlordBranchTypeObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'branch_types', 'Bayi kategori seçeneği eklenirken hata oluştu.');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'branch_types', 'Şube kategori seçeneği eklenirken hata oluştu.');
         });
     }
 
@@ -26,7 +26,7 @@ class LandlordBranchTypeObserver
     {
         Tenant::all()->eachCurrent(function(Tenant $tenant) use ($model) {
             $data = getTenantSyncDataJob($model);
-            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'branch_types', 'Bayi kategori seçeneği eklenirken hata oluştu.');
+            TenantSyncDataJob::dispatch($tenant->id, $data['id'], $data['data'], 'branch_types', 'Şube kategori seçeneği güncellenirken hata oluştu.');
         });
     }
 
